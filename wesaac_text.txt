@@ -1,0 +1,343 @@
+=== PAGE 1 ===
+Agile Methodology and AI in Multi-Agent Systems: An agent
+for planning and executing sprints
+Elysson Alves de Lacerda1, Gustavo Almeida Monteiro1,
+Franciel Silveira Penha de Vasconcelos 1, Marcos Antonio de Oliveira.1
+1Universidade Federal do Cear´a - Campus Quixad´a (UFC)
+Av. Jos´e de Freitas Queiroz, 5003 – Cedro, 63902-580 - Quixad´a-CE
+{elyssonalvs, gustavoam, francielsilveira }@alu.ufc.br
+marcos.oliveira@ufc.br
+Abstract. This paper proposes a Multi-Agent System (MAS) architecture inte-
+grated with the N8N platform to optimize administrative and managerial pro-
+cesses in agile methodologies, specifically Scrum. It addresses challenges like
+sprint planning and resource allocation using the Bart technique for require-
+ments elicitation and AI-based agents for customizable workflows. The archi-
+tecture automates task prioritization and assignment, reducing cognitive load
+on Scrum Masters and Product Owners. Preliminary results from three models
+(TextClassifier, Sub-agents, Webhook) show improved scalability and adaptabil-
+ity. Expected outcomes include enhanced organizational efficiency. Future work
+involves empirical validation in real scenarios.
+Resumo. Este artigo prop˜oe uma arquitetura de Sistemas Multiagentes (SMAs)
+integrada `a plataforma N8N para otimizar processos administrativos e gerenci-
+ais em metodologias ´ageis, focando no Scrum. Aborda desafios como plane-
+jamento de sprints e alocac ¸ ˜ao de recursos, utilizando a t ´ecnica Bart para
+elicitac ¸˜ao de requisitos e agentes baseados em IA para fluxos de trabalho per-
+sonaliz´aveis. A arquitetura automatiza priorizac ¸˜ao e atribuic ¸˜ao de tarefas, re-
+duzindo a carga cognitiva de Scrum Masters e Product Owners. Resultados pre-
+liminares de trˆes modelos (TextClassifier, Sub-agentes, Webhook) indicam maior
+escalabilidade e adaptabilidade. Resultados esperados incluem efici ˆencia or-
+ganizacional aprimorada. Trabalhos futuros envolvem validac ¸˜ao emp´ırica em
+cen´arios reais.
+1. Introduc ¸˜ao
+A crescente complexidade de processos administrativos e gerenciais exige soluc ¸˜oes ino-
+vadoras para otimizac ¸˜ao de recursos e reduc ¸˜ao de erros humanos. Sistemas Multiagentes
+(SMAs), aliados a plataformas de automac ¸ ˜ao como N8N, emergem como ferramentas
+promissoras para integrar Intelig ˆencia Artificial (IA) em fluxos de trabalho organiza-
+cionais [Laplante and Kassab 2022].
+No contexto do desenvolvimento ´agil, Scrum Masters enfrentam desafios na
+criac ¸˜ao de sprints e na alocac ¸˜ao eficiente de tarefas entre os membros da equipe. Essa
+atividade exige um entendimento das capacidades individuais dos funcion ´arios, mas
+tamb´em uma an ´alise das prioridades do produto, da interdepend ˆencia entre tarefas e de
+poss´ıveis imprevistos [Nawaz Aslam 2023].
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+13
+
+=== PAGE 2 ===
+A ausˆencia de ferramentas inteligentes para apoiar essas decis ˜oes pode aumentar
+o tempo de planejamento, sobrecarga de trabalho ou baixa produtividade. Nesse cen ´ario,
+a aplicac ¸˜ao de agentes de IA que auxiliem na gerac ¸˜ao de sprints por meio da simulac ¸˜ao de
+diferentes cen´arios de alocac ¸˜ao e priorizac ¸˜ao se mostra uma alternativa promissora para
+reduc ¸˜ao da carga cognitiva dosScrum Masters e aumentar a efic´acia do planejamento ´agil.
+A plataforma N8N ´e uma aplicac ¸˜ao de c ´odigo aberto que oferece a possibilidade
+de trabalhar com sistemas multiagentes por meio deworkflows e integrac ¸˜oes que utilizam
+ou n˜ao inteligˆencia artificial [n8n.io 2025].
+Nela ´e poss ´ıvel criar fluxos de trabalho automatizados entre diversos servic ¸os
+e APIs por meio da interface visual. O seu diferencial ´e a flexibilidade em termos
+de customizac ¸˜ao e controle, al ´em de ser poss ´ıvel inserir c ´odigo personalizado onde
+necess´ario, utilizando JavaScript ou Python. Dessa forma, proporciona equil ´ıbrio entre
+simplicidade e organizac ¸˜ao.
+O objetivo principal desta pesquisa ´e propor e avaliar uma arquitetura que inte-
+gra Sistemas Multiagentes (SMAs) com a plataforma N8N para otimizar processos ad-
+ministrativos e gerenciais em metodologias ´ageis, focando na melhoria da efici ˆencia dos
+Scrum Masters durante o planejamento de sprints e a alocac ¸˜ao de tarefas. Os objetivos
+secund´arios incluem avaliar a reduc ¸˜ao da carga cognitiva dos Scrum Masters por meio
+da alocac ¸˜ao de tarefas baseada em IA e demonstrar a adaptabilidade da arquitetura em
+diversos contextos organizacionais. Para orientar esta pesquisa, as seguintes quest˜oes s˜ao
+abordadas:
+• Como a integrac ¸˜ao de SMAs e N8N melhora a efici ˆencia dos Scrum Masters no
+planejamento ´agil?
+• Qual ´e o impacto da alocac ¸˜ao de tarefas baseada em IA na reduc ¸˜ao da carga cog-
+nitiva?
+• O uso de agentes inteligentes pode aprimorar a priorizac ¸˜ao de tarefas e a alocac ¸˜ao
+de recursos no planejamento de sprints?
+Essas quest˜oes ser˜ao exploradas por meio de experimentos e simulac ¸˜oes projetados para
+testar a arquitetura proposta.
+2. Fundamentac ¸˜ao Te´orica
+2.1. Metodologia ´Agil e Scrum
+O Scrum, uma metodologia ´agil, organiza o desenvolvimento de software pelos diver-
+sos ciclos iterativos chamados sprints. Scrum Masters e Product Owners enfrentam de-
+safios como consolidac ¸˜ao manual de relat ´orios e priorizac ¸˜ao de tarefas, podendo causar
+atrasos e erros [Wilmann and Sterling 2005]. A integrac ¸ ˜ao de IA e SMAs pode trans-
+formar a gest ˜ao de sprints, automatizando tarefas rotineiras, oferecendo insights basea-
+dos em dados e otimizando a alocac ¸ ˜ao de recursos, reduzindo a sobrecarga cognitiva
+[Nawaz Aslam 2023]. SMAs permitem monitoramento em tempo real de indicadores
+como velocidade e burndown, possibilitando ajustes dinˆamicos `as prioridades, alinhados
+ao princ´ıpio ´agil de adaptac ¸˜ao a mudanc ¸as [Nawaz Aslam 2023]. Este artigo prop˜oe uma
+arquitetura para automatizar e otimizar o planejamento e execuc ¸˜ao de sprints.
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+14
+
+=== PAGE 3 ===
+2.2. Sistemas Multiagentes
+Sistemas Multiagentes (SMAs) s ˜ao uma ´area da intelig ˆencia artificial que es-
+tuda a interac ¸ ˜ao de agentes aut ˆonomos para resolver problemas complexos
+[Gerstberger et al. 2024]. Em contextos administrativos, SMAs automatizam tarefas
+como alocac ¸˜ao de recursos e monitoramento de m ´etricas, reduzindo erros e aumentando
+a escalabilidade [Balaji and Srinivasan 2010].
+No Scrum, SMAs t ˆem sido usados para otimizar processos ´ageis,
+[Gunga et al. 2013] propuseram uma arquitetura de SMA para o Scrum, com agentes
+representando pap´eis como Scrum Master e Product Owner, automatizando planejamento
+de sprints e alocac ¸˜ao de tarefas [Lin et al. 2015] apresentaram um sistema inteligente que
+extrai metadados e distribui tarefas em equipes Scrum. Simulac ¸˜oes baseadas em SMAs
+tamb´em modelam a produtividade, com agentes interagindo com backlogs para otimizar
+sprints [Lin et al. 2015]. Essas abordagens reforc ¸am a flexibilidade e adaptabilidade do
+Scrum.
+Comparado aos trabalhos de [Gunga et al. 2013], que prop ˜oem uma arquitetura
+SMAs para Scrum com agentes representando pap ´eis (Scrum Master, Product Owner) e
+focando em automac ¸˜ao b´asica de planejamento sem integrac ¸˜ao externa ou IA preditiva,
+nossa proposta preenche lacunas ao integrar N8N para workflows visuais e automac ¸ ˜ao
+sem c ´odigo extenso. Da mesma forma, [Lin et al. 2015] apresentam um sistema in-
+teligente para extrac ¸˜ao de metadados e distribuic ¸˜ao de tarefas, mas limitam-se a mode-
+lagem de produtividade sem monitoramento em tempo real ou adaptac ¸ ˜ao via IA; nossa
+abordagem adiciona agentes com algoritmos de aprendizado por reforc ¸o para simulac ¸˜oes
+de cen ´arios, reduzindo gargalos em contextos ´ageis vol ´ateis. Essas justificativas tor-
+nam as novas arquiteturas necess ´arias para ambientes modernos, onde a escalabilidade
+e integrac ¸˜ao com ferramentas como Slack s˜ao cruciais.
+2.3. Arquitetura de Software para Sistemas Multiagentes
+Em sistemas multiagentes (SMAs), a arquitetura define como agentes aut ˆonomos se
+organizam, comunicam e coordenam para alcanc ¸ar objetivos individuais ou coletivos
+[Balaji and Srinivasan 2010]. Uma arquitetura bem projetada ´e crucial para a efici ˆencia,
+escalabilidade e adaptabilidade em ambientes dinˆamicos.
+Alternativamente, a arquitetura orientada a servic ¸os (SOA)´e eficaz em contextos
+heterogˆeneos, com agentes atuando como provedores e consumidores de servic ¸os, pro-
+movendo modularidade e interoperabilidade [Aziz 2010]. Essa abordagem alinha-se a
+plataformas como o N8N, que integram sistemas por meio de workflows modulares.
+A construc ¸˜ao de arquiteturas para SMAs enfrenta desafios:
+• Escalabilidade: O sistema deve suportar variac ¸ ˜oes no n ´umero de agentes sem
+perda de desempenho, usando t ´ecnicas como clustering ou balanceamento de
+carga.
+• Autonomia vs. Coordenac ¸ ˜ao: ´E necess ´ario equilibrar a independ ˆencia dos
+agentes com o alinhamento aos objetivos globais, geralmente por pol ´ıticas pre-
+definidas.
+• Adaptabilidade: A arquitetura deve se adaptar a mudanc ¸as no ambiente ou req-
+uisitos, especialmente em aplicac ¸˜oes administrativas.
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+15
+
+=== PAGE 4 ===
+Plataformas como o JADE (Java Agent Development Framework) oferecem mid-
+dlewares que facilitam a comunicac ¸˜ao e a coordenac ¸˜ao entre agentes [Jennings 2000].
+3. Metodologia
+Figure 1. Metodologia
+A metodologia adotada nesta pesquisa, como na Figura 1, segue uma abordagem estru-
+turada para projetar, implementar e validar uma arquitetura baseada em Sistemas Multia-
+gentes (SMAs) integrada`a plataforma N8N, com o objetivo de otimizar o planejamento e a
+execuc ¸˜ao de sprints no contexto da metodologia Scrum. A sequˆencia de passos detalhada
+a seguir visa garantir que a pesquisa atenda aos objetivos propostos, utilizando a t ´ecnica
+Bart para elicitac ¸˜ao de requisitos e incorporando agentes baseados em Intelig ˆencia Arti-
+ficial (IA) para resolver problemas espec ´ıficos, como alocac ¸˜ao de recursos e priorizac ¸˜ao
+de demandas.
+Primeiro, a t ´ecnica Bart [Gerstberger et al. 2024] ser ´a usada para elicitar requi-
+sitos. Sess ˜oes com stakeholders (Scrum Masters, Product Owners e desenvolvedores)
+identificar˜ao cen ´arios cr´ıticos, como criac ¸˜ao de sprints e alocac ¸˜ao de tarefas. Um con-
+junto de 17 quest ˜oes da Bart (ex.: gatilhos, pr ´e-condic ¸˜oes) ser ´a respondido para cada
+cen´ario, garantindo requisitos detalhados e alinhados. Em seguida, a arquitetura ser´a pro-
+jetada em camadas, adaptada do AGOMO [Wysocki and Orłowski 2019] para o Scrum,
+incluindo agentes especializados com autonomia BDI para priorizac ¸˜ao e alocac ¸˜ao de
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+16
+
+=== PAGE 5 ===
+tarefas, protocolos de comunicac ¸˜ao via webhooks e APIs REST, coordenac ¸˜ao por plane-
+jamento centralizado ou contratos, e infraestrutura via N8N para gerenciamento de re-
+cursos e seguranc ¸a. A implementac ¸˜ao ocorrer ´a na N8N, com agentes como n ´os em
+workflows, usando JavaScript/Python. O agente de priorizac ¸ ˜ao empregar ´a Q-Learning
+para ordenar tarefas por valor de neg ´ocio e depend ˆencias, enquanto o de alocac ¸˜ao usar´a
+algoritmos gen ´eticos para atribuir tarefas, monitorando disponibilidade em tempo real
+[Balaji and Srinivasan 2010]. A N8N permitir´a integrac ¸˜ao com Slack para notificac ¸˜oes e
+Google Sheets para armazenamento dinˆamico de backlogs e m´etricas, com n´os garantindo
+atualizac ¸˜oes seguras. Por fim, a validac ¸ ˜ao ser ´a feita em projetos Scrum reais, selecio-
+nando equipes de tamanhos variados, com deploy na N8N cloud e monitoramento via
+logs. M ´etricas como tempo de planejamento, taxa de entrega e feedback qualitativo (Lik-
+ert) ser˜ao coletadas, com an´alise estat´ıstica (t-test, p < 0.05) para confirmar efic´acia.
+4. Proposta de Arquitetura
+As arquiteturas propostas est ˜ao representadas nas figuras que est ˜ao dispon´ıveis online 1,
+elas organizam agentes em uma estrutura modular integrada aoN8N, composta por work-
+flows que representam interac ¸˜oes entre agentes, garantindo automac ¸˜ao e adaptabilidade.
+Um agente de priorizac ¸˜ao gerencia o backlog, enquanto outro aloca recursos com base
+em dados do time. A t ´ecnica Bart foi utilizada para identificar cen ´arios cr´ıticos, como a
+aprovac ¸˜ao de tarefas, garantindo que os agentes atendam `as necessidades elicitadas.
+A escolha doN8N como base da arquitetura´e fundamentada em sua capacidade de
+implementar SMAs de forma pr ´atica, conforme descrito por [Shrikhande 2025]. O guia
+pr´atico destaca a configurac ¸˜ao de agentes de IA em workflows, como n´os para an´alise de
+dados e integrac ¸˜ao com ferramentas externas, o que inspirou a criac ¸˜ao de agentes espe-
+cializados para priorizac ¸˜ao e alocac ¸˜ao de recursos. Por exemplo, o agente de priorizac ¸˜ao
+utiliza algoritmos baseados em IA para ordenar tarefas com base em valor de neg ´ocio e
+dependˆencias, enquanto o agente de alocac ¸˜ao monitora a disponibilidade da equipe em
+tempo real.
+As arquiteturas tamb´em se inspiram em modelos como o AGOMO, proposto por
+[Wysocki and Orłowski 2019], que utiliza SMAs para planejar processos h´ıbridos de soft-
+ware. Diferentemente do AGOMO, que combina metodologias ´ageis e tradicionais, nossa
+proposta foca exclusivamente no Scrum, otimizando o planejamento de sprints por meio
+de agentes que automatizam decis ˜oes e reduzem gargalos. A modularidade do N8N per-
+mite adicionar novos agentes, como um para monitoramento de m´etricas, sem comprom-
+eter a estrutura do sistema.
+Essa abordagem garante escalabilidade e flexibilidade, permitindo que a arquite-
+tura se adapte a diferentes contextos organizacionais. A integrac ¸˜ao com ferramentas como
+Slack e Google Sheets, facilitada pelo N8N, assegura que os agentes possam acessar da-
+dos em tempo real, promovendo uma gest ˜ao de sprints mais eficiente e responsiva `as
+mudanc ¸as.
+Para esse trabalho, foi elaborada tr ˆes formas de SMAs com abordagens distintas,
+analisamos diferentes maneiras de tratar a comunicac ¸˜ao do usu ´ario com o sistema e dos
+agentes entre si:
+1https://drive.google.com/drive/folders/1rYdqDppUAwCARfN2Uebf5YyMugxFBYkm?
+usp=sharing
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+17
+
+=== PAGE 6 ===
+Modelo com TextClassifier : Um agente classifica mensagens do usu ´ario em
+“criac ¸˜ao” ou “d ´uvida”. Mensagens de criac ¸˜ao s ˜ao direcionadas a um agente que gera
+sprints com base em dados hist´oricos e entradas do usu´ario, enquanto d´uvidas s˜ao atendi-
+das por um agente que fornece informac ¸˜oes sobre sprints passados.
+Modelo com Sub-agentes : Um agente principal coordena chamadas a sub-
+agentes especializados, que executam func ¸˜oes espec´ıficas, como criac ¸˜ao ou validac ¸˜ao,
+retornando respostas ao agente principal para validac ¸˜ao e integrac ¸˜ao.
+Modelo com Webhook: Um agente principal utiliza webhooks para chamar dois
+agentes especializados: um para criac ¸˜ao de sprints e outro para validac ¸˜ao, seguindo os
+processos dos modelos anteriores.
+A Tabela 1 comparativa abaixo permite uma vis ˜ao mais ampla das arquitetura
+propostas e na Figura 2 a arquitetura escolhida:
+Modelo Objetivo Principais Prop. Escalab. Flex. Contexto Ideal Avaliac ¸˜ao Geral
+TextClassifier Classificac ¸˜ao
+simples para rotea-
+mento inicial.
+Execuc ¸˜ao <2s;
+baixa complexi-
+dade.
+M´edia Baixa Equipes pequenas e
+fluxos previs´ıveis.
+Baixa
+Sub-agentes Coordenac ¸˜ao
+hier´arquica e mod-
+ularidade.
+Depurac ¸˜ao <1min;
+f´acil adic ¸˜ao de sub-
+tarefas.
+Alta M´edia Equipes m ´edias
+com foco em
+validac ¸˜ao.
+M´edia
+Webhook Integrac ¸˜ao
+ass´ıncrona para am-
+bientes dinˆamicos.
+Resposta <5s via
+API; integrac ¸˜ao em
+tempo real.
+Alta Alta Grandes
+organizac ¸˜oes
+com m ´ultiplas
+ferramentas.
+Alta*
+* Modelo escolhido. Crit´erios: tempo de resposta, taxa de erro<1%, adaptabilidade a mudanc ¸as (ex.: adic ¸˜ao de tarefas em runtime).
+Table 1. Resumo comparativo entre modelos avaliados
+Figure 2. Aquitatura escolhida
+A abordagem adapta-se via configurac ¸˜ao modular: em startups, prioriza fluxos
+r´apidos; em corporac ¸˜oes, integra seguranc ¸a via RBAC, garantindo escalabilidade sem
+perda de desempenho (testado com > 100 agentes em simulac ¸˜oes) [Shrikhande 2025].
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+18
+
+=== PAGE 7 ===
+5. Resultados Preliminares
+A pesquisa focou na concepc ¸˜ao te ´orica de um sistema multiagente para auxiliar Prod-
+uct Owners e Scrum Masters . A elicitac ¸ ˜ao de requisitos seguiu a t ´ecnica Bart
+[Gerstberger et al. 2024], com documento completo dispon ´ıvel online2. A Tabela 2 lista
+os principais requisitos:
+Requisito Descric ¸˜ao
+Gatilho Entrada de texto do PO ativa a criac ¸˜ao de sprints, analisando backlogs
+com base em dados hist´oricos e novos [Gerstberger et al. 2024].
+Pr´e-condic ¸˜oes Backlog populado, equipe com disponibilidade atualizada,
+workflow N8N ativo, agentes com acesso a dados hist ´oricos
+[Gerstberger et al. 2024].
+Objetivo Automatizar priorizac ¸˜ao e alocac ¸˜ao de tarefas, gerando sprint validado
+com m´ınima intervenc ¸˜ao manual [Gerstberger et al. 2024].
+Table 2. Requisitos elicitados com a t ´ecnica Bart
+O modelo Webhookfoi escolhido por sua escalabilidade e flexibilidade, integrando
+sistemas externos via webhooks em ambientes ´ageis [Shrikhande 2025], dispon ´ıvel on-
+line3. Simulac ¸ ˜oes com N8N indicam reduc ¸˜ao de 25% na carga cognitiva (tempo
+de planejamento). Validac ¸ ˜ao emp ´ırica futura usar ´a m ´etricas como taxa de entrega
+[Laplante and Kassab 2022, Nawaz Aslam 2023].
+6. Conclus ˜ao
+A arquitetura proposta otimiza o planejamento de sprints em metodologias ´ageis, autom-
+atizando priorizac ¸˜ao e alocac ¸˜ao de tarefas com SMAs e IA. Isso reduz o tempo de entrega
+e a carga cognitiva de Scrum Masters e Product Owners, promovendo colaborac ¸˜ao ´agil
+[Nawaz Aslam 2023].
+Desafios incluem a necessidade de dados de qualidade para agentes de IA
+[Sami et al. 2024] e configurac ¸˜oes robustas para integrac ¸ ˜ao com sistemas de issues,
+garantindo seguranc ¸a em projetos sens´ıveis.
+Comparada a m ´etodos tradicionais, a arquitetura oferece flexibilidade, mas
+aumenta complexidade. A manutenc ¸ ˜ao de workflows exige suporte cont ´ınuo
+[Shrikhande 2025]. Organizac ¸˜oes devem pesar custos e benef´ıcios, considerando sua ma-
+turidade ´agil.
+Para reduzir complexidade, sugerimos: 1) Deploy via Docker Compose; 2) Am-
+bientes separados com RBAC; 3) Monitoramento de workflows; 4) Uso de templates N8N
+[Shrikhande 2025]. Agentes N8N mapeiam-se a BDI: workflows como intenc ¸˜oes, n ´os
+como crenc ¸as, e ac ¸˜oes reativas como deliberac ¸˜ao [Jennings 2000, Shrikhande 2025].
+References
+Aziz, H. (2010). Multiagent systems: algorithmic, game-theoretic, and logical founda-
+tions by y. shoham and k. leyton-brown cambridge university press, 2008.ACM Sigact
+News, 41(1):34–37. https://dl.acm.org/doi/abs/10.1145/1753171.1753181.
+2https://docs.google.com/document/d/1wSE50f9yaKagkrKfMOeTAVBig7eXKrda1xmjMkyOkSY/
+edit?usp=sharing
+3https://drive.google.com/file/d/1ZVrUl3ZB9YveBnoXUk3Pg1YY6hXfUdqp/
+view?usp=sharing
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+19
+
+=== PAGE 8 ===
+Balaji, P. G. and Srinivasan, D. (2010). An introduction to multi-agent sys-
+tems. Innovations in multi-agent systems and applications-1 , pages 1–27.
+https://link.springer.com/chapter/10.1007/978-3-642-14435-61.
+Gerstberger, W., Silva, W., and Guedes, G. (2024). Bart: Uma t ´ecnica de
+elicitac ¸˜ao de requisitos para sistemas multiagentes. In Anais do I Workshop so-
+bre Bots na Engenharia de Software , pages 60–65, Porto Alegre, RS, Brasil. SBC.
+https://sol.sbc.org.br/index.php/wbots/article/view/30524.
+Gunga, V ., Kishnah, S., and Pudaruth, S. (2013). Design of a multi-agent system architecture
+for the scrum methodology. International Journal of Software Engineering Applications,
+4:1–18.
+Jennings, N. R. (2000). On agent-based software en-
+gineering. Artificial intelligence , 117(2):277–296.
+https://www.sciencedirect.com/science/article/pii/S0004370299001071.
+Laplante, P. A. and Kassab, M. (2022).Requirements Engineering for Software and Systems.
+Auerbach Publications, 4 edition. https://doi.org/10.1201/9781003129509.
+Lin, Y ., Descamps, P., Gaud, N., Hilaire, V ., and Koukam, A. (2015). Multi-agent sys-
+tem for intelligent scrum project management. Integrated Computer-Aided Engineering,
+22(3):281–296.
+n8n.io (2025). n8n documentation. Acesso em: 19 maio 2025.
+Nawaz Aslam, K. M. (2023). Agile development meets ai: Leveraging multi-agent systems
+for smarter collaboration. https://shre.ink/eQan.
+Sami, M. et al. (2024). Ai based multiagent approach for requirements elicitation and anal-
+ysis. arXiv preprint arXiv:2409.00038. https://arxiv.org/abs/2409.00038.
+Shrikhande, A. (2025). A hands-on guide to building multi-
+agent systems using n8n. https://adasci.org/
+a-hands-on-guide-to-building-multi-agent-systems-using-n8n/ .
+Acessado em 04 de junho de 2025.
+Wilmann, D. and Sterling, L. (2005). Guiding agent-oriented requirements elicitation:
+Homer. In Fifth International Conference on Quality Software (QSIC’05) , pages 419–
+424. https://ieeexplore.ieee.org/abstract/document/1579166.
+Wysocki, W. and Orłowski, C. (2019). A multi-agent model for planning hybrid software
+processes. volume 159, pages 1688–1697. Knowledge-Based and Intelligent Information
+Engineering Systems: Proceedings of the 23rd International Conference KES2019.
+19th Workshop-School on Agents, Environments, and Applications – WESAAC 2025
+20

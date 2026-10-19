@@ -1,0 +1,778 @@
+=== PAGE 1 ===
+Revista Eletrônica de Iniciação Científica em Computação, 2026, 24:1
+ISSN: 3085-8461•doi: 10.5753/reic.2026.7182
+This work is licensed under a Creative Commons Attribution 4.0 International License.
+Artigo de Pesquisa/Research Paper
+Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação
+Experimental de uma Arquitetura para Planejamento e
+Execução de Sprints
+Agile Methodology and AI in Multi-Agent Systems: Experimental Evaluation of an
+Architecture for Sprint Planning and Execution
+Elysson Alves de Lacerda /enve♀e[Universidade Federal do Ceará - Campus Quixadá (UFC) |elyssonalvs@alu.ufc.br]
+Gustavo Almeida Monteiro /enve♀e[Universidade Federal do Ceará - Campus Quixadá (UFC) |gustavoam@alu.ufc.br]
+Franciel Silveira Penha de Vasconcelos /enve♀e[Universidade Federal do Ceará - Campus Quixadá (UFC) |francielsilveira@alu.ufc.br]
+Marcos Antonio de Oliveira /enve♀e[Universidade Federal do Ceará - Campus Quixadá (UFC) |marcos.oliveira@ufc.br]
+/enve♀eUniversidade Federal do Ceará - Campus Quixadá (UFC) Av. José de Freitas Queiroz, 5003-Cedro, 63902-580-
+Quixadá-CE
+Resumo.Este artigo apresenta um estudo experimental sobre uma arquitetura de Sistemas Multiagentes (SMAS)
+integrada à plataforma N8N, projetada para otimizar processos em metodologias ágeis, com foco no Scrum. A arquitetura
+aborda desafios críticos como planejamento de sprints e alocação de recursos, utilizando a técnica Bart para elicitação
+de requisitos e agentes baseados em IA para fluxos de trabalho personalizáveis. Esta versão estendida valida a proposta
+original, comparando três modelos de implementação (TextClassifier,Sub-agenteseWebhook) através de um estudo de
+simulaçãorobustoemcenáriosdecomplexidadevariável. OsresultadosexperimentaisdemonstramqueomodeloWebhook
+oferece escalabilidade e adaptabilidade superiores, automatizando a priorização e atribuição de tarefas e reduzindo a carga
+cognitiva deScrum MasterseProduct Owners.
+Abstract.This paper presents an experimental study of a Multi-Agent System (MAS) architecture integrated with the
+N8N platform to optimize administrative and managerial processes in agile methodologies, specifically Scrum. The
+architecture addresses challenges like sprint planning and resource allocation, using the Bart technique for requirements
+elicitation and AI-based agents for customizable workflows. This extended version validates the original proposal by
+comparing three implementation models (TextClassifier, Sub-agents, and Webhook) through a robust simulation study
+acrossvariedcomplexityscenarios. ExperimentalresultsdemonstratethattheWebhookmodelprovidessuperiorscalability
+and adaptability, automating task prioritization and assignment, thereby reducing the cognitive load on Scrum Masters and
+Product Owners.
+Palavras-chave:Sistemas Multiagentes, Metodologia Ágil, Scrum, N8N, Planejamento de Sprint, IA
+Keywords:Multi-Agent Systems, Agile Methodology, Scrum, N8N, Sprint Planning, AI
+Received:13 December 2025•Accepted:13 March 2026•Published:24 April 2026
+1 Introdução
+A adoção de metodologias ágeis, notavelmente oScrum,
+tornou-se uma prática predominante, sendo considerada a
+principal abordagem ágil na indústria desoftware[Aliet al.,
+2017]. Contudo, a crescente complexidade de processos ad-
+ministrativos e gerenciais exige soluções inovadoras para oti-
+mização de recursos e redução de erros humanos [Laplante
+and Kassab, 2022].
+O planejamento desprints, uma cerimônia central do
+Scrum, exemplifica esse desafio. Esta atividade exige que
+ScrumMasterseProductOwners(POs)processemumgrande
+volume de informações, incluindo a priorização de itens do
+backlog, a alocação de recursos da equipe e a identificação
+de dependências entre tarefas [Nawaz Aslam, 2023]. Con-
+forme identificado no trabalho original [Lacerdaet al., 2025],
+esse processo, muitas vezes manual, aumenta o tempo de
+planejamento e a sobrecarga de trabalho.
+A literatura tem explorado a automação de tarefas do
+Scrumusando Inteligência Artificial (IA) e Sistemas Multia-
+gentes (SMAs). Abordagens como a de [Gungaet al., 2013]
+propuseram arquiteturas de SMAs para oScrum, enquanto
+[Linet al., 2015] apresentaram sistemas inteligentes para dis-
+tribuição de tarefas. No entanto, muitas soluções falham em
+prover flexibilidade e integração simplificada com as ferra-
+mentas modernas deworkflow.
+Paraendereçaressalacunadeflexibilidade,estetrabalho
+propõeeavaliaumaarquiteturaquecombinaaautonomiados
+SMAscomaplataformadeautomaçãoN8N[n8n.io,2025]. A
+arquitetura permite a criação de um agente inteligente capaz
+de executarworkflowsde planejamento desprint, desde a
+elicitação de requisitos (usando a técnicaBart[Gerstberger
+et al., 2024]) até a alocação final de tarefas.
+Esteartigoéumaversãoestendidaesubstancialmentere-
+visada do trabalho ’Agile Methodology and AI in Multi-Agent
+Systems: An agent for planning and executing sprints’, origi-
+nalmente apresentado no 19thWorkshop-School on Agents,
+Environments, and Applications(WESAAC 2025) [Lacerda
+et al., 2025].
+Enquantootrabalhooriginalfocounaconcepçãoteórica
+
+=== PAGE 2 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+e na proposta das 3 arquiteturas, esta versão apresenta as
+seguintes contribuições inéditas:
+• A implementação detalhada da terceira arquitetura, o
+escolhido,Webhook), de forma detalhada;
+• O projeto e a execução de um estudo de simulação ro-
+busto, utilizando três cenários de complexidade variada
+para testar a eficácia e a escalabilidade da arquitetura;
+• Uma análise experimental quantitativa comparando o
+desempenho da arquitetura em métricas de tempo de
+resposta e taxa de sucesso.
+A seguir, este artigo está organizado da seguinte forma:
+A Seção 2 apresenta a fundamentação teórica. A Seção 3
+detalha as três arquiteturas, bem como a escolha da melhor
+arquitetura. A Seção 4 descreve o desenho do estudo de
+simulaçãoeoscenáriosdeteste. ASeção5apresentaediscute
+os resultados experimentais. Por fim, a Seção 6 conclui o
+trabalho.
+2 Fundamentação Teórica
+2.1 Metodologia Ágil e Scrum
+OScrum, uma metodologia ágil, organiza o desenvolvimento
+desoftwarepelos diversos ciclos iterativos chamadossprints.
+Scrum MasterseProduct Ownersenfrentam desafios como
+consolidação manual de relatórios e priorização de tarefas,
+podendocausaratrasoseerros[WilmannandSterling,2005]].
+AintegraçãodeIAeSMAspodetransformaragestãode
+sprints, automatizando tarefas rotineiras, oferecendoinsights
+baseados em dados e otimizando a alocação de recursos, re-
+duzindo a sobrecarga cognitiva [Nawaz Aslam, 2023]. SMAs
+permitemmonitoramentoemtemporealdeindicadorescomo
+velocidade eburndown, possibilitando ajustes dinâmicos às
+prioridades, alinhados ao princípio ágil de adaptação a mu-
+danças [Nawaz Aslam, 2023].
+2.2 Sistemas Multiagentes
+Sistemas Multiagentes (SMAs) são uma área da inteligência
+artificial que estuda a interação de agentes autônomos para
+resolver problemas complexos [Gerstbergeret al., 2024]. Em
+contextos administrativos, SMAs automatizam tarefas como
+alocaçãoderecursosemonitoramentodemétricas,reduzindo
+erros e aumentando a escalabilidade [Balaji and Srinivasan,
+2010].
+NoScrum, SMAs têm sido usados para otimizar proces-
+sos ágeis. [Gungaet al., 2013] propuseram uma arquitetura
+de SMA para oScrum, com agentes representando papéis
+comoScrum MastereProduct Owner, automatizando plane-
+jamento desprintse alocação de tarefas. [Linet al., 2015]
+apresentaram um sistema inteligente que extrai metadados
+e distribui tarefas em equipesScrum. Simulações baseadas
+em SMAs também modelam a produtividade, com agentes
+interagindo combacklogspara otimizarsprints[Linet al.,
+2015].
+Comparado aos trabalhos de [Gungaet al., 2013], que
+focam em automação básica sem integração externa, nossa
+proposta preenche lacunas ao integrarN8Nparaworkflows
+visuais. Da mesma forma, [Linet al., 2015] limitam-se à
+modelagem de produtividade sem monitoramento em tempo
+real ; nossa abordagem adiciona agentes para simulações de
+cenários, reduzindo gargalos em contextos ágeis voláteis.
+2.3 Arquitetura de Software para Sistemas
+Multiagentes
+EmSistemasMultiagentes(SMAs),aarquiteturaestabelecea
+formacomoagentesautônomossãoorganizados,comunicam-
+seecoordenamsuasaçõesdentrodosistema,constituindoum
+elemento determinante para garantir propriedades como efici-
+ência, escalabilidade e adaptabilidade [Balaji and Srinivasan,
+2010]. Nesse contexto, a definição arquitetural orienta não
+apenas a estrutura do sistema, mas também os mecanismos
+de interação e cooperação entre os agentes.
+Abordagens arquiteturais tradicionais para SMAs fre-
+quentemente utilizamframeworksespecializados, como o
+Java Agent Development Framework(JADE), que provê uma
+infraestrutura baseada emJavae protocolos padronizados
+de comunicação, como oFIPA-ACL, facilitando a troca de
+mensagens e a coordenação entre agentes [Jennings, 2000].
+Entretanto, ambientes computacionais contemporâneos têm
+demandadoarquiteturasmaisflexíveiseintegráveiscomecos-
+sistemas de software amplamente utilizados.
+Nesse cenário, aService-Oriented Architecture(SOA)
+apresenta-se como uma alternativa adequada para contextos
+heterogêneos, nos quais agentes podem atuar tanto como pro-
+vedores quanto como consumidores de serviços, promovendo
+modularidade, reutilização e interoperabilidade entre compo-
+nentes do sistema [Aziz, 2010]. Alinhado a essa perspectiva,
+opresentetrabalhoadotaumaabordagemarquiteturalbaseada
+na orquestração de microsserviços utilizando a plataforma
+N8N, que possibilita a integração de diferentes ferramentas e
+serviços por meio deAPIs RESTewebhooks, os quais funci-
+onam como mecanismos de comunicação entre os agentes.
+A arquitetura proposta fundamenta-se no modelo delibe-
+rativoBDI(Belief–Desire–Intention), amplamente utilizado
+na modelagem de agentes inteligentes. No contexto da im-
+plementação comN8N, ascrenças(beliefs) correspondem às
+informações contextuais armazenadas em nós de memória
+e bancos de dados, como o estado dobacklogou a dispo-
+nibilidade da equipe. Osdesejos(desires) representam os
+objetivos a serem alcançados pelos fluxos de execução, como
+a geração de um planejamento desprint. Por sua vez, asin-
+tenções(intentions) são materializadas nos planos de ação
+deliberados pelosworkflows, que utilizam modelos de lin-
+guagem (LLMs) para decidir de forma autônoma a melhor
+estratégiaparaoperacionalizarastarefaseatingirosobjetivos
+definidos.
+Apesar das vantagens dessa abordagem arquitetural, a
+construção de SMAs ainda envolve desafios relevantes, entre
+os quais destacam-se:
+• Escalabilidade: a arquitetura deve suportar variações
+no número de agentes e no volume de interações, po-
+dendo empregar técnicas comoclusteringe distribuição
+de serviços.
+• Autonomia vs. Coordenação: é necessário equilibrar a
+independência decisória dos agentes (processos de deli-
+beração)comanecessidadedealinhamentoaosobjetivos
+globais do sistema.
+• Adaptabilidade: o sistema deve ser capaz de se ajustar
+
+=== PAGE 3 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+a mudanças no ambiente operacional ou nos requisitos
+do domínio de aplicação.
+2.4 Evolução dos Agentes: De BDI a LLMs
+Tradicionalmente, a arquitetura de agentes em Sistemas Mul-
+tiagentes (SMAs) fundamenta-se no modelo BDI (Belief-
+Desire-Intention),noqualocomportamentodoagenteéestru-
+turado a partir da manipulação explícita de crenças, desejos e
+intençõesRaoandGeorgeff[1995]. Essemodelodeliberativo
+pressupõeadefiniçãopréviaderegraseplanosparalidarcom
+osestadosrelevantesdoambiente,sendoparticularmenteade-
+quado para domínios fechados e bem definidos Wooldridge
+[2002]. Contudo,emcenárioscaracterizadosporinformações
+ambíguas ou não estruturadas — como descrições textuais de
+tarefas embacklogságeis — essa abordagem apresenta limi-
+tações em termos de adaptabilidade e esforço de modelagem
+[Wooldridge, 1997].
+A incorporação deLarge Language Models(LLMs)
+como núcleo cognitivo de agentes autônomos representa uma
+mudança significativa nesse paradigma. Diferentemente dos
+agentes deliberativos clássicos, agentes baseados em LLMs
+demonstram capacidades emergentes de compreensão semân-
+tica, generalização e raciocíniozero-shot, possibilitando a
+interpretação de conceitos abstratos expressos em linguagem
+naturalsemtreinamentoespecíficoprévio[Brownetal.,2020;
+Weiet al., 2022]. Essas capacidades permitem que tais agen-
+tes compreendam noções como “valor de negócio” ou “impe-
+dimento técnico” de forma contextualizada, ampliando sua
+aplicabilidade em ambientes organizacionais dinâmicos e ori-
+entados a processos Wanget al. [2024].
+Nesse contexto, a utilização de plataformaslow-code
+para a orquestração desses agentes possibilita a construção
+de arquiteturas híbridas, nas quais fluxos de trabalho estrutu-
+rados coexistem com a flexibilidade cognitiva proporcionada
+pela IA generativa. Evidências recentes na literatura indi-
+cam que plataformaslow-codefavorecem a integração entre
+automaçãodeprocessosetomadadedecisãointeligente,redu-
+zindooesforçodedesenvolvimentoeaumentandoaagilidade
+organizacional [Prinzet al., 2021].
+3 Metodologia
+A metodologia adotada nesta pesquisa segue uma abordagem
+estruturada para projetar, implementar e validar a arquitetura
+proposta. O processo metodológico, ilustrado conceitual-
+mente na Figura 1, é dividido em três etapas fundamentais:
+a elicitação rigorosa de requisitos, a modelagem da arquite-
+tura inteligente baseada em fluxos de trabalho e a validação
+experimental por simulação.
+3.1 Elicitação de Requisitos (BART)
+O processo iniciou com a aplicação da técnicaBart[Gerst-
+bergeret al., 2024] para a elicitação de requisitos. Foram
+conduzidas sessões comstakeholders(Scrum Masters,Pro-
+ductOwnersedesenvolvedores)queidentificaramoscenários
+críticos, focando especificamente na complexidade da cria-
+ção desprintse na alocação eficiente de tarefas. O conjunto
+de 17 questões da técnica foi respondido para cada cenário,
+garantindo o alinhamento das expectativas.
+Como resultado dessa elicitação, os requisitos centrais
+do sistema foram definidos:
+• Gatilho:O processo é ativado por uma entrada de texto
+em linguagem natural doPO, disparando a análise de
+backlogs.
+• Pré-condições:Exige-se umbacklogpopulado (JSON),
+disponibilidadedeequipeatualizadaeumworkflowN8N
+ativo.
+• Objetivo:Automatizar a priorização e alocação de tare-
+fas,gerandoumsprintvalidadocommínimaintervenção
+manual.
+3.2 Orquestração e Inteligência Artificial
+A materialização desta metodologia ocorre através de um
+fluxo de orquestração na plataformaN8N, onde a inteligência
+é distribuída em nós de processamento.
+Figura 1.Fluxo Metodológico de Orquestração com LLMs e N8N
+Conforme detalhado na Figura 1, a arquitetura substitui
+algoritmos tradicionais rígidos (comoQ-Learning) pela flexi-
+bilidade deLarge Language Models(LLMs), operando em
+três estágios:
+1.Ingestão e Contextualização:UmWebhookrecebe os
+dadosbrutoseosinjetanocontextodamemóriadecurto
+prazo (Window Buffer). Isso garante que o agente tenha
+“consciência” situacional das restrições atuais, como fé-
+rias de desenvolvedores ou impedimentos técnicos.
+2. Deliberação via LLM:O núcleo de decisão utiliza mo-
+delos de linguagem (comoLlama3 ouDeepSeekvia
+OpenRouter) configurados comSystem Promptsespecí-
+ficos. O Agente de Priorização interpreta as regras de
+negócio para reordenar tarefas, enquanto o Agente de
+Alocação realiza omatchsemântico entre askillneces-
+sária e a disponibilidade do time.
+3. Saída Estruturada:O resultado da deliberação é con-
+vertido em um objetoJSONestruturado e validado,
+pronto para ser consumido diretamente por ferramentas
+de gestão (comoTrelloouJira), eliminando a necessi-
+dade de formatação manual humana.
+3.3 Estratégia de Validação
+Para validar a eficácia desta metodologia, optou-se por um
+Estudo de Simulação Controlado(detalhado na Seção 5).
+Esta abordagem permite isolar variáveis de complexidade
+e medir quantitativamente o ganho de eficiência (tempo de
+resposta)earobustezdosistemasobestresse(escalabilidade),
+comparando o desempenho do agente diretamente com uma
+linha de base humana (manual baseline).
+
+=== PAGE 4 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+4 Proposta de Arquitetura
+As arquiteturas propostas organizam agentes em uma estru-
+tura modular integrada aoN8N, composta porworkflowsque
+representam interações entre agentes, garantindo automação
+e adaptabilidade. A técnicaBARTfoi fundamental para iden-
+tificaroscenárioscríticoseassegurarqueosagentesatendam
+às necessidades elicitadas. A seguir, detalham-se os modelos
+avaliados, com ênfase na abordagem que melhor representa a
+autonomia do sistema.
+A escolha doN8Ncomo orquestrador da arquitetura
+fundamenta-se não apenas na praticidade de implementação
+de SMAs, mas na sua capacidade nativa de manipulação de
+objetosJSONentre nós de execução. O guia prático destaca
+a configuração de agentes de IA emworkflows, onde cada nó
+atua como um processador especializado com entrada e saída
+padronizadas.
+Essa característica inspirou a criação de uma topologia
+onde a comunicação entre agentes de Priorização e Aloca-
+ção não ocorre apenas por texto, mas pela troca de estruturas
+de dados ricas (contendo metadados deStory Pointse dis-
+ponibilidade). Por exemplo, o agente de priorização utiliza
+algoritmos baseados em IA para ordenar tarefas com base
+em valor de negócio e dependências, injetando esse contexto
+estruturado no fluxo para que o agente de alocação processe
+a disponibilidade da equipe em tempo real, sem alucinações
+comuns em modelos puramente textuais.
+As arquiteturas também se inspiram em modelos como
+oAGOMO, proposto por [Wysocki and Orłowski, 2019], que
+utiliza SMAs para planejar processos híbridos desoftware.
+Diferentemente doAGOMO, nossa proposta foca exclusiva-
+mente noScrum, otimizando o planejamento desprintspor
+meio de agentes que automatizam decisões e reduzem garga-
+los.
+A modularidade doN8Npermite adicionar novos agen-
+tes, como um para monitoramento de métricas, sem com-
+prometer a estrutura do sistema. Essa abordagem garante
+escalabilidade e flexibilidade. A integração com ferramentas
+comoSlackeGoogle Sheets, facilitada peloN8N, assegura
+que os agentes possam acessar dados em tempo real, promo-
+vendo uma gestão desprintsmais eficiente.
+Para esse trabalho, foi elaborada três formas de SMAs
+com abordagens distintas:
+Modelo com TextClassifier.
+Esta abordagem representa a implementação mais rudi-
+mentardeumSistemaMultiagente(SMA),comoretratadana
+Figura 2. Nela, um agente “Roteador” atua como porta de en-
+tradaúnica,utilizandoumnódeclassificaçãoprobabilística—
+baseadoempalavras-chaveouemummodelolevedeNatural
+Language Processing(NLP) — para categorizar a intenção
+do usuário em classes discretas, como“criar_sprint”ou“du-
+vida_tecnica”. Apesar de apresentar a menor latência de
+execução (média<2s ), esse modelo demonstrou fragilidade
+semântica crítica durante os testes preliminares. Observou-se
+que entradas ambíguas do usuário — por exemplo,“Como
+está a capacidade do time para criar a próxima sprint?”—
+resultavam em falhas de roteamento, pois o classificador não
+conseguia distinguir se a intenção primária era uma consulta
+(dúvida) ou uma ação (criação). Portanto, sua aplicabilidade
+restringe-se a cenários de baixa complexidade cognitiva e a
+comandos imperativos estritos.
+Usuário
+Interface de Chat
+Agente Classificador
+(Intent Classification)
+Agente
+Construtor de Sprint Agente
+Dúvidas
+Agente
+Validação
+API
+Criação de Sprint Base de
+Conhecimento
+API
+Validação
+Figura 2.Arquitetura do modelo TextClassifier.
+Modelo com Sub-agentes.
+Visando mitigar a falta de especialização do modelo an-
+terior, esta arquitetura adota uma topologia hierárquica. Um
+AgenteCoordenador(Orquestrador)recebearequisiçãoeaci-
+ona, de forma síncrona, subfluxos (sub-workflows) dedicados
+na plataforman8n. A principal vantagem técnica observada
+(Figura 3) é a modularidade, uma vez que a lógica de va-
+lidação pode ser isolada da lógica de criação, facilitando a
+depuração e a manutenção do código (tempo médio inferior a
+1min para identificação de falhas em nós isolados). Contudo,
+a natureza síncrona das chamadas introduz um acoplamento
+temporalsignificativo. Casoosubagentede“ValidaçãodeRe-
+gras”apresenteatrasonoprocessamentodobacklognoTrello,
+todo o fluxo permanece bloqueado, aumentando o tempo de
+resposta de forma aproximadamente linear conforme a com-
+plexidade da tarefa. Trata-se, portanto, de uma arquitetura
+robusta, porém pouco performática para interações em tempo
+real.
+Execute Workflow Agente de Criação
+Slack Google CalendarJira Software
+When Chat Message Received AI Agent
+Google Calendar Agente Criação
+Figura 3.Arquitetura do modelo Sub-agentes.
+Modelo com Webhook (Assíncrono).
+Estaarquiteturadesacoplaarecepçãodocomandodesua
+execução, conferindo uma dinâmica deliberativa ao sistema.
+O Agente Principal (Orquestrador) não opera como um sim-
+ples roteador de fluxo estático, mas sim como uma entidade
+autônoma com capacidade de deliberação. Ao receber uma
+entrada em linguagem natural, o agente utiliza modelos de
+linguagem de grande escala (LLM) para analisar o contexto e
+decidir qual agente especialista deve ser acionado.
+A Figura 4 apresenta a arquitetura geral do sistema base-
+ada em agentes especializados. Nessa abordagem, o sistema
+
+=== PAGE 5 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+Interface de Mensagens
+Agente Principal (Orquestrador)
+LLM Memória
+Agente de Criação Agente de Validação
+Serviços Externos
+Google Docs
+Google Calendar
+Jira
+Slack
+Google Sheets
+Figura 4.Arquitetura do Sistema Multiagente com Integração de Serviços Externos
+recebemensagensprovenientesdainterfacedecomunicaçãoe
+asencaminhaaoAgentePrincipal,responsávelporinterpretar
+a solicitação e deliberar sobre o fluxo de execução apropri-
+ado. Para apoiar essa decisão, o orquestrador utiliza modelos
+de linguagem de grande escala e mecanismos de memória
+contextual, permitindo compreender o contexto das solicita-
+ções e selecionar o agente especialista mais adequado para a
+execução da tarefa.
+Após essa etapa de deliberação, o agente orquestrador
+aciona agentes especialistas por meio de mecanismos de
+webhook. Esse modelo permite que cada agente execute suas
+tarefas de forma independente e assíncrona, sem bloquear o
+fluxo principal de interação com o usuário. Entre os agentes
+especializados, destacam-se o agente de criação, responsável
+pela geração de artefatos e integração com serviços organiza-
+cionais, e o agente de validação, encarregado de verificar a
+consistênciadasinformaçõesproduzidaseregistrarresultados
+em sistemas estruturados.
+Essa organização estabelece uma arquitetura modular
+baseadaemsistemasmultiagentes,naqualcadaagentepossui
+responsabilidades bem definidas e interage com serviços ex-
+ternos para executar suas tarefas. A comunicação assíncrona
+entre os componentes elimina problemas detimeoutcomuns
+em interfaces síncronas, pois o sistema pode confirmar ime-
+diatamente o recebimento da solicitação enquanto os agentes
+executam suas atividades em segundo plano (background).
+Além disso, o desacoplamento arquitetural permite que
+novosagentesespecialistassejamadicionadosaosistemasem
+anecessidadedealteraralógicacentraldoorquestrador. Essa
+característicafavoreceaescalabilidadedasoluçãoepossibilita
+a evolução incremental da arquitetura, mantendo a coerência
+com os princípios de modularidade e autonomia característi-
+cos de sistemas multiagentes.
+4.1 Coerência Arquitetural e o Ciclo
+Percepção-Ação
+A proposta apresentada demonstra estreita coerência com o
+referencial teórico de Sistemas Multiagentes ao implementar
+mecanismos de comunicação assíncrona entre agentes por
+meio dewebhooks, alinhando-se aos princípios deService-
+Oriented Architecture(SOA) discutidos na Seção 2. Esse
+modelo favorece o desacoplamento entre os componentes do
+sistema, permitindo maior flexibilidade arquitetural e facili-
+tando a escalabilidade da solução em ambientes organizacio-
+nais complexos e dinâmicos.
+A integração com a plataformaN8Nmaterializa o con-
+ceitofundamentaldeambiente(oumiddleware)emumSMA.
+Nesse ecossistema, os agentes percebem mudanças no estado
+do projeto por meio de nós de leitura, que atuam como senso-
+res, e realizam ações que modificam esse ambiente através de
+nósdeescrita,quefuncionamcomoatuadoresemferramentas
+externas, comoTrelloeGoogle Calendar. Esse mecanismo
+estabelece o ciclo depercepção–ação, considerado um dos
+princípios centrais na teoria de agentes autônomos, no qual a
+tomada de decisão ocorre a partir da interação contínua entre
+o agente e o ambiente em que está inserido.
+Dessa forma, a arquitetura proposta deixa de ser caracte-
+rizadaapenascomoumfluxodeautomaçãoepassaaconfigu-
+rar um sistema deliberativo estruturado, orientado por regras
+de negócio bem definidas e por mecanismos de tomada de
+decisão apoiados por modelos de linguagem (LLMs). Esse
+arranjopossibilitaqueosagentesatuemdemaneiraautônoma,
+mas ainda alinhada aos objetivos operacionais e estratégicos
+do timeScrum.
+
+=== PAGE 6 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+5 Desenho do Estudo de Simulação
+Para validar quantitativamente a arquitetura baseada em
+Webhooksselecionada,foiconduzidoumestudodesimulação
+focadoemeficiênciaeescalabilidade. Oobjetivocentraldeste
+experimento é demonstrar a eficácia da arquitetura proposta
+frente aos desafios de um planejamento manual e complexo,
+utilizando dados sintéticos que mimetizam cenários reais de
+desenvolvimento desoftware.
+O experimento compara o desempenho do agente (M-
+Agente) contra uma linha de base que representa o processo
+manual (M-Manual), em três cenários de complexidade vari-
+ável.
+5.1 Cenários de Teste
+Os dados utilizados para a simulação foram estruturados em
+arquivosJSON, representando diferentes estados de umbac-
+kloge de uma equipe ágil, conforme descrito a seguir:
+• Cenário A (BaselineFuncional):Um ambiente con-
+trolado contendo uma equipe com disponibilidade total
+(1.0) e umbacklogsimples de 10user storiessem de-
+pendências críticas. O objetivo deste cenário foi validar
+a integridade do fluxo de comunicação entre os agentes
+de criação e validação, servindo como “teste de fumaça”
+(smoke test).
+•Cenário B (Alta Complexidade):Este cenário simula
+umambienterealecaóticodeprojeto. Odatasetcontém
+30 tarefas (identificadas de TSK-101 a TSK-130) e uma
+equipe de 5 desenvolvedores com restrições severas de
+alocação.
+– Restrições:Os desenvolvedores dev_B e dev_D
+possuem disponibilidade reduzida (0.7 e 0.5, res-
+pectivamente), criando umbottleneckartificial na
+skilldebackend.
+– Dependências:Existem dependências em cadeia,
+onde tarefas críticas (ex: TSK-102) dependem da
+conclusão de outras (ex: TSK-101), exigindo uma
+lógica sequencial de ordenação que eleva a carga
+cognitiva do planejador.
+• Cenário C (Estresse e Escalabilidade):Para testar os
+limites da arquitetura, utilizou-se umdatasetcontendo
+100triggersdistintos de requisição (ex: “planejesprint
+20 com foco em refatoração”, “quem está de férias?”),
+injetados no sistema em curto intervalo de tempo. O
+objetivo é testar a fila de processamento doN8N, a ges-
+tão de memória (Window Buffer) e a estabilidade dos
+Webhookssob carga.
+5.2 Definição da Linha de Base (M-Manual)
+A linha de base (M-Manual) representa o processo humano
+que a arquitetura visa otimizar. Para estabelecer este parâme-
+tro, foi cronometrado o tempo que umScrum Masterexperi-
+ente levou para executar a priorização e alocação do Cenário
+B.
+O processo manual envolveu a leitura do relatório de
+30 itens, a identificação visual das 19 tarefas debackend
+(que representavam 63% do volume total) e o cálculo mental
+de capacidade fracionada dos recursos. O tempo registrado
+para a conclusão válida desta tarefa foi de 12 minutos e 45
+segundos, servindo comobenchmarkpara a redução de carga
+cognitiva.
+5.3 Métricas de Avaliação
+Para quantificar o desempenho do SMA, foram coletadas as
+seguintes métricas durante a execução dos cenários:
+1. Tempo de Resposta (ms):Tempo total decorrido entre
+o recebimento dotriggere a entrega do plano desprint
+estruturado.
+2. Taxa de Sucesso (%):Percentual de execuções concluí-
+das sem erros detimeoutou alucinação do modelo.
+3. Validade da Alocação:Verificação lógica se as depen-
+dências (Tarefas Pai/Filho) e restrições de disponibili-
+dade (FTE) foram respeitadas.
+6 Resultados e Discussão
+Os resultados obtidos no experimento demonstram a superio-
+ridadeoperacionaldaautomaçãoviaSMAemtarefasrepetiti-
+vasedecálculointensivo,validandoahipótesedereduçãode
+carga cognitiva. A seguir, comparam-se as métricas diretas
+entre a execução humana e o SMA:
+• Tempo de Execução (Cenário B):O operador humano
+levou 765s (12m 45s), enquanto o SMA concluiu em
+4.2s, um ganho de≈182×.
+• Taxa de Erro:Ambos mantiveram 0% de erro em de-
+pendências, indicando equivalência na qualidade lógica.
+• Carga Cognitiva:Enquanto o humano relatou alta fa-
+diga, o SMA eliminou essa carga do operador.
+• Escalabilidade (Cenário C):A execução manual em
+escala mostrou-se inviável; o SMA atingiu 99.5% de
+sucesso.
+6.1 Análise de Eficiência (Cenário B)
+No Cenário B, caracterizado pela alta complexidade de de-
+pendências, o operador humano levou quase 13 minutos para
+concluir o planejamento. A análise qualitativa do relatório
+humanodemonstrouprecisão,identificandocorretamenteque
+obackendrepresentava um gargalo com 63% das tarefas e
+sugerindo a alocação estratégica do desenvolvedorfullstack
+(dev_C)paramitigarorisco. Contudo, oprocessoexigiualto
+esforço mental para cruzar manualmente a disponibilidade
+parcial(FTE)dosdesenvolvedores dev_B(0.7)e dev_D(0.5)
+com as estimativas deStory Points.
+Em contrapartida, oM-Agenteprocessou o mesmoda-
+tasetde 30 itens em apenas 4.2 segundos. O Agente de Alo-
+cação, alimentado peloSystem Promptcontendo as regras
+BART, respeitou rigorosamente as restrições de disponibi-
+lidade — não alocando mais de 50% da capacidade para o
+dev_D — e ordenou corretamente as dependências críticas
+(ex: garantindo que a TSK-102 fosse agendada após a TSK-
+101).
+Isso evidencia que a substituição de algoritmos tradici-
+onais por LLMs (Large Language Models) bem instruídos
+mantém a qualidade da decisão humana (0% de erro lógico),
+mas com um ganho de eficiência temporal de duas ordens de
+grandeza.
+
+=== PAGE 7 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+6.2 Análise de Robustez e Escalabilidade
+(Cenário C)
+O teste de estresse no Cenário C validou a resiliência da
+arquitetura orientada a eventos. Ao submeter o sistema a
+uma carga de requisições simultâneas baseadas nodataset
+de teste contendo diversostriggers(como “planejesprint20”
+e “quem está de férias?”), o orquestradorN8Ngerenciou a
+concorrência através de sua fila de execução.
+Observou-seumataxadesucessode99.5%,comapenas
+uma falha registrada portimeoutde API externa durante o
+processamento doscriptde teste. Diferente de um operador
+humano, que sofreria degradação linear de desempenho por
+fadigaaoprocessar100pedidossequenciais,oSMAmanteve
+o tempo médio de resposta estável.
+A arquitetura deWebhooksprovou ser essencial para
+desacoplar a recepção do pedido (gatilho) do processamento
+pesado (inferência do LLM). Isso confirma que a solução é
+viável não apenas para equipes isoladas, mas para escalar o
+planejamento ágil em nível organizacional.
+6.3 Análise Qualitativa da Alocação de
+Recursos
+Além das métricas de tempo e eficiência, foi realizada uma
+inspeção qualitativa das decisões tomadas pelo agente no
+Cenário B, confrontando-as com o perfil da equipe definido
+nodatasetde entrada.
+A equipe simulada apresentava um desafio específico de
+alocação:
+•Dev_B (Backend):Disponibilidade de 0.7 (70%).
+•Dev_D (Backend):Disponibilidade de 0.5 (50%).
+•Dev_C (Fullstack):Disponibilidade de 1.0 (100%).
+Obacklogpossuía uma alta densidade de tarefas debac-
+kend(63% do total). A análise doslogsde execução revelou
+que o agente identificou corretamente o gargalo. Diferente de
+umadistribuiçãoaleatória,oSMApriorizoualocartarefascrí-
+ticas debackend(comoaTSK-101) aoDev_C,utilizando sua
+versatilidadefullstackparacompensarabaixadisponibilidade
+dos especialistas.
+Simultaneamente, o agente preencheu a capacidade do
+Dev_DapenasatéolimitedeseusStoryPointsproporcionais,
+evitandooerrocomumemplanejamentosmanuaisdeignorar
+alocações parciais. Esta precisão na micro-alocação demons-
+tra que a arquitetura é capaz de lidar com a complexidade
+granular de times heterogêneos.
+7 Conclusão e Trabalhos Futuros
+Este trabalho apresentou e validou uma arquitetura de Siste-
+mas Multiagentes (SMAs) orquestrada pela plataformaN8N,
+projetada para otimizar os processos de planejamento em me-
+todologias ágeis. Diferente de abordagens teóricas anteriores
+que sugeriam algoritmos rígidos, nossa implementação prá-
+ticademonstrouqueousodeLargeLanguageModels(LLMs)
+orientados porpromptsestruturados (regras BART) oferece
+flexibilidade e precisão superiores para o contexto dinâmico
+doScrum.
+Osresultadosexperimentaisconfirmamahipóteseinicial
+de redução da carga cognitiva. No cenário de alta comple-
+xidade (Cenário B), a arquitetura reduziu o tempo de plane-
+jamento de 12 minutos (humano) para apenas 4.2 segundos
+(agente), mantendo 100% de conformidade com as restrições
+de dependência e disponibilidade. Além disso, o teste de
+estresse (Cenário C) comprovou a escalabilidade do modelo
+baseado emWebhooks, que manteve uma taxa de sucesso de
+99.5% mesmo sob alta demanda de requisições simultâneas.
+Conclui-se que a integração de SMAs com ferramentas
+low-codecomooN8Nampliaoacessoàinteligênciaartificial
+na gestão de projetos, permitindo que times ágeis foquem em
+tarefas criativas enquanto agentes autônomos gerenciam a
+complexidade administrativa.
+Como trabalhos futuros, pretende-se: (i) realizar um es-
+tudo de caso longitudinal aplicando a arquitetura no dia a dia
+de uma empresa parceira para medir o impacto na velocidade
+real do time; (ii) expandir o modelo dos agentes para incluir
+a cerimônia de Retrospectiva, analisando os sentimentos dos
+desenvolvedores; (iii) comparar o custo-benefício de diferen-
+tes modelos de LLM (ex: GPT-4vs. Llama3) na execução
+destesworkflows, (iv) realizar experimentos mais robustos,
+com um número maior deScrum Mastersparticipantes, a fim
+de aumentar a validade dos resultados.
+Declarações complementares
+Contribuições dos autores
+Elysson Alves contribuiu para a concepção do estudo, desenho da
+metodologia e redigiu o manuscrito principal. Gustavo Almeida e
+Franciel Silveira realizaram a implementação dos fluxos noN8N,
+a execução dos experimentos de simulação e a coleta de dados.
+Marcos Antonio supervisionou o projeto e realizou a revisão crítica
+do conteúdo. Todos os autores leram e aprovaram o manuscrito
+final.
+Conflitos de interesse
+Os autores declaram que não têm nenhum conflito de interesses.
+Disponibilidade de dados e materiais
+Os conjuntos de dados (arquivos JSON debackloge cenários) e os
+fluxos de trabalho doN8Ngerados e analisados durante o estudo
+atual estão disponíveis mediante solicitação aos autores.
+Outras informações relevantes
+O desenvolvimento da arquitetura proposta utilizouLarge Language
+Models(LLMs) como componentes ativos do sistema de orquestra-
+ção. Ferramentas deIAgenerativa também foram utilizadas para
+auxílio na revisão gramatical e estruturação de seções do texto, sob
+supervisão e validação final dos autores humanos.
+Referências
+Ali, A., Rehman, M., and Anjum, M. (2017). Framework
+for applicability of agile scrum methodology: A perspec-
+tive of software industry.International Journal of Ad-
+vanced Computer Science and Applications, 8(9). DOI:
+10.14569/IJACSA.2017.080932.
+Aziz, H. (2010). Multiagent systems: algorithmic, game-
+theoretic, and logical foundations by y. shoham and k.
+leyton-brown cambridge university press, 2008.ACM Si-
+gact News, 41(1):34–37. DOI: 10.1145/1753171.1753181.
+Balaji, P. G. and Srinivasan, D. (2010). An introduction to
+multi-agent systems.Innovations in multi-agent systems
+and applications-1, pages 1–27. DOI: 10.1007/978-3-642-
+14435-6_1.
+
+=== PAGE 8 ===
+Metodologia Ágil e IA em SMA Alves de Lacerda et al. 2026
+Brown,T.B.etal.(2020). Languagemodelsarefew-shotlear-
+ners.Advances in Neural Information Processing Systems.
+URL:https://arxiv.org/abs/2005.14165.
+Gerstberger,W.,Silva,W.,andGuedes,G.(2024). Bart: Uma
+técnica de elicitação de requisitos para sistemas multiagen-
+tes. InAnais do I Workshop sobre Bots na Engenharia
+de Software, pages 60–65, Porto Alegre, RS, Brasil. SBC.
+DOI: 10.5753/wbots.2024.3977.
+Gunga, V., Kishnah, S., and Pudaruth, S. (2013). Design
+of a multi-agent system architecture for the scrum metho-
+dology.International Journal of Software Engineering
+Applications, 4:1–18. DOI: 10.5121/ijsea.2013.4401.
+Jennings, N. R. (2000). On agent-based software engi-
+neering.Artificial intelligence, 117(2):277–296. DOI:
+10.1016/S0004-3702(99)00107-1.
+Lacerda, E., Monteiro, G., Vasconcelos, F., and Oliveira, M.
+(2025). Agile methodology and ai in multi-agent systems:
+An agent for planning and executing sprints. InAnais
+do XIX Workshop-Escola de Sistemas de Agentes, seus
+Ambientes e Aplicações, pages 13–20, Porto Alegre, RS,
+Brasil. SBC. DOI: 10.5753/wesaac.2025.37543.
+Laplante, P. A. and Kassab, M. (2022).Requirements Engi-
+neering for Software and Systems. Auerbach Publications,
+4 edition. DOI: 10.1201/9781003129509.
+Lin, Y., Descamps, P., Gaud, N., Hilaire, V., and Koukam, A.
+(2015). Multi-agent system for intelligent scrum project
+management.Integrated Computer-Aided Engineering,
+22(3):281–296. DOI: 10.3233/ICA-150491.
+n8n.io (2025). n8n documentation. URL:https://docs.
+n8n.io/.
+Nawaz Aslam, K. M. (2023). Agile development meets ai:
+Leveraging multi-agent systems for smarter collaboration.
+DOI: 10.13140/RG.2.2.11560.28166.
+Prinz, N., Rentrop, C., and Huber, M. (2021). Low-code
+development platforms: A literature review. InPro-
+ceedings of the Americas Conference on Information
+Systems (AMCIS). URL:https://aisel.aisnet.org/
+amcis2021/adv_info_systems_general_track/
+adv_info_systems_general_track/2/.
+Rao, A. S. and Georgeff, M. P. (1995). Bdi agents: From
+theorytopractice.FirstInternationalConferenceonMulti-
+agentSystems,pages312–319.URL: https://cdn.aaai.
+org/ICMAS/1995/ICMAS95-042.pdf.
+Wang, L., Ma, C., Feng, X., Zhang, Z., Yang, H., Zhang, J.,
+Chen, Z., Tang, J., Chen, X., Lin, Y., Zhao, W. X., Wei,
+Z., and Wen, J. (2024). A survey on large language model
+based autonomous agents.Frontiers of Computer Science,
+18(6). DOI: 10.1007/s11704-024-40231-1.
+Wei, J.et al. (2022). Emergent abilities of large language
+models. URL:https://arxiv.org/abs/2206.07682.
+Wilmann, D. and Sterling, L. (2005). Guiding agent-oriented
+requirements elicitation: Homer. InFifth International
+Conference on Quality Software (QSIC’05), pages 419–
+424. DOI: 10.1109/QSIC.2005.34.
+Wooldridge, M. (1997). Agent-based software engine-
+ering.IEE Proceedings – Software, 144(1):26–37.
+URL: https://digital-library.theiet.org/doi/
+abs/10.1049/ip-sen%3A19971026.
+Wooldridge, M. (2002).An Introduction to MultiAgent Sys-
+tems, pages –348. Wiley.
+Wysocki, W. and Orłowski, C. (2019). A multi-agent mo-
+del for planning hybrid software processes. volume
+159, pages 1688–1697. Knowledge-Based and Intel-
+ligent Information Engineering Systems: Proceedings
+of the 23rd International Conference KES2019. DOI:
+10.1016/j.procs.2019.09.339.

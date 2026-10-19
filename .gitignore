@@ -1,0 +1,33 @@
+# Python & Ambiente Virtual
+.venv/
+env/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Testes e Cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Segredos e Configurações Locais
+.env
+.env.local
+*.secret
+
+# Logs e Saídas de Experimentos Grandes
+*.log
+reports/experiments/*.jsonl
+reports/experiments/*.log
+
+# Distribuição e Build
+dist/
+build/
+*.egg-info/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
