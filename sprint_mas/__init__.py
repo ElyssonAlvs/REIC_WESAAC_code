@@ -7,12 +7,22 @@ from sprint_mas.data_loader import (
     validate_dependencies_dag,
 )
 from sprint_mas.llm_factory import get_llm
+from sprint_mas.prompts import (
+    get_agent_prompt_template,
+    load_prompt_yaml,
+)
 from sprint_mas.state import (
     Allocation,
     DeveloperProfile,
     SprintPlan,
     SprintState,
     Task,
+)
+from sprint_mas.tools import (
+    calculate_team_capacity,
+    check_allocation_feasibility,
+    get_topological_order,
+    match_skills,
 )
 
 __all__ = [
@@ -21,10 +31,15 @@ __all__ = [
     "SprintPlan",
     "SprintState",
     "Task",
+    "calculate_team_capacity",
+    "check_allocation_feasibility",
+    "get_agent_prompt_template",
     "get_data_dir",
     "get_llm",
+    "get_topological_order",
     "list_available_scenarios",
+    "load_prompt_yaml",
     "load_scenario",
+    "match_skills",
     "validate_dependencies_dag",
 ]
-

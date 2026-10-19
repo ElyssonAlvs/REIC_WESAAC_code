@@ -28,7 +28,7 @@
         <div class="flex items-center gap-3 mb-2">
           <span class="px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full flex items-center gap-1.5">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            Fase 2 Concluída &bull; Testes 37/37
+            Fase 3 Concluída &bull; Testes 66/66
           </span>
           <span class="px-2.5 py-1 text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full">
             WESAAC 2025 &bull; REIC 2026
@@ -49,10 +49,10 @@
       <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
         <div class="text-center px-3 border-r border-slate-800">
           <div class="text-xl font-bold text-emerald-400">100%</div>
-          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Testes (37/37)</div>
+          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Testes (66/66)</div>
         </div>
         <div class="text-center px-3 border-r border-slate-800">
-          <div class="text-xl font-bold text-indigo-400">2 / 12</div>
+          <div class="text-xl font-bold text-indigo-400">3 / 12</div>
           <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Fases Prontas</div>
         </div>
         <div class="text-center px-3">
@@ -68,7 +68,7 @@
         <span>🎯</span> Temática & Fundamentação Teórica
       </button>
       <button onclick="switchTab('roadmap')" id="tab-btn-roadmap" class="tab-btn px-4 py-2.5 rounded-lg transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 flex items-center gap-2">
-        <span>🗺️</span> Roadmap & Status das 10 Fases
+        <span>🗺️</span> Roadmap & Status das 12 Fases
       </button>
       <button onclick="switchTab('llmops')" id="tab-btn-llmops" class="tab-btn px-4 py-2.5 rounded-lg transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 flex items-center gap-2">
         <span>📦</span> Camadas LLMOps & Artefatos
@@ -223,12 +223,12 @@
             <p class="text-slate-400 text-sm">Abordagem incremental "Dividir para Conquistar": cada fase é auditada e testada antes do avanço.</p>
           </div>
           <div class="text-right">
-            <span class="text-2xl font-black text-emerald-400">16.6%</span>
-            <span class="text-xs text-slate-400 block">Fase 2 / 12 Concluída</span>
+            <span class="text-2xl font-black text-emerald-400">25.0%</span>
+            <span class="text-xs text-slate-400 block">Fase 3 / 12 Concluída</span>
           </div>
         </div>
         <div class="w-full bg-slate-950 rounded-full h-3 border border-slate-800 overflow-hidden">
-          <div class="bg-gradient-to-r from-emerald-500 to-indigo-500 h-3 rounded-full transition-all duration-500" style="width: 16.6%;"></div>
+          <div class="bg-gradient-to-r from-emerald-500 to-indigo-500 h-3 rounded-full transition-all duration-500" style="width: 25.0%;"></div>
         </div>
       </div>
 
@@ -273,37 +273,43 @@
           </div>
         </div>
 
-        <!-- FASE 3: Próxima -->
+        <!-- FASE 3: Concluída -->
+        <div class="bg-slate-900/80 border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
+            ✅ Concluída &bull; 66 Testes Passando
+          </div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 3</span>
+            <h3 class="text-base font-bold text-white">Ferramentas Determinísticas & Prompts BART</h3>
+          </div>
+          <p class="text-xs text-slate-300 mb-3">
+            Desacoplamento entre instruções linguísticas (YAML com técnica BART) e cálculos matemáticos exatos via <code>@tool</code> determinísticas em Python (cálculo de FTE, anti-IDOR e ordenação causal de DAG).
+          </p>
+          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1">
+            <div><strong class="text-slate-200">Artefatos:</strong> <code>sprint_mas/tools.py</code>, <code>sprint_mas/prompts.py</code>, <code>configs/prompts/*.yaml</code>, <code>configs/models.yaml</code></div>
+            <div><strong class="text-slate-200">Testes:</strong> 29 novos testes (22 em <code>test_tools.py</code>, 7 em <code>test_prompts.py</code>) &bull; 66/66 no total (100% OK em 0.61s)</div>
+            <div><strong class="text-slate-200">Decisões:</strong> ADR 0005 registrado em <code>docs/adr/</code> e homologado por QA</div>
+          </div>
+        </div>
+
+        <!-- FASE 4: Próxima -->
         <div class="bg-slate-900/60 border-2 border-amber-500/50 rounded-2xl p-5 relative overflow-hidden bg-gradient-to-br from-amber-500/5 to-transparent">
           <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
             ⏳ Próxima Fase a Implementar
           </div>
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">Fase 3</span>
-            <h3 class="text-base font-bold text-white">Ferramentas & Prompts BART</h3>
+            <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">Fase 4</span>
+            <h3 class="text-base font-bold text-white">Agente de Priorização (Product Owner Node)</h3>
           </div>
           <p class="text-xs text-slate-300 mb-3">
-            Criação de ferramentas determinísticas (cálculo de FTE, análise de DAG de dependências) e system prompts versionados em <code>configs/prompts/*.yaml</code> com as 17 regras BART.
+            Nó cognitivo responsável por analisar o backlog bruto, deliberar valor de negócio e ordenar tarefas segundo a sequência causal do DAG gerada pelas ferramentas determinísticas.
           </p>
           <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1">
-            <div><strong class="text-slate-200">Escopo:</strong> <code>sprint_mas/tools.py</code>, <code>configs/prompts/*.yaml</code></div>
-            <div><strong class="text-slate-200">Meta:</strong> Desacoplar instruções dos agentes em YAML e prover ferramentas de cálculo.</div>
+            <div><strong class="text-slate-200">Escopo:</strong> <code>sprint_mas/agents/prioritizer.py</code>, integração com <code>prioritization.yaml</code></div>
+            <div><strong class="text-slate-200">Meta:</strong> Produzir lista ordenada no <code>SprintState</code> sem inversão de dependências.</div>
           </div>
         </div>
 
-        <!-- FASE 4 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 4</span>
-              <h3 class="text-base font-bold text-slate-200">Agente de Priorização</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Nó de IA responsável por analisar o backlog bruto, ordenar tarefas por valor de negócio e precedências lógicas sem corromper dependências.
-          </p>
-        </div>
 
         <!-- FASE 5 -->
         <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
@@ -498,7 +504,7 @@
         <h2 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
           <span>🏛️</span> Governança de Decisões Arquiteturais (ADRs)
         </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
             <span class="text-xs font-bold text-emerald-400">ADR 0001</span>
             <h4 class="text-sm font-bold text-white mt-1">Migração n8n para LangGraph</h4>
@@ -525,6 +531,13 @@
             <h4 class="text-sm font-bold text-white mt-1">Data Loader & Validação DAG</h4>
             <p class="text-xs text-slate-400 mt-2">
               Ingestão tipada de cenários e detecção algorítmica de ciclos em O(V+E) contra dependências circulares.
+            </p>
+          </div>
+          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
+            <span class="text-xs font-bold text-emerald-400">ADR 0005</span>
+            <h4 class="text-sm font-bold text-white mt-1">Prompts BART & Ferramentas</h4>
+            <p class="text-xs text-slate-400 mt-2">
+              Prompts versionados em YAML e desacoplamento de cálculos exatos em Python (@tool) para zero alucinação matemática.
             </p>
           </div>
         </div>
@@ -567,7 +580,7 @@
               <span class="text-slate-400 block text-[11px] mb-1"># 3. Executar toda a suíte de testes com pytest</span>
               <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-amber-400 flex justify-between items-center">
                 <span>uv run pytest tests/ -v</span>
-                <span class="text-slate-500 text-[10px]">37 testes em ~1s</span>
+                <span class="text-slate-500 text-[10px]">66 testes em ~0.61s</span>
               </div>
             </div>
           </div>
@@ -580,22 +593,19 @@
               <span>🧪</span> Evidência da Suíte de Testes
             </h2>
             <span class="px-2 py-0.5 text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-md font-bold">
-              37 / 37 PASSED
+              66 / 66 PASSED
             </span>
           </div>
           <p class="text-sm text-slate-300 mb-3">
-            Output real da execução automatizada mais recente (Fases 1 e 2):
+            Output real da execução automatizada mais recente (Fases 1, 2 e 3):
           </p>
           <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] font-mono text-slate-300 overflow-y-auto max-h-56 space-y-0.5">
-            <div class="text-slate-500">tests/test_data_loader.py::test_load_scenario_b_conformance <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_data_loader.py::test_circular_dependency_chain <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_data_loader.py::test_orphan_dependency <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_llm_factory.py::test_get_llm_groq_success <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_llm_factory.py::test_get_llm_ollama_success <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_state.py::test_task_creation_valid <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_state.py::test_developer_profile_invalid_fte[1.1] <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_state.py::test_sprint_state_structure <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-emerald-400 font-bold pt-2 border-t border-slate-800">================ 37 passed in 1.21s ================</div>
+            <div class="text-slate-500">tests/test_data_loader.py (12 testes) .................... <span class="text-emerald-400">PASSED</span></div>
+            <div class="text-slate-500">tests/test_llm_factory.py (7 testes) ..................... <span class="text-emerald-400">PASSED</span></div>
+            <div class="text-slate-500">tests/test_prompts.py (7 testes) ......................... <span class="text-emerald-400">PASSED</span></div>
+            <div class="text-slate-500">tests/test_state.py (18 testes) .......................... <span class="text-emerald-400">PASSED</span></div>
+            <div class="text-slate-500">tests/test_tools.py (22 testes) .......................... <span class="text-emerald-400">PASSED</span></div>
+            <div class="text-emerald-400 font-bold pt-2 border-t border-slate-800">================ 66 passed in 0.61s ================</div>
           </div>
         </div>
 

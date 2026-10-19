@@ -1,0 +1,19 @@
+# Configurações declarativas de modelos LLM para o Sprint Planning Multi-Agent System
+version: "1.0.0"
+
+models:
+  groq:
+    provider: "groq"
+    model: "llama-3.1-8b-instant"
+    temperature: 0.0
+    max_tokens: 4096
+    response_format: "json_object"
+    description: "Provedor cloud de ultra-baixa latência para execução de inferência rápida em produção e testes ágeis."
+
+  ollama:
+    provider: "ollama"
+    model: "llama3:latest"
+    temperature: 0.0
+    base_url: "http://localhost:11434"
+    response_format: "json_object"
+    description: "Provedor on-premise / local para execução open-source e offline sem custos de API."
