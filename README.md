@@ -44,20 +44,22 @@ REIC-WESAAC/
 
 ## 🗺️ Roadmap de Implementação por Fases
 
-O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 10 fases incrementais, auditáveis e testadas:
+O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 fases incrementais, auditáveis e testadas:
 
 | Fase | Título | Foco Técnico / Escopo | Status |
 | :---: | :--- | :--- | :---: |
 | **1** | **Fundação & Contrato de Estado** | Configuração com `uv`, Pydantic v2 schemas, `SprintState` (Blackboard), fábrica híbrida de LLM (`ChatGroq` / `ChatOllama`) e testes unitários. | ✅ **Concluído** |
-| **2** | **Dados & Cenários de Teste** | Estruturação reproduzível dos Cenários A, B e C do paper em `data/processed/scenario_*.json`, com parser e testes de integridade. | ⏳ *Pendente* |
-| **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ⏳ *Pendente* |
+| **2** | **Dados & Cenários de Teste** | Estruturação reproduzível dos Cenários A, B e C do paper em `data/processed/scenario_*.json`, com parser tipado, validação de DAG e testes. | ✅ **Concluído** |
+| **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ⏳ *Próxima* |
 | **4** | **Agente de Priorização** | Nó cognitivo responsável por ordenar o backlog por valor de negócio e precedências lógicas. | ⏳ *Pendente* |
 | **5** | **Agente de Alocação** | Nó cognitivo responsável pelo casamento semântico entre competências dos desenvolvedores e carga de trabalho. | ⏳ *Pendente* |
 | **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ⏳ *Pendente* |
 | **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing. | ⏳ *Pendente* |
 | **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio no LangSmith. | ⏳ *Pendente* |
-| **9** | **Reprodução dos Cenários (A, B, C)** | Execução automatizada e comparação direta das métricas do paper (tempo, fidelidade lógica e resiliência). | ⏳ *Pendente* |
-| **10** | **Consolidação do Guia & Artigo** | Finalização do guia didático, pacote de replicação científica e documentação técnica completa. | ⏳ *Pendente* |
+| **9** | **Live Execution & Benchmarks (A, B, C)** | Execução ao vivo com o servidor/grafo dos 3 cenários e captura empírica dos tempos de inferência e tokens. | ⏳ *Pendente* |
+| **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA). | ⏳ *Pendente* |
+| **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito e checagem de semântica do implementado vs testado (Zero Scope Leak). | ⏳ *Pendente* |
+| **12** | **Documentação Minimalista & Consolidação** | Síntese minimalista de markdowns de governança, empacotamento para replicação científica e atualização final do HTML interativo. | ⏳ *Pendente* |
 
 ---
 
@@ -74,6 +76,16 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 10 f
 1. **[ADR 0001: Migração do n8n para LangGraph](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0001-migracao-n8n-para-langgraph.md)** — Substituição da ferramenta low-code por grafos de estado tipados, cíclicos e testáveis.
 2. **[ADR 0002: Padrão Blackboard com Pydantic v2 e TypedDict](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0002-padrao-blackboard-com-pydantic-e-sprintstate.md)** — Centralização da memória compartilhada em `SprintState` com redutor `add_messages` e validações de borda (`story_points > 0`, `0.0 <= fte <= 1.0`).
 3. **[ADR 0003: Fábrica Híbrida de LLMs (Groq + Ollama)](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0003-fabrica-hibrida-de-llms-groq-e-ollama.md)** — Desacoplamento da infraestrutura de IA com Groq na nuvem (grátis/rápido) e Ollama local offline.
+
+### 🗓️ 2026-10-19 — Entrega da Fase 2: Dados & Cenários de Teste Reproduzíveis
+- **Status:** ✅ Aprovado com 100% dos testes unitários passando (37/37 em 1.21s).
+- **Documentos de Governança Emitidos:**
+  - 📋 [Plano de Implementação da Fase 2](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_plano-fase2-dados-cenarios.md)
+  - 📊 [Relatório Final da Fase 2](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_relatorio-fase2-dados-cenarios.md)
+  - 🔌 [Pacote de Contexto da Fase 2](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_contexto-fase2-dados-cenarios.md)
+
+#### Architecture Decision Records (ADRs) Registrados:
+4. **[ADR 0004: Padronização de Cenários de Teste, Data Loader e Validação de DAG](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** — Ingestão estruturada de tarefas e desenvolvedores com validação algorítmica de DAG ($O(V + E)$) contra dependências circulares e órfãs.
 
 ---
 

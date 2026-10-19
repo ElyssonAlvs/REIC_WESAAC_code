@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "metadata": {
+    "project": "Sprint Planning Multi-Agent System (REIC-WESAAC)",
+    "version": "1.0.0",
+    "academic_references": [
+      {
+        "venue": "WESAAC 2025",
+        "title": "Planejamento Ágil de Sprints com Sistemas Multiagentes Cognitivos e LLMs",
+        "focus": "Validação de orquestração multiagente e resolução de gargalos de competência técnica em equipes ágeis."
+      },
+      {
+        "venue": "REIC 2026",
+        "title": "Avaliação Empírica de Grafos de Decisão com LangGraph na Resolução de Gargalos em Sprint Planning",
+        "focus": "Comparativo de robustez, detecção de ciclos em grafos de dependência e estabilidade determinística contra workflows low-code (n8n)."
+      }
+    ],
+    "description": "Especificação bruta dos cenários canônicos de teste para benchmarking dos agentes de priorização, alocação e validação de sprints."
+  },
+  "scenarios_spec": {
+    "scenario_a": {
+      "name": "Scenario A - Baseline Smoke Test",
+      "target_tasks_count": 10,
+      "target_team_size": 3,
+      "complexity": "Baixa",
+      "purpose": "Verificação funcional básica (smoke test) do pipeline LangGraph sem sobrecargas ou dependências encadeadas complexas.",
+      "team_constraints": {
+        "all_fte": 1.0
+      }
+    },
+    "scenario_b": {
+      "name": "Scenario B - Alta Complexidade & Gargalo Real do Artigo",
+      "target_tasks_count": 30,
+      "target_team_size": 5,
+      "complexity": "Alta (Gargalo Estrutural)",
+      "purpose": "Reprodução exata do experimento central dos papers WESAAC 2025 e REIC 2026. Avalia a capacidade de realocação do desenvolvedor Fullstack (dev_C) para mitigar o gargalo de backend causado pela restrição de 0.5 FTE de dev_D.",
+      "backlog_distribution": {
+        "total_tasks": 30,
+        "backend_tasks": 19,
+        "backend_percentage": 63.33,
+        "other_skills": {
+          "frontend": 5,
+          "fullstack": 4,
+          "devops": 2
+        }
+      },
+      "dependency_chains": [
+        "TSK-102 -> TSK-101",
+        "TSK-105 -> TSK-104",
+        "TSK-110 -> TSK-109",
+        "TSK-115 -> TSK-114",
+        "TSK-120 -> TSK-119"
+      ],
+      "team_profiles": [
+        { "id": "dev_A", "name": "Frontend Developer", "skills": ["frontend", "ui"], "fte": 1.0 },
+        { "id": "dev_B", "name": "Backend Specialist", "skills": ["backend", "database"], "fte": 0.7 },
+        { "id": "dev_C", "name": "Fullstack Developer", "skills": ["backend", "frontend", "fullstack"], "fte": 1.0 },
+        { "id": "dev_D", "name": "Backend Specialist", "skills": ["backend", "api"], "fte": 0.5 },
+        { "id": "dev_E", "name": "Frontend Developer", "skills": ["frontend", "mobile"], "fte": 1.0 }
+      ]
+    },
+    "scenario_c": {
+      "name": "Scenario C - Estresse & Escalabilidade Massiva",
+      "target_tasks_count": 100,
+      "target_team_size": 10,
+      "complexity": "Crítica / Escala Massiva",
+      "purpose": "Avaliação de performance, consistência de memória do estado e comportamento do LangGraph sob alta carga computacional.",
+      "backlog_distribution": {
+        "total_tasks": 100,
+        "story_points_range": [1, 8],
+        "team_size": 10
+      }
+    }
+  }
+}

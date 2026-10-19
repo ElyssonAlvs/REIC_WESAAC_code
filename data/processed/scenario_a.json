@@ -1,0 +1,116 @@
+{
+  "scenario_name": "scenario_a",
+  "description": "Baseline Smoke Test Scenario (10 tasks, 3 full-time developers)",
+  "tasks": [
+    {
+      "id": "TSK-001",
+      "title": "Configurar pipeline CI/CD inicial",
+      "description": "Configuração dos workflows do GitHub Actions para lint e testes automatizados.",
+      "story_points": 3,
+      "skill_required": "devops",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-002",
+      "title": "Criar esquema inicial de banco de dados",
+      "description": "Modelagem e migrações iniciais das tabelas de usuários e tarefas.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-003",
+      "title": "Implementar endpoint de autenticação JWT",
+      "description": "Desenvolvimento do fluxo de login e emissão de tokens JWT seguros.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": ["TSK-002"]
+    },
+    {
+      "id": "TSK-004",
+      "title": "Desenvolver tela de login responsiva",
+      "description": "Interface web de autenticação com validação de campos no frontend.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 2,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-005",
+      "title": "Integrar tela de login com API de autenticação",
+      "description": "Conexão da UI com o serviço de autenticação e armazenamento de tokens.",
+      "story_points": 3,
+      "skill_required": "fullstack",
+      "priority": 2,
+      "dependencies": ["TSK-003", "TSK-004"]
+    },
+    {
+      "id": "TSK-006",
+      "title": "Implementar CRUD básico de tarefas",
+      "description": "Endpoints RESTful para criação, leitura, atualização e exclusão de tarefas.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": ["TSK-003"]
+    },
+    {
+      "id": "TSK-007",
+      "title": "Desenvolver painel de visualização de tarefas",
+      "description": "Interface em cards/tabela para listar o backlog de tarefas ativas.",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-008",
+      "title": "Configurar containerização Docker",
+      "description": "Criação de Dockerfile e docker-compose para ambiente de desenvolvimento.",
+      "story_points": 2,
+      "skill_required": "devops",
+      "priority": 4,
+      "dependencies": ["TSK-001"]
+    },
+    {
+      "id": "TSK-009",
+      "title": "Implementar validação de payload com Pydantic",
+      "description": "Filtros de integridade e sanitização de dados nos endpoints da API.",
+      "story_points": 2,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": ["TSK-006"]
+    },
+    {
+      "id": "TSK-010",
+      "title": "Testes de usabilidade e responsividade da interface",
+      "description": "Ajustes de layout para dispositivos móveis e testes de compatibilidade.",
+      "story_points": 2,
+      "skill_required": "frontend",
+      "priority": 5,
+      "dependencies": ["TSK-007"]
+    }
+  ],
+  "team": [
+    {
+      "id": "dev_A",
+      "name": "Frontend Developer",
+      "skills": ["frontend", "ui"],
+      "fte": 1.0
+    },
+    {
+      "id": "dev_B",
+      "name": "Backend Specialist",
+      "skills": ["backend", "database"],
+      "fte": 1.0
+    },
+    {
+      "id": "dev_C",
+      "name": "Fullstack Developer",
+      "skills": ["backend", "frontend", "fullstack"],
+      "fte": 1.0
+    }
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "scenario_name": "scenario_b",
+  "description": "High Complexity & Real Bottleneck Scenario from WESAAC 2025 / REIC 2026 papers (30 tasks, 19 backend tasks, 5 devs with FTE restrictions)",
+  "tasks": [
+    {
+      "id": "TSK-101",
+      "title": "Arquitetura do barramento de eventos assíncronos",
+      "description": "Configuração da mensageria RabbitMQ e tópicos para comunicação entre serviços.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-102",
+      "title": "Implementar consumers de eventos de inventário",
+      "description": "Consumo de eventos de atualização de estoque com garantia de idempotência.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": ["TSK-101"]
+    },
+    {
+      "id": "TSK-103",
+      "title": "Otimizar consultas de reconciliação de pedidos",
+      "description": "Refatoração de queries SQL complexas e criação de índices compostos para reduzir tempo de resposta.",
+      "story_points": 8,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-104",
+      "title": "Desenvolver serviço de precificação dinâmica",
+      "description": "Engine de cálculo de regras de descontos, cupom fiscal e precificação regional.",
+      "story_points": 8,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-105",
+      "title": "Integrar cache Redis no serviço de precificação",
+      "description": "Implementação de cache com invalidação distribuída para regras de precificação.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": ["TSK-104"]
+    },
+    {
+      "id": "TSK-106",
+      "title": "Redesenhar página de checkout de compras",
+      "description": "Nova interface de checkout com fluxo em uma página (single-page checkout).",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 2,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-107",
+      "title": "Construir adapter para gateway de pagamento Stripe",
+      "description": "Integração segura via webhooks com assinatura criptográfica e fallback.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-108",
+      "title": "Implementar antifraude assíncrono no backend",
+      "description": "Envio e análise de score de risco pré-aprovação de pagamento.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-109",
+      "title": "Estruturar microsserviço de notificações por e-mail",
+      "description": "Templates de e-mail transacional e integração com serviço SMTP/SES.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-110",
+      "title": "Adicionar suporte a notificações push via WebSocket",
+      "description": "Gateway WebSocket para envio de alertas em tempo real no app e browser.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": ["TSK-109"]
+    },
+    {
+      "id": "TSK-111",
+      "title": "Componente frontend para visualização de pedidos",
+      "description": "Tabela interativa com filtros, paginação e ordenação de pedidos de clientes.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-112",
+      "title": "Desenvolver rotas de exportação de relatórios contábeis",
+      "description": "Geração assíncrona de relatórios em CSV e PDF armazenados em bucket S3.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-113",
+      "title": "Implementar rate limiting na API pública",
+      "description": "Controle de tráfego por token e IP utilizando algoritmo token bucket no Redis.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-114",
+      "title": "Criar serviço de auditoria e compliance LGPD",
+      "description": "Registro imutável de logs de acesso e alteração de dados pessoais.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-115",
+      "title": "Endpoint para exportação/exclusão de dados LGPD",
+      "description": "Implementação do direito de esquecimento e portabilidade de dados do usuário.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": ["TSK-114"]
+    },
+    {
+      "id": "TSK-116",
+      "title": "Interface administrativa para gestão de usuários",
+      "description": "Painel de controle com controle de permissões baseado em papéis (RBAC).",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-117",
+      "title": "Refatorar validação de sessão distribuída",
+      "description": "Substituição de sessões locais por cookies assinados com JWT e verificação em Redis.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-118",
+      "title": "Automatizar expurgo de registros temporários no banco",
+      "description": "Rotina cron de limpeza de carrinhos abandonados e tokens expirados.",
+      "story_points": 2,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-119",
+      "title": "Implementar backend para cálculo de frete geolocalizado",
+      "description": "Integração com APIs de correios e transportadoras com fallback para tabela fixa.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-120",
+      "title": "Cache de cotações de frete por CEP",
+      "description": "Otimização de custos de chamadas a provedores externos armazenando fretes por 2 horas.",
+      "story_points": 2,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": ["TSK-119"]
+    },
+    {
+      "id": "TSK-121",
+      "title": "Widget de cálculo de frete na página de produto",
+      "description": "Componente com busca automática de endereço a partir do CEP digitado.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-122",
+      "title": "Implementar métricas Prometheus nos endpoints críticos",
+      "description": "Instrumentação de latência, taxa de erro HTTP e consumo de conexões DB.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-123",
+      "title": "Desenvolver tela e API de edição de perfil de cliente",
+      "description": "Funcionalidade completa end-to-end com atualização em tempo real de avatar e preferências.",
+      "story_points": 5,
+      "skill_required": "fullstack",
+      "priority": 4,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-124",
+      "title": "Endpoint para redefinição segura de senha",
+      "description": "Geração de token de recuperação com hash sha256 e expiração em 15 minutos.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 5,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-125",
+      "title": "Módulo de busca inteligente com autocompletar",
+      "description": "Frontend com debounce e backend integrado ao ElasticSearch para consulta de produtos.",
+      "story_points": 8,
+      "skill_required": "fullstack",
+      "priority": 5,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-126",
+      "title": "Ajustes de acessibilidade WCAG 2.1 no header e footer",
+      "description": "Navegação por teclado, contraste adequado e tags ARIA para leitores de tela.",
+      "story_points": 2,
+      "skill_required": "frontend",
+      "priority": 5,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-127",
+      "title": "Painel de telemetria e status dos microsserviços",
+      "description": "Visualização consolidada de health check e disponibilidade da infraestrutura.",
+      "story_points": 5,
+      "skill_required": "fullstack",
+      "priority": 5,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-128",
+      "title": "Configurar auto-scaling horizontal no Kubernetes (HPA)",
+      "description": "Definição de limites de CPU/memória e regras de escalabilidade dos pods de backend.",
+      "story_points": 3,
+      "skill_required": "devops",
+      "priority": 5,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-129",
+      "title": "Sistema de avaliação de produtos com upload de fotos",
+      "description": "Formulário de reviews com validação de imagem e persistência em banco e storage.",
+      "story_points": 5,
+      "skill_required": "fullstack",
+      "priority": 5,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-130",
+      "title": "Configurar rotinas de backup automatizado do PostgreSQL",
+      "description": "Scripts com pg_dump e criptografia enviando backups diários para o bucket S3 seguro.",
+      "story_points": 3,
+      "skill_required": "devops",
+      "priority": 5,
+      "dependencies": []
+    }
+  ],
+  "team": [
+    {
+      "id": "dev_A",
+      "name": "Frontend Developer",
+      "skills": ["frontend", "ui"],
+      "fte": 1.0
+    },
+    {
+      "id": "dev_B",
+      "name": "Backend Specialist",
+      "skills": ["backend", "database"],
+      "fte": 0.7
+    },
+    {
+      "id": "dev_C",
+      "name": "Fullstack Developer",
+      "skills": ["backend", "frontend", "fullstack"],
+      "fte": 1.0
+    },
+    {
+      "id": "dev_D",
+      "name": "Backend Specialist",
+      "skills": ["backend", "api"],
+      "fte": 0.5
+    },
+    {
+      "id": "dev_E",
+      "name": "Frontend Developer",
+      "skills": ["frontend", "mobile"],
+      "fte": 1.0
+    }
+  ]
+}
