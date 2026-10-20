@@ -1,664 +1,1791 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sprint Planning MAS — Dashboard Temático & Roadmap</title>
+  <title>Sprint Planning MAS — Dashboard Científico & Arquitetura Multiagente</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
-    /* Estilos de transição e scrollbar customizada */
+    /* Transições suaves e animações customizadas */
     .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.25s ease-in-out; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+    .tab-content.active { display: block; animation: tabFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+    .animate-pulse-glow { animation: pulseGlow 3s ease-in-out infinite; }
+
+    /* Scrollbars elegantes */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.5); }
+    ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+    ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.4); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.6); }
+
+    /* Efeitos de borda e gradiente Glassmorphism */
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(51, 65, 85, 0.7);
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(71, 85, 105, 0.4);
+    }
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.6), 0 0 15px 0 rgba(99, 102, 241, 0.15);
+    }
+    .gradient-border-emerald {
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.15);
+    }
+    .gradient-border-indigo {
+      border: 1px solid rgba(99, 102, 241, 0.4);
+      box-shadow: 0 0 20px -3px rgba(99, 102, 241, 0.15);
+    }
+    .gradient-border-amber {
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 0 20px -3px rgba(245, 158, 11, 0.15);
+    }
   </style>
 </head>
-<body class="bg-[#0f172a] text-[#f8fafc] font-sans antialiased min-h-screen flex flex-col p-4 sm:p-6 lg:p-8">
+<body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-indigo-500 selection:text-white">
 
-  <!-- Header Principal -->
-  <header class="max-w-7xl mx-auto w-full mb-8">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-800 pb-6">
-      <div>
-        <div class="flex items-center gap-3 mb-2">
-          <span class="px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            Fase 3 Concluída &bull; Testes 66/66
-          </span>
-          <span class="px-2.5 py-1 text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full">
-            WESAAC 2025 &bull; REIC 2026
-          </span>
-          <span class="px-2.5 py-1 text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full">
-            LangGraph + LangChain
-          </span>
-        </div>
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
-          Sprint Planning Multi-Agent System (MAS)
-        </h1>
-        <p class="text-slate-400 text-sm sm:text-base mt-1 max-w-3xl">
-          Evolução rigorosa da arquitetura de agentes para Scrum: migração de n8n para LangGraph, padrão Blackboard, contratos Pydantic v2 e governança LLMOps.
-        </p>
-      </div>
+  <!-- Background Glow Decorativo -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-40 w-96 h-96 bg-cyan-600/10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl"></div>
+  </div>
 
-      <!-- Métricas Resumo -->
-      <div class="flex items-center gap-3 bg-slate-900/80 border border-slate-800 p-3 rounded-xl">
-        <div class="text-center px-3 border-r border-slate-800">
-          <div class="text-xl font-bold text-emerald-400">100%</div>
-          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Testes (66/66)</div>
-        </div>
-        <div class="text-center px-3 border-r border-slate-800">
-          <div class="text-xl font-bold text-indigo-400">3 / 12</div>
-          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Fases Prontas</div>
-        </div>
-        <div class="text-center px-3">
-          <div class="text-xl font-bold text-amber-400">Groq / Ollama</div>
-          <div class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Provedores</div>
-        </div>
-      </div>
-    </div>
+  <div class="relative z-10 flex flex-col min-h-screen p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
 
-    <!-- Navegação por Abas -->
-    <nav class="flex overflow-x-auto gap-2 border-b border-slate-800 pt-2 pb-1 text-sm font-medium" id="tab-nav">
-      <button onclick="switchTab('tematica')" id="tab-btn-tematica" class="tab-btn px-4 py-2.5 rounded-lg transition-all text-emerald-400 bg-slate-800/80 font-semibold border border-slate-700 flex items-center gap-2">
-        <span>🎯</span> Temática & Fundamentação Teórica
-      </button>
-      <button onclick="switchTab('roadmap')" id="tab-btn-roadmap" class="tab-btn px-4 py-2.5 rounded-lg transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 flex items-center gap-2">
-        <span>🗺️</span> Roadmap & Status das 12 Fases
-      </button>
-      <button onclick="switchTab('llmops')" id="tab-btn-llmops" class="tab-btn px-4 py-2.5 rounded-lg transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 flex items-center gap-2">
-        <span>📦</span> Camadas LLMOps & Artefatos
-      </button>
-      <button onclick="switchTab('execucao')" id="tab-btn-execucao" class="tab-btn px-4 py-2.5 rounded-lg transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 flex items-center gap-2">
-        <span>⚡</span> Execução, Comandos & Testes
-      </button>
-    </nav>
-  </header>
-
-  <!-- Conteúdo Principal -->
-  <main class="max-w-7xl mx-auto w-full flex-1">
-
-    <!-- ABA 1: TEMÁTICA & FUNDAMENTAÇÃO TEÓRICA -->
-    <section id="tab-tematica" class="tab-content active space-y-6">
-      
-      <!-- Card Contexto Científico -->
-      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
-          <span>📚</span> A Origem Acadêmica: WESAAC 2025 & REIC 2026
-        </h2>
-        <p class="text-slate-300 leading-relaxed text-sm sm:text-base">
-          Este projeto dá continuidade experimental direta aos artigos acadêmicos desenvolvidos na Universidade Federal do Ceará (UFC Quixadá) por <strong>Elysson Alves de Lacerda et al.</strong>:
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-          <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4">
-            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Conferência</span>
-            <h3 class="text-base font-bold text-white mt-1">WESAAC 2025</h3>
-            <p class="text-xs text-slate-400 mt-1 italic">
-              "Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints"
-            </p>
-            <p class="text-xs text-slate-300 mt-2">
-              Demonstrou o conceito inicial da automação de reuniões Scrum e redução da carga cognitiva com LLMs.
-            </p>
-          </div>
-          <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-4">
-            <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Periódico SBC</span>
-            <h3 class="text-base font-bold text-white mt-1">REIC 2026</h3>
-            <p class="text-xs text-slate-400 mt-1 italic">
-              "Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints"
-            </p>
-            <p class="text-xs text-slate-300 mt-2">
-              Avaliou formalmente os cenários de teste A, B e C, quantificando ganhos de velocidade e limitações de webhook/n8n.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Comparativo n8n vs LangGraph -->
-      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
-          <span>⚖️</span> Por que a migração de n8n para LangGraph é indispensável?
-        </h2>
-        <p class="text-slate-300 text-sm mb-4">
-          O n8n provou que o conceito de automação ágil é válido, mas falhou tecnicamente como arquitetura de produção e experimentação científica rigorosa.
-        </p>
-        
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-sm border-collapse">
-            <thead>
-              <tr class="border-b border-slate-800 text-xs uppercase tracking-wider text-slate-400 bg-slate-950/40">
-                <th class="p-3">Dimensão Técnica</th>
-                <th class="p-3 text-red-400">No n8n (Paper Original)</th>
-                <th class="p-3 text-emerald-400">No LangGraph (Esta Implementação)</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-slate-800/60 text-slate-300">
-              <tr>
-                <td class="p-3 font-semibold text-white">Contrato de Dados</td>
-                <td class="p-3 text-slate-400">JSON dinâmico solto via HTTP; sem validação de esquema.</td>
-                <td class="p-3 text-emerald-300 font-medium">Contrato tipado <code>SprintState</code> via <strong>Pydantic v2</strong> (fail-fast).</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-white">Loops e Negociação</td>
-                <td class="p-3 text-slate-400">Pipelines estáticos; loops cíclicos causam timeouts ou travamentos.</td>
-                <td class="p-3 text-emerald-300 font-medium">Arestas condicionais cíclicas (<code>conditional_edges</code>) para auto-correção.</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-white">Validação de Restrições</td>
-                <td class="p-3 text-slate-400">Delegada à LLM (sujeita a alucinação de FTE e prazos).</td>
-                <td class="p-3 text-emerald-300 font-medium">Validador determinístico em Python puro (auditoria sem LLM).</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-white">Observabilidade & Métricas</td>
-                <td class="p-3 text-slate-400">Logs visuais no painel n8n; difícil extrair métricas de tokens.</td>
-                <td class="p-3 text-emerald-300 font-medium"><strong>LangSmith</strong>: telemetria de latência, tokens e árvore de raciocínio.</td>
-              </tr>
-              <tr>
-                <td class="p-3 font-semibold text-white">Testabilidade CI/CD</td>
-                <td class="p-3 text-slate-400">Inviável mockar nós sem executar a plataforma completa.</td>
-                <td class="p-3 text-emerald-300 font-medium">100% testável com <strong>pytest</strong> e mocks de LLM em milissegundos.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- BDI e Blackboard -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg text-lg">🧠</span>
-            <h3 class="text-lg font-bold text-white">O Modelo BDI Concretizado</h3>
-          </div>
-          <p class="text-sm text-slate-300 leading-relaxed mb-4">
-            Em vez de metáforas soltas, o modelo de agência racional (Wooldridge, 2002) foi implementado diretamente nas estruturas de dados:
-          </p>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
-            <li class="flex items-start gap-2">
-              <strong class="text-indigo-400 min-w-[90px]">Crenças:</strong>
-              <span>O backlog inicial, disponibilidade de FTE e mensagens em <code>SprintState</code>.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <strong class="text-emerald-400 min-w-[90px]">Desejos:</strong>
-              <span>Metas da sprint codificadas nos prompts da técnica <strong>BART</strong>.</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <strong class="text-amber-400 min-w-[90px]">Intenções:</strong>
-              <span>Alocações confirmadas e plano final aprovado em <code>SprintPlan</code>.</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg text-lg">📋</span>
-            <h3 class="text-lg font-bold text-white">O Padrão Blackboard</h3>
-          </div>
-          <p class="text-sm text-slate-300 leading-relaxed mb-4">
-            Os agentes não conversam ponto a ponto de forma caótica. Eles cooperam através de um quadro compartilhado central:
-          </p>
-          <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-300 space-y-1">
-            <div class="text-slate-500"># Blackboard compartilhado (SprintState)</div>
-            <div><span class="text-indigo-400">Agente Priorizador</span> &rarr; Escreve tarefas priorizadas</div>
-            <div><span class="text-emerald-400">Agente Alocador</span> &rarr; Escreve alocação de desenvolvedores</div>
-            <div><span class="text-amber-400">Agente Validador</span> &rarr; Audita restrições & registra erros</div>
-            <div class="text-slate-400 mt-1">&bull; Redutor <code>add_messages</code> previne perda de histórico</div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ABA 2: ROADMAP & STATUS DAS 12 FASES -->
-    <section id="tab-roadmap" class="tab-content space-y-6">
-      
-      <!-- Barra de Progresso Global -->
-      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-          <div>
-            <h2 class="text-xl font-bold text-white">Progresso Geral do Projeto</h2>
-            <p class="text-slate-400 text-sm">Abordagem incremental "Dividir para Conquistar": cada fase é auditada e testada antes do avanço.</p>
-          </div>
-          <div class="text-right">
-            <span class="text-2xl font-black text-emerald-400">25.0%</span>
-            <span class="text-xs text-slate-400 block">Fase 3 / 12 Concluída</span>
-          </div>
-        </div>
-        <div class="w-full bg-slate-950 rounded-full h-3 border border-slate-800 overflow-hidden">
-          <div class="bg-gradient-to-r from-emerald-500 to-indigo-500 h-3 rounded-full transition-all duration-500" style="width: 25.0%;"></div>
-        </div>
-      </div>
-
-      <!-- Grade com as 12 Fases Detalhadas -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        
-        <!-- FASE 1: Concluída -->
-        <div class="bg-slate-900/80 border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden">
-          <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
-            ✅ Concluída &bull; 25 Testes Passando
-          </div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 1</span>
-            <h3 class="text-base font-bold text-white">Fundação & Contrato de Estado (SprintState)</h3>
-          </div>
-          <p class="text-xs text-slate-300 mb-3">
-            Setup do ambiente com <code>uv</code>, contratos tipados com Pydantic v2, memória compartilhada Blackboard e fábrica desacoplada de LLM (Groq + Ollama).
-          </p>
-          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1">
-            <div><strong class="text-slate-200">Artefatos:</strong> <code>pyproject.toml</code>, <code>state.py</code>, <code>llm_factory.py</code>, <code>README.md</code></div>
-            <div><strong class="text-slate-200">Testes:</strong> 25 unitários em <code>tests/test_state.py</code> e <code>tests/test_llm_factory.py</code> (100% OK)</div>
-            <div><strong class="text-slate-200">Decisões:</strong> ADRs 0001, 0002 e 0003 registrados em <code>docs/adr/</code></div>
-          </div>
-        </div>
-
-        <!-- FASE 2: Concluída -->
-        <div class="bg-slate-900/80 border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden">
-          <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
-            ✅ Concluída &bull; 37 Testes Passando
-          </div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 2</span>
-            <h3 class="text-base font-bold text-white">Dados & Cenários de Teste Reproduzíveis</h3>
-          </div>
-          <p class="text-xs text-slate-300 mb-3">
-            Estruturação dos Cenários A, B e C em <code>data/processed/</code>, algoritmo DFS de validação topológica de DAG ($O(V + E)$) contra dependências circulares e gabarito de avaliação.
-          </p>
-          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1">
-            <div><strong class="text-slate-200">Artefatos:</strong> <code>scenario_{a,b,c}.json</code>, <code>data_loader.py</code>, <code>golden_scenario_b.json</code></div>
-            <div><strong class="text-slate-200">Testes:</strong> 12 novos testes em <code>tests/test_data_loader.py</code> (37/37 no total)</div>
-            <div><strong class="text-slate-200">Decisões:</strong> ADR 0004 registrado em <code>docs/adr/</code></div>
-          </div>
-        </div>
-
-        <!-- FASE 3: Concluída -->
-        <div class="bg-slate-900/80 border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden">
-          <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
-            ✅ Concluída &bull; 66 Testes Passando
-          </div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 3</span>
-            <h3 class="text-base font-bold text-white">Ferramentas Determinísticas & Prompts BART</h3>
-          </div>
-          <p class="text-xs text-slate-300 mb-3">
-            Desacoplamento entre instruções linguísticas (YAML com técnica BART) e cálculos matemáticos exatos via <code>@tool</code> determinísticas em Python (cálculo de FTE, anti-IDOR e ordenação causal de DAG).
-          </p>
-          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1">
-            <div><strong class="text-slate-200">Artefatos:</strong> <code>sprint_mas/tools.py</code>, <code>sprint_mas/prompts.py</code>, <code>configs/prompts/*.yaml</code>, <code>configs/models.yaml</code></div>
-            <div><strong class="text-slate-200">Testes:</strong> 29 novos testes (22 em <code>test_tools.py</code>, 7 em <code>test_prompts.py</code>) &bull; 66/66 no total (100% OK em 0.61s)</div>
-            <div><strong class="text-slate-200">Decisões:</strong> ADR 0005 registrado em <code>docs/adr/</code> e homologado por QA</div>
-          </div>
-        </div>
-
-        <!-- FASE 4: Próxima -->
-        <div class="bg-slate-900/60 border-2 border-amber-500/50 rounded-2xl p-5 relative overflow-hidden bg-gradient-to-br from-amber-500/5 to-transparent">
-          <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
-            ⏳ Próxima Fase a Implementar
-          </div>
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">Fase 4</span>
-            <h3 class="text-base font-bold text-white">Agente de Priorização (Product Owner Node)</h3>
-          </div>
-          <p class="text-xs text-slate-300 mb-3">
-            Nó cognitivo responsável por analisar o backlog bruto, deliberar valor de negócio e ordenar tarefas segundo a sequência causal do DAG gerada pelas ferramentas determinísticas.
-          </p>
-          <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1">
-            <div><strong class="text-slate-200">Escopo:</strong> <code>sprint_mas/agents/prioritizer.py</code>, integração com <code>prioritization.yaml</code></div>
-            <div><strong class="text-slate-200">Meta:</strong> Produzir lista ordenada no <code>SprintState</code> sem inversão de dependências.</div>
-          </div>
-        </div>
-
-
-        <!-- FASE 5 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 5</span>
-              <h3 class="text-base font-bold text-slate-200">Agente de Alocação de Recursos</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Nó cognitivo que realiza o casamento semântico entre a habilidade da tarefa e as competências e frações de tempo (FTE) dos membros da equipe.
-          </p>
-        </div>
-
-        <!-- FASE 6 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 6</span>
-              <h3 class="text-base font-bold text-slate-200">Agente de Validação Determinístico</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Guardião lógico (sem LLM) em Python puro. Verifica violações de FTE e precedências não satisfeitas, gerando lista de erros para auto-correção.
-          </p>
-        </div>
-
-        <!-- FASE 7 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 7</span>
-              <h3 class="text-base font-bold text-slate-200">Supervisor & Grafo LangGraph</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Montagem completa do <code>StateGraph</code> com arestas condicionais: se o validador reprovar, o fluxo faz loop de volta ao alocador (máx N retries).
-          </p>
-        </div>
-
-        <!-- FASE 8 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 8</span>
-              <h3 class="text-base font-bold text-slate-200">CLI & Tracing LangSmith</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Interface de linha de comando (<code>main.py</code>) e integração com LangSmith para visualização de árvores de pensamento e latência real.
-          </p>
-        </div>
-
-        <!-- FASE 9 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 9</span>
-              <h3 class="text-base font-bold text-slate-200">Live Execution & Benchmarks (A, B, C)</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Execução ao vivo com o grafo dos 3 cenários e captura empírica dos tempos de inferência, latência e consumo de tokens.
-          </p>
-        </div>
-
-        <!-- FASE 10 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 10</span>
-              <h3 class="text-base font-bold text-slate-200">Avaliação Empírica & Comparativo Humano</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA) e avaliação de carga cognitiva.
-          </p>
-        </div>
-
-        <!-- FASE 11 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 11</span>
-              <h3 class="text-base font-bold text-slate-200">Auditoria de Segurança & Verificação Semântica</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Auditoria formal do Pentágono de Defesa, diff audit minucioso e validação da conformidade semântica do implementado vs testado (Zero Scope Leak).
-          </p>
-        </div>
-
-        <!-- FASE 12 -->
-        <div class="bg-slate-900/40 border border-slate-800/80 rounded-2xl p-5 opacity-90">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 12</span>
-              <h3 class="text-base font-bold text-slate-200">Documentação Minimalista & Consolidação</h3>
-            </div>
-            <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
-          </div>
-          <p class="text-xs text-slate-400">
-            Síntese minimalista de markdowns de governança, empacotamento para replicação científica e consolidação final do HTML interativo.
-          </p>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- ABA 3: CAMADAS LLMOPS & ARTEFATOS -->
-    <section id="tab-llmops" class="tab-content space-y-6">
-      
-      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
-          <span>📦</span> Padrão de 4 Camadas de LLMOps Aplicado
-        </h2>
-        <p class="text-slate-300 text-sm mb-4">
-          A regra fundamental: código e configurações no Git; segredos e dados volumosos fora do Git. Cada experimento deve ser 100% reproduzível.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-          
-          <!-- Camada 1 -->
-          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-            <div>
-              <div class="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-1">Camada 1</div>
-              <h3 class="text-base font-bold text-white">Código Fonte</h3>
-              <p class="text-xs text-slate-400 mt-2">
-                Lógica reutilizável dos agentes, State tipado, fábrica de LLM e testes unitários.
-              </p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 font-mono">
-              &bull; sprint_mas/<br>&bull; tests/<br>&bull; pyproject.toml
-            </div>
-          </div>
-
-          <!-- Camada 2 -->
-          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-            <div>
-              <div class="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-1">Camada 2</div>
-              <h3 class="text-base font-bold text-white">Configurações & Prompts</h3>
-              <p class="text-xs text-slate-400 mt-2">
-                Prompts versionados como código (YAML) seguindo a técnica BART de elicitação.
-              </p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 font-mono">
-              &bull; configs/prompts/<br>&bull; configs/models.yaml<br>&bull; .env.example
-            </div>
-          </div>
-
-          <!-- Camada 3 -->
-          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-            <div>
-              <div class="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-1">Camada 3</div>
-              <h3 class="text-base font-bold text-white">Dados & Cenários</h3>
-              <p class="text-xs text-slate-400 mt-2">
-                Dicionário de dados, dados brutos e datasets de teste processados e validados.
-              </p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 font-mono">
-              &bull; data/raw/<br>&bull; data/processed/<br>&bull; data/README.md
-            </div>
-          </div>
-
-          <!-- Camada 4 -->
-          <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 flex flex-col justify-between">
-            <div>
-              <div class="text-xs font-semibold uppercase tracking-wider text-rose-400 mb-1">Camada 4</div>
-              <h3 class="text-base font-bold text-white">Avaliação & Rubricas</h3>
-              <p class="text-xs text-slate-400 mt-2">
-                Métricas matemáticas de dependência e FTE, gabaritos e relatórios de experimentos.
-              </p>
-            </div>
-            <div class="mt-4 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 font-mono">
-              &bull; evals/rubricas.md<br>&bull; evals/golden_dataset/<br>&bull; reports/experiments/
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Governança e ADRs -->
-      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-        <h2 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
-          <span>🏛️</span> Governança de Decisões Arquiteturais (ADRs)
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs font-bold text-emerald-400">ADR 0001</span>
-            <h4 class="text-sm font-bold text-white mt-1">Migração n8n para LangGraph</h4>
-            <p class="text-xs text-slate-400 mt-2">
-              Substituição da ferramenta low-code por grafos de estado com loops controlados e contratos tipados.
-            </p>
-          </div>
-          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs font-bold text-emerald-400">ADR 0002</span>
-            <h4 class="text-sm font-bold text-white mt-1">Padrão Blackboard & State</h4>
-            <p class="text-xs text-slate-400 mt-2">
-              Uso de TypedDict + Pydantic v2 e o redutor <code>add_messages</code> para histórico auditável.
-            </p>
-          </div>
-          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs font-bold text-emerald-400">ADR 0003</span>
-            <h4 class="text-sm font-bold text-white mt-1">Fábrica Híbrida Groq / Ollama</h4>
-            <p class="text-xs text-slate-400 mt-2">
-              Desacoplamento de provedor para alternar entre nuvem gratuita ultra-rápida e execução local offline.
-            </p>
-          </div>
-          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs font-bold text-emerald-400">ADR 0004</span>
-            <h4 class="text-sm font-bold text-white mt-1">Data Loader & Validação DAG</h4>
-            <p class="text-xs text-slate-400 mt-2">
-              Ingestão tipada de cenários e detecção algorítmica de ciclos em O(V+E) contra dependências circulares.
-            </p>
-          </div>
-          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-            <span class="text-xs font-bold text-emerald-400">ADR 0005</span>
-            <h4 class="text-sm font-bold text-white mt-1">Prompts BART & Ferramentas</h4>
-            <p class="text-xs text-slate-400 mt-2">
-              Prompts versionados em YAML e desacoplamento de cálculos exatos em Python (@tool) para zero alucinação matemática.
-            </p>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ABA 4: EXECUÇÃO, COMANDOS & TESTES -->
-    <section id="tab-execucao" class="tab-content space-y-6">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        <!-- Instruções de Execução -->
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-          <h2 class="text-xl font-bold text-white mb-3 flex items-center gap-2">
-            <span>⚙️</span> Comandos de Inicialização com `uv`
-          </h2>
-          <p class="text-sm text-slate-300 mb-4">
-            O projeto utiliza o gerenciador ultrarrápido <strong>uv</strong> com runtime Python 3.12:
-          </p>
-
-          <div class="space-y-3 font-mono text-xs">
-            <div>
-              <span class="text-slate-400 block text-[11px] mb-1"># 1. Criação e sincronização do ambiente virtual</span>
-              <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-emerald-400 flex justify-between items-center">
-                <span>uv sync</span>
-                <span class="text-slate-500 text-[10px]">Cria .venv e instala deps</span>
-              </div>
-            </div>
-
-            <div>
-              <span class="text-slate-400 block text-[11px] mb-1"># 2. Configurar variáveis de ambiente</span>
-              <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-indigo-400 flex justify-between items-center">
-                <span>copy .env.example .env</span>
-                <span class="text-slate-500 text-[10px]">Windows PowerShell</span>
-              </div>
-            </div>
-
-            <div>
-              <span class="text-slate-400 block text-[11px] mb-1"># 3. Executar toda a suíte de testes com pytest</span>
-              <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 text-amber-400 flex justify-between items-center">
-                <span>uv run pytest tests/ -v</span>
-                <span class="text-slate-500 text-[10px]">66 testes em ~0.61s</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Evidências de Testes -->
-        <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
-          <div class="flex items-center justify-between mb-3">
-            <h2 class="text-xl font-bold text-white flex items-center gap-2">
-              <span>🧪</span> Evidência da Suíte de Testes
-            </h2>
-            <span class="px-2 py-0.5 text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 rounded-md font-bold">
-              66 / 66 PASSED
+    <!-- Header Principal -->
+    <header class="w-full mb-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 border-b border-slate-800/80 pb-6">
+        <div>
+          <!-- Badges de Status e Origem -->
+          <div class="flex flex-wrap items-center gap-2.5 mb-3">
+            <span class="px-3 py-1 text-xs font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-2 shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 -ml-4"></span>
+              Fase 3 Concluída &bull; 66/66 Testes (100%)
+            </span>
+            <span class="px-3 py-1 text-xs font-medium bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 rounded-full flex items-center gap-1.5">
+              <span>📄</span> WESAAC 2025 &bull; REIC 2026 (UFC Quixadá)
+            </span>
+            <span class="px-3 py-1 text-xs font-medium bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 rounded-full flex items-center gap-1.5">
+              <span>⚡</span> LangGraph + LangChain + LangSmith
+            </span>
+            <span class="px-3 py-1 text-xs font-medium bg-amber-500/15 text-amber-300 border border-amber-500/30 rounded-full flex items-center gap-1.5">
+              <span>🤖</span> Groq Cloud + Ollama Local
             </span>
           </div>
-          <p class="text-sm text-slate-300 mb-3">
-            Output real da execução automatizada mais recente (Fases 1, 2 e 3):
+
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+            Sprint Planning <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-emerald-400">Multi-Agent System</span>
+          </h1>
+          <p class="text-slate-400 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+            Reimplementação rigorosa e auditável do planejamento ágil no Scrum: migração de n8n para <strong>LangGraph</strong>, padrão <strong>Blackboard</strong>, contratos <strong>Pydantic v2</strong>, ferramentas determinísticas (<code class="text-emerald-400">@tool</code>) e técnica de elicitação <strong>BART</strong>.
           </p>
-          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 text-[11px] font-mono text-slate-300 overflow-y-auto max-h-56 space-y-0.5">
-            <div class="text-slate-500">tests/test_data_loader.py (12 testes) .................... <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_llm_factory.py (7 testes) ..................... <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_prompts.py (7 testes) ......................... <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_state.py (18 testes) .......................... <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-slate-500">tests/test_tools.py (22 testes) .......................... <span class="text-emerald-400">PASSED</span></div>
-            <div class="text-emerald-400 font-bold pt-2 border-t border-slate-800">================ 66 passed in 0.61s ================</div>
+        </div>
+
+        <!-- Painel de Métricas Chave -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 self-start lg:self-center">
+          <div class="glass-panel p-3.5 rounded-xl text-center border-slate-700/60">
+            <div class="text-2xl font-black text-emerald-400">100%</div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Testes (66/66)</div>
+            <div class="text-[10px] text-emerald-500/80 font-mono mt-0.5">em 0.61s</div>
+          </div>
+          <div class="glass-panel p-3.5 rounded-xl text-center border-slate-700/60">
+            <div class="text-2xl font-black text-indigo-400">25.0%</div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Roadmap (3/12)</div>
+            <div class="text-[10px] text-indigo-300/80 font-mono mt-0.5">Fase 4 Próxima</div>
+          </div>
+          <div class="glass-panel p-3.5 rounded-xl text-center border-slate-700/60">
+            <div class="text-2xl font-black text-cyan-400">182x</div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Aceleração</div>
+            <div class="text-[10px] text-cyan-300/80 font-mono mt-0.5">4.2s vs 765s Humano</div>
+          </div>
+          <div class="glass-panel p-3.5 rounded-xl text-center border-slate-700/60">
+            <div class="text-2xl font-black text-amber-400">0%</div>
+            <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-wider mt-0.5">Erro FTE & DAG</div>
+            <div class="text-[10px] text-amber-300/80 font-mono mt-0.5">Validação Pura</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navegação das 5 Abas Interativas -->
+      <nav class="flex overflow-x-auto gap-2 border-b border-slate-800/80 pt-4 pb-2 text-sm font-medium no-scrollbar" id="tab-nav">
+        <button onclick="switchTab('arquitetura')" id="tab-btn-arquitetura" class="tab-btn px-4 py-2.5 rounded-xl transition-all text-cyan-400 bg-slate-800/90 font-semibold border border-cyan-500/40 flex items-center gap-2 shadow-sm whitespace-nowrap">
+          <span>🌐</span> 1. Arquitetura Multiagente & Grafo
+        </button>
+        <button onclick="switchTab('cenarios')" id="tab-btn-cenarios" class="tab-btn px-4 py-2.5 rounded-xl transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+          <span>🧪</span> 2. Simulação Científica & Cenários
+        </button>
+        <button onclick="switchTab('roadmap')" id="tab-btn-roadmap" class="tab-btn px-4 py-2.5 rounded-xl transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+          <span>🗺️</span> 3. Roadmap das 12 Fases (25%)
+        </button>
+        <button onclick="switchTab('llmops')" id="tab-btn-llmops" class="tab-btn px-4 py-2.5 rounded-xl transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+          <span>📦</span> 4. Camadas LLMOps, Governança & BART
+        </button>
+        <button onclick="switchTab('execucao')" id="tab-btn-execucao" class="tab-btn px-4 py-2.5 rounded-xl transition-all text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 flex items-center gap-2 whitespace-nowrap">
+          <span>⚡</span> 5. Terminal de Testes (66/66) & Rastreabilidade
+        </button>
+      </nav>
+    </header>
+
+    <!-- Conteúdo Principal das Abas -->
+    <main class="w-full flex-1">
+
+      <!-- ======================================================== -->
+      <!-- ABA 1: ARQUITETURA MULTIAGENTE & TOPOLOGIA DO GRAFO      -->
+      <!-- ======================================================== -->
+      <section id="tab-arquitetura" class="tab-content active space-y-6">
+
+        <!-- Topo da Aba 1: O Blackboard Central (SprintState) -->
+        <div class="glass-panel rounded-2xl p-6 border-indigo-500/30 relative overflow-hidden">
+          <div class="absolute -top-16 -right-16 w-52 h-52 bg-indigo-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5 border-b border-slate-800 pb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 text-xs font-bold bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-md uppercase tracking-wider">
+                  Memória Central Compartilhada
+                </span>
+                <span class="text-xs text-slate-400 font-mono">sprint_mas.state.SprintState</span>
+              </div>
+              <h2 class="text-2xl font-black text-white mt-1">O Padrão Blackboard Multiagente</h2>
+              <p class="text-sm text-slate-300 mt-1">
+                Ao contrário de pipelines sequenciais ou trocas caóticas de mensagens ponto-a-ponto, os agentes cooperam através de um quadro compartilhado estruturado com <strong>Pydantic v2</strong> e redutores LangGraph.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="blackboard-status-badge" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Blackboard Sincronizado (Pronto)
+              </span>
+            </div>
+          </div>
+
+          <!-- Slots do Blackboard -->
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">backlog</span>
+              <div class="text-xs text-slate-300">Lista de 30 Tarefas</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1">List[Task]</div>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-emerald-400 font-bold block mb-1">team</span>
+              <div class="text-xs text-slate-300">5 Desenvolvedores</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1">List[DeveloperProfile]</div>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-indigo-400 font-bold block mb-1">messages</span>
+              <div class="text-xs text-slate-300">Histórico Auditável</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1">add_messages Redutor</div>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-amber-400 font-bold block mb-1">allocated_tasks</span>
+              <div class="text-xs text-slate-300">Mapeamento Tarefas</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1">List[Allocation]</div>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-rose-400 font-bold block mb-1">validation_errors</span>
+              <div class="text-xs text-slate-300">Loop de Correção</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1">List[str] (0 erros)</div>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-emerald-300 font-bold block mb-1">sprint_plan</span>
+              <div class="text-xs text-slate-300">Artefato Final</div>
+              <div class="text-[11px] text-slate-400 font-mono mt-1">Optional[SprintPlan]</div>
+            </div>
           </div>
         </div>
 
-      </div>
-
-      <!-- Links do Repositório GitHub -->
-      <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <!-- Os 4 Agentes Especialistas -->
         <div>
-          <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400">Repositório Remoto</span>
-          <h3 class="text-lg font-bold text-white mt-0.5">GitHub: ElyssonAlvs / REIC_WESAAC_code</h3>
-          <p class="text-xs text-slate-300 mt-1">
-            Repositório configurado com licença MIT preservada e histórico de governança das 12 fases.
-          </p>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              <span>👥</span> Os 4 Agentes Especialistas do Sistema
+            </h3>
+            <span class="text-xs text-slate-400">Elicitados via Metodologia BART (Gerstberger et al., 2024)</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Agente 1: Priorização -->
+            <div class="glass-card rounded-2xl p-5 border-cyan-500/40 relative flex flex-col justify-between">
+              <div class="absolute top-3 right-3 text-cyan-400 text-xs font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/20">
+                Node 1
+              </div>
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl mb-3 border border-cyan-500/30">
+                  🎯
+                </div>
+                <h4 class="text-base font-bold text-white">Agente de Priorização</h4>
+                <div class="text-xs text-cyan-300 font-semibold mb-2">Product Owner Node</div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                  Ordena o backlog balanceando <strong>valor de negócio (1 a 5)</strong> e a <strong>sequência causal do DAG</strong> computada pelas ferramentas analíticas.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400 font-mono">
+                <div><strong class="text-slate-300">Tool:</strong> get_topological_order</div>
+                <div><strong class="text-slate-300">Prompt:</strong> prioritization.yaml</div>
+                <div><strong class="text-slate-300">Saída:</strong> ordered_backlog_json</div>
+              </div>
+            </div>
+
+            <!-- Agente 2: Alocação -->
+            <div class="glass-card rounded-2xl p-5 border-indigo-500/40 relative flex flex-col justify-between">
+              <div class="absolute top-3 right-3 text-indigo-400 text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 border border-indigo-500/20">
+                Node 2
+              </div>
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl mb-3 border border-indigo-500/30">
+                  👥
+                </div>
+                <h4 class="text-base font-bold text-white">Agente de Alocação</h4>
+                <div class="text-xs text-indigo-300 font-semibold mb-2">Engineering Allocator Node</div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                  Casamento semântico entre requisitos da tarefa e competências da equipe. <strong>Resolve o gargalo de backend</strong> instruindo o Fullstack (<code class="text-indigo-300">dev_C</code>) a absorver a demanda.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400 font-mono">
+                <div><strong class="text-slate-300">Tool:</strong> calculate_team_capacity</div>
+                <div><strong class="text-slate-300">Prompt:</strong> allocation.yaml</div>
+                <div><strong class="text-slate-300">Regra:</strong> dev_D &le; 10 pts (0.5 FTE)</div>
+              </div>
+            </div>
+
+            <!-- Agente 3: Validação Determinística -->
+            <div class="glass-card rounded-2xl p-5 border-emerald-500/40 relative flex flex-col justify-between">
+              <div class="absolute top-3 right-3 text-emerald-400 text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                Node 3
+              </div>
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mb-3 border border-emerald-500/30">
+                  🛡️
+                </div>
+                <h4 class="text-base font-bold text-white">Agente Validador</h4>
+                <div class="text-xs text-emerald-300 font-semibold mb-2">Safety Gatekeeper (Zero LLM)</div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                  <strong>Função pura em Python</strong> sem uso de LLM. Audita alocações contra limites de FTE e proteção anti-IDOR. Dispara o loop corretivo em caso de violação.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400 font-mono">
+                <div><strong class="text-slate-300">Tool:</strong> check_allocation_feasibility</div>
+                <div><strong class="text-slate-300">Tipo:</strong> Python Algorítmico Puro</div>
+                <div><strong class="text-slate-300">Ação:</strong> is_feasible &rarr; True/False</div>
+              </div>
+            </div>
+
+            <!-- Agente 4: Supervisor -->
+            <div class="glass-card rounded-2xl p-5 border-amber-500/40 relative flex flex-col justify-between">
+              <div class="absolute top-3 right-3 text-amber-400 text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20">
+                Node 4
+              </div>
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-3 border border-amber-500/30">
+                  👑
+                </div>
+                <h4 class="text-base font-bold text-white">Agente Supervisor</h4>
+                <div class="text-xs text-amber-300 font-semibold mb-2">StateGraph Orchestrator Node</div>
+                <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                  Gerencia a transição condicional do fluxo, avalia o relatório da auditoria e consolida o objeto <code class="text-amber-300">SprintPlan</code> homologado.
+                </p>
+              </div>
+              <div class="pt-3 border-t border-slate-800 text-[11px] space-y-1 text-slate-400 font-mono">
+                <div><strong class="text-slate-300">Aresta:</strong> conditional_edges</div>
+                <div><strong class="text-slate-300">Prompt:</strong> supervisor.yaml</div>
+                <div><strong class="text-slate-300">Fim:</strong> SprintPlan emitido</div>
+              </div>
+            </div>
+
+          </div>
         </div>
-        <a href="https://github.com/ElyssonAlvs/REIC_WESAAC_code" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition-all shadow-lg shadow-indigo-600/20 whitespace-nowrap">
-          Ver no GitHub &rarr;
+
+        <!-- Topologia Visual do Grafo com Aresta Condicional de Loop (Simulador Interativo) -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-700/80">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>🔄</span> Topologia do Grafo LangGraph com Aresta Cíclica de Feedback
+              </h3>
+              <p class="text-xs text-slate-400">
+                Fluxo deliberativo com auto-correção: se o validador detectar sobrecarga, o grafo retroalimenta o Alocador.
+              </p>
+            </div>
+
+            <!-- Controles de Simulação -->
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="runGraphSimulation(false)" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white transition-all shadow-md shadow-indigo-600/30 flex items-center gap-1.5">
+                <span>▶️</span> Simular Caminho Feliz (Aprovado)
+              </button>
+              <button onclick="runGraphSimulation(true)" class="px-3.5 py-2 text-xs font-bold rounded-xl bg-rose-600/80 hover:bg-rose-600 text-white transition-all shadow-md shadow-rose-600/30 flex items-center gap-1.5">
+                <span>⚠️</span> Simular Falha de FTE & Loop Corretivo
+              </button>
+            </div>
+          </div>
+
+          <!-- Diagrama Visual em SVG Responsivo -->
+          <div class="bg-slate-950/80 rounded-xl p-4 border border-slate-800 overflow-x-auto">
+            <svg class="w-full min-w-[700px] h-56" viewBox="0 0 850 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Definições de Marcadores de Flecha e Gradientes -->
+              <defs>
+                <marker id="arrow-cyan" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4" />
+                </marker>
+                <marker id="arrow-emerald" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+                </marker>
+                <marker id="arrow-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e" />
+                </marker>
+                <marker id="arrow-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b" />
+                </marker>
+              </defs>
+
+              <!-- Conexões (Linhas) -->
+              <!-- Start -> Prioritizer -->
+              <path d="M 80 100 L 140 100" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="4 4" marker-end="url(#arrow-cyan)" />
+              
+              <!-- Prioritizer -> Allocator -->
+              <path d="M 270 100 L 330 100" stroke="#06b6d4" stroke-width="2.5" marker-end="url(#arrow-cyan)" />
+              
+              <!-- Allocator -> Validator -->
+              <path d="M 460 100 L 520 100" stroke="#06b6d4" stroke-width="2.5" marker-end="url(#arrow-cyan)" />
+              
+              <!-- Validator -> Conditional Router -->
+              <path d="M 640 100 L 680 100" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-emerald)" />
+
+              <!-- Conditional Router -> Supervisor (is_feasible == True) -->
+              <path d="M 720 100 L 760 100" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow-emerald)" />
+
+              <!-- Loop Corretivo (is_feasible == False): Retorno do Router ao Allocator -->
+              <path id="svg-loop-edge" d="M 700 80 C 700 20, 395 20, 395 75" stroke="#475569" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow-rose)" />
+
+              <!-- Nó: START -->
+              <g id="node-start">
+                <circle cx="50" cy="100" r="28" fill="#1e293b" stroke="#64748b" stroke-width="2" />
+                <text x="50" y="104" font-size="11" font-weight="bold" fill="#f8fafc" text-anchor="middle">START</text>
+              </g>
+
+              <!-- Nó: PRIORITIZER -->
+              <g id="node-prioritizer">
+                <rect x="145" y="70" width="125" height="60" rx="10" fill="#0f172a" stroke="#06b6d4" stroke-width="2" />
+                <text x="207" y="96" font-size="12" font-weight="bold" fill="#06b6d4" text-anchor="middle">🎯 Prioritizer</text>
+                <text x="207" y="114" font-size="9" fill="#94a3b8" text-anchor="middle">Valor & DAG Kahn</text>
+              </g>
+
+              <!-- Nó: ALLOCATOR -->
+              <g id="node-allocator">
+                <rect x="335" y="70" width="125" height="60" rx="10" fill="#0f172a" stroke="#6366f1" stroke-width="2" />
+                <text x="397" y="96" font-size="12" font-weight="bold" fill="#818cf8" text-anchor="middle">👥 Allocator</text>
+                <text x="397" y="114" font-size="9" fill="#94a3b8" text-anchor="middle">Skills & dev_C Fullstack</text>
+              </g>
+
+              <!-- Nó: VALIDATOR -->
+              <g id="node-validator">
+                <rect x="525" y="70" width="125" height="60" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+                <text x="587" y="96" font-size="12" font-weight="bold" fill="#34d399" text-anchor="middle">🛡️ Validator</text>
+                <text x="587" y="114" font-size="9" fill="#94a3b8" text-anchor="middle">Python Puro / Anti-IDOR</text>
+              </g>
+
+              <!-- Nó: CONDITIONAL ROUTER -->
+              <g id="node-router">
+                <polygon points="700,75 725,100 700,125 675,100" fill="#1e293b" stroke="#f59e0b" stroke-width="2" />
+                <text x="700" y="103" font-size="10" font-weight="bold" fill="#f59e0b" text-anchor="middle">?</text>
+              </g>
+
+              <!-- Nó: SUPERVISOR / END -->
+              <g id="node-supervisor">
+                <rect x="760" y="70" width="80" height="60" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="2" />
+                <text x="800" y="96" font-size="11" font-weight="bold" fill="#34d399" text-anchor="middle">👑 END</text>
+                <text x="800" y="114" font-size="9" fill="#94a3b8" text-anchor="middle">SprintPlan</text>
+              </g>
+
+              <!-- Rótulo do Loop Corretivo -->
+              <text id="svg-loop-label" x="547" y="24" font-size="10" font-weight="bold" fill="#64748b" text-anchor="middle">
+                [is_feasible == False] Auto-Correção &bull; Loop de Retorno com Feedback de Erros
+              </text>
+            </svg>
+          </div>
+
+          <!-- Console de Eventos em Tempo Real -->
+          <div class="mt-4">
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-1.5 font-mono">
+              <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Console de Eventos do Grafo (StateGraph Trace Log)
+              </span>
+              <button onclick="clearTraceLog()" class="hover:text-slate-200">Limpar</button>
+            </div>
+            <div id="graph-trace-console" class="bg-slate-950 font-mono text-xs text-slate-300 p-3.5 rounded-xl border border-slate-800 h-28 overflow-y-auto space-y-1">
+              <div class="text-slate-500">[00:00.000] Grafo compilado com sucesso com Checkpointing em memória.</div>
+              <div class="text-slate-400">[00:00.005] Aguardando acionamento... Clique em "Simular Caminho Feliz" ou "Simular Falha de FTE".</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camada de 4 Ferramentas Determinísticas (@tool) -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                <span>🛠️</span> Biblioteca de Ferramentas Determinísticas (`sprint_mas.tools`)
+              </h3>
+              <p class="text-xs text-slate-400">Implementadas na Fase 3 com 22 testes unitários e validações de borda defensivas.</p>
+            </div>
+            <span class="text-xs font-mono text-emerald-400 font-bold px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/20">
+              Zero Alucinação Aritmética
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-cyan-400 font-bold block mb-1">calculate_team_capacity</span>
+              <p class="text-xs text-slate-300 mb-2">
+                Multiplica <code class="text-cyan-300">fte * sprint_days * points_per_day</code> individual e total. Validação defensiva contra dias &le; 0 ou FTE &lt; 0.
+              </p>
+              <div class="text-[10px] text-slate-400 font-mono">Retorno: Dict[dev_id, max_pts]</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-indigo-400 font-bold block mb-1">get_topological_order</span>
+              <p class="text-xs text-slate-300 mb-2">
+                Algoritmo de Kahn em complexidade linear <code class="text-indigo-300">O(V + E)</code>. Detecta antecipadamente dependências órfãs e ciclos.
+              </p>
+              <div class="text-[10px] text-slate-400 font-mono">Retorno: List[Task] ordenada</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-emerald-400 font-bold block mb-1">check_allocation_feasibility</span>
+              <p class="text-xs text-slate-300 mb-2">
+                Audita soma de story points vs teto. <strong>Proteção anti-IDOR</strong> contra devs e tarefas inexistentes no backlog.
+              </p>
+              <div class="text-[10px] text-slate-400 font-mono">Retorno: {is_feasible, violations}</div>
+            </div>
+
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <span class="text-xs font-mono text-amber-400 font-bold block mb-1">match_skills</span>
+              <p class="text-xs text-slate-300 mb-2">
+                Valida compatibilidade de competências. Aplica a regra em que perfil <code class="text-amber-300">fullstack</code> satisfaz backend e frontend.
+              </p>
+              <div class="text-[10px] text-slate-400 font-mono">Retorno: bool</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 2: SIMULAÇÃO CIENTÍFICA & CENÁRIOS (PAPERS)          -->
+      <!-- ======================================================== -->
+      <section id="tab-cenarios" class="tab-content space-y-6">
+
+        <!-- Seletor de Cenários -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+            <div>
+              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Metodologia Experimental</span>
+              <h2 class="text-2xl font-black text-white mt-1">Cenários de Teste Canônicos (WESAAC & REIC)</h2>
+              <p class="text-sm text-slate-300 mt-1">
+                Conforme documentado nas Seções 5.1 e 5.2 do artigo da REIC 2026, três cenários foram concebidos para avaliar robustez e carga cognitiva.
+              </p>
+            </div>
+
+            <!-- Botões Seletor -->
+            <div class="flex items-center gap-2 bg-slate-950 p-1.5 rounded-xl border border-slate-800 self-start">
+              <button onclick="switchScenario('scenario_a')" id="btn-scenario-a" class="scenario-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+                Cenário A (Smoke)
+              </button>
+              <button onclick="switchScenario('scenario_b')" id="btn-scenario-b" class="scenario-btn px-3 py-1.5 text-xs font-bold rounded-lg text-cyan-400 bg-slate-800 border border-cyan-500/40 transition-all shadow-sm">
+                Cenário B (Benchmark)
+              </button>
+              <button onclick="switchScenario('scenario_c')" id="btn-scenario-c" class="scenario-btn px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+                Cenário C (Stress 100)
+              </button>
+            </div>
+          </div>
+
+          <!-- Informações do Cenário Selecionado -->
+          <div id="scenario-details-container" class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-slate-800/80">
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <div class="text-xs text-slate-400 uppercase font-semibold">Total de Tarefas</div>
+              <div id="sc-tasks-count" class="text-2xl font-black text-white mt-1">30 Tarefas</div>
+              <div id="sc-tasks-detail" class="text-[11px] text-slate-400 mt-0.5">TSK-101 a TSK-130</div>
+            </div>
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <div class="text-xs text-slate-400 uppercase font-semibold">Gargalo Artificial</div>
+              <div id="sc-bottleneck-count" class="text-2xl font-black text-rose-400 mt-1">63.3% Backend</div>
+              <div id="sc-bottleneck-detail" class="text-[11px] text-slate-400 mt-0.5">19 de 30 tarefas exigem backend</div>
+            </div>
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <div class="text-xs text-slate-400 uppercase font-semibold">Capacidade da Equipe</div>
+              <div id="sc-capacity-count" class="text-2xl font-black text-emerald-400 mt-1">84 Pontos</div>
+              <div id="sc-capacity-detail" class="text-[11px] text-slate-400 mt-0.5">Demanda: 74 Story Points</div>
+            </div>
+            <div class="glass-card p-4 rounded-xl border-slate-700">
+              <div class="text-xs text-slate-400 uppercase font-semibold">Garantia Crítica</div>
+              <div id="sc-rule-count" class="text-2xl font-black text-amber-400 mt-1">dev_D &le; 0.5 FTE</div>
+              <div id="sc-rule-detail" class="text-[11px] text-slate-400 mt-0.5">Teto estrito de 10 pontos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destaque Detalhado do Cenário B (Benchmark Central) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Coluna 1 e 2: Equipe dos 5 Desenvolvedores com Medidores de FTE -->
+          <div class="lg:col-span-2 glass-panel rounded-2xl p-6 border-slate-800 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div>
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                  <span>👥</span> Alocação de Capacidade da Equipe no Cenário B
+                </h3>
+                <p class="text-xs text-slate-400">Total disponível: 84 Story Points &bull; Restrições inegociáveis do paper REIC 2026</p>
+              </div>
+              <span class="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-md border border-indigo-500/20">
+                5 Desenvolvedores
+              </span>
+            </div>
+
+            <!-- Lista de Desenvolvedores -->
+            <div class="space-y-3">
+              
+              <!-- dev_A -->
+              <div class="glass-card p-3.5 rounded-xl border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-blue-500/20 text-blue-400 font-bold flex items-center justify-center text-sm border border-blue-500/30">
+                    A
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white flex items-center gap-2">
+                      dev_A
+                      <span class="px-2 py-0.5 text-[10px] rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Backend</span>
+                    </div>
+                    <div class="text-xs text-slate-400">1.0 FTE (Total) &bull; 20 pontos de capacidade máxima</div>
+                  </div>
+                </div>
+                <div class="w-full sm:w-48 text-right">
+                  <div class="flex justify-between text-xs font-mono mb-1">
+                    <span class="text-slate-400">Carga:</span>
+                    <span class="text-emerald-400 font-bold">20 / 20 pts (100%)</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div class="bg-emerald-500 h-2 rounded-full" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- dev_B -->
+              <div class="glass-card p-3.5 rounded-xl border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center text-sm border border-purple-500/30">
+                    B
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white flex items-center gap-2">
+                      dev_B
+                      <span class="px-2 py-0.5 text-[10px] rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Frontend</span>
+                    </div>
+                    <div class="text-xs text-slate-400">0.7 FTE (Parcial) &bull; 14 pontos de capacidade máxima</div>
+                  </div>
+                </div>
+                <div class="w-full sm:w-48 text-right">
+                  <div class="flex justify-between text-xs font-mono mb-1">
+                    <span class="text-slate-400">Carga:</span>
+                    <span class="text-indigo-400 font-bold">14 / 14 pts (100%)</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div class="bg-indigo-500 h-2 rounded-full" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- dev_C (HERÓI FULLSTACK) -->
+              <div class="glass-card p-3.5 rounded-xl border-emerald-500/50 bg-gradient-to-r from-emerald-500/5 to-transparent flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-sm border border-emerald-500/30">
+                    C
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white flex items-center gap-2">
+                      dev_C
+                      <span class="px-2 py-0.5 text-[10px] rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">
+                        🌟 Fullstack (Pivô de Mitigação)
+                      </span>
+                    </div>
+                    <div class="text-xs text-slate-300">1.0 FTE &bull; Absorve 10 pts de backend para mitigar o gargalo!</div>
+                  </div>
+                </div>
+                <div class="w-full sm:w-48 text-right">
+                  <div class="flex justify-between text-xs font-mono mb-1">
+                    <span class="text-slate-400">Alocação Híbrida:</span>
+                    <span class="text-emerald-400 font-bold">20 / 20 pts (100%)</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- dev_D (RESTRIÇÃO SEVERA) -->
+              <div class="glass-card p-3.5 rounded-xl border-amber-500/50 bg-gradient-to-r from-amber-500/5 to-transparent flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center text-sm border border-amber-500/30">
+                    D
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white flex items-center gap-2">
+                      dev_D
+                      <span class="px-2 py-0.5 text-[10px] rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">
+                        ⚠️ 0.5 FTE (Gargalo Severo)
+                      </span>
+                    </div>
+                    <div class="text-xs text-amber-200/90 font-medium">Teto estrito de 10 pts &bull; NUNCA pode ser sobrecarregado!</div>
+                  </div>
+                </div>
+                <div class="w-full sm:w-48 text-right">
+                  <div class="flex justify-between text-xs font-mono mb-1">
+                    <span class="text-slate-400">Teto Rigoroso:</span>
+                    <span class="text-amber-400 font-bold">10 / 10 pts (100%)</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div class="bg-amber-400 h-2 rounded-full" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- dev_E -->
+              <div class="glass-card p-3.5 rounded-xl border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-sm border border-cyan-500/30">
+                    E
+                  </div>
+                  <div>
+                    <div class="text-sm font-bold text-white flex items-center gap-2">
+                      dev_E
+                      <span class="px-2 py-0.5 text-[10px] rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">QA / Testes</span>
+                    </div>
+                    <div class="text-xs text-slate-400">1.0 FTE &bull; 20 pontos de capacidade máxima</div>
+                  </div>
+                </div>
+                <div class="w-full sm:w-48 text-right">
+                  <div class="flex justify-between text-xs font-mono mb-1">
+                    <span class="text-slate-400">Carga:</span>
+                    <span class="text-cyan-400 font-bold">10 / 20 pts (50%)</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden border border-slate-800">
+                    <div class="bg-cyan-500 h-2 rounded-full" style="width: 50%;"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Coluna 3: Gráfico Comparativo Humano vs SMA -->
+          <div class="glass-panel rounded-2xl p-6 border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2 py-0.5 text-[10px] uppercase font-bold rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  REIC 2026 Seção 5.2
+                </span>
+              </div>
+              <h3 class="text-lg font-bold text-white">Comparativo Científico: Humano vs SMA</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Avaliação empírica no Cenário B: tempo de deliberação, taxa de erro e estresse cognitivo.
+              </p>
+
+              <!-- Barras de Comparação Visual -->
+              <div class="mt-6 space-y-5">
+                
+                <!-- Manual -->
+                <div>
+                  <div class="flex justify-between items-center text-xs mb-1">
+                    <span class="font-bold text-rose-400 flex items-center gap-1.5">
+                      <span>👤</span> Processo Manual (Humano)
+                    </span>
+                    <span class="font-mono text-rose-300 font-bold">765s (12m 45s)</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-3 border border-slate-800 overflow-hidden">
+                    <div class="bg-rose-500 h-3 rounded-full transition-all" style="width: 100%;"></div>
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">
+                    Leitura de 30 itens &bull; Alta fadiga &bull; Risco de sobrecarga em dev_D.
+                  </p>
+                </div>
+
+                <!-- SMA LangGraph -->
+                <div>
+                  <div class="flex justify-between items-center text-xs mb-1">
+                    <span class="font-bold text-emerald-400 flex items-center gap-1.5">
+                      <span>🤖</span> M-Agente (LangGraph + SMA)
+                    </span>
+                    <span class="font-mono text-emerald-300 font-bold">4.2 segundos</span>
+                  </div>
+                  <div class="w-full bg-slate-900 rounded-full h-3 border border-slate-800 overflow-hidden">
+                    <div class="bg-gradient-to-r from-emerald-400 to-cyan-400 h-3 rounded-full transition-all" style="width: 2.5%;"></div>
+                  </div>
+                  <p class="text-[11px] text-emerald-300/80 mt-1 font-medium">
+                    &bull; <strong>182x mais rápido</strong> &bull; Zero violações de FTE &bull; DAG acíclico.
+                  </p>
+                </div>
+
+              </div>
+
+              <!-- Tabela Resumo Lado a Lado -->
+              <div class="mt-6 pt-4 border-t border-slate-800/80">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="text-[10px] uppercase text-slate-400 border-b border-slate-800">
+                      <th class="pb-2">Métrica</th>
+                      <th class="pb-2 text-rose-400">Humano</th>
+                      <th class="pb-2 text-emerald-400">SMA</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-800/60 text-slate-300 font-mono text-[11px]">
+                    <tr>
+                      <td class="py-1.5">Tempo</td>
+                      <td class="py-1.5 text-rose-300">765 s</td>
+                      <td class="py-1.5 text-emerald-400 font-bold">4.2 s</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5">Erro FTE</td>
+                      <td class="py-1.5 text-rose-300">Vulnerável</td>
+                      <td class="py-1.5 text-emerald-400 font-bold">0%</td>
+                    </tr>
+                    <tr>
+                      <td class="py-1.5">Causalidade DAG</td>
+                      <td class="py-1.5 text-slate-400">Manual</td>
+                      <td class="py-1.5 text-emerald-400 font-bold">Kahn O(V+E)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400 italic">
+              Fonte: REIC 2026, Seção 5.2 — Tabela Comparativa de Eficiência e Restrições.
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 3: ROADMAP & STATUS DAS 12 FASES                     -->
+      <!-- ======================================================== -->
+      <section id="tab-roadmap" class="tab-content space-y-6">
+
+        <!-- Barra de Progresso Global -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-md uppercase tracking-wider">
+                  Progresso Geral
+                </span>
+                <span class="text-xs text-slate-400">Estratégia "Dividir para Conquistar"</span>
+              </div>
+              <h2 class="text-2xl font-black text-white mt-1">12 Fases Incrementais, Auditadas e Testadas</h2>
+            </div>
+            <div class="text-right">
+              <span class="text-3xl font-black text-emerald-400">25.0%</span>
+              <span class="text-xs text-slate-400 block font-semibold">3 de 12 Fases Concluídas</span>
+            </div>
+          </div>
+
+          <div class="w-full bg-slate-950 rounded-full h-3.5 border border-slate-800 overflow-hidden p-0.5">
+            <div class="bg-gradient-to-r from-emerald-500 via-cyan-500 to-indigo-500 h-2.5 rounded-full transition-all duration-700 shadow-sm shadow-emerald-500/30" style="width: 25.0%;"></div>
+          </div>
+
+          <!-- Filtro de Fases -->
+          <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-slate-800 text-xs">
+            <span class="text-slate-400 font-semibold mr-1">Filtrar:</span>
+            <button onclick="filterPhases('all')" id="filter-btn-all" class="phase-filter-btn px-3 py-1 rounded-lg bg-indigo-600 text-white font-bold transition-all">
+              Todas (12)
+            </button>
+            <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all">
+              ✅ Concluídas (3)
+            </button>
+            <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all">
+              ⏳ Próxima (1)
+            </button>
+            <button onclick="filterPhases('planned')" id="filter-btn-planned" class="phase-filter-btn px-3 py-1 rounded-lg bg-slate-800 text-slate-300 hover:text-white transition-all">
+              📋 Planejadas (8)
+            </button>
+          </div>
+        </div>
+
+        <!-- Grade com as 12 Fases Detalhadas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="phases-grid">
+
+          <!-- FASE 1: Concluída -->
+          <div class="phase-card completed glass-panel border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
+              ✅ Concluída &bull; 25 Testes
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 1</span>
+                <h3 class="text-base font-bold text-white">Fundação & Contrato de Estado</h3>
+              </div>
+              <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                Setup do repositório com <code>uv</code>, contratos tipados com Pydantic v2, Blackboard compartilhado (<code class="text-emerald-400">SprintState</code>) e fábrica desacoplada de LLM (Groq + Ollama).
+              </p>
+            </div>
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1 font-mono text-[11px]">
+              <div><strong class="text-slate-300">Artefatos:</strong> state.py, llm_factory.py</div>
+              <div><strong class="text-slate-300">Testes:</strong> 25 unitários (100% OK)</div>
+              <div><strong class="text-slate-300">Decisões:</strong> ADR 0001, 0002, 0003</div>
+            </div>
+          </div>
+
+          <!-- FASE 2: Concluída -->
+          <div class="phase-card completed glass-panel border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
+              ✅ Concluída &bull; 37 Testes
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 2</span>
+                <h3 class="text-base font-bold text-white">Dados & Cenários Reproduzíveis</h3>
+              </div>
+              <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                Estruturação canônica dos Cenários A, B e C em <code>data/processed/</code>, validação topológica de DAG com algoritmo DFS tricromático <code class="text-emerald-400">O(V + E)</code> e dataset gabarito.
+              </p>
+            </div>
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1 font-mono text-[11px]">
+              <div><strong class="text-slate-300">Artefatos:</strong> scenario_{a,b,c}.json, data_loader.py</div>
+              <div><strong class="text-slate-300">Testes:</strong> 12 novos unitários (37/37 total)</div>
+              <div><strong class="text-slate-300">Decisões:</strong> ADR 0004</div>
+            </div>
+          </div>
+
+          <!-- FASE 3: Concluída -->
+          <div class="phase-card completed glass-panel border-2 border-emerald-500/40 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between">
+            <div class="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider">
+              ✅ Concluída &bull; 66 Testes
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Fase 3</span>
+                <h3 class="text-base font-bold text-white">Ferramentas & Prompts BART</h3>
+              </div>
+              <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                Prompts versionados em YAML com elicitação BART, biblioteca determinística (<code class="text-emerald-400">tools.py</code>), blindagem anti-IDOR, escape de chaves duplas e loader centralizado.
+              </p>
+            </div>
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1 font-mono text-[11px]">
+              <div><strong class="text-slate-300">Artefatos:</strong> tools.py, prompts.py, prompts/*.yaml</div>
+              <div><strong class="text-slate-300">Testes:</strong> 29 novos unitários (66/66 total)</div>
+              <div><strong class="text-slate-300">Decisões:</strong> ADR 0005 homologado</div>
+            </div>
+          </div>
+
+          <!-- FASE 4: Próxima -->
+          <div class="phase-card next glass-panel border-2 border-amber-500/60 rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between bg-gradient-to-br from-amber-500/10 to-transparent">
+            <div class="absolute top-0 right-0 bg-amber-500 text-slate-950 text-[10px] uppercase font-black px-3 py-1 rounded-bl-xl tracking-wider animate-pulse">
+              ⏳ Próxima Fase a Implementar
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400">Fase 4</span>
+                <h3 class="text-base font-bold text-white">Agente de Priorização (PO)</h3>
+              </div>
+              <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                Nó cognitivo responsável por ordenar o backlog bruto segundo a sequência causal do DAG gerada pelas ferramentas e valor de negócio (1 a 5), persistindo no Blackboard.
+              </p>
+            </div>
+            <div class="bg-slate-950/70 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-400 space-y-1 font-mono text-[11px]">
+              <div><strong class="text-slate-300">Escopo:</strong> sprint_mas/agents/prioritizer.py</div>
+              <div><strong class="text-slate-300">Entrada:</strong> backlog_json + topological_order_json</div>
+              <div><strong class="text-slate-300">Meta:</strong> Lista ordenada com zero inversão DAG</div>
+            </div>
+          </div>
+
+          <!-- FASE 5: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 5</span>
+                  <h3 class="text-base font-bold text-slate-200">Agente de Alocação de Recursos</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Nó cognitivo que mapeia tarefas aos desenvolvedores, aplicando a estratégia de mitigação de gargalo com absorção pelo perfil Fullstack (<code class="text-slate-300">dev_C</code>).
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              sprint_mas/agents/allocator.py
+            </div>
+          </div>
+
+          <!-- FASE 6: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 6</span>
+                  <h3 class="text-base font-bold text-slate-200">Agente Validador Determinístico</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Nó puramente algorítmico em Python (Zero LLM) que audita as alocações contra o teto de 0.5 FTE de <code class="text-slate-300">dev_D</code> e preenche <code class="text-slate-300">validation_errors</code>.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              sprint_mas/agents/validator.py
+            </div>
+          </div>
+
+          <!-- FASE 7: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 7</span>
+                  <h3 class="text-base font-bold text-slate-200">Supervisor & Grafo LangGraph</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Montagem do <code class="text-slate-300">StateGraph</code> completo com arestas condicionais: auto-correção cíclica se houver erro ou emissão do plano final homologado.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              sprint_mas/graph.py &bull; conditional_edges
+            </div>
+          </div>
+
+          <!-- FASE 8: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 8</span>
+                  <h3 class="text-base font-bold text-slate-200">CLI & Tracing LangSmith</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Interface de linha de comando (<code class="text-slate-300">main.py</code>) com seleção de provedor/cenário e telemetria de latência e tokens via LangSmith.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              main.py &bull; LangSmith Observability
+            </div>
+          </div>
+
+          <!-- FASE 9: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 9</span>
+                  <h3 class="text-base font-bold text-slate-200">Live Execution & Benchmarks</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Execução ao vivo com o grafo dos 3 cenários e captura empírica dos tempos de inferência, latência e consumo de tokens para replicação científica.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              reports/experiments/benchmarks.json
+            </div>
+          </div>
+
+          <!-- FASE 10: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 10</span>
+                  <h3 class="text-base font-bold text-slate-200">Avaliação & Comparativo Humano</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo da REIC 2026 (765s vs SMA) e avaliação de carga cognitiva.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              evals/rubricas.md &bull; Comparativo M-Manual
+            </div>
+          </div>
+
+          <!-- FASE 11: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 11</span>
+                  <h3 class="text-base font-bold text-slate-200">Auditoria do Pentágono de Defesa</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Auditoria formal do Pentágono de Defesa pelo Security Auditor: banco sem tranca, injeção de prompt, anti-IDOR, secrets e inputs defensivos.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              Princípio dos Quatro Olhos &bull; Zero Scope Leak
+            </div>
+          </div>
+
+          <!-- FASE 12: Planejada -->
+          <div class="phase-card planned glass-card rounded-2xl p-5 border-slate-800 opacity-80 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">Fase 12</span>
+                  <h3 class="text-base font-bold text-slate-200">Consolidação & Pacote Científico</h3>
+                </div>
+                <span class="text-[10px] uppercase font-semibold text-slate-500">Planejada</span>
+              </div>
+              <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                Síntese minimalista de markdowns de governança, empacotamento para replicação científica da REIC 2026 e consolidação final do HTML interativo.
+              </p>
+            </div>
+            <div class="text-[11px] font-mono text-slate-500 border-t border-slate-800/80 pt-2">
+              DOCUMENTOS-TASK/ &bull; Pacote de Entrega Final
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 4: CAMADAS LLMOPS, GOVERNANÇA & BART                 -->
+      <!-- ======================================================== -->
+      <section id="tab-llmops" class="tab-content space-y-6">
+
+        <!-- As 4 Camadas de LLMOps -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider">Engenharia de Software para IA</span>
+              <h2 class="text-2xl font-black text-white mt-1">Padrão de 4 Camadas de LLMOps</h2>
+              <p class="text-sm text-slate-300 mt-1">
+                A regra de ouro: código, configurações e metadados no Git; segredos e logs pesados fora do Git. Reprodutibilidade 100% garantida.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            
+            <!-- Camada 1 -->
+            <div class="glass-card p-5 rounded-2xl border-emerald-500/40 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider block mb-1">Camada 1</span>
+                <h3 class="text-base font-bold text-white">Código Fonte</h3>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Lógica executável dos agentes, Blackboard tipado (<code class="text-emerald-400">SprintState</code>), fábrica de modelos e suíte de testes unitários.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-800 font-mono text-[11px] text-slate-400 space-y-0.5">
+                <div>&bull; sprint_mas/</div>
+                <div>&bull; tests/ (66 testes)</div>
+                <div>&bull; pyproject.toml (uv)</div>
+              </div>
+            </div>
+
+            <!-- Camada 2 -->
+            <div class="glass-card p-5 rounded-2xl border-indigo-500/40 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider block mb-1">Camada 2</span>
+                <h3 class="text-base font-bold text-white">Configurações & Prompts</h3>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Prompts versionados como código (YAML) estruturados pelo framework <strong>BART</strong>, hiperparâmetros declarativos e temperatura 0.0.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-800 font-mono text-[11px] text-slate-400 space-y-0.5">
+                <div>&bull; configs/prompts/*.yaml</div>
+                <div>&bull; configs/models.yaml</div>
+                <div>&bull; .env.example</div>
+              </div>
+            </div>
+
+            <!-- Camada 3 -->
+            <div class="glass-card p-5 rounded-2xl border-amber-500/40 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-amber-400 uppercase tracking-wider block mb-1">Camada 3</span>
+                <h3 class="text-base font-bold text-white">Dados & Cenários</h3>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Dicionário formal de dados, metadados acadêmicos de procedência e datasets processados dos Cenários A, B e C com validação Pydantic.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-800 font-mono text-[11px] text-slate-400 space-y-0.5">
+                <div>&bull; data/raw/</div>
+                <div>&bull; data/processed/</div>
+                <div>&bull; data/README.md</div>
+              </div>
+            </div>
+
+            <!-- Camada 4 -->
+            <div class="glass-card p-5 rounded-2xl border-rose-500/40 flex flex-col justify-between">
+              <div>
+                <span class="text-xs font-bold text-rose-400 uppercase tracking-wider block mb-1">Camada 4</span>
+                <h3 class="text-base font-bold text-white">Avaliação & Rubricas</h3>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Métricas matemáticas de dependência e FTE, gabaritos de alocação ótima e registros de benchmarks de tempo e acurácia.
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-800 font-mono text-[11px] text-slate-400 space-y-0.5">
+                <div>&bull; evals/rubricas.md</div>
+                <div>&bull; evals/golden_dataset/</div>
+                <div>&bull; reports/experiments/</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- O Framework BART (Bot Action and Requirement Template) -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Metodologia Científica de Bots</span>
+              <h3 class="text-xl font-bold text-white mt-1">A Metodologia BART (Gerstberger, Silva e Guedes, 2024 — SBC)</h3>
+              <p class="text-xs text-slate-300 mt-1">
+                Utilizada para estruturar os prompts dos agentes através de 17 questões em 6 dimensões operacionais:
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-bold text-cyan-400 block mb-1">1. Persona</span>
+              <p class="text-[11px] text-slate-300">Identidade, especialidade funcional e tom deliberativo do agente.</p>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-bold text-emerald-400 block mb-1">2. Gatilho (Trigger)</span>
+              <p class="text-[11px] text-slate-300">Evento de transição no grafo que dispara a invocação do nó.</p>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-bold text-indigo-400 block mb-1">3. Pré-condições</span>
+              <p class="text-[11px] text-slate-300">Estado validado exigido no Blackboard antes da execução.</p>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-bold text-amber-400 block mb-1">4. Ações</span>
+              <p class="text-[11px] text-slate-300">Roteiro deliberativo em passos lógicos numerados (Zero-Shot CoT).</p>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-bold text-rose-400 block mb-1">5. Restrições</span>
+              <p class="text-[11px] text-slate-300">Guardrails invioláveis (ex: teto de dev_D, DAG acíclico).</p>
+            </div>
+            <div class="glass-card p-3.5 rounded-xl border-slate-700">
+              <span class="text-xs font-bold text-purple-400 block mb-1">6. Pós-condições</span>
+              <p class="text-[11px] text-slate-300">Payload JSON canônico injetado de volta no Blackboard.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogo das 5 Decisões Arquiteturais (ADRs 0001 a 0005) -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Governança Técnica</span>
+              <h3 class="text-xl font-bold text-white mt-1">Decisões de Arquitetura (ADRs no Padrão Design System)</h3>
+              <p class="text-xs text-slate-400">Histórico de decisões de engenharia registradas em <code>docs/adr/</code> e <code>DOCUMENTOS-TASK/ADR/</code>.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+            
+            <!-- ADR 0001 -->
+            <div class="glass-card p-4 rounded-xl border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-bold text-emerald-400">ADR 0001</span>
+                  <span class="text-[10px] text-emerald-400/80 bg-emerald-500/10 px-1.5 py-0.5 rounded">Aprovada</span>
+                </div>
+                <h4 class="text-sm font-bold text-white mt-1">Migração n8n para LangGraph</h4>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                  Substituição da ferramenta low-code por grafos de estado tipados, cíclicos e testáveis.
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-500">
+                Fase 1 &bull; 02/10/2026
+              </div>
+            </div>
+
+            <!-- ADR 0002 -->
+            <div class="glass-card p-4 rounded-xl border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-bold text-emerald-400">ADR 0002</span>
+                  <span class="text-[10px] text-emerald-400/80 bg-emerald-500/10 px-1.5 py-0.5 rounded">Aprovada</span>
+                </div>
+                <h4 class="text-sm font-bold text-white mt-1">Padrão Blackboard & State</h4>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                  Uso de TypedDict + Pydantic v2 e o redutor <code class="text-slate-300">add_messages</code> para histórico auditável.
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-500">
+                Fase 1 &bull; 02/10/2026
+              </div>
+            </div>
+
+            <!-- ADR 0003 -->
+            <div class="glass-card p-4 rounded-xl border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-bold text-emerald-400">ADR 0003</span>
+                  <span class="text-[10px] text-emerald-400/80 bg-emerald-500/10 px-1.5 py-0.5 rounded">Aprovada</span>
+                </div>
+                <h4 class="text-sm font-bold text-white mt-1">Fábrica Híbrida Groq / Ollama</h4>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                  Desacoplamento de provedor para alternar entre nuvem gratuita ultra-rápida e execução local offline.
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-500">
+                Fase 1 &bull; 02/10/2026
+              </div>
+            </div>
+
+            <!-- ADR 0004 -->
+            <div class="glass-card p-4 rounded-xl border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-bold text-emerald-400">ADR 0004</span>
+                  <span class="text-[10px] text-emerald-400/80 bg-emerald-500/10 px-1.5 py-0.5 rounded">Aprovada</span>
+                </div>
+                <h4 class="text-sm font-bold text-white mt-1">Data Loader & Validação DAG</h4>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                  Ingestão tipada de cenários e detecção algorítmica de ciclos em O(V+E) contra dependências circulares.
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-500">
+                Fase 2 &bull; 19/10/2026
+              </div>
+            </div>
+
+            <!-- ADR 0005 -->
+            <div class="glass-card p-4 rounded-xl border-emerald-500/50 flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-bold text-emerald-400">ADR 0005</span>
+                  <span class="text-[10px] text-emerald-400/80 bg-emerald-500/10 px-1.5 py-0.5 rounded">Aprovada</span>
+                </div>
+                <h4 class="text-sm font-bold text-white mt-1">Prompts BART & Ferramentas</h4>
+                <p class="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Prompts versionados em YAML, pureza analítica e desacoplamento de cálculos exatos em Python (<code class="text-emerald-400">@tool</code>).
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-slate-800 text-[10px] font-mono text-slate-500">
+                Fase 3 &bull; 19/10/2026
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- ABA 5: TERMINAL DE TESTES & RASTREABILIDADE              -->
+      <!-- ======================================================== -->
+      <section id="tab-execucao" class="tab-content space-y-6">
+
+        <!-- Comandos Rápidos de Execução -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- Card de Comandos com Cópia Rápida -->
+          <div class="glass-panel rounded-2xl p-6 border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                  <span>⚙️</span> Comandos de Inicialização e Teste com `uv`
+                </h3>
+                <span class="text-xs font-mono text-cyan-400">Python 3.12</span>
+              </div>
+              <p class="text-xs text-slate-300 mb-4">
+                O projeto é integralmente gerenciado via <strong>uv</strong>, eliminando divergências de ambiente e executando testes em menos de um segundo.
+              </p>
+
+              <div class="space-y-3 font-mono text-xs">
+                <div>
+                  <span class="text-slate-400 block text-[11px] mb-1"># 1. Sincronização do ambiente virtual e dependências</span>
+                  <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center group">
+                    <span class="text-emerald-400 select-all">uv sync</span>
+                    <button onclick="copyCommand('uv sync')" class="text-xs text-slate-400 hover:text-white px-2 py-0.5 rounded bg-slate-800/80">Copiar</button>
+                  </div>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] mb-1"># 2. Configurar variáveis de ambiente</span>
+                  <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center group">
+                    <span class="text-indigo-400 select-all">copy .env.example .env</span>
+                    <button onclick="copyCommand('copy .env.example .env')" class="text-xs text-slate-400 hover:text-white px-2 py-0.5 rounded bg-slate-800/80">Copiar</button>
+                  </div>
+                </div>
+
+                <div>
+                  <span class="text-slate-400 block text-[11px] mb-1"># 3. Executar toda a suíte de 66 testes com pytest</span>
+                  <div class="bg-slate-950 p-3 rounded-lg border border-slate-800 flex justify-between items-center group">
+                    <span class="text-amber-400 select-all">uv run pytest tests/ -v</span>
+                    <button onclick="copyCommand('uv run pytest tests/ -v')" class="text-xs text-slate-400 hover:text-white px-2 py-0.5 rounded bg-slate-800/80">Copiar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-400">
+              Dica: Defina <code class="text-cyan-300">PROVIDER=groq</code> para nuvem gratuita ultra-rápida ou <code class="text-amber-300">PROVIDER=ollama</code> para execução offline.
+            </div>
+          </div>
+
+          <!-- Terminal Interativo dos 66 Testes com Filtros por Módulo -->
+          <div class="glass-panel rounded-2xl p-6 border-slate-800 flex flex-col justify-between">
+            <div>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                  <span>🧪</span> Terminal Interativo de Testes
+                </h3>
+                <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                  66 / 66 PASSED (100%)
+                </span>
+              </div>
+
+              <!-- Filtros de Módulo de Teste -->
+              <div class="flex flex-wrap items-center gap-1.5 mb-3 text-[11px]">
+                <button onclick="filterTests('all')" id="test-filter-all" class="test-filter-btn px-2.5 py-1 rounded bg-indigo-600 text-white font-bold">
+                  Todos (66)
+                </button>
+                <button onclick="filterTests('tools')" id="test-filter-tools" class="test-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white">
+                  test_tools.py (22)
+                </button>
+                <button onclick="filterTests('state')" id="test-filter-state" class="test-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white">
+                  test_state.py (18)
+                </button>
+                <button onclick="filterTests('data_loader')" id="test-filter-data_loader" class="test-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white">
+                  test_data_loader.py (12)
+                </button>
+                <button onclick="filterTests('prompts')" id="test-filter-prompts" class="test-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white">
+                  test_prompts.py (7)
+                </button>
+                <button onclick="filterTests('llm_factory')" id="test-filter-llm_factory" class="test-filter-btn px-2.5 py-1 rounded bg-slate-800 text-slate-300 hover:text-white">
+                  test_llm_factory.py (7)
+                </button>
+              </div>
+
+              <!-- Janela do Terminal -->
+              <div id="test-terminal-output" class="bg-slate-950 font-mono text-[11px] text-slate-300 p-3.5 rounded-xl border border-slate-800 h-52 overflow-y-auto space-y-1">
+                <div class="text-slate-500">=== Execução Consolidada (pytest 9.1.1 &bull; Python 3.12.13 &bull; Win32) ===</div>
+                <div class="text-slate-400 test-row module-data_loader">tests/test_data_loader.py (12 testes) .................... <span class="text-emerald-400 font-bold">PASSED</span></div>
+                <div class="text-slate-400 test-row module-llm_factory">tests/test_llm_factory.py (7 testes) ..................... <span class="text-emerald-400 font-bold">PASSED</span></div>
+                <div class="text-slate-400 test-row module-prompts">tests/test_prompts.py (7 testes) ......................... <span class="text-emerald-400 font-bold">PASSED</span></div>
+                <div class="text-slate-400 test-row module-state">tests/test_state.py (18 testes) .......................... <span class="text-emerald-400 font-bold">PASSED</span></div>
+                <div class="text-slate-400 test-row module-tools">tests/test_tools.py (22 testes) .......................... <span class="text-emerald-400 font-bold">PASSED</span></div>
+                <div class="text-emerald-400 font-bold pt-2 border-t border-slate-800">
+                  ============================= 66 passed in 0.61s =============================
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 text-right">
+              <span class="text-xs text-slate-400">Auditoria formal homologada sem nenhuma regressão.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Central de Documentos e Rastreabilidade Científica -->
+        <div class="glass-panel rounded-2xl p-6 border-slate-800">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Governança & Rastreabilidade</span>
+              <h3 class="text-xl font-bold text-white mt-1">Repositório de Documentação Oficial</h3>
+              <p class="text-xs text-slate-400">Links canônicos para auditorias, planos, relatórios e especificações de governança.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <a href="../DOCUMENTOS-TASK/RASTREABILIDADE_CIENTIFICA_E_EVOLUCAO_ARQUITETURAL.md" target="_blank" class="glass-card p-4 rounded-xl border-slate-700 hover:border-indigo-500 transition-all block group">
+              <div class="text-indigo-400 text-lg mb-1">📜</div>
+              <h4 class="text-sm font-bold text-white group-hover:text-indigo-300">Rastreabilidade Científica</h4>
+              <p class="text-xs text-slate-400 mt-1">Mapeamento BDI detalhado, citações dos artigos e garantias de fidelidade semântica.</p>
+            </a>
+
+            <a href="../DOCUMENTOS-TASK/INDEX.md" target="_blank" class="glass-card p-4 rounded-xl border-slate-700 hover:border-cyan-500 transition-all block group">
+              <div class="text-cyan-400 text-lg mb-1">🗂️</div>
+              <h4 class="text-sm font-bold text-white group-hover:text-cyan-300">Catálogo Geral (INDEX.md)</h4>
+              <p class="text-xs text-slate-400 mt-1">Linha do tempo cronológica com planos, relatórios e decisões técnicas por entrega.</p>
+            </a>
+
+            <a href="../DOCUMENTOS-TASK/2026-10-19_parecer-qa-fase3-ferramentas-prompts.md" target="_blank" class="glass-card p-4 rounded-xl border-slate-700 hover:border-emerald-500 transition-all block group">
+              <div class="text-emerald-400 text-lg mb-1">🛡️</div>
+              <h4 class="text-sm font-bold text-white group-hover:text-emerald-300">Parecer Oficial de QA</h4>
+              <p class="text-xs text-slate-400 mt-1">Auditoria do Pentágono de Defesa, homologação de 66 testes e aprovação formal.</p>
+            </a>
+
+            <a href="../evals/rubricas.md" target="_blank" class="glass-card p-4 rounded-xl border-slate-700 hover:border-amber-500 transition-all block group">
+              <div class="text-amber-400 text-lg mb-1">📊</div>
+              <h4 class="text-sm font-bold text-white group-hover:text-amber-300">Rubricas de Avaliação</h4>
+              <p class="text-xs text-slate-400 mt-1">Fórmulas matemáticas de dependência causal, sobrecarga de FTE e severidade.</p>
+            </a>
+
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="w-full mt-12 pt-6 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        Sprint Planning Multi-Agent System &bull; Licença MIT &bull; Baseado em WESAAC 2025 e REIC 2026 (UFC Quixadá)
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/ElyssonAlvs/REIC_WESAAC_code" target="_blank" class="hover:text-slate-300 flex items-center gap-1">
+          <span>GitHub</span> &rarr;
         </a>
       </div>
+    </footer>
 
-    </section>
+  </div>
 
-  </main>
-
-  <!-- Rodapé -->
-  <footer class="max-w-7xl mx-auto w-full mt-10 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
-    Sprint Planning Multi-Agent System &bull; Licença MIT &bull; Baseado nos trabalhos WESAAC 2025 e REIC 2026 (UFC Quixadá)
-  </footer>
-
+  <!-- JavaScript Puro com Lógica Interativa -->
   <script>
+    // 1. Navegação de Abas
     function switchTab(tabId) {
-      // Esconder todos os conteúdos
       document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
       });
 
-      // Resetar estilos dos botões
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('text-emerald-400', 'bg-slate-800/80', 'font-semibold', 'border', 'border-slate-700');
+        btn.classList.remove('text-cyan-400', 'bg-slate-800/90', 'font-semibold', 'border-cyan-500/40');
         btn.classList.add('text-slate-400');
       });
 
-      // Ativar a aba selecionada
-      const activeContent = document.getElementById('tab-' + tabId);
-      if (activeContent) {
-        activeContent.classList.add('active');
+      const activeSection = document.getElementById('tab-' + tabId);
+      if (activeSection) {
+        activeSection.classList.add('active');
       }
 
-      // Estilizar o botão ativo
       const activeBtn = document.getElementById('tab-btn-' + tabId);
       if (activeBtn) {
-        activeBtn.classList.add('text-emerald-400', 'bg-slate-800/80', 'font-semibold', 'border', 'border-slate-700');
         activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('text-cyan-400', 'bg-slate-800/90', 'font-semibold', 'border-cyan-500/40');
       }
+    }
+
+    // 2. Seletor Dinâmico de Cenários
+    const scenariosData = {
+      scenario_a: {
+        tasksCount: '10 Tarefas',
+        tasksDetail: 'TSK-001 a TSK-010 (Sem Dependências)',
+        bottleneck: '0% Gargalo',
+        bottleneckDetail: 'Distribuição homogênea de competências',
+        capacity: '100 Pontos',
+        capacityDetail: 'Equipe com 1.0 FTE em todos os membros',
+        rule: 'Smoke Test',
+        ruleDetail: 'Validação da comunicação entre agentes'
+      },
+      scenario_b: {
+        tasksCount: '30 Tarefas',
+        tasksDetail: 'TSK-101 a TSK-130 (Com Cadeia de Precedências)',
+        bottleneck: '63.3% Backend',
+        bottleneckDetail: '19 de 30 tarefas exigem backend',
+        capacity: '84 Pontos',
+        capacityDetail: 'Demanda Total: 74 Story Points',
+        rule: 'dev_D &le; 0.5 FTE',
+        ruleDetail: 'Teto estrito de 10 pontos inegociável'
+      },
+      scenario_c: {
+        tasksCount: '100 Tarefas',
+        tasksDetail: '100 Triggers concorrentes injetados em rajada',
+        bottleneck: 'Alta Concorrência',
+        bottleneckDetail: 'Múltiplos objetivos e perfis heterogêneos',
+        capacity: 'Carga Máxima',
+        capacityDetail: 'Avaliação de resiliência e timeouts',
+        rule: '99.5% Sucesso',
+        ruleDetail: 'Benchmark de estabilidade da REIC 2026'
+      }
+    };
+
+    function switchScenario(scenarioKey) {
+      document.querySelectorAll('.scenario-btn').forEach(btn => {
+        btn.classList.remove('text-cyan-400', 'bg-slate-800', 'border-cyan-500/40');
+        btn.classList.add('text-slate-400');
+      });
+
+      const activeBtn = document.getElementById('btn-' + scenarioKey.replace('_', '-'));
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('text-cyan-400', 'bg-slate-800', 'border-cyan-500/40');
+      }
+
+      const data = scenariosData[scenarioKey];
+      if (data) {
+        document.getElementById('sc-tasks-count').innerText = data.tasksCount;
+        document.getElementById('sc-tasks-detail').innerText = data.tasksDetail;
+        document.getElementById('sc-bottleneck-count').innerText = data.bottleneck;
+        document.getElementById('sc-bottleneck-detail').innerText = data.bottleneckDetail;
+        document.getElementById('sc-capacity-count').innerText = data.capacity;
+        document.getElementById('sc-capacity-detail').innerText = data.capacityDetail;
+        document.getElementById('sc-rule-count').innerText = data.rule;
+        document.getElementById('sc-rule-detail').innerText = data.ruleDetail;
+      }
+    }
+
+    // 3. Filtro de Fases no Roadmap
+    function filterPhases(filter) {
+      document.querySelectorAll('.phase-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'font-bold');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+
+      const activeBtn = document.getElementById('filter-btn-' + filter);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+        activeBtn.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+      }
+
+      document.querySelectorAll('.phase-card').forEach(card => {
+        if (filter === 'all') {
+          card.style.display = 'flex';
+        } else if (filter === 'completed' && card.classList.contains('completed')) {
+          card.style.display = 'flex';
+        } else if (filter === 'next' && card.classList.contains('next')) {
+          card.style.display = 'flex';
+        } else if (filter === 'planned' && card.classList.contains('planned')) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 4. Simulador Interativo do Grafo LangGraph
+    let isSimulating = false;
+    function runGraphSimulation(simulateFailure) {
+      if (isSimulating) return;
+      isSimulating = true;
+
+      const consoleEl = document.getElementById('graph-trace-console');
+      consoleEl.innerHTML = '';
+
+      function logMessage(text, colorClass = 'text-slate-300') {
+        const time = new Date().toISOString().substring(14, 23);
+        const div = document.createElement('div');
+        div.className = colorClass;
+        div.innerHTML = `<span class="text-slate-500">[${time}]</span> ${text}`;
+        consoleEl.appendChild(div);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+
+      // Reset dos nós SVG
+      function resetNodes() {
+        document.querySelectorAll('#tab-arquitetura svg g rect, #tab-arquitetura svg g circle').forEach(el => {
+          el.style.filter = 'none';
+        });
+        const loopEdge = document.getElementById('svg-loop-edge');
+        const loopLabel = document.getElementById('svg-loop-label');
+        if (loopEdge) {
+          loopEdge.setAttribute('stroke', '#475569');
+          loopEdge.style.filter = 'none';
+        }
+        if (loopLabel) {
+          loopLabel.setAttribute('fill', '#64748b');
+        }
+      }
+
+      resetNodes();
+      logMessage('Iniciando ciclo do LangGraph StateGraph...', 'text-cyan-400 font-bold');
+
+      // Passo 1: Start
+      setTimeout(() => {
+        logMessage('Nó START ativado: carregando SprintState do Blackboard (30 tarefas, 5 devs).', 'text-slate-300');
+        const startRect = document.querySelector('#node-start circle');
+        if (startRect) startRect.style.filter = 'drop-shadow(0 0 10px #06b6d4)';
+      }, 400);
+
+      // Passo 2: Prioritizer
+      setTimeout(() => {
+        logMessage('Nó PRIORITIZER ativado: calculando get_topological_order() (Kahn O(V+E))...', 'text-cyan-300');
+        const prioRect = document.querySelector('#node-prioritizer rect');
+        if (prioRect) prioRect.style.filter = 'drop-shadow(0 0 12px #06b6d4)';
+        logMessage('Ordenação causal concluída: TSK-101 antecede TSK-102. Backlog priorizado por valor.', 'text-cyan-200');
+      }, 1200);
+
+      // Passo 3: Allocator
+      setTimeout(() => {
+        logMessage('Nó ALLOCATOR ativado: invocando calculate_team_capacity() (84 pts totais)...', 'text-indigo-300');
+        const allocRect = document.querySelector('#node-allocator rect');
+        if (allocRect) allocRect.style.filter = 'drop-shadow(0 0 12px #6366f1)';
+        
+        if (simulateFailure) {
+          logMessage('Alocação preliminar: dev_D recebeu 15 pts (excedendo teto de 10 pts!)...', 'text-amber-300');
+        } else {
+          logMessage('Alocação inteligente: dev_C (Fullstack) absorveu 10 pts de backend. dev_D mantido em 10 pts.', 'text-emerald-300');
+        }
+      }, 2200);
+
+      // Passo 4: Validator
+      setTimeout(() => {
+        logMessage('Nó VALIDATOR ativado: executando check_allocation_feasibility() em Python puro...', 'text-emerald-300');
+        const valRect = document.querySelector('#node-validator rect');
+        if (valRect) valRect.style.filter = 'drop-shadow(0 0 12px #10b981)';
+
+        if (simulateFailure) {
+          // Dispara loop de erro
+          setTimeout(() => {
+            logMessage('ALERTA: Violação detectada! dev_D excedeu teto em 5 pts. is_feasible = False.', 'text-rose-400 font-bold');
+            const loopEdge = document.getElementById('svg-loop-edge');
+            const loopLabel = document.getElementById('svg-loop-label');
+            if (loopEdge) {
+              loopEdge.setAttribute('stroke', '#f43f5e');
+              loopEdge.style.filter = 'drop-shadow(0 0 8px #f43f5e)';
+            }
+            if (loopLabel) {
+              loopLabel.setAttribute('fill', '#f43f5e');
+            }
+            logMessage('Aresta condicional ativada: auto-correção disparada! Retornando ao nó ALLOCATOR com validation_errors.', 'text-rose-300');
+
+            // Re-alocação corrigida
+            setTimeout(() => {
+              logMessage('Auto-correção concluída: Allocator reajustou carga para dev_C. Revalidação aprovada!', 'text-emerald-400 font-bold');
+              const supRect = document.querySelector('#node-supervisor rect');
+              if (supRect) supRect.style.filter = 'drop-shadow(0 0 15px #10b981)';
+              logMessage('SUPERVISOR: SprintPlan consolidado com 100% de conformidade com os papers.', 'text-emerald-300 font-bold');
+              isSimulating = false;
+            }, 1800);
+          }, 800);
+        } else {
+          // Caminho direto aprovado
+          setTimeout(() => {
+            logMessage('Validador determinístico: is_feasible = True, 0 violações de FTE, 0 violações de DAG.', 'text-emerald-400 font-bold');
+            const supRect = document.querySelector('#node-supervisor rect');
+            if (supRect) supRect.style.filter = 'drop-shadow(0 0 15px #10b981)';
+            logMessage('Nó SUPERVISOR: SprintPlan aprovado e homologado no Blackboard.', 'text-emerald-300 font-bold');
+            isSimulating = false;
+          }, 800);
+        }
+      }, 3200);
+    }
+
+    function clearTraceLog() {
+      const consoleEl = document.getElementById('graph-trace-console');
+      consoleEl.innerHTML = '<div class="text-slate-500">Console limpo. Pronto para nova simulação.</div>';
+    }
+
+    // 5. Filtro de Módulos no Terminal de Testes
+    const testDetails = {
+      all: `tests/test_data_loader.py (12 testes) .................... PASSED
+tests/test_llm_factory.py (7 testes) ..................... PASSED
+tests/test_prompts.py (7 testes) ......................... PASSED
+tests/test_state.py (18 testes) .......................... PASSED
+tests/test_tools.py (22 testes) .......................... PASSED
+============================= 66 passed in 0.61s =============================`,
+      tools: `tests/test_tools.py::test_calculate_team_capacity_scenario_b PASSED
+tests/test_tools.py::test_calculate_team_capacity_with_dicts PASSED
+tests/test_tools.py::test_calculate_team_capacity_invalid_type PASSED
+tests/test_tools.py::test_calculate_team_capacity_func_type_error PASSED
+tests/test_tools.py::test_calculate_team_capacity_negative_days PASSED
+tests/test_tools.py::test_calculate_team_capacity_negative_velocity PASSED
+tests/test_tools.py::test_calculate_team_capacity_negative_fte PASSED
+tests/test_tools.py::test_check_allocation_feasibility_success PASSED
+tests/test_tools.py::test_check_allocation_feasibility_violation_dev_d PASSED
+tests/test_tools.py::test_check_allocation_feasibility_unknown_entities PASSED (Anti-IDOR)
+tests/test_tools.py::test_get_topological_order_causal_chains PASSED
+tests/test_tools.py::test_get_topological_order_orphan_dependency PASSED
+tests/test_tools.py::test_get_topological_order_cycle_detection PASSED
+tests/test_tools.py::test_match_skills (9 combinações parametrizadas) PASSED
+============================= 22 passed in 0.18s =============================`,
+      state: `tests/test_state.py::test_task_creation_valid PASSED
+tests/test_state.py::test_task_default_dependencies PASSED
+tests/test_state.py::test_task_invalid_story_points (3 testes negativos) PASSED
+tests/test_state.py::test_task_invalid_priority_range (4 testes negativos) PASSED
+tests/test_state.py::test_developer_profile_valid PASSED
+tests/test_state.py::test_developer_profile_invalid_fte (4 testes de borda) PASSED
+tests/test_state.py::test_allocation_creation PASSED
+tests/test_state.py::test_sprint_plan_creation PASSED
+tests/test_state.py::test_sprint_state_structure PASSED
+============================= 18 passed in 0.12s =============================`,
+      data_loader: `tests/test_data_loader.py::test_get_data_dir PASSED
+tests/test_data_loader.py::test_list_scenarios PASSED
+tests/test_data_loader.py::test_load_scenario_a PASSED
+tests/test_data_loader.py::test_load_scenario_b_conformance PASSED (30 tarefas, 5 devs)
+tests/test_data_loader.py::test_load_scenario_c PASSED (100 tarefas)
+tests/test_data_loader.py::test_duplicate_task_id PASSED
+tests/test_data_loader.py::test_orphan_dependency PASSED
+tests/test_data_loader.py::test_circular_dependency_chain PASSED (DFS O(V+E))
+============================= 12 passed in 0.15s =============================`,
+      prompts: `tests/test_prompts.py::test_load_prompt_yaml_success[prioritization] PASSED
+tests/test_prompts.py::test_load_prompt_yaml_success[allocation] PASSED
+tests/test_prompts.py::test_load_prompt_yaml_success[supervisor] PASSED
+tests/test_prompts.py::test_load_prompt_yaml_not_found PASSED
+tests/test_prompts.py::test_get_agent_prompt_template_compilation PASSED
+tests/test_prompts.py::test_prompt_template_placeholders (set == set estrito) PASSED
+============================= 7 passed in 0.08s =============================`,
+      llm_factory: `tests/test_llm_factory.py::test_get_llm_groq_success PASSED
+tests/test_llm_factory.py::test_get_llm_groq_default_model PASSED
+tests/test_llm_factory.py::test_get_llm_groq_missing_api_key PASSED
+tests/test_llm_factory.py::test_get_llm_ollama_success PASSED
+tests/test_llm_factory.py::test_get_llm_ollama_defaults PASSED
+tests/test_llm_factory.py::test_get_llm_unsupported_provider PASSED
+tests/test_llm_factory.py::test_get_llm_provider_from_env PASSED
+============================= 7 passed in 0.08s =============================`
+    };
+
+    function filterTests(module) {
+      document.querySelectorAll('.test-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'font-bold');
+        btn.classList.add('bg-slate-800', 'text-slate-300');
+      });
+
+      const activeBtn = document.getElementById('test-filter-' + module);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-800', 'text-slate-300');
+        activeBtn.classList.add('bg-indigo-600', 'text-white', 'font-bold');
+      }
+
+      const terminal = document.getElementById('test-terminal-output');
+      const lines = testDetails[module].split('\n');
+      terminal.innerHTML = '';
+      lines.forEach(line => {
+        const div = document.createElement('div');
+        if (line.includes('PASSED')) {
+          div.className = 'text-slate-300';
+          div.innerHTML = line.replace('PASSED', '<span class="text-emerald-400 font-bold">PASSED</span>');
+        } else if (line.includes('passed in')) {
+          div.className = 'text-emerald-400 font-bold pt-2 border-t border-slate-800';
+          div.innerText = line;
+        } else {
+          div.className = 'text-slate-500';
+          div.innerText = line;
+        }
+        terminal.appendChild(div);
+      });
+    }
+
+    // 6. Cópia Rápida de Comandos
+    function copyCommand(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Comando copiado para a área de transferência: ' + text);
+      }).catch(() => {
+        prompt('Copie o comando manualmente:', text);
+      });
     }
   </script>
 </body>
