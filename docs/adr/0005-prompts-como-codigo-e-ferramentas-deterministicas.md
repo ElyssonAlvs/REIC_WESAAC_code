@@ -153,7 +153,7 @@ flowchart TD
 ---
 
 ## 8. Rastreabilidade & Homologação de QA
-- **Plano de Origem:** [`DOCUMENTOS-TASK/2026-10-19_plano-fase3-ferramentas-prompts.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_plano-fase3-ferramentas-prompts.md)
-- **Parecer de QA:** [`DOCUMENTOS-TASK/2026-10-19_parecer-qa-fase3-ferramentas-prompts.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_parecer-qa-fase3-ferramentas-prompts.md) (100% Conforme, 66/66 testes aprovados em 0.61s)
-- **Código de Produção:** [`sprint_mas/tools.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/tools.py) e [`sprint_mas/prompts.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/prompts.py)
-- **Prompts Versionados:** [`configs/prompts/*.yaml`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/configs/prompts/)
+- **Homologação Técnica:** Aprovada e homologada em 2026-10-19 com 100% de conformidade (66/66 testes aprovados em 0.61s).
+- **Código de Produção:** [`sprint_mas/tools.py`](../../sprint_mas/tools.py) e [`sprint_mas/prompts.py`](../../sprint_mas/prompts.py)
+- **Prompts Versionados:** [`configs/prompts/*.yaml`](../../configs/prompts/)
+- **Suíte de Testes:** [`tests/test_tools.py`](../../tests/test_tools.py) e [`tests/test_prompts.py`](../../tests/test_prompts.py)

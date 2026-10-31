@@ -94,7 +94,7 @@ flowchart LR
 
 ## 4. Anatomia Técnica do `SprintState` e Esquemas de Domínio
 
-No arquivo [`sprint_mas/state.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/state.py), construímos contratos de dados estritos com **Pydantic v2**:
+No arquivo [`sprint_mas/state.py`](../../sprint_mas/state.py), construímos contratos de dados estritos com **Pydantic v2**:
 
 ### 4.1. Modelos de Domínio
 - **`Task`**: Representa um item de trabalho do backlog.
@@ -124,7 +124,7 @@ Em nós de grafos com estado, se você simplesmente atribuir uma nova lista de m
 
 ## 5. Arquitetura Desacoplada de LLMs (Fábrica Groq + Ollama)
 
-Em [`sprint_mas/llm_factory.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/llm_factory.py), aplicou-se o padrão de projeto **Factory Method**:
+Em [`sprint_mas/llm_factory.py`](../../sprint_mas/llm_factory.py), aplicou-se o padrão de projeto **Factory Method**:
 
 ```mermaid
 flowchart TD
@@ -140,16 +140,16 @@ flowchart TD
 
 ---
 
-## 6. Catálogo de Artefatos & Histórico de Entregas por Dia
+## 6. Catálogo de Decisões de Arquitetura (ADRs)
 
-### 🗓️ 2026-10-02 — Fase 1: Fundação & Contrato de Estado
-- **Entrega:** Estrutura base de pacotes com `uv`, Pydantic schemas, `SprintState` e fábrica de LLM.
-- **Testes:** 25 testes unitários criados e aprovados (`tests/test_state.py` e `tests/test_llm_factory.py`).
-- **Governança:**
-  - 📋 [Plano da Fase 1](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-02_plano-fase1-fundacao.md)
-  - 📊 [Relatório Final da Fase 1](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-02_relatorio-fase1-fundacao.md)
-  - 🔌 [Pacote de Contexto da Fase 1](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-02_contexto-fase1-fundacao.md)
-  - 🗂️ [Índice de Governança](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/INDEX.md)
+Todas as escolhas estruturais da migração do n8n para LangGraph estão formalizadas e catalogadas em [`docs/adr/`](../adr/README.md):
+
+1. **[ADR 0001: Migração do n8n para LangGraph](../adr/0001-migracao-n8n-para-langgraph.md)** — Substituição do motor visual por grafos cíclicos de estado tipados.
+2. **[ADR 0002: Padrão Blackboard com Pydantic v2](../adr/0002-padrao-blackboard-com-pydantic-e-sprintstate.md)** — `SprintState` centralizado com validações de fronteira e redutor `add_messages`.
+3. **[ADR 0003: Fábrica Híbrida de LLMs (Groq + Ollama)](../adr/0003-fabrica-hibrida-de-llms-groq-e-ollama.md)** — Desacoplamento da camada de inferência para nuvem rápida e execução offline.
+4. **[ADR 0004: Ingestão de Dados e Validação de DAG](../adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** — Algoritmo DFS com coloração tricromática ($O(V+E)$) para prevenção de ciclos.
+5. **[ADR 0005: Prompts BART e Ferramentas Determinísticas](../adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** — Prompts declarativos em YAML e ferramentas Python puras (`@tool`) com defesas anti-IDOR.
+6. **[ADR 0006: Priorizador Híbrido Cognitivo-Determinístico](../adr/0006-agente-priorizacao-hibrido-bart-dag.md)** — Arquitetura em 3 estágios assegurando 0% de erro causal via fallback de Kahn min-heap.
 
 ---
 
@@ -157,8 +157,7 @@ flowchart TD
 
 ### 7.1. Executando a Suíte Completa de Testes
 Para certificar a integridade do código em seu terminal:
-```powershell
-cd c:\Users\elyss\Desktop\REIC-WESAAC
+```bash
 uv sync
 uv run pytest tests/ -v
 ```

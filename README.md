@@ -3,8 +3,10 @@
 > **Implementação rigorosa, auditável e tipada de um Sistema Multiagente (SMA) para automação e otimização do planejamento de sprints no Scrum, utilizando a stack LangGraph + LangChain + LangSmith.**
 
 Este repositório materializa a evolução prática e cientificamente auditável das propostas teóricas publicadas em:
-1. **WESAAC 2025:** [*Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints*](file:///c:/Users/elyss/Desktop/REIC-WESAAC/WESAAC_2025_Agile_MultiAgent.pdf) (19º Workshop-Escola de Sistemas de Agentes, seus Ambientes e Aplicações).
-2. **REIC 2026:** [*Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints*](file:///c:/Users/elyss/Desktop/REIC-WESAAC/REIC_2026_Metodologia_Agil_Multiagentes.pdf) (Revista Eletrônica de Iniciação Científica em Computação, SBC).
+1. **WESAAC 2025:** [*Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints*](docs/papers/WESAAC_2025_Agile_MultiAgent.pdf) (19º Workshop-Escola de Sistemas de Agentes, seus Ambientes e Aplicações).
+2. **REIC 2026:** [*Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints*](docs/papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf) (Revista Eletrônica de Iniciação Científica em Computação, SBC).
+
+Consulte o [**Catálogo de Papers Científicos**](docs/papers/README.md) para resumos, autoria (UFC Quixadá) e transcrições completas.
 
 ---
 
@@ -29,12 +31,16 @@ REIC-WESAAC/
 ├── reports/                # RELATÓRIOS & BENCHMARKS: Logs e comparativos M-Manual vs M-Agente
 │   └── experiments/        # Saídas de benchmarks de tempo e resiliência
 ├── tests/                  # QUALIDADE: Suíte de testes unitários automatizados (pytest)
-├── docs/                   # GOVERNANÇA & ARQUITETURA
-│   ├── adr/                # Architecture Decision Records (ADRs) formais
-│   └── system-card.md      # Ficha técnica do sistema (finalidade, limites e riscos)
-├── DOCUMENTOS-TASK/        # PROCESSO: Planos, relatórios e handovers do Tech Manager Workflow
-│   └── INDEX.md            # Catálogo cronológico de governança
-├── GUIA_APRENDIZADO.md     # PEDAGOGIA: Livro-guia conceitual e prático da reimplementação
+├── docs/                   # CENTRAL DE DOCUMENTAÇÃO & GOVERNANÇA
+│   ├── README.md           # Hub Central de Documentação do Projeto
+│   ├── index.html          # Dashboard interativo com simulador de grafo e terminal
+│   ├── system-card.md      # Ficha técnica do sistema (finalidade, limites e riscos)
+│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0006)
+│   │   └── README.md       # Catálogo unificado de decisões arquiteturais
+│   ├── papers/             # Artigos científicos de referência (PDFs e transcrições)
+│   │   └── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
+│   └── guides/             # Guias didáticos e pedagógicos
+│       └── GUIA_APRENDIZADO.md # Manual completo: Teoria BDI, Blackboard e LangGraph
 ├── pyproject.toml          # GERENCIAMENTO: Manifesto do projeto gerido via uv
 ├── .env.example            # AMBIENTE: Template de configuração (Groq / Ollama / LangSmith)
 └── .gitignore              # PROTEÇÃO: Bloqueio de secrets, logs pesados e caches
@@ -51,7 +57,7 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 | **1** | **Fundação & Contrato de Estado** | Configuração com `uv`, Pydantic v2 schemas, `SprintState` (Blackboard), fábrica híbrida de LLM (`ChatGroq` / `ChatOllama`) e testes unitários. | ✅ **Concluído** |
 | **2** | **Dados & Cenários de Teste** | Estruturação reproduzível dos Cenários A, B e C do paper em `data/processed/scenario_*.json`, com parser tipado, validação de DAG e testes. | ✅ **Concluído** |
 | **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ✅ **Concluída (19/10/2026)** |
-| **4** | **Agente de Priorização** | Nó cognitivo responsável por ordenar o backlog por valor de negócio e precedências lógicas. | ✅ **Concluída (31/10/2026)** |
+| **4** | **Agente de Priorização** | Nó cognitivo híbrido (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal. | ✅ **Concluída (31/10/2026)** |
 | **5** | **Agente de Alocação** | Nó cognitivo responsável pelo casamento semântico entre competências dos desenvolvedores e carga de trabalho. | ⏳ *Próxima* |
 | **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ⏳ *Pendente* |
 | **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing. | ⏳ *Pendente* |
@@ -63,66 +69,54 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 
 ---
 
-## 📅 Histórico de Entregas e Decisões Técnicas
+## 🏛️ Decisões de Arquitetura (ADRs)
 
-### 🗓️ 2026-10-02 — Entrega da Fase 1: Fundação & Contrato de Estado
-- **Status:** ✅ Aprovado com 100% dos testes unitários passando (25/25 em 0.74s).
-- **Documentos de Governança Emitidos:**
-  - 📋 [Plano de Implementação da Fase 1](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-02_plano-fase1-fundacao.md)
-  - 📊 [Relatório Final da Fase 1](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-02_relatorio-fase1-fundacao.md)
-  - 🔌 [Pacote de Contexto da Fase 1](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-02_contexto-fase1-fundacao.md)
+Todas as escolhas estruturais, mitigações de riscos e substituições em relação à abordagem original no n8n estão formalizadas no padrão Design System / MADR em [`docs/adr/`](docs/adr/README.md):
 
-#### Architecture Decision Records (ADRs) Registrados:
-1. **[ADR 0001: Migração do n8n para LangGraph](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0001-migracao-n8n-para-langgraph.md)** — Substituição da ferramenta low-code por grafos de estado tipados, cíclicos e testáveis.
-2. **[ADR 0002: Padrão Blackboard com Pydantic v2 e TypedDict](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0002-padrao-blackboard-com-pydantic-e-sprintstate.md)** — Centralização da memória compartilhada em `SprintState` com redutor `add_messages` e validações de borda (`story_points > 0`, `0.0 <= fte <= 1.0`).
-3. **[ADR 0003: Fábrica Híbrida de LLMs (Groq + Ollama)](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0003-fabrica-hibrida-de-llms-groq-e-ollama.md)** — Desacoplamento da infraestrutura de IA com Groq na nuvem (grátis/rápido) e Ollama local offline.
+| ADR | Título | Data | Status | Decisão Técnica Resumida |
+| :---: | :--- | :---: | :---: | :--- |
+| **[0001](docs/adr/0001-migracao-n8n-para-langgraph.md)** | **Migração do n8n para a Stack LangGraph** | 2026-10-02 | `Aprovada` | Substituição da ferramenta low-code por grafos de estado tipados, cíclicos e testáveis, viabilizando observabilidade e loops corretivos. |
+| **[0002](docs/adr/0002-padrao-blackboard-com-pydantic-e-sprintstate.md)** | **Padrão Blackboard com Pydantic v2 e TypedDict** | 2026-10-02 | `Aprovada` | Centralização da memória compartilhada em `SprintState` com redutor `add_messages` e validações de borda (`story_points > 0`, `0.0 <= fte <= 1.0`). |
+| **[0003](docs/adr/0003-fabrica-hibrida-de-llms-groq-e-ollama.md)** | **Fábrica Híbrida de LLMs (Groq + Ollama)** | 2026-10-02 | `Aprovada` | Desacoplamento da infraestrutura de IA para alternar entre nuvem gratuita ultra-rápida (Groq) e execução local offline (Ollama). |
+| **[0004](docs/adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** | **Data Loader Tipado e Validação de DAG** | 2026-10-19 | `Aprovada` | Ingestão sintética reproduzível dos Cenários A, B e C com validação algorítmica de DAG ($O(V+E)$) contra dependências circulares. |
+| **[0005](docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** | **Prompts BART e Ferramentas Determinísticas** | 2026-10-19 | `Aprovada` | Prompts em YAML (`configs/prompts/*.yaml`), pureza analítica e ferramentas Python puras (`@tool`) com defesas anti-IDOR. |
+| **[0006](docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md)** | **Priorizador Híbrido Cognitivo-Determinístico** | 2026-10-20 | `Aprovada` | Arquitetura em 3 estágios (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal e alinhamento estrito ao paper. |
 
-### 🗓️ 2026-10-19 — Entrega da Fase 2: Dados & Cenários de Teste Reproduzíveis
-- **Status:** ✅ Aprovado com 100% dos testes unitários passando (37/37 em 1.21s).
-- **Documentos de Governança Emitidos:**
-  - 📋 [Plano de Implementação da Fase 2](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_plano-fase2-dados-cenarios.md)
-  - 📊 [Relatório Final da Fase 2](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_relatorio-fase2-dados-cenarios.md)
-  - 🔌 [Pacote de Contexto da Fase 2](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_contexto-fase2-dados-cenarios.md)
+Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
 
-#### Architecture Decision Records (ADRs) Registrados:
-4. **[ADR 0004: Padronização de Cenários de Teste, Data Loader e Validação de DAG](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** — Ingestão estruturada de tarefas e desenvolvedores com validação algorítmica de DAG ($O(V + E)$) contra dependências circulares e órfãs.
+---
 
-### 🗓️ 2026-10-19 — Entrega da Fase 3: Ferramentas Determinísticas (`@tool`) e Prompts Versionados (Técnica BART)
-- **Status:** ✅ Aprovado com 100% dos testes unitários passando (66/66 em 0.61s).
-- **Documentos de Governança Emitidos:**
-  - 📋 [Plano de Implementação da Fase 3](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_plano-fase3-ferramentas-prompts.md)
-  - 🛡️ [Parecer Técnico de QA da Fase 3](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-19_parecer-qa-fase3-ferramentas-prompts.md)
+## 📚 Trabalhos Científicos de Origem
 
-#### Architecture Decision Records (ADRs) Registrados:
-5. **[ADR 0005: Prompts como Código (YAML) e Ferramentas Determinísticas (@tool)](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** — Desacoplamento estrito entre instruções linguísticas (BART) e cálculos determinísticos em Python com proteção anti-IDOR e limites numéricos defensivos.
+O projeto baseia-se diretamente nas pesquisas pioneiras desenvolvidas na **Universidade Federal do Ceará (UFC — Campus Quixadá)**:
 
-### 🗓️ 2026-10-31 — Entrega da Fase 4: Agente de Priorização (Product Owner Node)
-- **Status:** ✅ Aprovado com 100% dos testes unitários passando (77/77 em 1.01s).
-- **Documentos de Governança Emitidos:**
-  - 📋 [Plano de Implementação da Fase 4](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-20_plano-fase4-agente-priorizacao.md)
-  - 🛡️ [Parecer Técnico de QA da Fase 4](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-31_parecer-qa-fase4-agente-priorizacao.md)
+- 📕 **WESAAC 2025:** *Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints*  
+  [Visualizar PDF](docs/papers/WESAAC_2025_Agile_MultiAgent.pdf) &bull; [Transcrição Textual](docs/papers/wesaac_text.txt)
+- 📕 **REIC 2026:** *Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints*  
+  [Visualizar PDF](docs/papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf) &bull; [Transcrição Textual](docs/papers/reic_text.txt)
 
-#### Architecture Decision Records (ADRs) Registrados:
-6. **[ADR 0006: Arquitetura Híbrida Cognitivo-Determinística do Agente de Priorização](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md)** — Orquestração em 3 estágios (Tool-Augmented Context, deliberação semântica BART e guardião pós-LLM com fallback de Kahn ponderado por min-heap) assegurando matematicamente 0% de erro causal no DAG de dependências.
+Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub de Papers Científicos**](docs/papers/README.md).
 
 ---
 
 ## 🗂️ Onde Encontrar Cada Artefato
 
-| Tipo de Artefato | Localização | Está no Git? | Justificativa / Ferramenta |
+| Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
-| **Código Fonte do SMA** | `sprint_mas/` | **Sim** | Lógica de nós, agentes, estado e fábrica. |
-| **Testes Unitários** | `tests/` | **Sim** | Suíte pytest com mocks (garantia de regressão zero). |
-| **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts são tratados como código de produção (YAML). |
-| **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e devs. |
-| **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste sintéticos (pequenos e determinísticos). |
-| **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios formais de aceitação do plano gerado. |
-| **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limitações e escopo. |
-| **Decisões Arquiteturais (ADRs)**| `docs/adr/` | **Sim** | Histórico imutável de decisões de engenharia. |
-| **Processo e Tarefas** | `DOCUMENTOS-TASK/` | Local / Git | Governança ágil de planos e relatórios por entrega. |
-| **Guia Didático de Estudo** | `GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática. |
-| **Logs de Experimentos Pesados** | `reports/experiments/` | **Não** | Ignorados pelo `.gitignore` (rastreados via LangSmith). |
-| **Chaves de API e Secrets** | `.env` | **Não** | Bloqueado pelo `.gitignore` (template em `.env.example`). |
+| **Código Fonte do SMA** | `sprint_mas/` | **Sim** | Nós cognitivos, grafos de estado, esquemas Pydantic e fábrica LLM. |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 77 testes unitários (100% offline e sem mocks de rede). |
+| **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
+| **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
+| **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
+| **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
+| **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0006). |
+| **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
+| **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
+| **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
+| **Hub Central de Documentação** | `docs/README.md` | **Sim** | Ponto de entrada unificado para todos os manuais e relatórios técnicos. |
+| **Logs de Experimentos Pesados** | `reports/experiments/` | **Não** | Ignorados pelo `.gitignore` (rastreados e versionados via LangSmith). |
+| **Chaves de API e Segredos** | `.env` | **Não** | Bloqueado pelo `.gitignore` (template de referência em `.env.example`). |
 
 ---
 
@@ -133,22 +127,23 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 - Gerenciador de pacotes [`uv`](https://docs.astral.sh/uv/)
 
 ### 2. Inicialização e Sincronização do Ambiente
-```powershell
-cd c:\Users\elyss\Desktop\REIC-WESAAC
+```bash
+git clone https://github.com/SEU-USUARIO/REIC-WESAAC.git
+cd REIC-WESAAC
 uv venv --python 3.12
 uv sync
 ```
 
 ### 3. Configuração do `.env`
 Copie o modelo de ambiente:
-```powershell
-copy .env.example .env
+```bash
+cp .env.example .env
 ```
 - Para utilizar **Groq Cloud:** configure `PROVIDER=groq` e adicione sua chave `GROQ_API_KEY=gsk_...`.
 - Para utilizar **Ollama Local (Offline):** configure `PROVIDER=ollama` (com `llama3:latest` ativo no Ollama).
 
 ### 4. Execução da Suíte de Testes
-```powershell
+```bash
 uv run pytest tests/ -v
 ```
 *Status esperado: 77 testes automatizados passando (100% em ~1.01s).*
@@ -156,8 +151,10 @@ uv run pytest tests/ -v
 ---
 
 ## 📖 Documentação Aprofundada
-- 🎓 **Conceitos teóricos e aprendizado prático:** [`GUIA_APRENDIZADO.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/GUIA_APRENDIZADO.md).
-- 🏛️ **Decisões de Arquitetura (ADRs):** [`docs/adr/`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/).
-- 📋 **Ficha do Sistema:** [`docs/system-card.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/system-card.md).
-- 📊 **Dicionário de Dados:** [`data/README.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/data/README.md).
-- 📜 **Histórico de Governança:** [`DOCUMENTOS-TASK/INDEX.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/INDEX.md).
+- 🎓 **Conceitos teóricos e aprendizado prático:** [`docs/guides/GUIA_APRENDIZADO.md`](docs/guides/GUIA_APRENDIZADO.md)
+- 🏛️ **Decisões de Arquitetura (ADRs):** [`docs/adr/README.md`](docs/adr/README.md)
+- 📚 **Artigos Científicos de Referência:** [`docs/papers/README.md`](docs/papers/README.md)
+- 📋 **Ficha do Sistema (System Card):** [`docs/system-card.md`](docs/system-card.md)
+- 🌐 **Dashboard Interativo:** [`docs/index.html`](docs/index.html)
+- 📊 **Dicionário de Dados:** [`data/README.md`](data/README.md)
+- 📖 **Hub Geral de Documentação:** [`docs/README.md`](docs/README.md)

@@ -25,7 +25,7 @@ Fazia-se necessária uma arquitetura formalizada que una a cognição deliberati
 ---
 
 ## 3. Decisão Técnica Adotada
-Adotamos uma **Arquitetura Híbrida Cognitivo-Determinística em 3 Estágios** para o nó `prioritization_node` ([`sprint_mas/agents/prioritizer.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/agents/prioritizer.py)):
+Adotamos uma **Arquitetura Híbrida Cognitivo-Determinística em 3 Estágios** para o nó `prioritization_node` ([`sprint_mas/agents/prioritizer.py`](../../sprint_mas/agents/prioritizer.py)):
 
 ```mermaid
 flowchart TD
@@ -126,7 +126,6 @@ flowchart TD
 ---
 
 ## 8. Rastreabilidade & Homologação de QA
-- **Plano de Implementação:** [`DOCUMENTOS-TASK/2026-10-20_plano-fase4-agente-priorizacao.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-20_plano-fase4-agente-priorizacao.md)
-- **Parecer Oficial de QA:** [`DOCUMENTOS-TASK/2026-10-31_parecer-qa-fase4-agente-priorizacao.md`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-31_parecer-qa-fase4-agente-priorizacao.md) (Veredito: 🟢 **Aprovado**, 77/77 testes passando em 1.01s)
-- **Código de Produção:** [`sprint_mas/agents/prioritizer.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/agents/prioritizer.py), [`sprint_mas/agents/__init__.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/agents/__init__.py)
-- **Suíte de Testes:** [`tests/test_prioritizer.py`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/tests/test_prioritizer.py) (11 novos testes unitários com asserções profundas)
+- **Homologação Técnica:** Aprovada e homologada em 2026-10-31 com 100% de conformidade técnica e científica (77/77 testes passando em 1.01s).
+- **Código de Produção:** [`sprint_mas/agents/prioritizer.py`](../../sprint_mas/agents/prioritizer.py), [`sprint_mas/agents/__init__.py`](../../sprint_mas/agents/__init__.py)
+- **Suíte de Testes:** [`tests/test_prioritizer.py`](../../tests/test_prioritizer.py) (11 novos testes unitários com asserções profundas)
