@@ -51,8 +51,8 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 | **1** | **Fundação & Contrato de Estado** | Configuração com `uv`, Pydantic v2 schemas, `SprintState` (Blackboard), fábrica híbrida de LLM (`ChatGroq` / `ChatOllama`) e testes unitários. | ✅ **Concluído** |
 | **2** | **Dados & Cenários de Teste** | Estruturação reproduzível dos Cenários A, B e C do paper em `data/processed/scenario_*.json`, com parser tipado, validação de DAG e testes. | ✅ **Concluído** |
 | **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ✅ **Concluída (19/10/2026)** |
-| **4** | **Agente de Priorização** | Nó cognitivo responsável por ordenar o backlog por valor de negócio e precedências lógicas. | ⏳ *Próxima* |
-| **5** | **Agente de Alocação** | Nó cognitivo responsável pelo casamento semântico entre competências dos desenvolvedores e carga de trabalho. | ⏳ *Pendente* |
+| **4** | **Agente de Priorização** | Nó cognitivo responsável por ordenar o backlog por valor de negócio e precedências lógicas. | ✅ **Concluída (31/10/2026)** |
+| **5** | **Agente de Alocação** | Nó cognitivo responsável pelo casamento semântico entre competências dos desenvolvedores e carga de trabalho. | ⏳ *Próxima* |
 | **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ⏳ *Pendente* |
 | **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing. | ⏳ *Pendente* |
 | **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio no LangSmith. | ⏳ *Pendente* |
@@ -95,6 +95,15 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 
 #### Architecture Decision Records (ADRs) Registrados:
 5. **[ADR 0005: Prompts como Código (YAML) e Ferramentas Determinísticas (@tool)](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** — Desacoplamento estrito entre instruções linguísticas (BART) e cálculos determinísticos em Python com proteção anti-IDOR e limites numéricos defensivos.
+
+### 🗓️ 2026-10-31 — Entrega da Fase 4: Agente de Priorização (Product Owner Node)
+- **Status:** ✅ Aprovado com 100% dos testes unitários passando (77/77 em 1.01s).
+- **Documentos de Governança Emitidos:**
+  - 📋 [Plano de Implementação da Fase 4](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-20_plano-fase4-agente-priorizacao.md)
+  - 🛡️ [Parecer Técnico de QA da Fase 4](file:///c:/Users/elyss/Desktop/REIC-WESAAC/DOCUMENTOS-TASK/2026-10-31_parecer-qa-fase4-agente-priorizacao.md)
+
+#### Architecture Decision Records (ADRs) Registrados:
+6. **[ADR 0006: Arquitetura Híbrida Cognitivo-Determinística do Agente de Priorização](file:///c:/Users/elyss/Desktop/REIC-WESAAC/docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md)** — Orquestração em 3 estágios (Tool-Augmented Context, deliberação semântica BART e guardião pós-LLM com fallback de Kahn ponderado por min-heap) assegurando matematicamente 0% de erro causal no DAG de dependências.
 
 ---
 
@@ -142,7 +151,7 @@ copy .env.example .env
 ```powershell
 uv run pytest tests/ -v
 ```
-*Status esperado: 66 testes automatizados passando (100% em ~0.61s).*
+*Status esperado: 77 testes automatizados passando (100% em ~1.01s).*
 
 ---
 
