@@ -20,7 +20,8 @@ docs/
 │   ├── 0003-fabrica-hibrida-de-llms-groq-e-ollama.md
 │   ├── 0004-padronizacao-de-cenarios-de-teste-e-data-loader.md
 │   ├── 0005-prompts-como-codigo-e-ferramentas-deterministicas.md
-│   └── 0006-agente-priorizacao-hibrido-bart-dag.md
+│   ├── 0006-agente-priorizacao-hibrido-bart-dag.md
+│   └── 0007-agente-alocacao-capacidade-skills.md
 ├── papers/                   # 📚 Trabalhos Científicos de Referência (UFC Quixadá)
 │   ├── README.md             # Resumos, Autoria e Mapeamento Científico
 │   ├── WESAAC_2025_Agile_MultiAgent.pdf
@@ -42,6 +43,7 @@ Todas as decisões de design, migração e conformidade lógica estão registrad
   - [ADR 0004: Data Loader Tipado e Validação de DAG](./adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)
   - [ADR 0005: Prompts como Código (BART) e Ferramentas Determinísticas](./adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)
   - [ADR 0006: Priorizador Híbrido Cognitivo-Determinístico (0% Erro Causal)](./adr/0006-agente-priorizacao-hibrido-bart-dag.md)
+  - [ADR 0007: Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack](./adr/0007-agente-alocacao-capacidade-skills.md)
 
 ---
 

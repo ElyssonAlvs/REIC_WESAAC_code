@@ -150,6 +150,7 @@ Todas as escolhas estruturais da migração do n8n para LangGraph estão formali
 4. **[ADR 0004: Ingestão de Dados e Validação de DAG](../adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** — Algoritmo DFS com coloração tricromática ($O(V+E)$) para prevenção de ciclos.
 5. **[ADR 0005: Prompts BART e Ferramentas Determinísticas](../adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** — Prompts declarativos em YAML e ferramentas Python puras (`@tool`) com defesas anti-IDOR.
 6. **[ADR 0006: Priorizador Híbrido Cognitivo-Determinístico](../adr/0006-agente-priorizacao-hibrido-bart-dag.md)** — Arquitetura em 3 estágios assegurando 0% de erro causal via fallback de Kahn min-heap.
+7. **[ADR 0007: Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack](../adr/0007-agente-alocacao-capacidade-skills.md)** — Arquitetura híbrida em 3 estágios com mitigação de gargalo via `dev_C` e blindagem do teto de 0.5 FTE de `dev_D`.
 
 ---
 

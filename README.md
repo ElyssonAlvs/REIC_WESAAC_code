@@ -58,8 +58,8 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 | **2** | **Dados & Cenários de Teste** | Estruturação reproduzível dos Cenários A, B e C do paper em `data/processed/scenario_*.json`, com parser tipado, validação de DAG e testes. | ✅ **Concluído** |
 | **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ✅ **Concluída (19/10/2026)** |
 | **4** | **Agente de Priorização** | Nó cognitivo híbrido (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal. | ✅ **Concluída (31/10/2026)** |
-| **5** | **Agente de Alocação** | Nó cognitivo responsável pelo casamento semântico entre competências dos desenvolvedores e carga de trabalho. | ⏳ *Próxima* |
-| **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ⏳ *Pendente* |
+| **5** | **Agente de Alocação** | Nó cognitivo híbrido (BART + Tool Capacity + Match Skills) mitigando gargalos via dev_C e blindando dev_D (0.5 FTE). | ✅ **Concluída (31/10/2026)** |
+| **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ⏳ *Próxima* |
 | **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing. | ⏳ *Pendente* |
 | **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio no LangSmith. | ⏳ *Pendente* |
 | **9** | **Live Execution & Benchmarks (A, B, C)** | Execução ao vivo com o servidor/grafo dos 3 cenários e captura empírica dos tempos de inferência e tokens. | ⏳ *Pendente* |
@@ -81,6 +81,7 @@ Todas as escolhas estruturais, mitigações de riscos e substituições em rela�
 | **[0004](docs/adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** | **Data Loader Tipado e Validação de DAG** | 2026-10-19 | `Aprovada` | Ingestão sintética reproduzível dos Cenários A, B e C com validação algorítmica de DAG ($O(V+E)$) contra dependências circulares. |
 | **[0005](docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** | **Prompts BART e Ferramentas Determinísticas** | 2026-10-19 | `Aprovada` | Prompts em YAML (`configs/prompts/*.yaml`), pureza analítica e ferramentas Python puras (`@tool`) com defesas anti-IDOR. |
 | **[0006](docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md)** | **Priorizador Híbrido Cognitivo-Determinístico** | 2026-10-20 | `Aprovada` | Arquitetura em 3 estágios (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal e alinhamento estrito ao paper. |
+| **[0007](docs/adr/0007-agente-alocacao-capacidade-skills.md)** | **Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack** | 2026-10-31 | `Aprovada` | Alocação com mitigação de gargalo via dev_C (Fullstack) e blindagem de dev_D (0.5 FTE) com fallback determinístico. |
 
 Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
 
@@ -104,13 +105,13 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
 | **Código Fonte do SMA** | `sprint_mas/` | **Sim** | Nós cognitivos, grafos de estado, esquemas Pydantic e fábrica LLM. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 77 testes unitários (100% offline e sem mocks de rede). |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 90 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
 | **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0006). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0007). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
@@ -146,7 +147,7 @@ cp .env.example .env
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 77 testes automatizados passando (100% em ~1.01s).*
+*Status esperado: 90 testes automatizados passando (100% em ~1.05s).*
 
 ---
 

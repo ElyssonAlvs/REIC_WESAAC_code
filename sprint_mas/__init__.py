@@ -1,10 +1,16 @@
 """Sprint Planning Multi-Agent System (sprint-mas)."""
 
 from sprint_mas.agents import (
+    AllocationItem,
+    AllocationOutput,
     PrioritizationOutput,
+    allocation_node,
+    allocator_node,
+    deterministic_allocation,
     deterministic_topological_sort,
     prioritization_node,
     prioritizer_node,
+    validate_allocation_plan,
     validate_prioritization_order,
 )
 from sprint_mas.data_loader import (
@@ -34,13 +40,18 @@ from sprint_mas.tools import (
 
 __all__ = [
     "Allocation",
+    "AllocationItem",
+    "AllocationOutput",
     "DeveloperProfile",
     "PrioritizationOutput",
     "SprintPlan",
     "SprintState",
     "Task",
+    "allocation_node",
+    "allocator_node",
     "calculate_team_capacity",
     "check_allocation_feasibility",
+    "deterministic_allocation",
     "deterministic_topological_sort",
     "get_agent_prompt_template",
     "get_data_dir",
@@ -52,6 +63,7 @@ __all__ = [
     "match_skills",
     "prioritization_node",
     "prioritizer_node",
+    "validate_allocation_plan",
     "validate_dependencies_dag",
     "validate_prioritization_order",
 ]

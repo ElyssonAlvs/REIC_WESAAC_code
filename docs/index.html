@@ -341,7 +341,7 @@
             Elysson Alves de Lacerda et al.
           </span>
           <span class="px-2.5 py-1 text-xs font-mono font-semibold bg-[#0d1e17] text-emerald-400 border border-emerald-500/30 rounded-md">
-            77/77 Testes (100% OK)
+            90/90 Testes (100% OK)
           </span>
         </div>
 
@@ -392,9 +392,9 @@
               <div class="text-[10px] text-emerald-500 font-mono mt-0.5">Zero Alucinação</div>
             </div>
             <div class="surface-card p-3 rounded-lg border-[#1e1e26]">
-              <div class="text-2xl font-black text-blue-400 font-mono">33.3%</div>
+              <div class="text-2xl font-black text-blue-400 font-mono">41.6%</div>
               <div class="text-[11px] text-zinc-400 font-medium">Roadmap</div>
-              <div class="text-[10px] text-zinc-400 font-mono mt-0.5">4/12 Fases OK</div>
+              <div class="text-[10px] text-zinc-400 font-mono mt-0.5">5/12 Fases OK</div>
             </div>
           </div>
         </div>
@@ -425,13 +425,13 @@
           <span>🧪</span> 2. Simulação Científica & Cenários
         </button>
         <button onclick="switchTab('roadmap')" id="tab-btn-roadmap" class="tab-nav-btn px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-[#121218] border border-transparent flex items-center gap-2 whitespace-nowrap">
-          <span>🗺️</span> 3. Roadmap das 12 Fases (33.3%)
+          <span>🗺️</span> 3. Roadmap das 12 Fases (41.6%)
         </button>
         <button onclick="switchTab('llmops')" id="tab-btn-llmops" class="tab-nav-btn px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-[#121218] border border-transparent flex items-center gap-2 whitespace-nowrap">
           <span>📦</span> 4. Camadas LLMOps, Governança & BART
         </button>
         <button onclick="switchTab('execucao')" id="tab-btn-execucao" class="tab-nav-btn px-4 py-2 rounded-lg text-zinc-400 hover:text-white hover:bg-[#121218] border border-transparent flex items-center gap-2 whitespace-nowrap">
-          <span>⚡</span> 5. Terminal de Testes (77/77) & Rastreabilidade
+          <span>⚡</span> 5. Terminal de Testes (90/90) & Rastreabilidade
         </button>
       </nav>
     </header>
@@ -1080,13 +1080,13 @@
               <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">12 Fases Incrementais, Auditadas e Testadas</h2>
             </div>
             <div class="text-right font-mono">
-              <span class="text-3xl font-black text-emerald-400">33.3%</span>
-              <span class="text-xs text-zinc-400 block font-semibold">4 de 12 Fases Concluídas</span>
+              <span class="text-3xl font-black text-emerald-400">41.6%</span>
+              <span class="text-xs text-zinc-400 block font-semibold">5 de 12 Fases Concluídas</span>
             </div>
           </div>
 
           <div class="w-full bg-[#121217] rounded-full h-2.5 overflow-hidden">
-            <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 33.3%;"></div>
+            <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 41.6%;"></div>
           </div>
 
           <!-- Filtros de Fases -->
@@ -1096,13 +1096,13 @@
               Todas (12)
             </button>
             <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded bg-[#14141a] text-zinc-300 hover:text-white transition-colors">
-              ✅ Concluídas (4)
+              ✅ Concluídas (5)
             </button>
             <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded bg-[#14141a] text-zinc-300 hover:text-white transition-colors">
               ⏳ Próxima (1)
             </button>
             <button onclick="filterPhases('planned')" id="filter-btn-planned" class="phase-filter-btn px-3 py-1 rounded bg-[#14141a] text-zinc-300 hover:text-white transition-colors">
-              📋 Planejadas (7)
+              📋 Planejadas (6)
             </button>
           </div>
         </div>
@@ -1190,42 +1190,43 @@
             </div>
           </div>
 
-          <!-- FASE 5: Próxima -->
-          <div class="phase-card next surface-card border-amber-500/50 bg-amber-950/10 rounded-xl p-5 relative flex flex-col justify-between">
+          <!-- FASE 5: Concluída -->
+          <div class="phase-card completed surface-card border-emerald-500/30 rounded-xl p-5 relative flex flex-col justify-between">
             <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                Fase 5 ⏳ Próxima a Implementar
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                Fase 5 ✅ Concluída
               </span>
-              <span class="text-[11px] font-mono text-amber-400 font-bold">Imediata</span>
+              <span class="text-[11px] font-mono text-zinc-500">90 Testes OK</span>
             </div>
             <div>
               <h3 class="text-base font-bold text-white mt-1">Agente de Alocação de Recursos</h3>
               <p class="text-xs text-zinc-300 mt-2 leading-relaxed">
-                Nó cognitivo que mapeia tarefas aos desenvolvedores, aplicando a estratégia de mitigação de gargalo do Cenário B com absorção pelo perfil Fullstack (<code class="text-amber-200">dev_C</code>).
+                Nó cognitivo híbrido em 3 estágios: absorção do gargalo de backend pelo perfil Fullstack (<code class="text-emerald-400">dev_C</code>), blindagem estrita do teto de 10 pts em <code class="text-emerald-400">dev_D</code> (0.5 FTE) e fallback determinístico guloso.
               </p>
             </div>
             <div class="bg-[#050507] border border-[#1a1a22] rounded-lg p-2.5 mt-4 text-[11px] font-mono text-zinc-400 space-y-0.5">
-              <div><span class="text-zinc-500">Escopo:</span> sprint_mas/agents/allocator.py</div>
-              <div><span class="text-zinc-500">Meta:</span> Respeitar teto de 10 pts em dev_D</div>
+              <div><span class="text-zinc-500">Artefatos:</span> allocator.py, test_allocator.py</div>
+              <div><span class="text-zinc-500">Decisões:</span> ADR 0007 homologada</div>
             </div>
           </div>
 
-          <!-- FASE 6 -->
-          <div class="phase-card planned surface-card border-[#1f1f28] opacity-75 rounded-xl p-5 flex flex-col justify-between">
+          <!-- FASE 6: Próxima -->
+          <div class="phase-card next surface-card border-amber-500/50 bg-amber-950/10 rounded-xl p-5 relative flex flex-col justify-between">
             <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#121217] text-zinc-400">
-                Fase 6 📋 Planejada
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                Fase 6 ⏳ Próxima a Implementar
               </span>
-              <span class="text-[11px] font-mono text-zinc-500">Zero LLM</span>
+              <span class="text-[11px] font-mono text-amber-400 font-bold">Imediata</span>
             </div>
             <div>
               <h3 class="text-base font-bold text-white mt-1">Agente Validador Determinístico</h3>
-              <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
-                Nó puramente algorítmico em Python que audita alocações contra o teto de 0.5 FTE de <code class="text-zinc-300">dev_D</code> e preenche <code class="text-zinc-300">validation_errors</code>.
+              <p class="text-xs text-zinc-300 mt-2 leading-relaxed">
+                Nó puramente algorítmico em Python (Zero LLM) que audita alocações contra o teto de 0.5 FTE de <code class="text-amber-200">dev_D</code> e preenche <code class="text-amber-200">validation_errors</code>.
               </p>
             </div>
-            <div class="pt-2 border-t border-[#1a1a22] text-[11px] font-mono text-zinc-500 mt-3">
-              sprint_mas/agents/validator.py
+            <div class="bg-[#050507] border border-[#1a1a22] rounded-lg p-2.5 mt-4 text-[11px] font-mono text-zinc-400 space-y-0.5">
+              <div><span class="text-zinc-500">Escopo:</span> sprint_mas/agents/validator.py</div>
+              <div><span class="text-zinc-500">Meta:</span> Auditoria matemática e acionamento de feedback loop</div>
             </div>
           </div>
 
@@ -1375,7 +1376,7 @@
               </div>
               <div class="mt-4 pt-3 border-t border-[#1a1a22] font-mono text-[11px] text-zinc-500 space-y-0.5">
                 <div>&bull; sprint_mas/</div>
-                <div>&bull; tests/ (77 testes)</div>
+                <div>&bull; tests/ (90 testes)</div>
                 <div>&bull; pyproject.toml (uv)</div>
               </div>
             </div>
@@ -1470,7 +1471,7 @@
           </div>
         </div>
 
-        <!-- Catálogo de Decisões Arquiteturais (ADRs 0001 a 0006) -->
+        <!-- Catálogo de Decisões Arquiteturais (ADRs 0001 a 0007) -->
         <div class="surface-panel rounded-xl p-6 border-[#1f1f28]">
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -1480,7 +1481,7 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <!-- ADR 0001 -->
             <a href="adr/0001-migracao-n8n-para-langgraph.md" class="surface-card p-4 rounded-xl border-[#1e1e26] flex flex-col justify-between block group">
               <div>
@@ -1582,6 +1583,23 @@
                 Fase 4 &bull; 20/10/2026
               </div>
             </a>
+
+            <!-- ADR 0007 -->
+            <a href="adr/0007-agente-alocacao-capacidade-skills.md" class="surface-card p-4 rounded-xl border-[#1e1e26] flex flex-col justify-between block group">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="font-mono text-xs font-bold text-blue-400">ADR 0007</span>
+                  <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded">Aprovada</span>
+                </div>
+                <h4 class="text-sm font-bold text-white group-hover:text-blue-400 transition-colors mt-1">Alocador Híbrido & Fullstack</h4>
+                <p class="text-xs text-zinc-400 mt-2 leading-relaxed">
+                  Mitigação de gargalo via dev_C, blindagem do teto de 0.5 FTE de dev_D e fallback determinístico guloso.
+                </p>
+              </div>
+              <div class="mt-3 pt-2 border-t border-[#1a1a22] text-[10px] font-mono text-zinc-500">
+                Fase 5 &bull; 31/10/2026
+              </div>
+            </a>
           </div>
         </div>
 
@@ -1625,7 +1643,7 @@
                 </div>
 
                 <div>
-                  <span class="text-zinc-500 block text-[11px] mb-1"># 3. Executar toda a suíte de 77 testes com pytest</span>
+                  <span class="text-zinc-500 block text-[11px] mb-1"># 3. Executar toda a suíte de 90 testes com pytest</span>
                   <div class="bg-[#050507] p-2.5 rounded-lg border border-[#1a1a22] flex justify-between items-center group">
                     <span class="text-white select-all">uv run pytest tests/ -v</span>
                     <button onclick="copyCommand('uv run pytest tests/ -v')" class="text-xs text-zinc-400 hover:text-white px-2 py-0.5 rounded bg-[#16161e]">Copiar</button>
@@ -1639,12 +1657,12 @@
             </div>
           </div>
 
-          <!-- Terminal Interativo dos 77 Testes -->
+          <!-- Terminal Interativo dos 90 Testes -->
           <div class="lg:col-span-7 surface-panel rounded-xl p-6 border-[#1f1f28] flex flex-col justify-between">
             <div>
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                 <h3 class="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                  <span>🧪</span> Terminal Interativo de Testes (77/77 PASSED)
+                  <span>🧪</span> Terminal Interativo de Testes (90/90 PASSED)
                 </h3>
                 <span class="px-2.5 py-0.5 text-xs font-mono font-bold rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                   100% de Sucesso
@@ -1654,7 +1672,10 @@
               <!-- Filtros de Módulo de Teste -->
               <div class="flex flex-wrap items-center gap-1.5 mb-3 text-[11px] font-mono">
                 <button onclick="filterTests('all')" id="test-filter-all" class="test-filter-btn px-2.5 py-1 rounded bg-blue-600 text-white font-bold">
-                  Todos (77)
+                  Todos (90)
+                </button>
+                <button onclick="filterTests('allocator')" id="test-filter-allocator" class="test-filter-btn px-2.5 py-1 rounded bg-[#14141a] text-zinc-400 hover:text-white">
+                  test_allocator.py (13)
                 </button>
                 <button onclick="filterTests('prioritizer')" id="test-filter-prioritizer" class="test-filter-btn px-2.5 py-1 rounded bg-[#14141a] text-zinc-400 hover:text-white">
                   test_prioritizer.py (11)
@@ -1679,6 +1700,7 @@
               <!-- Janela do Terminal -->
               <div id="test-terminal-output" class="bg-[#050507] font-mono text-[11px] text-zinc-300 p-3.5 rounded-xl border border-[#1a1a22] h-52 overflow-y-auto space-y-1">
                 <div class="text-zinc-500">=== Execução Consolidada (pytest 9.1.1 &bull; Python 3.12.13 &bull; Win32) ===</div>
+                <div class="text-zinc-400 test-row module-allocator">tests/test_allocator.py (13 testes) .................... <span class="text-emerald-400 font-bold">PASSED</span></div>
                 <div class="text-zinc-400 test-row module-data_loader">tests/test_data_loader.py (12 testes) .................... <span class="text-emerald-400 font-bold">PASSED</span></div>
                 <div class="text-zinc-400 test-row module-llm_factory">tests/test_llm_factory.py (7 testes) ..................... <span class="text-emerald-400 font-bold">PASSED</span></div>
                 <div class="text-zinc-400 test-row module-prioritizer">tests/test_prioritizer.py (11 testes) .................... <span class="text-emerald-400 font-bold">PASSED</span></div>
@@ -1686,7 +1708,7 @@
                 <div class="text-zinc-400 test-row module-state">tests/test_state.py (18 testes) .......................... <span class="text-emerald-400 font-bold">PASSED</span></div>
                 <div class="text-zinc-400 test-row module-tools">tests/test_tools.py (22 testes) .......................... <span class="text-emerald-400 font-bold">PASSED</span></div>
                 <div class="text-emerald-400 font-bold pt-2 border-t border-[#1a1a22]">
-                  ============================= 77 passed in 1.01s =============================
+                  ============================= 90 passed in 1.05s =============================
                 </div>
               </div>
             </div>
@@ -1769,7 +1791,7 @@
         progressBar.style.width = '60%';
         setTimeout(() => {
           progressBar.style.width = '100%';
-          if (loaderStatus) loaderStatus.innerText = '77/77 Testes Aprovados &bull; Sistema Pronto';
+          if (loaderStatus) loaderStatus.innerText = '90/90 Testes Aprovados &bull; Sistema Pronto';
           setTimeout(() => {
             entranceLoader.classList.add('loaded');
           }, 250);
@@ -2204,13 +2226,28 @@
     // 8. Terminal de Testes com Filtros
     // ------------------------------------------------------------------------
     const testDetails = {
-      all: `tests/test_data_loader.py (12 testes) .................... PASSED
+      all: `tests/test_allocator.py (13 testes) .................... PASSED
+tests/test_data_loader.py (12 testes) .................... PASSED
 tests/test_llm_factory.py (7 testes) ..................... PASSED
 tests/test_prioritizer.py (11 testes) .................... PASSED
 tests/test_prompts.py (7 testes) ......................... PASSED
 tests/test_state.py (18 testes) .......................... PASSED
 tests/test_tools.py (22 testes) .......................... PASSED
-============================= 77 passed in 1.01s =============================`,
+============================= 90 passed in 1.05s =============================`,
+      allocator: `tests/test_allocator.py::test_allocation_node_scenario_a_happy_path PASSED
+tests/test_allocator.py::test_allocation_node_scenario_b_fte_and_bottleneck PASSED (Gargalo dev_C Fullstack)
+tests/test_allocator.py::test_deterministic_allocation_scenario_b_validity PASSED
+tests/test_allocator.py::test_validate_allocation_rejects_unknown_dev_idor PASSED (Anti-IDOR)
+tests/test_allocator.py::test_validate_allocation_rejects_unknown_task_idor PASSED (Anti-IDOR)
+tests/test_allocator.py::test_validate_allocation_rejects_skill_mismatch PASSED (Skill Matching)
+tests/test_allocator.py::test_validate_allocation_rejects_fte_overload_dev_d PASSED (Teto 10 pts dev_D)
+tests/test_allocator.py::test_validate_allocation_rejects_missing_or_duplicate_allocations PASSED
+tests/test_allocator.py::test_allocation_node_strict_mode_raises_on_violation PASSED
+tests/test_allocator.py::test_allocation_node_resilient_fallback_on_bad_llm_output PASSED (Fallback Guloso)
+tests/test_allocator.py::test_allocation_node_handles_markdown_code_fences PASSED
+tests/test_allocator.py::test_allocation_node_empty_inputs_raises PASSED
+tests/test_allocator.py::test_allocator_node_alias PASSED
+============================= 13 passed in 0.38s =============================`,
       prioritizer: `tests/test_prioritizer.py::test_prioritization_node_scenario_a_happy_path PASSED
 tests/test_prioritizer.py::test_prioritization_node_scenario_b_causal_chains PASSED
 tests/test_prioritizer.py::test_deterministic_topological_sort_business_value PASSED

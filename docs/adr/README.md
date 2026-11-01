@@ -16,6 +16,7 @@ Este diretório segue as boas práticas do formato **MADR (Markdown Architecture
 | **[0004](./0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** | **Padronização de Cenários de Teste e Data Loader Tipado com Validação de DAG** | 2026-10-19 | `Aprovada` | Ingestão sintética reproduzível dos Cenários A, B e C com algoritmo DFS com coloração tricromática ($O(V+E)$) para garantia de aciclicidade. |
 | **[0005](./0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** | **Prompts como Código (Técnica BART) e Ferramentas Determinísticas de Cálculo** | 2026-10-19 | `Aprovada` | Prompts declarativos versionados em YAML (`configs/prompts/*.yaml`), pureza analítica e ferramentas Python puras (`@tool`) com defesas anti-IDOR. |
 | **[0006](./0006-agente-priorizacao-hibrido-bart-dag.md)** | **Arquitetura Híbrida Cognitivo-Determinística do Agente de Priorização** | 2026-10-20 | `Aprovada` | Arquitetura em 3 estágios (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal e alinhamento estrito ao paper. |
+| **[0007](./0007-agente-alocacao-capacidade-skills.md)** | **Arquitetura do Agente de Alocação de Recursos e Resolução de Gargalos via Perfil Fullstack** | 2026-10-31 | `Aprovada` | Alocação de tarefas via BART + ferramentas analíticas com fallback determinístico guloso, blindando o teto de 0.5 FTE de dev_D e aliviando gargalo de backend via dev_C. |
 
 ---
 
