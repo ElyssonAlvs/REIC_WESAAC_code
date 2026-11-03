@@ -35,12 +35,13 @@ REIC-WESAAC/
 │   ├── README.md           # Hub Central de Documentação do Projeto
 │   ├── index.html          # Dashboard interativo com simulador de grafo e terminal
 │   ├── system-card.md      # Ficha técnica do sistema (finalidade, limites e riscos)
-│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0009)
+│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0010)
 │   │   └── README.md       # Catálogo unificado de decisões arquiteturais
 │   ├── papers/             # Artigos científicos de referência (PDFs e transcrições)
 │   │   └── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
 │   └── guides/             # Guias didáticos e pedagógicos
 │       └── GUIA_APRENDIZADO.md # Manual completo: Teoria BDI, Blackboard e LangGraph
+├── main.py                 # CLI EXECUTIVA: Ponto de entrada com telemetria BDI e LangSmith
 ├── pyproject.toml          # GERENCIAMENTO: Manifesto do projeto gerido via uv
 ├── .env.example            # AMBIENTE: Template de configuração (Groq / Ollama / LangSmith)
 └── .gitignore              # PROTEÇÃO: Bloqueio de secrets, logs pesados e caches
@@ -61,8 +62,8 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 | **5** | **Agente de Alocação** | Nó cognitivo híbrido (BART + Tool Capacity + Match Skills) mitigando gargalos via dev_C e blindando dev_D (0.5 FTE). | ✅ **Concluída (31/10/2026)** |
 | **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ✅ **Concluída (02/11/2026)** |
 | **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing (`MemorySaver`) e Circuit Breaker. | ✅ **Concluída (02/11/2026)** |
-| **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio no LangSmith. | ⏳ *Próxima* |
-| **9** | **Live Execution & Benchmarks (A, B, C)** | Execução ao vivo com o servidor/grafo dos 3 cenários e captura empírica dos tempos de inferência e tokens. | ⏳ *Pendente* |
+| **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio BDI no LangSmith e local (`telemetry.py`). | ✅ **Concluída (03/11/2026)** |
+| **9** | **Live Execution & Benchmarks (A, B, C)** | Execução ao vivo com o servidor/grafo dos 3 cenários e captura empírica dos tempos de inferência e tokens. | ⏳ *Próxima* |
 | **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA). | ⏳ *Pendente* |
 | **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito e checagem de semântica do implementado vs testado (Zero Scope Leak). | ⏳ *Pendente* |
 | **12** | **Documentação Minimalista & Consolidação** | Síntese minimalista de markdowns de governança, empacotamento para replicação científica e atualização final do HTML interativo. | ⏳ *Pendente* |
@@ -84,6 +85,7 @@ Todas as escolhas estruturais, mitigações de riscos e substituições em rela�
 | **[0007](docs/adr/0007-agente-alocacao-capacidade-skills.md)** | **Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack** | 2026-10-31 | `Aprovada` | Alocação com mitigação de gargalo via dev_C (Fullstack) e blindagem de dev_D (0.5 FTE) com fallback determinístico. |
 | **[0008](docs/adr/0008-agente-validador-deterministico-zero-llm.md)** | **Agente Validador Determinístico Multi-Dimensional com Zero LLM e Server Authority** | 2026-11-02 | `Aprovada` | Motor analítico em Python puro com 5 dimensões de auditoria, latência sub-milissegundo, Zero LLM e autoridade estrita em Story Points. |
 | **[0009](docs/adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** | **Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker Stateless** | 2026-11-02 | `Aprovada` | Topologia cíclica do StateGraph, poda analítica por capacidade (84 pts no Cenário B), Circuit Breaker stateless e Server Authority no supervisor. |
+| **[0010](docs/adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)** | **Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura** | 2026-11-03 | `Aprovada` | Telemetria dual (Cloud LangSmith + Local BDI Trace), sincronização `LANGSMITH_*`/`LANGCHAIN_*`, CLI `main.py` com códigos de saída padronizados e proteção anti-Path Traversal. |
 
 Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
 
@@ -106,14 +108,14 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
-| **Código Fonte do SMA** | `sprint_mas/` | **Sim** | Nós cognitivos, grafos de estado, esquemas Pydantic e fábrica LLM. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 125 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e CLI executiva. |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 149 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
 | **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0009). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0010). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
@@ -145,11 +147,20 @@ cp .env.example .env
 - Para utilizar **Groq Cloud:** configure `PROVIDER=groq` e adicione sua chave `GROQ_API_KEY=gsk_...`.
 - Para utilizar **Ollama Local (Offline):** configure `PROVIDER=ollama` (com `llama3:latest` ativo no Ollama).
 
-### 4. Execução da Suíte de Testes
+### 4. Execução da CLI Executiva & Observabilidade BDI
+```bash
+# Executar o Cenário B com trilha deliberativa BDI e diagrama Mermaid do grafo
+uv run python main.py --scenario b --show-trace --show-graph
+
+# Executar o Cenário A e exportar relatório estruturado em JSON
+uv run python main.py --scenario a --json --output reports/experiments/scenario_a_run.json
+```
+
+### 5. Execução da Suíte de Testes
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 125 testes automatizados passando (100% em ~1.11s).*
+*Status esperado: 149 testes automatizados passando (100%).*
 
 ---
 

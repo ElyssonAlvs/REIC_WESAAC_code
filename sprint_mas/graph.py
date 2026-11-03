@@ -18,6 +18,7 @@ from sprint_mas.agents.supervisor import supervisor_node
 from sprint_mas.agents.validator import validation_node
 from sprint_mas.llm_factory import get_llm
 from sprint_mas.state import DeveloperProfile, SprintState, Task
+from sprint_mas.telemetry import build_langsmith_run_config
 from sprint_mas.tools import calculate_team_capacity
 
 
@@ -390,27 +391,33 @@ def run_sprint_planning(
     sprint_days: int = 10,
     points_per_day: float = 2.0,
     enable_scope_trimming: bool = True,
+    scenario_name: str = "custom",
+    tags: Optional[list[str]] = None,
+    metadata: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
-    """Helper de alto nível para execução ponta a ponta do Sprint Planning MAS.
+    """High-level helper for end-to-end execution of the Sprint Planning MAS.
 
     Args:
-        backlog: Lista de tarefas a serem planejadas.
-        team: Lista de perfis de desenvolvedores disponíveis.
-        thread_id: Identificador de sessão para checkpointing.
-        sprint_goal: Meta da sprint.
-        checkpointer: Checkpointer de memória (default: None).
-        llm: Modelo LangChain customizado opcional.
-        strict: Modo estrito de validação.
-        max_retries: Limite do circuit breaker de replanejamentos (default: 2).
-        sprint_days: Duração em dias úteis (default: 10).
-        points_per_day: Story points por dia (default: 2.0).
-        enable_scope_trimming: Habilita corte determinístico de escopo.
+        backlog: List of tasks to be planned.
+        team: List of available developer profiles.
+        thread_id: Session identifier for checkpointing.
+        sprint_goal: Sprint objective.
+        checkpointer: Optional memory checkpointer (default: None).
+        llm: Optional custom LangChain chat model.
+        strict: Strict validation mode.
+        max_retries: Circuit breaker limit for corrective replanning passes (default: 2).
+        sprint_days: Duration in business days (default: 10).
+        points_per_day: Story points per full-time day (default: 2.0).
+        enable_scope_trimming: Enables deterministic capacity-based scope trimming.
+        scenario_name: Scenario identifier for LangSmith run_name and metadata (default: 'custom').
+        tags: Optional list of custom LangSmith tags.
+        metadata: Optional dictionary of custom LangSmith metadata.
 
     Returns:
-        dict[str, Any]: Estado final consolidado do SprintState.
+        dict[str, Any]: Final consolidated SprintState dictionary.
 
     Raises:
-        ValueError: Se backlog/time estiverem vazios ou parâmetros forem inválidos.
+        ValueError: If backlog/team are empty or numeric parameters are out of bounds.
     """
     if not backlog:
         raise ValueError("Backlog must be non-empty.")
@@ -447,9 +454,15 @@ def run_sprint_planning(
         "messages": [],
     }
 
-    config = {
-        "configurable": {"thread_id": thread_id},
-        "recursion_limit": max(50, (max_retries + 2) * 5),
-    }
+    config = build_langsmith_run_config(
+        thread_id=thread_id,
+        scenario_name=scenario_name,
+        sprint_goal=sprint_goal,
+        max_retries=max_retries,
+        sprint_days=sprint_days,
+        points_per_day=points_per_day,
+        tags=tags,
+        metadata=metadata,
+    )
 
     return graph.invoke(initial_state, config=config)

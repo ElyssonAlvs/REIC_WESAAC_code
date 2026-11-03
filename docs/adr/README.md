@@ -19,6 +19,7 @@ Este diretório segue as boas práticas do formato **MADR (Markdown Architecture
 | **[0007](./0007-agente-alocacao-capacidade-skills.md)** | **Arquitetura do Agente de Alocação de Recursos e Resolução de Gargalos via Perfil Fullstack** | 2026-10-31 | `Aprovada` | Alocação de tarefas via BART + ferramentas analíticas com fallback determinístico guloso, blindando o teto de 0.5 FTE de dev_D e aliviando gargalo de backend via dev_C. |
 | **[0008](./0008-agente-validador-deterministico-zero-llm.md)** | **Arquitetura do Agente Validador Determinístico Multi-Dimensional com Zero Chamadas LLM e Server Authority** | 2026-11-02 | `Aprovada` | Motor analítico em Python puro com 5 dimensões de auditoria, latência sub-milissegundo, Zero LLM e autoridade estrita em Story Points. |
 | **[0009](./0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** | **Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker Stateless** | 2026-11-02 | `Aprovada` | Topologia cíclica do StateGraph, poda analítica por capacidade (84 pts no Cenário B), Circuit Breaker stateless e Server Authority no supervisor. |
+| **[0010](./0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)** | **Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura** | 2026-11-03 | `Aprovada` | Telemetria dual (Cloud LangSmith + Local BDI Trace), sincronização `LANGSMITH_*`/`LANGCHAIN_*`, CLI `main.py` com códigos de saída padronizados e proteção anti-Path Traversal. |
 
 ---
 

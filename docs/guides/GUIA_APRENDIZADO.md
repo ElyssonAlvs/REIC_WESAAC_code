@@ -189,6 +189,7 @@ Todas as escolhas estruturais da migração do n8n para LangGraph estão formali
 7. **[ADR 0007: Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack](../adr/0007-agente-alocacao-capacidade-skills.md)** — Arquitetura híbrida em 3 estágios com mitigação de gargalo via `dev_C` e blindagem do teto de 0.5 FTE de `dev_D`.
 8. **[ADR 0008: Agente Validador Determinístico Multi-Dimensional](../adr/0008-agente-validador-deterministico-zero-llm.md)** — Auditoria determinística em 5 dimensões (Zero LLM, latência sub-milissegundo, Server Authority e detecção de ciclos DFS tricolor).
 9. **[ADR 0009: Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker](../adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** — Topologia cíclica do StateGraph, corte determinístico de escopo por capacidade (`select_feasible_sprint_tasks`), Circuit Breaker stateless anti-loop infinito e Server Authority no supervisor.
+10. **[ADR 0010: Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura](../adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)** — Telemetria dual Cloud/Local (`sprint_mas/telemetry.py`), sincronização segura de variáveis `LANGSMITH_*`/`LANGCHAIN_*`, reconstrução estruturada da trilha BDI (`DeliberationTraceReport`) e CLI executiva (`main.py`) com proteção anti-Path Traversal.
 
 ---
 
@@ -200,7 +201,7 @@ Para certificar a integridade do código em seu terminal:
 uv sync
 uv run pytest tests/ -v
 ```
-*Status esperado: 125 testes automatizados aprovados (100% OK).*
+*Status esperado: 149 testes automatizados aprovados (100% OK).*
 
 ### 8.2. Testando Validações de Borda (Edge Cases)
 Experimente instanciar um objeto `DeveloperProfile` com FTE inválido no console Python:
@@ -259,4 +260,32 @@ print("Pontos Alocados:", plan.total_points)  # Rigorosamente <= 84 pts
 print("Tarefas Agendadas:", len(plan.tasks))
 ```
 Esse laboratório demonstra a convergência automática em 2 passagens, onde tarefas de menor prioridade ou excedentes são descartadas matematicamente sem travar o motor multiagente.
+
+### 8.5. Observabilidade Híbrida LangSmith e Inspeção Local da Deliberação BDI (Fase 8)
+O módulo [`sprint_mas/telemetry.py`](../../sprint_mas/telemetry.py) e a CLI [`main.py`](../../main.py) oferecem observabilidade dual (Cloud + Local Offline):
+
+#### A. Configurando o LangSmith Cloud Tracing
+1. No arquivo `.env`, defina as variáveis de telemetria:
+   ```env
+   LANGSMITH_TRACING=true
+   LANGSMITH_API_KEY=lsv2_pt_...
+   LANGSMITH_PROJECT="reic-wesaac-sprint-mas"
+   ```
+2. A função `configure_langsmith_tracing()` sincroniza automaticamente `LANGSMITH_TRACING` / `LANGCHAIN_TRACING_V2` e `LANGSMITH_PROJECT` / `LANGCHAIN_PROJECT`. Caso `LANGSMITH_API_KEY` esteja ausente ou vazia, o sistema faz fallback seguro para telemetria local (`tracing_enabled=False`) sem emitir erros HTTP 401.
+3. No painel web do LangSmith ([smith.langchain.com](https://smith.langchain.com)), acesse o menu **Tracing** $\to$ projeto **`reic-wesaac-sprint-mas`** para inspecionar a árvore de execução (`sprint-mas:scenario_b`), as tags semânticas (`bdi-architecture`, `reic-2026`, `wesaac-2025`), latência por nó e consumo de tokens.
+
+#### B. Inspecionando a Deliberação BDI Localmente via CLI (`main.py`)
+Mesmo sem conexão externa ou chave do LangSmith, você pode visualizar toda a trilha cronológica BDI (`desires` $\to$ `intentions_draft` $\to$ `governance_audit` $\to$ `corrective_replan` $\to$ `intentions_consolidated`) e o diagrama Mermaid do grafo compilado diretamente no terminal:
+
+```bash
+# Executa o Cenário B exibindo a linha do tempo BDI (7 passos / 2-pass) e a topologia Mermaid
+uv run python main.py --scenario b --show-trace --show-graph
+
+# Exporta o relatório canônico em JSON dentro do diretório seguro do repositório
+uv run python main.py --scenario b --json --output reports/experiments/scenario_b_trace.json
+
+# Simula o desarme do Circuit Breaker desativando a poda de escopo (retorna exit code 2)
+uv run python main.py --scenario b --no-trim --max-retries 1
+```
+
 
