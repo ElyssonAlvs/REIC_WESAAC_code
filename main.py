@@ -19,6 +19,12 @@ from sprint_mas.telemetry import (
 )
 from sprint_mas.tools import calculate_team_capacity
 
+if sys.platform == "win32":
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
+
 
 def normalize_scenario_name(raw_scenario: str) -> str:
     """Normalizes scenario aliases ('a', 'b', 'c', 'scenario_a', etc.) and validates against the catalog.
@@ -419,6 +425,11 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
 
 def main() -> None:
     """Entrypoint when invoked directly via `python main.py`."""
+    if sys.platform == "win32":
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8")
+        if hasattr(sys.stderr, "reconfigure"):
+            sys.stderr.reconfigure(encoding="utf-8")
     sys.exit(run_cli())
 
 
