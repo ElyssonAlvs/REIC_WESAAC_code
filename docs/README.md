@@ -13,7 +13,7 @@ docs/
 ├── README.md                 # Este Hub Central de Documentação
 ├── index.html                # 🌐 Dashboard Interativo com Simulador do Grafo e Terminal de Testes
 ├── system-card.md            # 🛡️ Ficha Técnica: Finalidade, Limitações, Riscos e Métricas
-├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0006)
+├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0009)
 │   ├── README.md             # Índice Completo e Sumário Executivo das ADRs
 │   ├── 0001-migracao-n8n-para-langgraph.md
 │   ├── 0002-padrao-blackboard-com-pydantic-e-sprintstate.md
@@ -21,7 +21,9 @@ docs/
 │   ├── 0004-padronizacao-de-cenarios-de-teste-e-data-loader.md
 │   ├── 0005-prompts-como-codigo-e-ferramentas-deterministicas.md
 │   ├── 0006-agente-priorizacao-hibrido-bart-dag.md
-│   └── 0007-agente-alocacao-capacidade-skills.md
+│   ├── 0007-agente-alocacao-capacidade-skills.md
+│   ├── 0008-agente-validador-deterministico-zero-llm.md
+│   └── 0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md
 ├── papers/                   # 📚 Trabalhos Científicos de Referência (UFC Quixadá)
 │   ├── README.md             # Resumos, Autoria e Mapeamento Científico
 │   ├── WESAAC_2025_Agile_MultiAgent.pdf
@@ -44,6 +46,8 @@ Todas as decisões de design, migração e conformidade lógica estão registrad
   - [ADR 0005: Prompts como Código (BART) e Ferramentas Determinísticas](./adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)
   - [ADR 0006: Priorizador Híbrido Cognitivo-Determinístico (0% Erro Causal)](./adr/0006-agente-priorizacao-hibrido-bart-dag.md)
   - [ADR 0007: Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack](./adr/0007-agente-alocacao-capacidade-skills.md)
+  - [ADR 0008: Agente Validador Determinístico Multi-Dimensional com Zero LLM e Server Authority](./adr/0008-agente-validador-deterministico-zero-llm.md)
+  - [ADR 0009: Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker Stateless](./adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)
 
 ---
 
@@ -81,7 +85,7 @@ Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do
   - Visualizador e simulador de fluxo do Grafo LangGraph
   - Linha do tempo e progresso do Roadmap em 12 fases
   - Visualizador de código com comparativos estruturais
-  - Terminal interativo com filtragem por módulo dos 77 testes automatizados
+  - Terminal interativo com filtragem por módulo dos 125 testes automatizados
 
 ---
 

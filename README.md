@@ -35,7 +35,7 @@ REIC-WESAAC/
 │   ├── README.md           # Hub Central de Documentação do Projeto
 │   ├── index.html          # Dashboard interativo com simulador de grafo e terminal
 │   ├── system-card.md      # Ficha técnica do sistema (finalidade, limites e riscos)
-│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0006)
+│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0009)
 │   │   └── README.md       # Catálogo unificado de decisões arquiteturais
 │   ├── papers/             # Artigos científicos de referência (PDFs e transcrições)
 │   │   └── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
@@ -59,9 +59,9 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 | **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ✅ **Concluída (19/10/2026)** |
 | **4** | **Agente de Priorização** | Nó cognitivo híbrido (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal. | ✅ **Concluída (31/10/2026)** |
 | **5** | **Agente de Alocação** | Nó cognitivo híbrido (BART + Tool Capacity + Match Skills) mitigando gargalos via dev_C e blindando dev_D (0.5 FTE). | ✅ **Concluída (31/10/2026)** |
-| **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ⏳ *Próxima* |
-| **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing. | ⏳ *Pendente* |
-| **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio no LangSmith. | ⏳ *Pendente* |
+| **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ✅ **Concluída (02/11/2026)** |
+| **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing (`MemorySaver`) e Circuit Breaker. | ✅ **Concluída (02/11/2026)** |
+| **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio no LangSmith. | ⏳ *Próxima* |
 | **9** | **Live Execution & Benchmarks (A, B, C)** | Execução ao vivo com o servidor/grafo dos 3 cenários e captura empírica dos tempos de inferência e tokens. | ⏳ *Pendente* |
 | **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA). | ⏳ *Pendente* |
 | **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito e checagem de semântica do implementado vs testado (Zero Scope Leak). | ⏳ *Pendente* |
@@ -82,6 +82,8 @@ Todas as escolhas estruturais, mitigações de riscos e substituições em rela�
 | **[0005](docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** | **Prompts BART e Ferramentas Determinísticas** | 2026-10-19 | `Aprovada` | Prompts em YAML (`configs/prompts/*.yaml`), pureza analítica e ferramentas Python puras (`@tool`) com defesas anti-IDOR. |
 | **[0006](docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md)** | **Priorizador Híbrido Cognitivo-Determinístico** | 2026-10-20 | `Aprovada` | Arquitetura em 3 estágios (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal e alinhamento estrito ao paper. |
 | **[0007](docs/adr/0007-agente-alocacao-capacidade-skills.md)** | **Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack** | 2026-10-31 | `Aprovada` | Alocação com mitigação de gargalo via dev_C (Fullstack) e blindagem de dev_D (0.5 FTE) com fallback determinístico. |
+| **[0008](docs/adr/0008-agente-validador-deterministico-zero-llm.md)** | **Agente Validador Determinístico Multi-Dimensional com Zero LLM e Server Authority** | 2026-11-02 | `Aprovada` | Motor analítico em Python puro com 5 dimensões de auditoria, latência sub-milissegundo, Zero LLM e autoridade estrita em Story Points. |
+| **[0009](docs/adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** | **Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker Stateless** | 2026-11-02 | `Aprovada` | Topologia cíclica do StateGraph, poda analítica por capacidade (84 pts no Cenário B), Circuit Breaker stateless e Server Authority no supervisor. |
 
 Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
 
@@ -105,13 +107,13 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
 | **Código Fonte do SMA** | `sprint_mas/` | **Sim** | Nós cognitivos, grafos de estado, esquemas Pydantic e fábrica LLM. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 90 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 125 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
 | **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0007). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0009). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
@@ -147,7 +149,7 @@ cp .env.example .env
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 90 testes automatizados passando (100% em ~1.05s).*
+*Status esperado: 125 testes automatizados passando (100% em ~1.11s).*
 
 ---
 
