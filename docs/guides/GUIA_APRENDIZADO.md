@@ -190,6 +190,7 @@ Todas as escolhas estruturais da migração do n8n para LangGraph estão formali
 8. **[ADR 0008: Agente Validador Determinístico Multi-Dimensional](../adr/0008-agente-validador-deterministico-zero-llm.md)** — Auditoria determinística em 5 dimensões (Zero LLM, latência sub-milissegundo, Server Authority e detecção de ciclos DFS tricolor).
 9. **[ADR 0009: Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker](../adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** — Topologia cíclica do StateGraph, corte determinístico de escopo por capacidade (`select_feasible_sprint_tasks`), Circuit Breaker stateless anti-loop infinito e Server Authority no supervisor.
 10. **[ADR 0010: Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura](../adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)** — Telemetria dual Cloud/Local (`sprint_mas/telemetry.py`), sincronização segura de variáveis `LANGSMITH_*`/`LANGCHAIN_*`, reconstrução estruturada da trilha BDI (`DeliberationTraceReport`) e CLI executiva (`main.py`) com proteção anti-Path Traversal.
+11. **[ADR 0011: Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas](../adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)** — Suíte científica de benchmarking multi-cenário e multi-runs (`sprint_mas/benchmarks.py`), isolamento criptográfico de `thread_id`, Server Authority na aferição de restrições de DAG/FTE/Skills, agregações estatísticas robustas e exportação tripla (.json, .md, .csv).
 
 ---
 
@@ -201,7 +202,7 @@ Para certificar a integridade do código em seu terminal:
 uv sync
 uv run pytest tests/ -v
 ```
-*Status esperado: 149 testes automatizados aprovados (100% OK).*
+*Status esperado: 184 testes automatizados aprovados (100% OK).*
 
 ### 8.2. Testando Validações de Borda (Edge Cases)
 Experimente instanciar um objeto `DeveloperProfile` com FTE inválido no console Python:
@@ -287,5 +288,64 @@ uv run python main.py --scenario b --json --output reports/experiments/scenario_
 # Simula o desarme do Circuit Breaker desativando a poda de escopo (retorna exit code 2)
 uv run python main.py --scenario b --no-trim --max-retries 1
 ```
+
+### 8.6. Benchmarking Científico Automatizado e Coleta de Métricas Empíricas (Fase 9)
+O módulo [`sprint_mas/benchmarks.py`](../../sprint_mas/benchmarks.py) implementa a suíte experimental formal para aferição das variáveis operacionais descritas no REIC 2026 (Seções 5 e 6).
+
+#### A. Como Funciona a Suíte de Benchmarks
+1. **Isolamento Concorrente:** Cada repetição ($N$ *runs*) recebe um `thread_id` exclusivo (`bench-{scenario}-run{i}-{uuid8}`) para impedir contaminação do histórico no `MemorySaver`.
+2. **Server Authority em Métricas de Qualidade:** Em vez de confiar em relatórios auto-declarativos do modelo, o servidor recalcula as violações com zero chamadas a LLM:
+   - Violações de DAG (ciclos e inversões): via `audit_sprint_state` (DFS tricromático).
+   - Violações de FTE (sobrecargas de capacidade): via `calculate_team_capacity`.
+   - Violações de Competência (*Skills*): via `is_dev_qualified`.
+3. **Agregação Estatística:** Computa média, desvio padrão condicional (seguro contra quebra quando $N=1$), mediana, mínimo, máximo, percentil 95 (P95 interpolado linearmente) e taxa de replanejamento.
+
+#### B. Executando Baterias de Benchmarks via CLI (`main.py`)
+```bash
+# Executa benchmark dos 3 cenários (A, B e C) com 2 repetições cada e exportação tripla automática
+uv run python main.py --benchmark --scenarios a,b,c --runs 2 --export-prefix benchmark
+
+# Executa benchmark forçando execução offline determinística
+uv run python main.py --benchmark --scenarios a,b --runs 5 --offline-mock
+
+# Exporta relatório canônico estruturado em JSON para um arquivo seguro
+uv run python main.py --benchmark --scenarios b --runs 3 --output reports/experiments/benchmark_b.json
+```
+
+#### C. Executando Programaticamente via Python
+```python
+from sprint_mas.benchmarks import BenchmarkConfig, export_benchmark_artifacts, run_benchmark_suite
+
+# 1. Configura a bateria experimental com validação Pydantic v2 (extra="forbid")
+config = BenchmarkConfig(
+    scenarios=["scenario_a", "scenario_b", "scenario_c"],
+    runs=2,
+    offline_mock=True,
+    max_retries=2,
+)
+
+# 2. Executa a suíte completa
+report = run_benchmark_suite(config=config)
+
+# 3. Exporta simultaneamente os artefatos nos 3 formatos padrão (.json, .md, .csv)
+artifacts = export_benchmark_artifacts(
+    report=report,
+    base_filename="benchmark",
+    output_dir="reports/experiments",
+)
+print("Artefatos gerados:", {fmt: str(path) for fmt, path in artifacts.items()})
+
+# 4. Inspeciona a convergência empírica
+for summary in report.summaries:
+    print(
+        f"Cenário: {summary.scenario} | "
+        f"Aprovação: {summary.approval_rate * 100:.0f}% | "
+        f"Tempo Médio: {summary.mean_time_ms:.2f} ms | "
+        f"Violações DAG/FTE/Skill: {summary.dag_violations_total}/{summary.fte_violations_total}/{summary.skill_violations_total}"
+    )
+```
+
+Essa automação científica viabiliza a geração direta da tabela de resultados empíricos para o artigo científico e comprova a manutenção da garantia de 0% de violações estruturais em todos os cenários.
+
 
 

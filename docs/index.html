@@ -324,9 +324,9 @@
       <nav class="hidden lg:flex items-center gap-6 text-xs font-medium text-[var(--text-secondary)]" aria-label="Menu Principal">
         <a href="#arquitetura" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.arch">Arquitetura</a>
         <a href="#benchmark" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.benchmark">Benchmarks</a>
-        <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (66.7%)</a>
-        <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (10)</a>
-        <a href="#terminal" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.terminal">Terminal (149/149)</a>
+        <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (75.0%)</a>
+        <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (11)</a>
+        <a href="#terminal" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.terminal">Terminal (184/184)</a>
         <a href="#artigos" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.papers">Artigos</a>
       </nav>
 
@@ -377,9 +377,9 @@
     <div id="mobile-menu" class="hidden lg:hidden border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] px-4 py-3 space-y-2 text-sm font-medium">
       <a href="#arquitetura" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.arch">Arquitetura</a>
       <a href="#benchmark" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.benchmark">Benchmarks</a>
-      <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (66.7%)</a>
-      <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (10)</a>
-      <a href="#terminal" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.terminal">Terminal (149/149)</a>
+      <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (75.0%)</a>
+      <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (11)</a>
+      <a href="#terminal" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.terminal">Terminal (184/184)</a>
       <a href="#artigos" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.papers">Artigos</a>
       <a href="https://github.com/ElyssonAlvs/REIC_WESAAC_code" target="_blank" class="block py-1.5 text-blue-500 font-mono">Repositório GitHub &rarr;</a>
     </div>
@@ -402,10 +402,10 @@
           <span>REIC 2026 &bull; WESAAC 2025 (UFC Quixadá)</span>
         </span>
         <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded-md bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-          <span data-i18n="hero.badge_tests">149/149 Testes Automatizados (100% OK)</span>
+          <span data-i18n="hero.badge_tests">184/184 Testes Automatizados (100% OK)</span>
         </span>
         <span class="px-2.5 py-1 text-xs font-mono font-medium rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
-          <span data-i18n="hero.badge_phase">Fase 8 Concluída &bull; 66.7% Roadmap</span>
+          <span data-i18n="hero.badge_phase">Fase 9 Concluída &bull; 75.0% Roadmap</span>
         </span>
       </div>
 
@@ -459,9 +459,9 @@
               <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_zero">Zero Alucinação</div>
             </div>
             <div class="surface-card p-3 rounded-xl">
-              <div class="text-2xl font-black text-emerald-500 font-mono">66.7%</div>
+              <div class="text-2xl font-black text-emerald-500 font-mono">75.0%</div>
               <div class="text-[11px] text-[var(--text-secondary)] font-medium" data-i18n="hero.metric_roadmap">Roadmap</div>
-              <div class="text-[10px] text-emerald-500 font-mono mt-0.5">8/12 Fases OK</div>
+              <div class="text-[10px] text-emerald-500 font-mono mt-0.5">9/12 Fases OK</div>
             </div>
           </div>
         </div>
@@ -1040,7 +1040,7 @@
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 3: ROADMAP DAS 12 FASES (66.7% CONCLUÍDO)
+         SEÇÃO 3: ROADMAP DAS 12 FASES (75.0% CONCLUÍDO)
          ==================================================================== -->
     <section id="roadmap" class="space-y-6">
       
@@ -1050,7 +1050,7 @@
           Roadmap das 12 Fases de Engenharia
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="road.desc">
-          Estratégia "Dividir para Conquistar": 8 fases já concluídas, testadas e auditadas com 149 testes unitários.
+          Estratégia "Dividir para Conquistar": 9 fases já concluídas, testadas e auditadas com 184 testes unitários.
         </p>
       </div>
 
@@ -1062,20 +1062,20 @@
               <span class="px-2 py-0.5 text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded">
                 Progresso Geral
               </span>
-              <span class="text-xs font-mono text-[var(--text-muted)]">8 de 12 Fases Concluídas</span>
+              <span class="text-xs font-mono text-[var(--text-muted)]">9 de 12 Fases Concluídas</span>
             </div>
             <h3 class="text-xl font-bold text-[var(--text-primary)] tracking-tight" data-i18n="road.progress_title">
-              Suíte Integralmente Verde &bull; 149 Testes (100% OK)
+              Suíte Integralmente Verde &bull; 184 Testes (100% OK)
             </h3>
           </div>
           <div class="text-right font-mono">
-            <span class="text-3xl font-black text-emerald-500">66.7%</span>
-            <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 9 como Próxima</span>
+            <span class="text-3xl font-black text-emerald-500">75.0%</span>
+            <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 10 como Próxima</span>
           </div>
         </div>
 
         <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-2.5 overflow-hidden">
-          <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 66.7%;"></div>
+          <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 75.0%;"></div>
         </div>
 
         <!-- Filtros de Fases -->
@@ -1085,13 +1085,13 @@
             Todas (12)
           </button>
           <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-            ✅ Concluídas (8)
+            ✅ Concluídas (9)
           </button>
           <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
             ⏳ Próxima (1)
           </button>
           <button onclick="filterPhases('planned')" id="filter-btn-planned" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-            📋 Planejadas (3)
+            📋 Planejadas (2)
           </button>
         </div>
       </div>
@@ -1243,29 +1243,30 @@
           </div>
         </div>
 
-        <!-- FASE 9: Próxima -->
-        <div class="phase-card next surface-card border-amber-500/50 bg-amber-500/5 rounded-xl p-5 flex flex-col justify-between">
+        <!-- FASE 9: Concluída -->
+        <div class="phase-card completed surface-card border-emerald-500/30 rounded-xl p-5 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-500">Fase 9 ⏳ Próxima a Implementar</span>
-              <span class="text-[11px] font-mono text-amber-500 font-bold">Imediata</span>
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500">Fase 9 ✅ Concluída</span>
+              <span class="text-[11px] font-mono text-[var(--text-muted)]">34 Testes (184 Total)</span>
             </div>
             <h4 class="text-base font-bold text-[var(--text-primary)]">Live Execution & Benchmarks</h4>
             <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
-              Execução ao vivo com o grafo dos 3 cenários e captura empírica dos tempos de inferência para replicação científica.
+              Bateria automatizada de benchmarks multi-cenário e multi-runs (<code>benchmarks.py</code> e <code>main.py --benchmark</code>), agregações estatísticas seguras e exportação em <code>.json</code>, <code>.md</code> e <code>.csv</code>.
             </p>
           </div>
-          <div class="pt-2 border-t border-[var(--border-subtle)] text-[11px] font-mono text-[var(--text-muted)] mt-3">
-            reports/experiments/benchmarks.json
+          <div class="bg-[var(--code-bg)] border border-[var(--border-subtle)] rounded-lg p-2.5 mt-4 text-[11px] font-mono text-[var(--text-muted)] space-y-0.5">
+            <div><span class="text-[var(--text-secondary)]">Artefatos:</span> benchmarks.py, test_benchmarks.py (34), benchmark.{json,md,csv}</div>
+            <div><span class="text-[var(--text-secondary)]">ADR:</span> ADR 0011 (Homologada)</div>
           </div>
         </div>
 
-        <!-- FASE 10 -->
-        <div class="phase-card planned surface-card opacity-75 rounded-xl p-5 flex flex-col justify-between">
+        <!-- FASE 10: Próxima -->
+        <div class="phase-card next surface-card border-amber-500/50 bg-amber-500/5 rounded-xl p-5 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-muted)]">Fase 10 📋 Planejada</span>
-              <span class="text-[11px] font-mono text-[var(--text-muted)]">Evals</span>
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-500">Fase 10 ⏳ Próxima a Implementar</span>
+              <span class="text-[11px] font-mono text-amber-500 font-bold">Imediata</span>
             </div>
             <h4 class="text-base font-bold text-[var(--text-primary)]">Avaliação & Comparativo Humano</h4>
             <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
@@ -1514,11 +1515,11 @@
         </div>
 
         <!-- ADR 0010 -->
-        <div onclick="openAdrModal('0010')" class="surface-card p-4 rounded-xl cursor-pointer hover:border-blue-500/50 flex flex-col justify-between group border-blue-500/30">
+        <div onclick="openAdrModal('0010')" class="surface-card p-4 rounded-xl cursor-pointer hover:border-blue-500/50 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between mb-2">
               <span class="font-mono text-xs font-bold text-blue-500">ADR 0010</span>
-              <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">Nova &bull; Aprovada</span>
+              <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">Aprovada</span>
             </div>
             <h4 class="text-sm font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
               Observabilidade Híbrida LangSmith & CLI
@@ -1533,22 +1534,42 @@
           </div>
         </div>
 
+        <!-- ADR 0011 -->
+        <div onclick="openAdrModal('0011')" class="surface-card p-4 rounded-xl cursor-pointer hover:border-blue-500/50 flex flex-col justify-between group border-blue-500/30">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold text-blue-500">ADR 0011</span>
+              <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">Nova &bull; Aprovada</span>
+            </div>
+            <h4 class="text-sm font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
+              Benchmarking Automatizado & Métricas
+            </h4>
+            <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
+              Suíte científica multi-cenário e multi-runs, isolamento por thread_id, Server Authority (DAG/FTE) e exportação tripla (.json, .md, .csv).
+            </p>
+          </div>
+          <div class="mt-4 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)] flex justify-between">
+            <span>Fase 9 &bull; 04/11/2026</span>
+            <span class="text-blue-500 font-bold">Ver Ficha &rarr;</span>
+          </div>
+        </div>
+
       </div>
 
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 5: TERMINAL DE TESTES INTERATIVO (149/149 PASSED)
+         SEÇÃO 5: TERMINAL DE TESTES INTERATIVO (184/184 PASSED)
          ==================================================================== -->
     <section id="terminal" class="space-y-6">
       
       <div class="border-b border-[var(--border-subtle)] pb-4">
         <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider" data-i18n="term.pretitle">Qualidade & Confiabilidade</span>
         <h2 class="text-2xl font-black tracking-tight text-[var(--text-primary)] mt-1" data-i18n="term.title">
-          Terminal Interativo de Testes (149/149 PASSED)
+          Terminal Interativo de Testes (184/184 PASSED)
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="term.desc">
-          Rastreabilidade completa com filtros em tempo real pelos 11 arquivos de teste automatizados do repositório.
+          Rastreabilidade completa com filtros em tempo real pelos 12 arquivos de teste automatizados do repositório.
         </p>
       </div>
 
@@ -1564,7 +1585,7 @@
               <span class="text-xs font-mono text-blue-500">Python 3.12</span>
             </div>
             <p class="text-xs text-[var(--text-secondary)] mb-4" data-i18n="term.uv_desc">
-              Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 149 testes.
+              Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 184 testes.
             </p>
 
             <div class="space-y-3 font-mono text-xs">
@@ -1577,7 +1598,7 @@
               </div>
 
               <div>
-                <span class="text-[var(--text-muted)] block text-[11px] mb-1"># 2. Rodar todos os 149 testes</span>
+                <span class="text-[var(--text-muted)] block text-[11px] mb-1"># 2. Rodar todos os 184 testes</span>
                 <div class="bg-[var(--code-bg)] p-2.5 rounded-lg border border-[var(--border-subtle)] flex justify-between items-center group">
                   <span class="text-blue-500 select-all">uv run pytest tests/ -v</span>
                   <button onclick="copyCommand('uv run pytest tests/ -v')" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)]">Copiar</button>
@@ -1591,6 +1612,14 @@
                   <button onclick="copyCommand('uv run python main.py --scenario b --show-trace --show-graph')" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)]">Copiar</button>
                 </div>
               </div>
+
+              <div>
+                <span class="text-[var(--text-muted)] block text-[11px] mb-1"># 4. Executar benchmark dos 3 cenários (Fase 9)</span>
+                <div class="bg-[var(--code-bg)] p-2.5 rounded-lg border border-[var(--border-subtle)] flex justify-between items-center group">
+                  <span class="text-amber-500 select-all">uv run python main.py --benchmark --scenarios a,b,c --runs 2 --export-prefix benchmark</span>
+                  <button onclick="copyCommand('uv run python main.py --benchmark --scenarios a,b,c --runs 2 --export-prefix benchmark')" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)]">Copiar</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1599,12 +1628,12 @@
           </div>
         </div>
 
-        <!-- Terminal Interativo dos 149 Testes -->
+        <!-- Terminal Interativo dos 184 Testes -->
         <div class="lg:col-span-7 surface-panel rounded-xl p-6 flex flex-col justify-between">
           <div>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[var(--text-primary)] tracking-tight">Suíte de 149 Testes Automatizados</h3>
+                <h3 class="text-base font-bold text-[var(--text-primary)] tracking-tight">Suíte de 184 Testes Automatizados</h3>
                 <span class="px-2 py-0.5 text-xs font-mono font-bold rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                   100% PASSED
                 </span>
@@ -1620,7 +1649,10 @@
               
               <div class="flex flex-wrap items-center gap-1 text-[11px] font-mono">
                 <button onclick="filterTests('all')" id="test-filter-all" class="test-filter-btn px-2.5 py-1 rounded bg-blue-600 text-white font-bold">
-                  Todos (149)
+                  Todos (184)
+                </button>
+                <button onclick="filterTests('benchmarks')" id="test-filter-benchmarks" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
+                  test_benchmarks.py (34)
                 </button>
                 <button onclick="filterTests('cli_telemetry')" id="test-filter-cli_telemetry" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_cli_telemetry.py (24)
@@ -1661,6 +1693,7 @@
             <!-- Saída do Terminal -->
             <div id="test-terminal-output" class="bg-[var(--code-bg)] font-mono text-[11px] text-[var(--text-secondary)] p-3.5 rounded-xl border border-[var(--border-subtle)] h-56 overflow-y-auto space-y-1">
               <div class="text-[var(--text-muted)]">=== Execução Consolidada (pytest 9.1.1 &bull; Python 3.12.13 &bull; Win32) ===</div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_benchmarks.py (34 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_cli_telemetry.py (24 testes) ................. <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_supervisor.py (9 testes) ..................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_graph.py (8 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
@@ -1673,7 +1706,7 @@
               <div class="text-[var(--text-secondary)] test-row">tests/test_state.py (18 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_tools.py (22 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-emerald-500 font-bold pt-2 border-t border-[var(--border-subtle)]">
-                ============================= 149 passed in 7.97s =============================
+                ============================= 184 passed in 34.59s =============================
               </div>
             </div>
           </div>
@@ -1880,12 +1913,12 @@
       pt: {
         'nav.arch': 'Arquitetura',
         'nav.benchmark': 'Benchmarks',
-        'nav.roadmap': 'Roadmap (66.7%)',
-        'nav.adrs': 'ADRs (10)',
-        'nav.terminal': 'Terminal (149/149)',
+        'nav.roadmap': 'Roadmap (75.0%)',
+        'nav.adrs': 'ADRs (11)',
+        'nav.terminal': 'Terminal (184/184)',
         'nav.papers': 'Artigos',
-        'hero.badge_tests': '149/149 Testes Automatizados (100% OK)',
-        'hero.badge_phase': 'Fase 8 Concluída &bull; 66.7% Roadmap',
+        'hero.badge_tests': '184/184 Testes Automatizados (100% OK)',
+        'hero.badge_phase': 'Fase 9 Concluída &bull; 75.0% Roadmap',
         'hero.pretitle': '// Sistema Multiagente para Planejamento Ágil',
         'hero.description': 'Orquestração deliberativa baseada em <strong>LangGraph</strong>, arquitetura <strong>Blackboard centralizada</strong> e contratos canônicos com <strong>Pydantic v2</strong>. Otimização combinatória com resolução formal de gargalos estruturais e garantia matemática de <strong>0% de erro causal</strong> em DAGs.',
         'hero.cta_arch': 'Explorar Grafo & Agentes',
@@ -1940,16 +1973,16 @@
         'bench.sma_hint': '&bull; 182x aceleração &bull; 0% erro FTE &bull; DAG acíclico validado.',
         'road.pretitle': 'Planejamento Incremental',
         'road.title': 'Roadmap das 12 Fases de Engenharia',
-        'road.desc': 'Estratégia "Dividir para Conquistar": 8 fases já concluídas, testadas e auditadas com 149 testes unitários.',
-        'road.progress_title': 'Suíte Integralmente Verde &bull; 149 Testes (100% OK)',
-        'road.phase7_next': 'Fase 9 como Próxima',
+        'road.desc': 'Estratégia "Dividir para Conquistar": 9 fases já concluídas, testadas e auditadas com 184 testes unitários.',
+        'road.progress_title': 'Suíte Integralmente Verde &bull; 184 Testes (100% OK)',
+        'road.phase7_next': 'Fase 10 como Próxima',
         'adrs.pretitle': 'Governança Técnica',
-        'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0010)',
+        'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0011)',
         'adrs.desc': 'Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.',
         'term.pretitle': 'Qualidade & Confiabilidade',
-        'term.title': 'Terminal Interativo de Testes (149/149 PASSED)',
-        'term.desc': 'Rastreabilidade completa com filtros em tempo real pelos 11 arquivos de teste automatizados do repositório.',
-        'term.uv_desc': 'Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 149 testes.',
+        'term.title': 'Terminal Interativo de Testes (184/184 PASSED)',
+        'term.desc': 'Rastreabilidade completa com filtros em tempo real pelos 12 arquivos de teste automatizados do repositório.',
+        'term.uv_desc': 'Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 184 testes.',
         'term.copy_log': 'Copiar Log Completo',
         'papers.pretitle': 'Produção Acadêmica',
         'papers.title': 'Artigos Científicos de Referência & Download',
@@ -1962,12 +1995,12 @@
       en: {
         'nav.arch': 'Architecture',
         'nav.benchmark': 'Benchmarks',
-        'nav.roadmap': 'Roadmap (66.7%)',
-        'nav.adrs': 'ADRs (10)',
-        'nav.terminal': 'Terminal (149/149)',
+        'nav.roadmap': 'Roadmap (75.0%)',
+        'nav.adrs': 'ADRs (11)',
+        'nav.terminal': 'Terminal (184/184)',
         'nav.papers': 'Papers',
-        'hero.badge_tests': '149/149 Automated Tests (100% OK)',
-        'hero.badge_phase': 'Phase 8 Completed &bull; 66.7% Roadmap',
+        'hero.badge_tests': '184/184 Automated Tests (100% OK)',
+        'hero.badge_phase': 'Phase 9 Completed &bull; 75.0% Roadmap',
         'hero.pretitle': '// Multi-Agent System for Agile Sprint Planning',
         'hero.description': 'Deliberative orchestration based on <strong>LangGraph</strong>, a <strong>centralized Blackboard architecture</strong>, and canonical contracts with <strong>Pydantic v2</strong>. Combinatorial optimization with formal resolution of structural bottlenecks and a mathematical guarantee of <strong>0% causal error</strong> in DAGs.',
         'hero.cta_arch': 'Explore Graph & Agents',
@@ -2022,16 +2055,16 @@
         'bench.sma_hint': '&bull; 182x speedup &bull; 0% FTE violation &bull; Acyclic DAG validated.',
         'road.pretitle': 'Incremental Planning',
         'road.title': '12-Phase Engineering Roadmap',
-        'road.desc': '"Divide and Conquer" strategy: 8 phases completed, tested, and audited with 149 unit tests.',
-        'road.progress_title': 'Fully Green Test Suite &bull; 149 Tests (100% OK)',
-        'road.phase7_next': 'Phase 9 Next in Queue',
+        'road.desc': '"Divide and Conquer" strategy: 9 phases completed, tested, and audited with 184 unit tests.',
+        'road.progress_title': 'Fully Green Test Suite &bull; 184 Tests (100% OK)',
+        'road.phase7_next': 'Phase 10 Next in Queue',
         'adrs.pretitle': 'Technical Governance',
-        'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0010)',
+        'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0011)',
         'adrs.desc': 'Backend Design System documentation: click any record to open the detailed technical specification.',
         'term.pretitle': 'Quality & Reliability',
-        'term.title': 'Interactive Test Terminal (149/149 PASSED)',
-        'term.desc': 'Full traceability with real-time filters across all 11 automated test files in the repository.',
-        'term.uv_desc': 'Strict package management with <code>uv</code>, deterministic lockfile, and 149 tests passing.',
+        'term.title': 'Interactive Test Terminal (184/184 PASSED)',
+        'term.desc': 'Full traceability with real-time filters across all 12 automated test files in the repository.',
+        'term.uv_desc': 'Strict package management with <code>uv</code>, deterministic lockfile, and 184 tests passing.',
         'term.copy_log': 'Copy Full Log',
         'papers.pretitle': 'Academic Production',
         'papers.title': 'Reference Scientific Papers & Downloads',
@@ -2608,6 +2641,14 @@
         decision: 'Implementação do módulo sprint_mas/telemetry.py com DeliberationTraceReport (Pydantic v2 extra="forbid"), sincronização LANGSMITH_*/LANGCHAIN_* com fallback local, mask_secret e CLI main.py com validate_safe_output_path.',
         consequences: 'Observabilidade completa Cloud/Offline (--show-trace, --show-graph, --json), 24 novos testes em test_cli_telemetry.py e suíte global em 149 testes aprovados (100% OK).',
         link: 'adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md'
+      },
+      '0011': {
+        title: 'Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas',
+        status: 'Aprovada (04/11/2026)',
+        context: 'A validação formal do SMA exige baterias de benchmarks multi-cenário e multi-runs sem contaminação de thread_id no MemorySaver, com auditoria estrita Server-Side de restrições (DAG/FTE/Skills) e exportação segura (.json, .md, .csv).',
+        decision: 'Implementação de sprint_mas/benchmarks.py com BenchmarkConfig (Pydantic v2 extra="forbid"), isolamento thread_id criptográfico, Server Authority via audit_sprint_state, estatísticas robustas (std=0 quando N=1) e guard anti-Path Traversal.',
+        consequences: 'Convergência empírica comprovada (Cenário A: 62.77ms, B: 26.97ms, C: 88.89ms, 0% violações), exportação tripla (.json, .md, .csv) e 34 novos testes automatizados (184 testes 100% OK).',
+        link: 'adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md'
       }
     };
 
@@ -2676,7 +2717,8 @@
     // 11. TERMINAL DE TESTES & FILTROS
     // ------------------------------------------------------------------------
     const testDetails = {
-      all: `tests/test_cli_telemetry.py (24 testes) ................. PASSED
+      all: `tests/test_benchmarks.py (34 testes) .................... PASSED
+tests/test_cli_telemetry.py (24 testes) ................. PASSED
 tests/test_supervisor.py (9 testes) ..................... PASSED
 tests/test_graph.py (8 testes) .......................... PASSED
 tests/test_validator.py (18 testes) .................... PASSED
@@ -2687,7 +2729,33 @@ tests/test_prioritizer.py (11 testes) .................... PASSED
 tests/test_prompts.py (7 testes) ......................... PASSED
 tests/test_state.py (18 testes) .......................... PASSED
 tests/test_tools.py (22 testes) .......................... PASSED
-============================= 149 passed in 7.97s =============================`,
+============================= 184 passed in 34.59s =============================`,
+      benchmarks: `tests/test_benchmarks.py::test_benchmark_config_defaults_and_normalization PASSED
+tests/test_benchmarks.py::test_benchmark_config_forbids_extra_fields PASSED
+tests/test_benchmarks.py::test_benchmark_config_runs_bounds (4 casos) PASSED
+tests/test_benchmarks.py::test_benchmark_config_empty_scenarios_rejected PASSED
+tests/test_benchmarks.py::test_benchmark_config_unknown_scenario_rejected PASSED
+tests/test_benchmarks.py::test_metric_and_report_models_forbid_extra_fields PASSED
+tests/test_benchmarks.py::test_scenario_benchmark_runs_equal_one_std_is_zero PASSED
+tests/test_benchmarks.py::test_scenario_benchmark_multiple_runs_statistics PASSED
+tests/test_benchmarks.py::test_run_scenario_benchmark_scenario_a PASSED
+tests/test_benchmarks.py::test_run_scenario_benchmark_scenario_b PASSED
+tests/test_benchmarks.py::test_run_scenario_benchmark_scenario_c PASSED
+tests/test_benchmarks.py::test_run_scenario_benchmark_circuit_breaker_rejection PASSED
+tests/test_benchmarks.py::test_run_benchmark_suite_all_scenarios PASSED
+tests/test_benchmarks.py::test_format_benchmark_markdown PASSED
+tests/test_benchmarks.py::test_format_benchmark_csv PASSED
+tests/test_benchmarks.py::test_validate_safe_benchmark_path_allowed_extensions PASSED
+tests/test_benchmarks.py::test_validate_safe_benchmark_path_blocks_traversal (4 casos) PASSED
+tests/test_benchmarks.py::test_validate_safe_benchmark_path_blocks_forbidden_extensions (4 casos) PASSED
+tests/test_benchmarks.py::test_export_benchmark_artifacts_saves_json_md_csv PASSED
+tests/test_benchmarks.py::test_concurrent_benchmark_runs_thread_isolation PASSED
+tests/test_benchmarks.py::test_cli_benchmark_happy_path PASSED
+tests/test_benchmarks.py::test_cli_benchmark_circuit_breaker_exit_code_2 PASSED
+tests/test_benchmarks.py::test_cli_benchmark_invalid_scenario_exit_code_1 PASSED
+tests/test_benchmarks.py::test_cli_benchmark_invalid_runs_exit_code_1 PASSED
+tests/test_benchmarks.py::test_cli_benchmark_export_prefix_saves_artifacts PASSED
+============================= 34 passed in 2.85s =============================`,
       cli_telemetry: `tests/test_cli_telemetry.py::test_cli_scenario_a_happy_path PASSED
 tests/test_cli_telemetry.py::test_cli_scenario_b_with_trace_and_graph PASSED
 tests/test_cli_telemetry.py::test_cli_json_output_canonical_schema PASSED
