@@ -44,6 +44,26 @@ def test_get_llm_groq_default_model(monkeypatch):
         assert llm == mock_instance
 
 
+def test_get_llm_groq_gpt_oss_reasoning_kwargs(monkeypatch):
+    """Garante que modelos da família gpt-oss no Groq recebem max_tokens e reasoning_effort adequados."""
+    monkeypatch.setenv("GROQ_API_KEY", "gsk-mock-key-12345")
+
+    with patch("sprint_mas.llm_factory.ChatGroq") as mock_chat_groq:
+        mock_instance = MagicMock()
+        mock_chat_groq.return_value = mock_instance
+
+        llm = get_llm(provider="groq", model="openai/gpt-oss-20b", temperature=0.1)
+
+        mock_chat_groq.assert_called_once_with(
+            api_key="gsk-mock-key-12345",
+            model="openai/gpt-oss-20b",
+            temperature=0.1,
+            max_tokens=4096,
+            reasoning_effort="low",
+        )
+        assert llm == mock_instance
+
+
 def test_get_llm_groq_missing_api_key(monkeypatch):
     """Garante que erro descritivo é lançado se GROQ_API_KEY estiver ausente."""
     monkeypatch.delenv("GROQ_API_KEY", raising=False)

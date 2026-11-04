@@ -38,11 +38,15 @@ def get_llm(
                 "Defina GROQ_API_KEY no arquivo .env ou no ambiente antes de utilizar o provedor 'groq'."
             )
         resolved_model = model or os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
-        return ChatGroq(
-            api_key=api_key,
-            model=resolved_model,
-            temperature=temperature,
-        )
+        groq_kwargs = {
+            "api_key": api_key,
+            "model": resolved_model,
+            "temperature": temperature,
+        }
+        if "gpt-oss" in resolved_model.lower():
+            groq_kwargs["max_tokens"] = 4096
+            groq_kwargs["reasoning_effort"] = "low"
+        return ChatGroq(**groq_kwargs)
 
     if resolved_provider == "ollama":
         resolved_model = model or os.getenv("OLLAMA_MODEL", "llama3:latest")
