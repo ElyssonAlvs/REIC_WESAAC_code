@@ -24,6 +24,7 @@ from sprint_mas.agents.supervisor import (
 )
 from sprint_mas.agents.validator import (
     ValidationReport,
+    audit_sprint_plan,
     audit_sprint_state,
     validation_node,
     validator_node,
@@ -37,6 +38,7 @@ __all__ = [
     "ValidationReport",
     "allocation_node",
     "allocator_node",
+    "audit_sprint_plan",
     "audit_sprint_state",
     "deterministic_allocation",
     "deterministic_supervisor_decision",

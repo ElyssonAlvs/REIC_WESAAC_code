@@ -8,6 +8,14 @@ from typing import Any, Optional
 
 from dotenv import load_dotenv
 
+from sprint_mas.benchmarks import (
+    BenchmarkConfig,
+    export_benchmark_artifacts,
+    format_benchmark_csv,
+    format_benchmark_markdown,
+    run_benchmark_suite,
+    validate_safe_benchmark_path,
+)
 from sprint_mas.data_loader import list_available_scenarios, load_scenario
 from sprint_mas.graph import run_sprint_planning
 from sprint_mas.state import Allocation, DeveloperProfile, SprintPlan, Task
@@ -128,7 +136,36 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "-o",
         "--output",
         default=None,
-        help="Optional safe relative path inside the repository (.json or .md) to save the execution report.",
+        help="Optional safe relative path inside the repository (.json, .md, or .csv) to save the execution report.",
+    )
+    parser.add_argument(
+        "-b",
+        "--benchmark",
+        action="store_true",
+        help="Execute automated multi-run scientific benchmark suite.",
+    )
+    parser.add_argument(
+        "-sc",
+        "--scenarios",
+        default="a,b,c",
+        help="Comma-separated scenarios for benchmark execution (default: 'a,b,c').",
+    )
+    parser.add_argument(
+        "-N",
+        "--runs",
+        type=int,
+        default=1,
+        help="Number of repetitions per scenario in benchmark mode (1 to 50, default: 1).",
+    )
+    parser.add_argument(
+        "--offline-mock",
+        action="store_true",
+        help="Force offline deterministic execution without calling external LLM APIs.",
+    )
+    parser.add_argument(
+        "--export-prefix",
+        default=None,
+        help="Prefix to automatically export benchmark suite artifacts (.json, .md, .csv) in reports/experiments/.",
     )
     return parser
 
@@ -340,6 +377,53 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
         return 0 if code == 0 else 1
 
     try:
+        if args.benchmark:
+            if args.runs < 1 or args.runs > 50:
+                raise ValueError(f"runs must be between 1 and 50, got {args.runs}.")
+            if args.sprint_days <= 0:
+                raise ValueError(f"sprint_days must be greater than 0, got {args.sprint_days}.")
+            if args.points_per_day <= 0:
+                raise ValueError(f"points_per_day must be greater than 0, got {args.points_per_day}.")
+            if args.max_retries < 0 or args.max_retries > 10:
+                raise ValueError(f"max_retries must be between 0 and 10, got {args.max_retries}.")
+
+            scenario_list = [s.strip() for s in args.scenarios.split(",") if s.strip()]
+            if not scenario_list:
+                raise ValueError("Scenarios list cannot be empty.")
+
+            bench_config = BenchmarkConfig(
+                scenarios=scenario_list,
+                runs=args.runs,
+                offline_mock=args.offline_mock,
+                max_retries=args.max_retries,
+                sprint_days=args.sprint_days,
+                points_per_day=args.points_per_day,
+                enable_scope_trimming=not args.no_trim,
+                strict=args.strict,
+            )
+
+            report = run_benchmark_suite(config=bench_config)
+
+            if args.export_prefix:
+                export_benchmark_artifacts(report, base_filename=args.export_prefix)
+
+            if args.output:
+                safe_out = validate_safe_benchmark_path(args.output)
+                safe_out.parent.mkdir(parents=True, exist_ok=True)
+                if safe_out.suffix.lower() == ".json":
+                    safe_out.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+                elif safe_out.suffix.lower() == ".csv":
+                    safe_out.write_text(format_benchmark_csv(report), encoding="utf-8")
+                else:
+                    safe_out.write_text(format_benchmark_markdown(report), encoding="utf-8")
+
+            if args.json:
+                print(report.model_dump_json(indent=2))
+            else:
+                print(format_benchmark_markdown(report))
+
+            return 0 if report.all_approved else 2
+
         normalized_scenario = normalize_scenario_name(args.scenario)
         if args.max_retries < 0 or args.max_retries > 10:
             raise ValueError(f"max_retries must be between 0 and 10, got {args.max_retries}.")

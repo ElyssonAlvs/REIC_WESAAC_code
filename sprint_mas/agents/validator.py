@@ -419,3 +419,4 @@ def validation_node(
 
 # Official alias conforming to Phase 6 specifications
 validator_node = validation_node
+audit_sprint_plan = audit_sprint_state
