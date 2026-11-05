@@ -6,7 +6,7 @@ from typing import Any, Optional, Union
 
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from sprint_mas.llm_factory import get_llm
 from sprint_mas.prompts import get_agent_prompt_template
@@ -17,6 +17,8 @@ from sprint_mas.tools import calculate_team_capacity, match_skills
 class AllocationItem(BaseModel):
     """Item de alocação de uma tarefa a um desenvolvedor."""
 
+    model_config = ConfigDict(extra="forbid")
+
     task_id: str = Field(..., description="ID da tarefa alocada.")
     developer_id: str = Field(..., description="ID do desenvolvedor responsável.")
     allocated_points: int = Field(..., description="Story points atribuídos nesta alocação.")
@@ -25,6 +27,8 @@ class AllocationItem(BaseModel):
 
 class AllocationOutput(BaseModel):
     """Esquema de saída estruturada do Agente de Alocação."""
+
+    model_config = ConfigDict(extra="forbid")
 
     allocations: list[AllocationItem] = Field(
         ..., description="Lista de alocações de tarefas para desenvolvedores."

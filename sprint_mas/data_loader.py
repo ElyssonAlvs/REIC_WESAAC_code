@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+import re
 
 from sprint_mas.state import DeveloperProfile, Task
 
@@ -82,33 +83,40 @@ def validate_dependencies_dag(tasks: list[Task]) -> None:
                     "que não existe no backlog."
                 )
 
-    # Detecção de ciclos via DFS com marcação de 3 cores:
+    # Detecção de ciclos via DFS iterativo tricromático em O(V+E) (imune a RecursionError):
     # 0 = WHITE (não visitado), 1 = GRAY (em processamento no caminho atual), 2 = BLACK (processado)
     color: dict[str, int] = {task_id: 0 for task_id in all_ids}
-    path: list[str] = []
 
-    def dfs(current_id: str) -> None:
-        color[current_id] = 1  # GRAY
-        path.append(current_id)
+    for root_id in all_ids:
+        if color[root_id] == 0:
+            stack: list[tuple[str, int]] = [(root_id, 0)]
+            path: list[str] = [root_id]
+            color[root_id] = 1
 
-        for dep_id in task_map[current_id].dependencies:
-            if color[dep_id] == 1:
-                # Encontrou nó GRAY: ciclo detectado
-                cycle_start_index = path.index(dep_id)
-                cycle_nodes = path[cycle_start_index:] + [dep_id]
-                cycle_repr = " -> ".join(cycle_nodes)
-                raise ValueError(
-                    f"Ciclo de dependência circular detectado no backlog: {cycle_repr}."
-                )
-            if color[dep_id] == 0:
-                dfs(dep_id)
+            while stack:
+                curr_id, dep_idx = stack[-1]
+                deps = task_map[curr_id].dependencies
 
-        path.pop()
-        color[current_id] = 2  # BLACK
+                if dep_idx < len(deps):
+                    dep_id = deps[dep_idx]
+                    stack[-1] = (curr_id, dep_idx + 1)
 
-    for task_id in all_ids:
-        if color[task_id] == 0:
-            dfs(task_id)
+                    if color[dep_id] == 1:
+                        # Encontrou nó GRAY no caminho atual: ciclo detectado
+                        cycle_start_index = path.index(dep_id)
+                        cycle_nodes = path[cycle_start_index:] + [dep_id]
+                        cycle_repr = " -> ".join(cycle_nodes)
+                        raise ValueError(
+                            f"Ciclo de dependência circular detectado no backlog: {cycle_repr}."
+                        )
+                    elif color[dep_id] == 0:
+                        color[dep_id] = 1
+                        path.append(dep_id)
+                        stack.append((dep_id, 0))
+                else:
+                    color[curr_id] = 2
+                    path.pop()
+                    stack.pop()
 
 
 def load_scenario(scenario_name: str) -> tuple[list[Task], list[DeveloperProfile]]:
@@ -125,15 +133,36 @@ def load_scenario(scenario_name: str) -> tuple[list[Task], list[DeveloperProfile
 
     Raises:
         FileNotFoundError: Se o arquivo do cenário não existir em data/processed/.
-        ValueError: Se houver IDs duplicados ou inconsistências no grafo de dependências.
+        ValueError: Se houver tentativa de path traversal, caracteres inválidos,
+            IDs duplicados ou inconsistências no grafo de dependências.
     """
+    if not isinstance(scenario_name, str) or not scenario_name.strip():
+        raise ValueError("Invalid scenario_name: must be a non-empty string.")
+
+    if "\x00" in scenario_name or ".." in scenario_name or "/" in scenario_name or "\\" in scenario_name:
+        raise ValueError(
+            f"Security violation: path traversal or null byte detected in scenario_name '{scenario_name}'."
+        )
+
     clean_name = scenario_name.strip().lower()
     if clean_name.endswith(".json"):
         clean_name = clean_name[:-5]
     if not clean_name.startswith("scenario_"):
         clean_name = f"scenario_{clean_name}"
 
-    file_path = get_data_dir() / "processed" / f"{clean_name}.json"
+    if not re.match(r"^[a-zA-Z0-9_-]+$", clean_name):
+        raise ValueError(
+            f"Security violation: scenario_name '{scenario_name}' contains invalid characters. Must match '^[a-zA-Z0-9_-]+$'."
+        )
+
+    processed_dir = (get_data_dir() / "processed").resolve()
+    file_path = (processed_dir / f"{clean_name}.json").resolve()
+
+    if not file_path.is_relative_to(processed_dir):
+        raise ValueError(
+            f"Security violation: Confinement breached. Target path '{file_path}' traverses outside '{processed_dir}'."
+        )
+
     if not file_path.is_file():
         raise FileNotFoundError(
             f"Cenário não encontrado: '{scenario_name}'. "

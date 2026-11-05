@@ -7,7 +7,7 @@ from typing import Any, Optional, Union
 
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from sprint_mas.llm_factory import get_llm
 from sprint_mas.prompts import get_agent_prompt_template
@@ -17,6 +17,8 @@ from sprint_mas.tools import get_topological_order
 
 class PrioritizationOutput(BaseModel):
     """Esquema de saída estruturada do Agente de Priorização."""
+
+    model_config = ConfigDict(extra="forbid")
 
     prioritized_task_ids: list[str] = Field(
         ..., description="Lista ordenada de IDs de tarefas."

@@ -26,6 +26,15 @@ from sprint_mas.evaluation import (
 )
 from sprint_mas.graph import run_sprint_planning
 from sprint_mas.state import Allocation, DeveloperProfile, SprintPlan, Task
+from sprint_mas.security_audit import (
+    SecurityProbeResult,
+    SemanticAlignmentResult,
+    SecuritySemanticAuditReport,
+    export_security_audit_artifacts,
+    format_security_audit_markdown,
+    run_pentagon_security_audit,
+    sanitize_sprint_goal,
+)
 from sprint_mas.telemetry import (
     DeliberationTraceReport,
     configure_langsmith_tracing,
@@ -179,6 +188,11 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--evaluate-human",
         action="store_true",
         help="Executes empirical cross-paradigm evaluation comparing LangGraph BDI against legacy n8n and manual planning.",
+    )
+    parser.add_argument(
+        "--security-audit",
+        action="store_true",
+        help="Executes automated Pentagon Defense security audit and semantic verification.",
     )
     return parser
 
@@ -390,6 +404,36 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
         return 0 if code == 0 else 1
 
     try:
+        try:
+            args.sprint_goal = sanitize_sprint_goal(args.sprint_goal)
+        except ValueError as sec_err:
+            print(f"CLI Security Error: {sec_err}", file=sys.stderr)
+            return 1
+
+        if args.security_audit:
+            if args.output:
+                validate_safe_benchmark_path(args.output)
+
+            report = run_pentagon_security_audit()
+
+            if args.export_prefix:
+                export_security_audit_artifacts(report, export_prefix=args.export_prefix)
+
+            if args.output:
+                safe_out = validate_safe_benchmark_path(args.output)
+                safe_out.parent.mkdir(parents=True, exist_ok=True)
+                if safe_out.suffix.lower() == ".json":
+                    safe_out.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+                else:
+                    safe_out.write_text(format_security_audit_markdown(report), encoding="utf-8")
+
+            if args.json:
+                print(report.model_dump_json(indent=2))
+            else:
+                print(format_security_audit_markdown(report))
+
+            return 0 if report.all_passed else 2
+
         if args.evaluate_human:
             if args.runs < 1 or args.runs > 50:
                 raise ValueError(f"runs must be between 1 and 50, got {args.runs}.")

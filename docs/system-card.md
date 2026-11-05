@@ -25,6 +25,7 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 2. **Agente de Priorização:** Analisa itens do backlog com base em valor de negócio, dependências lógicas e regras da técnica **BART**.
 3. **Agente de Alocação:** Realiza o casamento semântico entre a habilidade exigida pela tarefa (`backend`, `frontend`, etc.) e a disponibilidade fracionada (FTE) dos desenvolvedores.
 4. **Agente de Validação (Determinístico):** Executa regras matemáticas e lógicas em Python puro (sem LLM) para barrar alucinações de sobrecarga de capacidade ou dependências violadas.
+5. **Motor de Auditoria de Segurança & Verificação Semântica (`sprint_mas.security_audit`):** Sonda programática contínua em Python puro (Zero LLM) que audita os 5 pilares do Pentágono de Defesa (Pydantic `extra="forbid"` reflexivo, isolamento de sessões, autoridade de servidor, anti-IDOR, anti-DoS em grafos e anti-Path Traversal).
 
 ---
 
@@ -43,6 +44,10 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 | **Ciclo de Dependência Inválido:** Agendar tarefa filha antes da tarefa pai. | Alta | **Grafo Acíclico Dirigido (DAG):** Verificação algorítmica de precedência de nós antes da confirmação do plano. |
 | **Vazamento de Credenciais:** Envio acidental de chaves de API. | Crítica | Arquivo `.env` protegido via `.gitignore` e separação estrita de variáveis de ambiente. |
 | **Falha de Conectividade Externa:** Queda da API da Groq. | Média | **Fábrica Híbrida Desacoplada:** Fallback imediato para Ollama local sem alteração de código. |
+| **Injeção de Campos / Mass Assignment:** Injeção de flags ou dados espúrios em modelos. | Alta | **Hardening Universal Pydantic v2:** 100% dos modelos impõem `ConfigDict(extra="forbid")` auditados via reflexão. |
+| **Path Traversal & Null Bytes:** Tentativa de leitura de arquivos confidenciais fora da raiz. | Crítica | **Guardrails de Caminho:** Bloqueio rigoroso de `..`, `/`, `\` e `\x00` em loaders de prompt e cenários. |
+| **DoS por Recursão em Grafos Profundos:** Grafos com mais de 1.000 nós esgotando pilha. | Alta | **DFS Iterativo Tricromático:** Travessia em $O(V+E)$ com pilha explícita em heap sem `RecursionError`. |
+| **Prompt Injection na Meta da Sprint:** Injeção de instruções maliciosas via `--sprint-goal`. | Alta | **Sanitização Prévia (`sanitize_sprint_goal`):** Scanner anti-prompt injection com limite estrito de 500 chars. |
 
 ---
 
@@ -52,3 +57,4 @@ O sistema é avaliado nas seguintes métricas objetivas (reproduzindo os cenári
 - **Taxa de Alocação de Capacidade:** % de desenvolvedores dentro de seus limites de FTE (meta: 100%).
 - **Latência de Planejamento:** Tempo decorrido entre o gatilho inicial e o plano final validado (meta: < 10 segundos).
 - **Rastreabilidade:** 100% das execuções telemetradas via LangSmith.
+- **Auditoria de Segurança Contínua:** 100% das sondas do Pentágono de Defesa passando em $< 150\text{ ms}$ com zero LLM (`uv run python main.py --security-audit`).

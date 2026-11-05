@@ -1,6 +1,7 @@
 """Módulo para ingestão, validação e carregamento de prompts versionados como código."""
 
 from pathlib import Path
+import re
 from typing import Any
 import yaml
 from langchain_core.prompts import ChatPromptTemplate
@@ -35,15 +36,36 @@ def load_prompt_yaml(agent_name: str) -> dict[str, Any]:
 
     Raises:
         FileNotFoundError: Se o arquivo YAML correspondente não existir.
-        ValueError: Se chaves essenciais ('system_prompt', 'user_template') estiverem ausentes.
+        ValueError: Se houver tentativa de path traversal, caracteres inválidos ou se chaves
+            essenciais ('system_prompt', 'user_template') estiverem ausentes.
     """
+    if not isinstance(agent_name, str) or not agent_name.strip():
+        raise ValueError("Invalid agent_name: must be a non-empty string.")
+
+    if "\x00" in agent_name or ".." in agent_name or "/" in agent_name or "\\" in agent_name:
+        raise ValueError(
+            f"Security violation: path traversal or null byte detected in agent_name '{agent_name}'."
+        )
+
     clean_name = agent_name.strip().lower()
     if clean_name.endswith(".yaml"):
         clean_name = clean_name[:-5]
     elif clean_name.endswith(".yml"):
         clean_name = clean_name[:-4]
 
-    file_path = get_prompts_dir() / f"{clean_name}.yaml"
+    if not re.match(r"^[a-zA-Z0-9_-]+$", clean_name):
+        raise ValueError(
+            f"Security violation: agent_name '{agent_name}' contains invalid characters. Must match '^[a-zA-Z0-9_-]+$'."
+        )
+
+    prompts_dir = get_prompts_dir().resolve()
+    file_path = (prompts_dir / f"{clean_name}.yaml").resolve()
+
+    if not file_path.is_relative_to(prompts_dir):
+        raise ValueError(
+            f"Security violation: Confinement breached. Target path '{file_path}' traverses outside '{prompts_dir}'."
+        )
+
     if not file_path.is_file():
         raise FileNotFoundError(
             f"Arquivo de prompt não encontrado para o agente '{agent_name}'. "

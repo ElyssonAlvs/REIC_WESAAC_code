@@ -90,6 +90,13 @@ def deterministic_supervisor_decision(
     sprint_goal: str = "Deliver prioritized and feasible sprint backlog.",
 ) -> SupervisorOutput:
     """Produces an objective, deterministic governance decision based strictly on state audit."""
+    from sprint_mas.security_audit import sanitize_sprint_goal
+
+    try:
+        clean_goal = sanitize_sprint_goal(sprint_goal)
+    except Exception:
+        clean_goal = "Deliver prioritized and feasible sprint backlog."
+
     if report is None:
         report = audit_sprint_state(
             state=state,
@@ -105,7 +112,7 @@ def deterministic_supervisor_decision(
         summary = (
             f"Sprint plan approved: {len(tasks)} tasks scheduled with {total_pts} "
             f"canonical story points across {len(report.allocated_by_dev)} developers. "
-            f"Sprint goal: '{sprint_goal}'."
+            f"Sprint goal: '{clean_goal}'."
         )
         recommendations = (
             "Proceed with sprint execution according to allocated tasks and causal DAG dependencies. "
@@ -120,7 +127,7 @@ def deterministic_supervisor_decision(
     else:
         summary = (
             f"Sprint plan rejected due to {len(report.violations)} validation violation(s). "
-            f"Cannot commit to sprint goal: '{sprint_goal}'."
+            f"Cannot commit to sprint goal: '{clean_goal}'."
         )
         recommendations = (
             "Resolve capacity overloads, skill mismatches, or causal DAG dependency violations "
@@ -161,6 +168,15 @@ def supervisor_node(
     Raises:
         ValueError: If input state is invalid, or if strict=True and deliberation fails.
     """
+    from sprint_mas.security_audit import sanitize_sprint_goal
+
+    try:
+        clean_goal = sanitize_sprint_goal(sprint_goal)
+    except Exception as exc:
+        if strict:
+            raise ValueError(f"Invalid sprint_goal (strict=True): {exc}") from exc
+        clean_goal = "Deliver highest business value tasks respecting DAG dependencies and team FTE capacity."
+
     report = audit_sprint_state(
         state=state,
         sprint_days=sprint_days,
@@ -176,7 +192,7 @@ def supervisor_node(
     formatted_messages = prompt_template.format_messages(
         allocations_json=allocations_json,
         feasibility_json=feasibility_json,
-        sprint_goal=sprint_goal,
+        sprint_goal=clean_goal,
     )
 
     decision: Optional[SupervisorOutput] = None
@@ -203,7 +219,7 @@ def supervisor_node(
             report=report,
             sprint_days=sprint_days,
             points_per_day=points_per_day,
-            sprint_goal=sprint_goal,
+            sprint_goal=clean_goal,
         )
 
     tasks_raw = state.get("prioritized_tasks") or state.get("backlog") or []
@@ -214,7 +230,7 @@ def supervisor_node(
         total_points = sum(t.story_points for t in canonical_tasks)
         sprint_plan = SprintPlan(
             sprint_name="Sprint 1",
-            sprint_goal=sprint_goal,
+            sprint_goal=clean_goal,
             tasks=canonical_tasks,
             allocations=allocations,
             total_points=total_points,

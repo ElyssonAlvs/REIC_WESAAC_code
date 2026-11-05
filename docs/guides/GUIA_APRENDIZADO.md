@@ -191,6 +191,8 @@ Todas as escolhas estruturais da migração do n8n para LangGraph estão formali
 9. **[ADR 0009: Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker](../adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** — Topologia cíclica do StateGraph, corte determinístico de escopo por capacidade (`select_feasible_sprint_tasks`), Circuit Breaker stateless anti-loop infinito e Server Authority no supervisor.
 10. **[ADR 0010: Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura](../adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)** — Telemetria dual Cloud/Local (`sprint_mas/telemetry.py`), sincronização segura de variáveis `LANGSMITH_*`/`LANGCHAIN_*`, reconstrução estruturada da trilha BDI (`DeliberationTraceReport`) e CLI executiva (`main.py`) com proteção anti-Path Traversal.
 11. **[ADR 0011: Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas](../adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)** — Suíte científica de benchmarking multi-cenário e multi-runs (`sprint_mas/benchmarks.py`), isolamento criptográfico de `thread_id`, Server Authority na aferição de restrições de DAG/FTE/Skills, agregações estatísticas robustas e exportação tripla (.json, .md, .csv).
+12. **[ADR 0012: Avaliação Empírica, Comparativo Humano e Rastreabilidade REIC 2026](../adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)** — Confronto formal dos 3 paradigmas (Manual vs n8n vs LangGraph), equações de speedup, prova algébrica do gargalo (63.33%) e exportação LaTeX booktabs (.tex).
+13. **[ADR 0013: Hardening Transversal do Pentágono de Defesa, Verificação Semântica Contínua e Imunidade a DoS de Grafos](../adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md)** — ConfigDict(extra="forbid") em 100% dos modelos Pydantic v2 via reflexão, sanitização anti-prompt injection, DFS iterativo $O(V+E)$ imune a RecursionError, alinhamento semântico de gabaritos e motor de auditoria contínua (--security-audit).
 
 ---
 
@@ -202,7 +204,7 @@ Para certificar a integridade do código em seu terminal:
 uv sync
 uv run pytest tests/ -v
 ```
-*Status esperado: 184 testes automatizados aprovados (100% OK).*
+*Status esperado: 264 testes automatizados aprovados (100% OK).*
 
 ### 8.2. Testando Validações de Borda (Edge Cases)
 Experimente instanciar um objeto `DeveloperProfile` com FTE inválido no console Python:
@@ -424,6 +426,43 @@ comp_b = next(c for c in eval_report.comparisons if c.scenario == "scenario_b")
 print("Densidade Backend:", f"{comp_b.bottleneck_analysis.backend_density_pct}%")
 print("Carga dev_D (0.5 FTE):", f"{comp_b.bottleneck_analysis.dev_d_allocated_points} pts (<= 10.0 pts)")
 ```
+
+### 8.8. Hardening do Pentágono de Defesa e Sonda Programática Contínua (Fase 11)
+O módulo [`sprint_mas/security_audit.py`](../../sprint_mas/security_audit.py) e a flag `--security-audit` na CLI ([`main.py`](../../main.py)) viabilizam auditorias de segurança instantâneas (tempo médio de execução de ~120ms) sem chamadas a modelos de linguagem (Zero LLM / Zero Tokens):
+
+#### A. Os 5 Pilares do Pentágono de Defesa Auditados
+1. **Pilar 1 — Isolamento de Sessão & Estado:** Prova que checkpoints do `MemorySaver` com `thread_id` distintos nunca vazam estado entre sessões concorrentes.
+2. **Pilar 2 — Server Authority & RBAC:** Garante que o servidor recalcula todos os story points e rejeita alucinações de aprovação de LLMs quando o estado viola regras de negócio.
+3. **Pilar 3 — Anti-IDOR Sistemático:** Certifica que identificadores arbitrários (`ghost_dev`, tarefas inexistentes) são bloqueados nas ferramentas analíticas e no validador.
+4. **Pilar 4 — Concorrência, Idempotência & Anti-DoS:** Valida que o algoritmo DFS iterativo tricromático processa grafos de 1.500 tarefas em $O(V+E)$ sem `RecursionError` e detecta ciclos circulares.
+5. **Pilar 5 — Segredos, Inputs & Parsers Seguros:** Inspeciona 100% dos modelos Pydantic v2 garantindo `extra="forbid"`, neutraliza vetores de Path Traversal em loaders de disco e bloqueia injeções de prompt na meta da sprint.
+
+#### B. Execução via CLI e Programaticamente via Python
+```bash
+# Executa a auditoria completa do Pentágono de Defesa exibindo o relatório no terminal
+uv run python main.py --security-audit
+
+# Executa e exporta os artefatos estruturados (.json e .md) com proteção de caminho
+uv run python main.py --security-audit --export-prefix sec_audit_report
+
+# Emissão em formato JSON puro no stdout
+uv run python main.py --security-audit --json
+```
+
+```python
+from sprint_mas.security_audit import run_pentagon_security_audit, format_security_audit_markdown
+
+# 1. Executa a auditoria completa em ~120ms (zero LLM)
+report = run_pentagon_security_audit()
+
+# 2. Inspeciona o resultado global e métricas
+print(f"Auditoria Aprovada? {report.all_passed}")
+print(f"Total de Sondas: {len(report.probes)} | Checks Semânticos: {len(report.semantic_checks)}")
+
+# 3. Formata e imprime o relatório executivo
+print(format_security_audit_markdown(report))
+```
+
 
 
 
