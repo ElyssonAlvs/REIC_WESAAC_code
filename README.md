@@ -51,7 +51,7 @@ REIC-WESAAC/
 
 ## 🗺️ Roadmap de Implementação por Fases
 
-O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 fases incrementais, auditáveis e testadas:
+O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 13 fases incrementais, auditáveis e testadas:
 
 | Fase | Título | Foco Técnico / Escopo | Status |
 | :---: | :--- | :--- | :---: |
@@ -66,7 +66,8 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 12 f
 | **9** | **Live Execution & Benchmarks (A, B, C)** | Bateria automatizada de benchmarks multi-cenário e multi-runs (`benchmarks.py` e `main.py --benchmark`), métricas estatísticas e exportação em `.json`, `.md` e `.csv`. | ✅ **Concluída (04/11/2026)** |
 | **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA), validação algébrica da mitigação do gargalo de backend (63.33%, dev_C, teto dev_D <= 10.0 pts) e exportação em LaTeX booktabs. | ✅ **Concluída (05/11/2026)** |
 | **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito e checagem de semântica do implementado vs testado (Zero Scope Leak). | ⏳ *Próxima* |
-| **12** | **Documentação Minimalista & Consolidação** | Síntese minimalista de markdowns de governança, empacotamento para replicação científica e atualização final do HTML interativo. | ⏳ *Pendente* |
+| **12** | **Consolidação & Pacote Científico** | Síntese minimalista de markdowns de governança, empacotamento para replicação científica e atualização final do HTML interativo. | ⏳ *Pendente* |
+| **13** | **Recapitulação Geral, Zero Brechas & Homologação Científica** | Revisão ponta a ponta das Fases 1 a 12 (código, tipagem, segurança, testes e caos) e matriz de rastreabilidade 1:1 cláusula a cláusula contra os papers WESAAC 2025 e REIC 2026. | ⏳ *Pendente* |
 
 ---
 

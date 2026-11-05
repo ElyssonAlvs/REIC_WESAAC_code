@@ -324,7 +324,7 @@
       <nav class="hidden lg:flex items-center gap-6 text-xs font-medium text-[var(--text-secondary)]" aria-label="Menu Principal">
         <a href="#arquitetura" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.arch">Arquitetura</a>
         <a href="#benchmark" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.benchmark">Benchmarks</a>
-        <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (83.3%)</a>
+        <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (76.9%)</a>
         <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (12)</a>
         <a href="#terminal" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.terminal">Terminal (218/218)</a>
         <a href="#artigos" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.papers">Artigos</a>
@@ -377,7 +377,7 @@
     <div id="mobile-menu" class="hidden lg:hidden border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] px-4 py-3 space-y-2 text-sm font-medium">
       <a href="#arquitetura" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.arch">Arquitetura</a>
       <a href="#benchmark" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.benchmark">Benchmarks</a>
-      <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (83.3%)</a>
+      <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (76.9%)</a>
       <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (12)</a>
       <a href="#terminal" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.terminal">Terminal (218/218)</a>
       <a href="#artigos" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.papers">Artigos</a>
@@ -405,7 +405,7 @@
           <span data-i18n="hero.badge_tests">218/218 Testes Automatizados (100% OK)</span>
         </span>
         <span class="px-2.5 py-1 text-xs font-mono font-medium rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
-          <span data-i18n="hero.badge_phase">Fase 10 Concluída &bull; 83.3% Roadmap</span>
+          <span data-i18n="hero.badge_phase">Fase 10 Concluída &bull; 76.9% Roadmap</span>
         </span>
       </div>
 
@@ -459,9 +459,9 @@
               <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_zero">Zero Alucinação</div>
             </div>
             <div class="surface-card p-3 rounded-xl">
-              <div class="text-2xl font-black text-emerald-500 font-mono">83.3%</div>
+              <div class="text-2xl font-black text-emerald-500 font-mono">76.9%</div>
               <div class="text-[11px] text-[var(--text-secondary)] font-medium" data-i18n="hero.metric_roadmap">Roadmap</div>
-              <div class="text-[10px] text-emerald-500 font-mono mt-0.5">10/12 Fases OK</div>
+              <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_phases_ok">10/13 Fases OK</div>
             </div>
           </div>
         </div>
@@ -1040,14 +1040,14 @@
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 3: ROADMAP DAS 12 FASES (83.3% CONCLUÍDO)
+         SEÇÃO 3: ROADMAP DAS 13 FASES (76.9% CONCLUÍDO)
          ==================================================================== -->
     <section id="roadmap" class="space-y-6">
       
       <div class="border-b border-[var(--border-subtle)] pb-4">
         <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider" data-i18n="road.pretitle">Planejamento Incremental</span>
         <h2 class="text-2xl font-black tracking-tight text-[var(--text-primary)] mt-1" data-i18n="road.title">
-          Roadmap das 12 Fases de Engenharia
+          Roadmap das 13 Fases de Engenharia
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="road.desc">
           Estratégia "Dividir para Conquistar": 10 fases já concluídas, testadas e auditadas com 218 testes unitários.
@@ -1059,44 +1059,44 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
           <div>
             <div class="flex items-center gap-2 mb-1">
-              <span class="px-2 py-0.5 text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded">
+              <span class="px-2 py-0.5 text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded" data-i18n="road.progress_badge">
                 Progresso Geral
               </span>
-              <span class="text-xs font-mono text-[var(--text-muted)]">10 de 12 Fases Concluídas</span>
+              <span class="text-xs font-mono text-[var(--text-muted)]" data-i18n="road.progress_count">10 de 13 Fases Concluídas</span>
             </div>
             <h3 class="text-xl font-bold text-[var(--text-primary)] tracking-tight" data-i18n="road.progress_title">
               Suíte Integralmente Verde &bull; 218 Testes (100% OK)
             </h3>
           </div>
           <div class="text-right font-mono">
-            <span class="text-3xl font-black text-emerald-500">83.3%</span>
+            <span class="text-3xl font-black text-emerald-500">76.9%</span>
             <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 11 como Próxima</span>
           </div>
         </div>
 
         <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-2.5 overflow-hidden">
-          <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 83.3%;"></div>
+          <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 76.9%;"></div>
         </div>
 
         <!-- Filtros de Fases -->
         <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-[var(--border-subtle)] text-xs font-mono">
-          <span class="text-[var(--text-muted)] font-semibold mr-1">Filtrar:</span>
-          <button onclick="filterPhases('all')" id="filter-btn-all" class="phase-filter-btn px-3 py-1 rounded bg-blue-600 text-white font-bold transition-colors">
-            Todas (12)
+          <span class="text-[var(--text-muted)] font-semibold mr-1" data-i18n="road.filter_label">Filtrar:</span>
+          <button onclick="filterPhases('all')" id="filter-btn-all" class="phase-filter-btn px-3 py-1 rounded bg-blue-600 text-white font-bold transition-colors" data-i18n="road.filter_all">
+            Todas (13)
           </button>
-          <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_completed">
             ✅ Concluídas (10)
           </button>
-          <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
+          <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_next">
             ⏳ Próxima (1)
           </button>
-          <button onclick="filterPhases('planned')" id="filter-btn-planned" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
-            📋 Planejadas (1)
+          <button onclick="filterPhases('planned')" id="filter-btn-planned" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_planned">
+            📋 Planejadas (2)
           </button>
         </div>
       </div>
 
-      <!-- Grade das 12 Fases -->
+      <!-- Grade das 13 Fases -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="phases-grid">
         
         <!-- FASE 1 -->
@@ -1313,19 +1313,36 @@
           </div>
         </div>
 
+        <!-- FASE 13 -->
+        <div class="phase-card planned surface-card opacity-75 rounded-xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-muted)]" data-i18n="road.p13_badge">Fase 13 📋 Planejada</span>
+              <span class="text-[11px] font-mono text-[var(--text-muted)]" data-i18n="road.p13_subbadge">Homologação Final</span>
+            </div>
+            <h4 class="text-base font-bold text-[var(--text-primary)]" data-i18n="road.p13_title">Recapitulação Geral &amp; Alinhamento 1:1 Papers</h4>
+            <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed" data-i18n="road.p13_desc">
+              Pente-fino integral das Fases 1 a 12 (zero brechas em código, segurança, tipagem e testes) e verificação cláusula a cláusula de 100% da conformidade teórica e empírica contra os artigos WESAAC 2025 e REIC 2026.
+            </p>
+          </div>
+          <div class="pt-2 border-t border-[var(--border-subtle)] text-[11px] font-mono text-[var(--text-muted)] mt-3" data-i18n="road.p13_footer">
+            WESAAC 2025 + REIC 2026 &bull; Zero Brechas
+          </div>
+        </div>
+
       </div>
 
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 4: PORTFÓLIO DE DECISÕES ARQUITETURAIS (ADRS 0001 A 0010)
+         SEÇÃO 4: PORTFÓLIO DE DECISÕES ARQUITETURAIS (ADRS 0001 A 0012)
          ==================================================================== -->
     <section id="adrs" class="space-y-6">
       
       <div class="border-b border-[var(--border-subtle)] pb-4">
         <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider" data-i18n="adrs.pretitle">Governança Técnica</span>
         <h2 class="text-2xl font-black tracking-tight text-[var(--text-primary)] mt-1" data-i18n="adrs.title">
-          Portfólio de Decisões Arquiteturais (ADRs 0001 a 0010)
+          Portfólio de Decisões Arquiteturais (ADRs 0001 a 0012)
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="adrs.desc">
           Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.
@@ -1946,12 +1963,12 @@
       pt: {
         'nav.arch': 'Arquitetura',
         'nav.benchmark': 'Benchmarks',
-        'nav.roadmap': 'Roadmap (83.3%)',
+        'nav.roadmap': 'Roadmap (76.9%)',
         'nav.adrs': 'ADRs (12)',
         'nav.terminal': 'Terminal (218/218)',
         'nav.papers': 'Artigos',
         'hero.badge_tests': '218/218 Testes Automatizados (100% OK)',
-        'hero.badge_phase': 'Fase 10 Concluída &bull; 83.3% Roadmap',
+        'hero.badge_phase': 'Fase 10 Concluída &bull; 76.9% Roadmap',
         'hero.pretitle': '// Sistema Multiagente para Planejamento Ágil',
         'hero.description': 'Orquestração deliberativa baseada em <strong>LangGraph</strong>, arquitetura <strong>Blackboard centralizada</strong> e contratos canônicos com <strong>Pydantic v2</strong>. Otimização combinatória com resolução formal de gargalos estruturais e garantia matemática de <strong>0% de erro causal</strong> em DAGs.',
         'hero.cta_arch': 'Explorar Grafo & Agentes',
@@ -1962,6 +1979,7 @@
         'hero.metric_error': 'Erro FTE & DAG',
         'hero.metric_zero': 'Zero Alucinação',
         'hero.metric_roadmap': 'Roadmap',
+        'hero.metric_phases_ok': '10/13 Fases OK',
         'hero.topology_label': 'Topologia 3D Multiagente',
         'hero.topology_hint': 'Arraste para rotacionar os nós',
         'arch.pretitle': 'Módulo de Engenharia',
@@ -2005,10 +2023,22 @@
         'bench.human_hint': 'Leitura de 30 itens &bull; Alta fadiga &bull; Risco de sobrecarga acidental em dev_D.',
         'bench.sma_hint': '&bull; 182x aceleração &bull; 0% erro FTE &bull; DAG acíclico validado.',
         'road.pretitle': 'Planejamento Incremental',
-        'road.title': 'Roadmap das 12 Fases de Engenharia',
+        'road.title': 'Roadmap das 13 Fases de Engenharia',
         'road.desc': 'Estratégia "Dividir para Conquistar": 10 fases já concluídas, testadas e auditadas com 218 testes unitários.',
+        'road.progress_badge': 'Progresso Geral',
+        'road.progress_count': '10 de 13 Fases Concluídas',
         'road.progress_title': 'Suíte Integralmente Verde &bull; 218 Testes (100% OK)',
         'road.phase7_next': 'Fase 11 como Próxima',
+        'road.filter_label': 'Filtrar:',
+        'road.filter_all': 'Todas (13)',
+        'road.filter_completed': '✅ Concluídas (10)',
+        'road.filter_next': '⏳ Próxima (1)',
+        'road.filter_planned': '📋 Planejadas (2)',
+        'road.p13_badge': 'Fase 13 📋 Planejada',
+        'road.p13_subbadge': 'Homologação Final',
+        'road.p13_title': 'Recapitulação Geral &amp; Alinhamento 1:1 Papers',
+        'road.p13_desc': 'Pente-fino integral das Fases 1 a 12 (zero brechas em código, segurança, tipagem e testes) e verificação cláusula a cláusula de 100% da conformidade teórica e empírica contra os artigos WESAAC 2025 e REIC 2026.',
+        'road.p13_footer': 'WESAAC 2025 + REIC 2026 &bull; Zero Brechas',
         'adrs.pretitle': 'Governança Técnica',
         'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0012)',
         'adrs.desc': 'Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.',
@@ -2028,12 +2058,12 @@
       en: {
         'nav.arch': 'Architecture',
         'nav.benchmark': 'Benchmarks',
-        'nav.roadmap': 'Roadmap (83.3%)',
+        'nav.roadmap': 'Roadmap (76.9%)',
         'nav.adrs': 'ADRs (12)',
         'nav.terminal': 'Terminal (218/218)',
         'nav.papers': 'Papers',
         'hero.badge_tests': '218/218 Automated Tests (100% OK)',
-        'hero.badge_phase': 'Phase 10 Completed &bull; 83.3% Roadmap',
+        'hero.badge_phase': 'Phase 10 Completed &bull; 76.9% Roadmap',
         'hero.pretitle': '// Multi-Agent System for Agile Sprint Planning',
         'hero.description': 'Deliberative orchestration based on <strong>LangGraph</strong>, a <strong>centralized Blackboard architecture</strong>, and canonical contracts with <strong>Pydantic v2</strong>. Combinatorial optimization with formal resolution of structural bottlenecks and a mathematical guarantee of <strong>0% causal error</strong> in DAGs.',
         'hero.cta_arch': 'Explore Graph & Agents',
@@ -2044,6 +2074,7 @@
         'hero.metric_error': 'FTE & DAG Error',
         'hero.metric_zero': 'Zero Hallucination',
         'hero.metric_roadmap': 'Roadmap',
+        'hero.metric_phases_ok': '10/13 Phases OK',
         'hero.topology_label': '3D Multi-Agent Topology',
         'hero.topology_hint': 'Drag to rotate nodes',
         'arch.pretitle': 'Engineering Module',
@@ -2087,10 +2118,22 @@
         'bench.human_hint': 'Manual reading of 30 items &bull; High fatigue &bull; Accidental overload risk for dev_D.',
         'bench.sma_hint': '&bull; 182x speedup &bull; 0% FTE violation &bull; Acyclic DAG validated.',
         'road.pretitle': 'Incremental Planning',
-        'road.title': '12-Phase Engineering Roadmap',
+        'road.title': '13-Phase Engineering Roadmap',
         'road.desc': '"Divide and Conquer" strategy: 10 phases completed, tested, and audited with 218 unit tests.',
+        'road.progress_badge': 'Overall Progress',
+        'road.progress_count': '10 of 13 Phases Completed',
         'road.progress_title': 'Fully Green Test Suite &bull; 218 Tests (100% OK)',
         'road.phase7_next': 'Phase 11 Next in Queue',
+        'road.filter_label': 'Filter:',
+        'road.filter_all': 'All (13)',
+        'road.filter_completed': '✅ Completed (10)',
+        'road.filter_next': '⏳ Next (1)',
+        'road.filter_planned': '📋 Planned (2)',
+        'road.p13_badge': 'Phase 13 📋 Planned',
+        'road.p13_subbadge': 'Final Sign-Off',
+        'road.p13_title': 'Full Recap &amp; 1:1 Papers Alignment',
+        'road.p13_desc': 'End-to-end review of Phases 1 to 12 (zero gaps in code, security, typing, and tests) and clause-by-clause verification of 100% theoretical and empirical compliance against the WESAAC 2025 and REIC 2026 papers.',
+        'road.p13_footer': 'WESAAC 2025 + REIC 2026 &bull; Zero Gaps',
         'adrs.pretitle': 'Technical Governance',
         'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0012)',
         'adrs.desc': 'Backend Design System documentation: click any record to open the detailed technical specification.',

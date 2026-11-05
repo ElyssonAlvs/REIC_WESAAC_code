@@ -89,7 +89,7 @@ Documento oficial de governança que detalha o escopo de uso, limitações, matr
 Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do sistema:
 - 🖥️ [**Dashboard Interativo (`docs/index.html`)**](./index.html)
   - Visualizador e simulador de fluxo do Grafo LangGraph
-  - Linha do tempo e progresso do Roadmap em 12 fases
+  - Linha do tempo e progresso do Roadmap em 13 fases
   - Visualizador de código com comparativos estruturais
   - Terminal interativo com filtragem por módulo dos 218 testes automatizados
 
