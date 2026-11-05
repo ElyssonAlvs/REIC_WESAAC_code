@@ -17,6 +17,13 @@ from sprint_mas.benchmarks import (
     validate_safe_benchmark_path,
 )
 from sprint_mas.data_loader import list_available_scenarios, load_scenario
+from sprint_mas.evaluation import (
+    export_empirical_evaluation,
+    format_empirical_evaluation_csv,
+    format_empirical_evaluation_latex,
+    format_empirical_evaluation_markdown,
+    run_empirical_evaluation,
+)
 from sprint_mas.graph import run_sprint_planning
 from sprint_mas.state import Allocation, DeveloperProfile, SprintPlan, Task
 from sprint_mas.telemetry import (
@@ -166,6 +173,12 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--export-prefix",
         default=None,
         help="Prefix to automatically export benchmark suite artifacts (.json, .md, .csv) in reports/experiments/.",
+    )
+    parser.add_argument(
+        "-e",
+        "--evaluate-human",
+        action="store_true",
+        help="Executes empirical cross-paradigm evaluation comparing LangGraph BDI against legacy n8n and manual planning.",
     )
     return parser
 
@@ -377,6 +390,64 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
         return 0 if code == 0 else 1
 
     try:
+        if args.evaluate_human:
+            if args.runs < 1 or args.runs > 50:
+                raise ValueError(f"runs must be between 1 and 50, got {args.runs}.")
+            if args.sprint_days <= 0:
+                raise ValueError(f"sprint_days must be greater than 0, got {args.sprint_days}.")
+            if args.points_per_day <= 0:
+                raise ValueError(f"points_per_day must be greater than 0, got {args.points_per_day}.")
+            if args.max_retries < 0 or args.max_retries > 10:
+                raise ValueError(f"max_retries must be between 0 and 10, got {args.max_retries}.")
+            if args.output:
+                validate_safe_benchmark_path(args.output)
+
+            raw_argv = argv if argv is not None else sys.argv[1:]
+            has_single_scenario = any(arg in raw_argv for arg in ["-s", "--scenario"])
+            if has_single_scenario:
+                scenario_list = [args.scenario]
+            else:
+                scenario_list = [s.strip() for s in args.scenarios.split(",") if s.strip()]
+
+            if not scenario_list:
+                raise ValueError("Scenarios list cannot be empty.")
+
+            eval_config = BenchmarkConfig(
+                scenarios=scenario_list,
+                runs=args.runs,
+                offline_mock=args.offline_mock,
+                max_retries=args.max_retries,
+                sprint_days=args.sprint_days,
+                points_per_day=args.points_per_day,
+                enable_scope_trimming=not args.no_trim,
+                strict=args.strict,
+            )
+
+            eval_report = run_empirical_evaluation(config=eval_config)
+
+            if args.export_prefix:
+                export_empirical_evaluation(eval_report, base_filename=args.export_prefix)
+
+            if args.output:
+                safe_out = validate_safe_benchmark_path(args.output)
+                safe_out.parent.mkdir(parents=True, exist_ok=True)
+                if safe_out.suffix.lower() == ".json":
+                    safe_out.write_text(eval_report.model_dump_json(indent=2), encoding="utf-8")
+                elif safe_out.suffix.lower() == ".csv":
+                    safe_out.write_text(format_empirical_evaluation_csv(eval_report), encoding="utf-8")
+                elif safe_out.suffix.lower() == ".tex":
+                    safe_out.write_text(format_empirical_evaluation_latex(eval_report), encoding="utf-8")
+                else:
+                    safe_out.write_text(format_empirical_evaluation_markdown(eval_report), encoding="utf-8")
+
+            if args.json:
+                print(eval_report.model_dump_json(indent=2))
+            else:
+                print(format_empirical_evaluation_markdown(eval_report))
+
+            all_approved = all(c.langgraph_success_rate_pct == 100.0 for c in eval_report.comparisons)
+            return 0 if all_approved else 2
+
         if args.benchmark:
             if args.runs < 1 or args.runs > 50:
                 raise ValueError(f"runs must be between 1 and 50, got {args.runs}.")

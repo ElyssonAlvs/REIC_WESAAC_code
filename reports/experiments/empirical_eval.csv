@@ -1,0 +1,4 @@
+scenario,langgraph_time_ms,manual_time_ms,n8n_agent_time_ms,speedup_vs_manual,time_reduction_vs_manual_pct,speedup_vs_n8n,langgraph_dag_violations,manual_dag_violations,n8n_dag_violations,langgraph_success_rate_pct,manual_feasibility,n8n_success_rate_pct,dev_c_backend_absorbed_pts,dev_d_allocated_pts,dev_d_capacity_respected
+scenario_a,69.66,,,,,,0,0,0,100.0,LOW,100.0,,,
+scenario_b,32.83,765000.0,4200.0,23301.86,100.0,127.93,0,0,0,100.0,HIGH_FATIGUE,100.0,19,10.0,True
+scenario_c,97.77,,,,,,0,0,0,100.0,INFEASIBLE,99.5,,,

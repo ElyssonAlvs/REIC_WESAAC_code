@@ -518,7 +518,7 @@ def validate_safe_benchmark_path(
     path: Union[str, Path],
     base_dir: Optional[Path] = None,
 ) -> Path:
-    """Validates that a path is safe against Path Traversal and restricted to allowed extensions (.json, .md, .csv).
+    """Validates that a path is safe against Path Traversal and restricted to allowed extensions (.json, .md, .csv, .tex).
 
     Args:
         path: Relative or absolute path to validate.
@@ -536,10 +536,10 @@ def validate_safe_benchmark_path(
     base = base_dir.resolve() if base_dir is not None else Path(__file__).resolve().parent.parent.resolve()
     raw_p = Path(path)
 
-    allowed_extensions = {".json", ".md", ".csv"}
+    allowed_extensions = {".json", ".md", ".csv", ".tex"}
     if raw_p.suffix.lower() not in allowed_extensions:
         raise ValueError(
-            f"Security violation: forbidden extension '{raw_p.suffix}'. Allowed extensions: .json, .md, .csv"
+            f"Security violation: forbidden extension '{raw_p.suffix}'. Allowed extensions: .json, .md, .csv, .tex"
         )
 
     if raw_p.is_absolute():

@@ -347,5 +347,84 @@ for summary in report.summaries:
 
 Essa automação científica viabiliza a geração direta da tabela de resultados empíricos para o artigo científico e comprova a manutenção da garantia de 0% de violações estruturais em todos os cenários.
 
+### 8.7. Avaliação Empírica, Comparativo Humano e Rastreabilidade Científica REIC 2026 (Fase 10)
+O módulo [`sprint_mas/evaluation.py`](../../sprint_mas/evaluation.py) e o comando CLI `--evaluate-human` ([`main.py`](../../main.py)) estabelecem a ponte formal entre os resultados empíricos publicados nos artigos acadêmicos (WESAAC 2025 e REIC 2026) e o motor multiagente em produção.
+
+#### A. Confronto Multi-Paradigma: Manual vs. n8n vs. LangGraph BDI
+O artigo REIC 2026 (Seções 5 e 6) confronta três paradigmas de planejamento de sprints:
+
+| Dimensão Experimental | M-Manual (Planejamento Humano) | M-Agente n8n (Legado Low-Code) | M-Agente LangGraph BDI (Este Projeto) |
+|---|---|---|---|
+| **Tempo Cenário B (30 tarefas)** | `765.000,0 ms` (12m 45s) | `4.200,0 ms` (4,2s) | `< 100,0 ms` (Offline) / `~2-4s` (Groq Cloud) |
+| **Speedup Cenário B (vs. Manual)** | $1,0\text{x}$ (Linha de Base) | $182,14\text{x}$ (Referência Paper) | **$> 7.000\text{x}$** (Offline) / **$> 190\text{x}$** (Online) |
+| **Fadiga Cognitiva Cenário B** | `HIGH_FATIGUE` (Exaustão mental) | Nula (Automatizado) | Nula (Automatizado com feedback explicativo) |
+| **Viabilidade Cenário C (100 tarefas)** | `INFEASIBLE` (Inviável humanamente) | `99,5%` (0,5% de timeouts de API) | **`100,0%`** (Resiliente via Circuit Breaker) |
+| **Erro em Dependências Causais** | `0,0%` (após revisão exaustiva) | `0,0%` | **`0,0%`** (Provado via Kahn Min-Heap + DFS) |
+| **Sobrecarga de FTE (`dev_D` <= 10 pts)**| Respeitado após 12m45s de ajuste | Respeitado via prompt BART | **`0%` Violações** (Garantido deterministicamente) |
+
+#### B. Formulação Matemática de Speedup e Redução de Tempo
+Para comparar formalmente os paradigmas e mitigar anomalias de ponto flutuante em testes com mocks de latência zero, o módulo adota equações com piso defensivo:
+
+$$\text{Speedup } (S) = \frac{T_{\text{manual\_ms}}}{\max(T_{\text{agent\_ms}}, 0.001)}$$
+
+$$\text{Redução de Tempo } (R) = \left(1 - \frac{T_{\text{agent\_ms}}}{T_{\text{manual\_ms}}}\right) \times 100\%$$
+
+Onde $T_{\text{manual\_ms}} = 765.000,0\text{ ms}$ (Cenário B) e $T_{\text{agent\_ms}}$ é a média monotônica das repetições aferida por `time.perf_counter()`.
+
+#### C. Comprovação Algébrica do Teorema do Gargalo de Backend (Seção 6.3)
+A Seção 6.3 do REIC 2026 destaca como a arquitetura multiagente resolve desbalanceamentos de competências. A função `analyze_resource_bottleneck_mitigation` valida deterministicamente as três condições teóricas no Cenário B:
+1. **Densidade do Gargalo:** Das 30 tarefas do backlog, exatamente 19 exigem `backend`, configurando uma densidade de **$63,33\%$** ($\frac{19}{30} \times 100\%$).
+2. **Absorção por Perfil Fullstack:** O desenvolvedor Fullstack (`dev_C`, 1.0 FTE = 20 pts nominais) absorve compulsoriamente tarefas e story points de `backend`, liberando os especialistas dedicados.
+3. **Blindagem de Capacidade Fracionada:** O desenvolvedor com disponibilidade de meio período (`dev_D`, 0.5 FTE = 10 pts nominais) recebe estritamente $\le 10,0$ pontos alocados, evitando burnouts de equipe.
+
+#### D. Exportação Científica Canônica (LaTeX Booktabs)
+Para viabilizar a submissão direta a periódicos e conferências (SBC, IEEE, ACM), o sistema gera tabelas em LaTeX com o pacote `booktabs` (sem linhas verticais):
+
+```latex
+\begin{table}[htbp]
+\centering
+\caption{Cross-Paradigm Empirical Evaluation: Human Manual vs. n8n Workflow vs. LangGraph BDI MAS}
+\label{tab:empirical_evaluation}
+\begin{tabular}{lrrrrrrr}
+\toprule
+\textbf{Scenario} & \textbf{Manual (ms)} & \textbf{n8n (ms)} & \textbf{LangGraph (ms)} & \textbf{Speedup (vs Man.)} & \textbf{Time Red. (\%)} & \textbf{Speedup (vs n8n)} & \textbf{Success (\%)} \\
+\midrule
+Scenario\_A & -- & -- & 62.8 & -- & -- & -- & 100.0\% \\
+Scenario\_B & 765,000.0 & 4,200.0 & 27.0 & 28,364.85x & 100.00\% & 155.73x & 100.0\% \\
+Scenario\_C & -- & -- & 88.9 & -- & -- & -- & 100.0\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+```
+
+#### E. Execução via CLI e Programaticamente via Python
+```bash
+# Executa a avaliação empírica contra os baselines humanos exportando os 4 formatos (.json, .md, .csv, .tex)
+uv run python main.py --evaluate-human --scenarios a,b,c --runs 2 --export-prefix empirical_eval
+
+# Exporta diretamente a tabela LaTeX para o manuscrito científico
+uv run python main.py --evaluate-human -s scenario_b -o reports/experiments/evaluation.tex
+```
+
+```python
+from sprint_mas.evaluation import BenchmarkConfig, export_empirical_evaluation, run_empirical_evaluation
+
+# 1. Configura a avaliação empírica
+config = BenchmarkConfig(scenarios=["scenario_a", "scenario_b", "scenario_c"], runs=2, offline_mock=True)
+
+# 2. Executa a suíte comparativa
+eval_report = run_empirical_evaluation(config=config)
+
+# 3. Exporta simultaneamente os artefatos (.json, .md, .csv, .tex) com bloqueio anti-Path Traversal
+artifacts = export_empirical_evaluation(eval_report, base_filename="empirical_eval")
+print("Artefatos científicos gerados:", {fmt: str(path) for fmt, path in artifacts.items()})
+
+# 4. Inspeciona a mitigação do gargalo da Seção 6.3
+comp_b = next(c for c in eval_report.comparisons if c.scenario == "scenario_b")
+print("Densidade Backend:", f"{comp_b.bottleneck_analysis.backend_density_pct}%")
+print("Carga dev_D (0.5 FTE):", f"{comp_b.bottleneck_analysis.dev_d_allocated_points} pts (<= 10.0 pts)")
+```
+
+
 
 

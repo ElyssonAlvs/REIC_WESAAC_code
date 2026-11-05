@@ -13,7 +13,7 @@ docs/
 ├── README.md                 # Este Hub Central de Documentação
 ├── index.html                # 🌐 Dashboard Interativo com Simulador do Grafo e Terminal de Testes
 ├── system-card.md            # 🛡️ Ficha Técnica: Finalidade, Limitações, Riscos e Métricas
-├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0011)
+├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0012)
 │   ├── README.md             # Índice Completo e Sumário Executivo das ADRs
 │   ├── 0001-migracao-n8n-para-langgraph.md
 │   ├── 0002-padrao-blackboard-com-pydantic-e-sprintstate.md
@@ -25,7 +25,8 @@ docs/
 │   ├── 0008-agente-validador-deterministico-zero-llm.md
 │   ├── 0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md
 │   ├── 0010-observabilidade-hibrida-langsmith-e-cli-executiva.md
-│   └── 0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md
+│   ├── 0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md
+│   └── 0012-avaliacao-empirica-comparativo-humano-e-reic2026.md
 ├── papers/                   # 📚 Trabalhos Científicos de Referência (UFC Quixadá)
 │   ├── README.md             # Resumos, Autoria e Mapeamento Científico
 │   ├── WESAAC_2025_Agile_MultiAgent.pdf
@@ -52,6 +53,7 @@ Todas as decisões de design, migração e conformidade lógica estão registrad
   - [ADR 0009: Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker Stateless](./adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)
   - [ADR 0010: Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura](./adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)
   - [ADR 0011: Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas](./adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)
+  - [ADR 0012: Avaliação Empírica, Comparativo Humano (M-Manual vs n8n) e Rastreabilidade Científica REIC 2026](./adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)
 
 ---
 
@@ -89,7 +91,7 @@ Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do
   - Visualizador e simulador de fluxo do Grafo LangGraph
   - Linha do tempo e progresso do Roadmap em 12 fases
   - Visualizador de código com comparativos estruturais
-  - Terminal interativo com filtragem por módulo dos 184 testes automatizados
+  - Terminal interativo com filtragem por módulo dos 218 testes automatizados
 
 ---
 

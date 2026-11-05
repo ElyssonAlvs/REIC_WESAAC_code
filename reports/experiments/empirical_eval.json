@@ -1,0 +1,72 @@
+{
+  "report_id": "empirical-eval-a44ec86c",
+  "timestamp": "2026-11-05T19:40:08.824527+00:00",
+  "provider": "offline",
+  "model": "deterministic-fallback",
+  "comparisons": [
+    {
+      "scenario": "scenario_a",
+      "langgraph_time_ms": 69.66,
+      "manual_time_ms": null,
+      "n8n_agent_time_ms": null,
+      "speedup_vs_manual": null,
+      "time_reduction_vs_manual_pct": null,
+      "speedup_vs_n8n": null,
+      "langgraph_dag_violations": 0,
+      "manual_dag_violations": 0,
+      "n8n_dag_violations": 0,
+      "langgraph_success_rate_pct": 100.0,
+      "manual_feasibility": "LOW",
+      "n8n_success_rate_pct": 100.0,
+      "bottleneck_analysis": null
+    },
+    {
+      "scenario": "scenario_b",
+      "langgraph_time_ms": 32.83,
+      "manual_time_ms": 765000.0,
+      "n8n_agent_time_ms": 4200.0,
+      "speedup_vs_manual": 23301.86,
+      "time_reduction_vs_manual_pct": 100.0,
+      "speedup_vs_n8n": 127.93,
+      "langgraph_dag_violations": 0,
+      "manual_dag_violations": 0,
+      "n8n_dag_violations": 0,
+      "langgraph_success_rate_pct": 100.0,
+      "manual_feasibility": "HIGH_FATIGUE",
+      "n8n_success_rate_pct": 100.0,
+      "bottleneck_analysis": {
+        "scenario": "scenario_b",
+        "total_tasks": 30,
+        "backend_tasks_count": 19,
+        "backend_density_pct": 63.33,
+        "dev_c_allocated_tasks": 3,
+        "dev_c_backend_tasks_absorbed": 3,
+        "dev_c_backend_points_absorbed": 19,
+        "dev_d_allocated_points": 10.0,
+        "dev_d_capacity_ceiling": 10.0,
+        "dev_d_capacity_respected": true,
+        "fullstack_mitigation_active": true,
+        "summary": "Resource Bottleneck Mitigation (REIC 2026, Section 6.3): Backend skill density is 63.33% (19/30 tasks). Fullstack developer dev_C (1.0 FTE) absorbed 3 backend task(s) (19 story points). Part-time specialist dev_D (0.5 FTE) allocated 10.0 pts against nominal ceiling of 10.0 pts (Capacity respected: True). Fullstack mitigation active: True."
+      }
+    },
+    {
+      "scenario": "scenario_c",
+      "langgraph_time_ms": 97.77,
+      "manual_time_ms": null,
+      "n8n_agent_time_ms": null,
+      "speedup_vs_manual": null,
+      "time_reduction_vs_manual_pct": null,
+      "speedup_vs_n8n": null,
+      "langgraph_dag_violations": 0,
+      "manual_dag_violations": 0,
+      "n8n_dag_violations": 0,
+      "langgraph_success_rate_pct": 100.0,
+      "manual_feasibility": "INFEASIBLE",
+      "n8n_success_rate_pct": 99.5,
+      "bottleneck_analysis": null
+    }
+  ],
+  "paper_citation": "REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)",
+  "total_speedup_scenario_b": 23301.86,
+  "scale_stress_scenario_c_reliability": "LangGraph BDI 100.0% vs. n8n 99.5% vs. Manual Infeasibility"
+}
