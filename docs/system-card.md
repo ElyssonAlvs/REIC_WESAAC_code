@@ -26,6 +26,7 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 3. **Agente de Alocação:** Realiza o casamento semântico entre a habilidade exigida pela tarefa (`backend`, `frontend`, etc.) e a disponibilidade fracionada (FTE) dos desenvolvedores.
 4. **Agente de Validação (Determinístico):** Executa regras matemáticas e lógicas em Python puro (sem LLM) para barrar alucinações de sobrecarga de capacidade ou dependências violadas.
 5. **Motor de Auditoria de Segurança & Verificação Semântica (`sprint_mas.security_audit`):** Sonda programática contínua em Python puro (Zero LLM) que audita os 5 pilares do Pentágono de Defesa (Pydantic `extra="forbid"` reflexivo, isolamento de sessões, autoridade de servidor, anti-IDOR, anti-DoS em grafos e anti-Path Traversal).
+6. **Motor de Reprodutibilidade Científica & Empacotamento de Publicação (`sprint_mas.replication`):** Orquestrador determinístico que executa em 1 clique (`main.py --reproduce-paper`) a cadeia experimental completa (benchmarks A/B/C, avaliação empírica contra linhas de base e auditoria do Pentágono), atestando a mitigação do gargalo da Seção 6.3 e exportando artefatos quádruplos (.json, .md, .csv, .tex).
 
 ---
 
@@ -48,6 +49,7 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 | **Path Traversal & Null Bytes:** Tentativa de leitura de arquivos confidenciais fora da raiz. | Crítica | **Guardrails de Caminho:** Bloqueio rigoroso de `..`, `/`, `\` e `\x00` em loaders de prompt e cenários. |
 | **DoS por Recursão em Grafos Profundos:** Grafos com mais de 1.000 nós esgotando pilha. | Alta | **DFS Iterativo Tricromático:** Travessia em $O(V+E)$ com pilha explícita em heap sem `RecursionError`. |
 | **Prompt Injection na Meta da Sprint:** Injeção de instruções maliciosas via `--sprint-goal`. | Alta | **Sanitização Prévia (`sanitize_sprint_goal`):** Scanner anti-prompt injection com limite estrito de 500 chars. |
+| **Divergência de Reprodutibilidade:** Resultados empíricos discrepantes entre diferentes plataformas. | Média | **Pacote de Replicação em 1 Clique (`replication.py`):** Configuração determinística com fixação de sementes, baseline imutável e testes de contrato no Postman. |
 
 ---
 
@@ -58,3 +60,5 @@ O sistema é avaliado nas seguintes métricas objetivas (reproduzindo os cenári
 - **Latência de Planejamento:** Tempo decorrido entre o gatilho inicial e o plano final validado (meta: < 10 segundos).
 - **Rastreabilidade:** 100% das execuções telemetradas via LangSmith.
 - **Auditoria de Segurança Contínua:** 100% das sondas do Pentágono de Defesa passando em $< 150\text{ ms}$ com zero LLM (`uv run python main.py --security-audit`).
+- **Rigor da Suíte de Testes:** 304 testes automatizados 100% aprovados sem dependência de rede (`uv run pytest tests/ -v`).
+- **Protocolo de Reprodutibilidade Científica em 1 Clique:** 100% dos resultados empíricos replicáveis deterministicamente via CLI (`python main.py --reproduce-paper --offline-mock`) e via Coleção Executiva Postman v2.1.0 (`docs/collections/sprint_mas_postman_collection.json`).

@@ -13,7 +13,9 @@ docs/
 ├── README.md                 # Este Hub Central de Documentação
 ├── index.html                # 🌐 Dashboard Interativo com Simulador do Grafo e Terminal de Testes
 ├── system-card.md            # 🛡️ Ficha Técnica: Finalidade, Limitações, Riscos e Métricas
-├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0013)
+├── collections/              # 📬 Coleção Executiva Postman/Insomnia (Request Specs v2.1.0)
+│   └── sprint_mas_postman_collection.json
+├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0014)
 │   ├── README.md             # Índice Completo e Sumário Executivo das ADRs
 │   ├── 0001-migracao-n8n-para-langgraph.md
 │   ├── 0002-padrao-blackboard-com-pydantic-e-sprintstate.md
@@ -27,7 +29,8 @@ docs/
 │   ├── 0010-observabilidade-hibrida-langsmith-e-cli-executiva.md
 │   ├── 0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md
 │   ├── 0012-avaliacao-empirica-comparativo-humano-e-reic2026.md
-│   └── 0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md
+│   ├── 0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md
+│   └── 0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md
 ├── papers/                   # 📚 Trabalhos Científicos de Referência (UFC Quixadá)
 │   ├── README.md             # Resumos, Autoria e Mapeamento Científico
 │   ├── WESAAC_2025_Agile_MultiAgent.pdf
@@ -56,6 +59,7 @@ Todas as decisões de design, migração e conformidade lógica estão registrad
   - [ADR 0011: Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas](./adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)
   - [ADR 0012: Avaliação Empírica, Comparativo Humano (M-Manual vs n8n) e Rastreabilidade Científica REIC 2026](./adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)
   - [ADR 0013: Hardening Transversal do Pentágono de Defesa, Verificação Semântica Contínua e Imunidade a DoS de Grafos](./adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md)
+  - [ADR 0014: Pacote de Reprodutibilidade Científica, Execução em 1 Clique e Consolidação Documental](./adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md)
 
 ---
 
@@ -74,6 +78,7 @@ Para desenvolvedores, estudantes e pesquisadores que desejam entender em detalhe
   - O Padrão Blackboard para comunicação entre agentes heterogêneos
   - O redutor `add_messages` e prevenção de sobrescrita de memória
   - Laboratório prático de execução e validação de restrições
+  - Pacote de Reprodutibilidade Científica & Execução em 1 Clique com Coleção Postman (Capítulo 9)
 
 ---
 
@@ -83,17 +88,26 @@ Documento oficial de governança que detalha o escopo de uso, limitações, matr
   - Finalidade pretendida e público-alvo
   - Papéis dos agentes cognitivos e nós determinísticos
   - Tabela de riscos críticos e mitigações (anti-IDOR, teto de FTE, prevenção de ciclos)
-  - Métricas de sucesso empírico
+  - Métricas de sucesso empírico e conformidade científica
 
 ---
 
-## 🌐 5. Dashboard Interativo
+## 📬 5. Coleção Executiva de Request Specs (Postman/Insomnia)
+Suíte formal de requisições padronizadas no formato Postman Collection v2.1.0 para validação de contratos e testes automatizados:
+- 📬 [**Coleção Postman (`docs/collections/sprint_mas_postman_collection.json`)**](./collections/sprint_mas_postman_collection.json)
+  - 5 pastas modulares cobrindo Cenários A/B/C, Benchmarks, Avaliação Empírica, Pentágono e Reprodução Científica
+  - Testes automatizados embutidos em JavaScript (`pm.test`) com asserções estritas de governança e validação de tetos de FTE
+  - Execução contínua em CI/CD via Newman
+
+---
+
+## 🌐 6. Dashboard Interativo
 Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do sistema:
 - 🖥️ [**Dashboard Interativo (`docs/index.html`)**](./index.html)
   - Visualizador e simulador de fluxo do Grafo LangGraph
-  - Linha do tempo e progresso do Roadmap em 13 fases
+  - Linha do tempo e progresso do Roadmap em 13 fases (92.3% concluído)
   - Visualizador de código com comparativos estruturais
-  - Terminal interativo com filtragem por módulo dos 264 testes automatizados
+  - Terminal interativo com filtragem por módulo dos 304 testes automatizados
 
 ---
 
@@ -102,3 +116,4 @@ Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do
 - 🧪 [Diretório de Testes Automatizados](../tests/)
 - ⚙️ [Configurações e Prompts YAML](../configs/prompts/)
 - 📊 [Datasets e Dicionário de Dados](../data/)
+- 📬 [Coleção Postman v2.1.0](../docs/collections/sprint_mas_postman_collection.json)

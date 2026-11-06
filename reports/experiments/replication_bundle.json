@@ -1,0 +1,347 @@
+{
+  "bundle_id": "replication-22a5ae1b",
+  "reproduced_at": "2026-11-06T22:22:15.280999+00:00",
+  "config": {
+    "scenarios": [
+      "scenario_a",
+      "scenario_b",
+      "scenario_c"
+    ],
+    "runs": 1,
+    "offline_mock": true,
+    "max_retries": 2,
+    "sprint_days": 10,
+    "points_per_day": 2.0,
+    "strict": false,
+    "enable_scope_trimming": true,
+    "provider": null,
+    "model": null
+  },
+  "benchmark_report": {
+    "suite_id": "bench-42c271b9",
+    "timestamp": "2026-11-06T22:22:15.220881+00:00",
+    "config": {
+      "scenarios": [
+        "scenario_a",
+        "scenario_b",
+        "scenario_c"
+      ],
+      "runs": 1,
+      "provider": null,
+      "model": null,
+      "temperature": 0.0,
+      "offline_mock": true,
+      "max_retries": 2,
+      "sprint_days": 10,
+      "points_per_day": 2.0,
+      "enable_scope_trimming": true,
+      "strict": false
+    },
+    "provider": "offline",
+    "model": "deterministic-fallback",
+    "summaries": [
+      {
+        "scenario": "scenario_a",
+        "total_runs": 1,
+        "successful_runs": 1,
+        "approval_rate": 1.0,
+        "mean_time_ms": 18.49,
+        "std_time_ms": 0.0,
+        "median_time_ms": 18.49,
+        "min_time_ms": 18.49,
+        "max_time_ms": 18.49,
+        "p95_time_ms": 18.49,
+        "mean_allocated_points": 35.0,
+        "mean_utilization_pct": 58.3,
+        "replan_rate": 0.0,
+        "dag_violations_total": 0,
+        "fte_violations_total": 0,
+        "skill_violations_total": 0,
+        "runs_metrics": [
+          {
+            "run_index": 1,
+            "scenario": "scenario_a",
+            "thread_id": "bench-scenario_a-run1-143f62f4",
+            "execution_time_ms": 18.49,
+            "approved": true,
+            "total_tasks": 10,
+            "allocated_tasks": 10,
+            "total_points": 35,
+            "allocated_points": 35,
+            "team_capacity": 60.0,
+            "utilization_pct": 58.33,
+            "validation_attempts": 1,
+            "replan_triggered": false,
+            "dag_violations": 0,
+            "fte_violations": 0,
+            "skill_violations": 0,
+            "llm_fallback_triggered": true,
+            "nodes_traversed": [
+              "prioritizer",
+              "allocator",
+              "validator",
+              "supervisor"
+            ]
+          }
+        ]
+      },
+      {
+        "scenario": "scenario_b",
+        "total_runs": 1,
+        "successful_runs": 1,
+        "approval_rate": 1.0,
+        "mean_time_ms": 28.27,
+        "std_time_ms": 0.0,
+        "median_time_ms": 28.27,
+        "min_time_ms": 28.27,
+        "max_time_ms": 28.27,
+        "p95_time_ms": 28.27,
+        "mean_allocated_points": 66.0,
+        "mean_utilization_pct": 78.6,
+        "replan_rate": 1.0,
+        "dag_violations_total": 0,
+        "fte_violations_total": 0,
+        "skill_violations_total": 0,
+        "runs_metrics": [
+          {
+            "run_index": 1,
+            "scenario": "scenario_b",
+            "thread_id": "bench-scenario_b-run1-75a1acd8",
+            "execution_time_ms": 28.27,
+            "approved": true,
+            "total_tasks": 30,
+            "allocated_tasks": 15,
+            "total_points": 128,
+            "allocated_points": 66,
+            "team_capacity": 84.0,
+            "utilization_pct": 78.57,
+            "validation_attempts": 2,
+            "replan_triggered": true,
+            "dag_violations": 0,
+            "fte_violations": 0,
+            "skill_violations": 0,
+            "llm_fallback_triggered": true,
+            "nodes_traversed": [
+              "prioritizer",
+              "allocator",
+              "validator",
+              "replan",
+              "allocator",
+              "validator",
+              "supervisor"
+            ]
+          }
+        ]
+      },
+      {
+        "scenario": "scenario_c",
+        "total_runs": 1,
+        "successful_runs": 1,
+        "approval_rate": 1.0,
+        "mean_time_ms": 59.17,
+        "std_time_ms": 0.0,
+        "median_time_ms": 59.17,
+        "min_time_ms": 59.17,
+        "max_time_ms": 59.17,
+        "p95_time_ms": 59.17,
+        "mean_allocated_points": 176.0,
+        "mean_utilization_pct": 95.7,
+        "replan_rate": 1.0,
+        "dag_violations_total": 0,
+        "fte_violations_total": 0,
+        "skill_violations_total": 0,
+        "runs_metrics": [
+          {
+            "run_index": 1,
+            "scenario": "scenario_c",
+            "thread_id": "bench-scenario_c-run1-d98bb2dc",
+            "execution_time_ms": 59.17,
+            "approved": true,
+            "total_tasks": 100,
+            "allocated_tasks": 37,
+            "total_points": 452,
+            "allocated_points": 176,
+            "team_capacity": 184.0,
+            "utilization_pct": 95.65,
+            "validation_attempts": 2,
+            "replan_triggered": true,
+            "dag_violations": 0,
+            "fte_violations": 0,
+            "skill_violations": 0,
+            "llm_fallback_triggered": true,
+            "nodes_traversed": [
+              "prioritizer",
+              "allocator",
+              "validator",
+              "replan",
+              "allocator",
+              "validator",
+              "supervisor"
+            ]
+          }
+        ]
+      }
+    ],
+    "total_execution_time_ms": 217.76,
+    "all_approved": true
+  },
+  "empirical_report": {
+    "report_id": "empirical-eval-dcb5a945",
+    "timestamp": "2026-11-06T22:22:15.252754+00:00",
+    "provider": "offline",
+    "model": "deterministic-fallback",
+    "comparisons": [
+      {
+        "scenario": "scenario_a",
+        "langgraph_time_ms": 18.49,
+        "manual_time_ms": null,
+        "n8n_agent_time_ms": null,
+        "speedup_vs_manual": null,
+        "time_reduction_vs_manual_pct": null,
+        "speedup_vs_n8n": null,
+        "langgraph_dag_violations": 0,
+        "manual_dag_violations": 0,
+        "n8n_dag_violations": 0,
+        "langgraph_success_rate_pct": 100.0,
+        "manual_feasibility": "LOW",
+        "n8n_success_rate_pct": 100.0,
+        "bottleneck_analysis": null
+      },
+      {
+        "scenario": "scenario_b",
+        "langgraph_time_ms": 28.27,
+        "manual_time_ms": 765000.0,
+        "n8n_agent_time_ms": 4200.0,
+        "speedup_vs_manual": 27060.49,
+        "time_reduction_vs_manual_pct": 100.0,
+        "speedup_vs_n8n": 148.57,
+        "langgraph_dag_violations": 0,
+        "manual_dag_violations": 0,
+        "n8n_dag_violations": 0,
+        "langgraph_success_rate_pct": 100.0,
+        "manual_feasibility": "HIGH_FATIGUE",
+        "n8n_success_rate_pct": 100.0,
+        "bottleneck_analysis": {
+          "scenario": "scenario_b",
+          "total_tasks": 30,
+          "backend_tasks_count": 19,
+          "backend_density_pct": 63.33,
+          "dev_c_allocated_tasks": 3,
+          "dev_c_backend_tasks_absorbed": 3,
+          "dev_c_backend_points_absorbed": 19,
+          "dev_d_allocated_points": 10.0,
+          "dev_d_capacity_ceiling": 10.0,
+          "dev_d_capacity_respected": true,
+          "fullstack_mitigation_active": true,
+          "summary": "Resource Bottleneck Mitigation (REIC 2026, Section 6.3): Backend skill density is 63.33% (19/30 tasks). Fullstack developer dev_C (1.0 FTE) absorbed 3 backend task(s) (19 story points). Part-time specialist dev_D (0.5 FTE) allocated 10.0 pts against nominal ceiling of 10.0 pts (Capacity respected: True). Fullstack mitigation active: True."
+        }
+      },
+      {
+        "scenario": "scenario_c",
+        "langgraph_time_ms": 59.17,
+        "manual_time_ms": null,
+        "n8n_agent_time_ms": null,
+        "speedup_vs_manual": null,
+        "time_reduction_vs_manual_pct": null,
+        "speedup_vs_n8n": null,
+        "langgraph_dag_violations": 0,
+        "manual_dag_violations": 0,
+        "n8n_dag_violations": 0,
+        "langgraph_success_rate_pct": 100.0,
+        "manual_feasibility": "INFEASIBLE",
+        "n8n_success_rate_pct": 99.5,
+        "bottleneck_analysis": null
+      }
+    ],
+    "paper_citation": "REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)",
+    "total_speedup_scenario_b": 27060.49,
+    "scale_stress_scenario_c_reliability": "LangGraph BDI 100.0% vs. n8n 99.5% vs. Manual Infeasibility"
+  },
+  "security_report": {
+    "audit_id": "audit-b2d44cf6",
+    "timestamp": "2026-11-06T22:22:15.252754+00:00",
+    "all_passed": true,
+    "probes": [
+      {
+        "probe_id": "probe_pydantic_hardening",
+        "pilar": "Pilar 5: Segredos, Inputs & Parsers Seguros",
+        "status": "PASSED",
+        "passed": true,
+        "latency_ms": 0.022,
+        "details": "Verified 23 domain Pydantic models. 100% enforce ConfigDict(extra='forbid')."
+      },
+      {
+        "probe_id": "probe_session_isolation",
+        "pilar": "Pilar 1: Isolamento de Sessão & Estado",
+        "status": "PASSED",
+        "passed": true,
+        "latency_ms": 6.003,
+        "details": "MemorySaver checkpoint state for thread_alpha and thread_beta verified. Zero cross-thread pollution."
+      },
+      {
+        "probe_id": "probe_server_authority",
+        "pilar": "Pilar 2: Zero Confiança no Cliente / LLM (Server Authority)",
+        "status": "PASSED",
+        "passed": true,
+        "latency_ms": 1.498,
+        "details": "Server Authority strictly enforced: hostile approval rejected and prompt injection directive blocked."
+      },
+      {
+        "probe_id": "probe_anti_idor",
+        "pilar": "Pilar 3: Anti-IDOR Sistemático",
+        "status": "PASSED",
+        "passed": true,
+        "latency_ms": 0.818,
+        "details": "Anti-IDOR verified: ghost_dev and TSK-999 blocked across deterministic tools and state validator."
+      },
+      {
+        "probe_id": "probe_dos_iterative_dag",
+        "pilar": "Pilar 4: Concorrência, Idempotência & Anti-DoS",
+        "status": "PASSED",
+        "passed": true,
+        "latency_ms": 6.567,
+        "details": "Iterative DFS validated on 1500 linear nodes in 6.6ms without RecursionError. Deep cycle successfully detected."
+      },
+      {
+        "probe_id": "probe_path_traversal",
+        "pilar": "Pilar 5: Segredos, Inputs & Parsers Seguros",
+        "status": "PASSED",
+        "passed": true,
+        "latency_ms": 0.698,
+        "details": "Path traversal immunity verified: 6/6 adversarial attacks blocked."
+      }
+    ],
+    "semantic_checks": [
+      {
+        "module": "evals.golden_dataset",
+        "passed": true,
+        "violations": [],
+        "details": "Golden datasets A (35 pts, 10 tasks) and B (66 pts, 15 tasks) validated. Zero audit violations."
+      },
+      {
+        "module": "configs.prompts.bart_templates",
+        "passed": true,
+        "violations": [],
+        "details": "BART prompt templates and scenarios A/B/C topological DAGs semantically verified."
+      }
+    ],
+    "summary": {
+      "total_probes": 6,
+      "probes_passed": 6,
+      "total_semantic_checks": 2,
+      "semantic_checks_passed": 2,
+      "total_duration_ms": 26.16,
+      "pentagon_defense_coverage_pct": 100.0
+    }
+  },
+  "is_fully_reproduced": true,
+  "bottleneck_mitigated": true,
+  "summary_notes": [
+    "Stage 1: Multi-Scenario Benchmark Suite -> PASSED (100% approved).",
+    "Stage 2: Empirical Evaluation (REIC 2026 / WESAAC 2025) -> Speedup Scenario B: 27,060.49x vs. Manual; Bottleneck Mitigated: True.",
+    "Stage 3: Pentagon Defense Security Audit -> PASSED (0 violations).",
+    "Overall Scientific Reproduction Verdict -> FULLY REPRODUCED."
+  ],
+  "provider": "offline",
+  "model_name": "deterministic-fallback"
+}

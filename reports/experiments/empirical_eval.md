@@ -1,7 +1,7 @@
 # Relatório de Avaliação Empírica & Comparativo Humano
 
-**Identificador do Relatório:** `empirical-eval-a44ec86c`  
-**Data/Hora UTC:** `2026-11-05T19:40:08.824527+00:00`  
+**Identificador do Relatório:** `empirical-eval-826d9e12`  
+**Data/Hora UTC:** `2026-11-06T22:22:14.997147+00:00`  
 **Provedor / Modelo:** `offline` (`deterministic-fallback`)  
 **Rastreabilidade Científica:** REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)  
 
@@ -11,9 +11,9 @@
 
 | Cenário | M-Manual (ms) | M-Agente n8n (ms) | M-Agente LangGraph (ms) | Speedup (vs. Manual) | Redução Tempo (%) | Speedup (vs. n8n) | Taxa Sucesso LG | Taxa Sucesso n8n | Viabilidade Manual |
 |---|---|---|---|---|---|---|---|---|---|
-| `scenario_a` | -- | -- | 69.7 | -- | -- | -- | 100.0% | 100.0% | `LOW` |
-| `scenario_b` | 765,000.0 | 4,200.0 | 32.8 | 23,301.86x | 100.00% | 127.93x | 100.0% | 100.0% | `HIGH_FATIGUE` |
-| `scenario_c` | -- | -- | 97.8 | -- | -- | -- | 100.0% | 99.5% | `INFEASIBLE` |
+| `scenario_a` | -- | -- | 90.8 | -- | -- | -- | 100.0% | 100.0% | `LOW` |
+| `scenario_b` | 765,000.0 | 4,200.0 | 27.2 | 28,166.42x | 100.00% | 154.64x | 100.0% | 100.0% | `HIGH_FATIGUE` |
+| `scenario_c` | -- | -- | 56.3 | -- | -- | -- | 100.0% | 99.5% | `INFEASIBLE` |
 
 ---
 
@@ -40,9 +40,9 @@
 \toprule
 \textbf{Scenario} & \textbf{Manual (ms)} & \textbf{n8n (ms)} & \textbf{LangGraph (ms)} & \textbf{Speedup (vs Man.)} & \textbf{Time Red. (\%)} & \textbf{Speedup (vs n8n)} & \textbf{Success (\%)} \\
 \midrule
-Scenario\_A & -- & -- & 69.7 & -- & -- & -- & 100.0\% \\
-Scenario\_B & 765,000.0 & 4,200.0 & 32.8 & 23,301.86x & 100.00\% & 127.93x & 100.0\% \\
-Scenario\_C & -- & -- & 97.8 & -- & -- & -- & 100.0\% \\
+Scenario\_A & -- & -- & 90.8 & -- & -- & -- & 100.0\% \\
+Scenario\_B & 765,000.0 & 4,200.0 & 27.2 & 28,166.42x & 100.00\% & 154.64x & 100.0\% \\
+Scenario\_C & -- & -- & 56.3 & -- & -- & -- & 100.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}

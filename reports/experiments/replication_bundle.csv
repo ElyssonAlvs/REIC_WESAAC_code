@@ -1,0 +1,4 @@
+bundle_id,timestamp,scenario,provider,model_name,langgraph_time_ms,manual_time_ms,n8n_agent_time_ms,speedup_vs_manual,time_reduction_vs_manual_pct,speedup_vs_n8n,langgraph_dag_violations,langgraph_fte_violations,dev_c_backend_absorbed_pts,dev_d_allocated_pts,dev_d_capacity_respected,benchmarks_approved,security_passed,fully_reproduced
+replication-22a5ae1b,2026-11-06T22:22:15.280999+00:00,scenario_a,offline,deterministic-fallback,18.49,N/A,N/A,N/A,N/A,N/A,0,0,N/A,N/A,N/A,True,True,True
+replication-22a5ae1b,2026-11-06T22:22:15.280999+00:00,scenario_b,offline,deterministic-fallback,28.27,765000.0,4200.0,27060.49,100.0,148.57,0,0,19,10.0,True,True,True,True
+replication-22a5ae1b,2026-11-06T22:22:15.280999+00:00,scenario_c,offline,deterministic-fallback,59.17,N/A,N/A,N/A,N/A,N/A,0,0,N/A,N/A,N/A,True,True,True

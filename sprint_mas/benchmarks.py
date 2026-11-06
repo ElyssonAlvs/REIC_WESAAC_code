@@ -609,7 +609,7 @@ def export_benchmark_artifacts(
 
     if export_csv:
         target_csv = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.csv", base_dir=repo_root)
-        target_csv.write_text(format_benchmark_csv(report), encoding="utf-8")
+        target_csv.write_text(format_benchmark_csv(report), encoding="utf-8", newline="")
         artifacts["csv"] = target_csv
 
     return artifacts

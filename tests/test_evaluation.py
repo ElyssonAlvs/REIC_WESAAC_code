@@ -372,6 +372,16 @@ def test_export_empirical_evaluation_artifacts_all_formats() -> None:
         for k, path_obj in exported.items():
             assert path_obj.is_file(), f"Expected artifact {k} at {path_obj} to exist."
             assert path_obj.stat().st_size > 0
+
+        # Anti-CRCRLF line-ending defensive assertion
+        raw_csv_bytes = exported["csv"].read_bytes()
+        assert b"\r\r\n" not in raw_csv_bytes, "CSV artifact contains duplicate carriage return b'\\r\\r\\n'!"
+        with open(exported["csv"], "r", encoding="utf-8", newline="") as f:
+            reader = list(csv.reader(f))
+            assert len(reader) >= 2
+            expected_cols = len(reader[0])
+            for idx, row in enumerate(reader):
+                assert len(row) == expected_cols, f"Row {idx+1} has {len(row)} columns, expected {expected_cols}"
     finally:
         if out_dir.exists():
             for child in out_dir.iterdir():

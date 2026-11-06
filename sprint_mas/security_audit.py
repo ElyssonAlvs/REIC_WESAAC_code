@@ -144,6 +144,8 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
     probe_id = "probe_pydantic_hardening"
     pilar = "Pilar 5: Segredos, Inputs & Parsers Seguros"
 
+    from sprint_mas.replication import ReplicationPackageConfig, ScientificReplicationBundle
+
     models_to_check: list[tuple[str, type[BaseModel]]] = [
         ("sprint_mas.state.Task", Task),
         ("sprint_mas.state.DeveloperProfile", DeveloperProfile),
@@ -169,6 +171,8 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
             "sprint_mas.security_audit.SecuritySemanticAuditReport",
             SecuritySemanticAuditReport,
         ),
+        ("sprint_mas.replication.ReplicationPackageConfig", ReplicationPackageConfig),
+        ("sprint_mas.replication.ScientificReplicationBundle", ScientificReplicationBundle),
     ]
 
     failed_models: list[str] = []

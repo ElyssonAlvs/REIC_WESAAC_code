@@ -14,6 +14,7 @@
 6. [Orquestração Cíclica, Nó Corretivo & Circuit Breaker (LangGraph)](#6-orquestração-cíclica-nó-corretivo--circuit-breaker-langgraph)
 7. [Catálogo de Decisões de Arquitetura (ADRs)](#7-catálogo-de-decisões-de-arquitetura-adrs)
 8. [Laboratório Prático: Como Testar e Inspecionar o Código](#8-laboratório-prático-como-testar-e-inspecionar-o-código)
+9. [Pacote de Reprodutibilidade Científica & Execução em 1 Clique com Coleção Postman](#9-pacote-de-reprodutibilidade-científica--execução-em-1-clique-com-coleção-postman)
 
 ---
 
@@ -462,6 +463,154 @@ print(f"Total de Sondas: {len(report.probes)} | Checks Semânticos: {len(report.
 # 3. Formata e imprime o relatório executivo
 print(format_security_audit_markdown(report))
 ```
+
+---
+
+## 9. Pacote de Reprodutibilidade Científica & Execução em 1 Clique com Coleção Postman
+
+> **Consolidação de padrão ouro acadêmico: como replicar deterministicamente 100% dos resultados empíricos dos artigos WESAAC 2025 e REIC 2026 com um único comando CLI ou via Request Specs no Postman/Insomnia.**
+
+---
+
+### 9.1. Motivação e Padrão Ouro de Reprodutibilidade Científica
+
+Em pesquisas científicas na área de Sistemas Multiagentes (SMA) e Engenharia de Software Ágil, a reprodutibilidade é o critério definitivo de validade metodológica. Para assegurar que bancas avaliadoras, revisores por pares e a comunidade acadêmica possam auditar de ponta a ponta as evidências empíricas dos artigos sem atrito de configuração, a **Fase 12** unificou toda a malha de testes em um motor orquestrador determinístico: [`sprint_mas/replication.py`](../../sprint_mas/replication.py).
+
+O motor orquestra em sequência estrita os três pilares científicos do sistema:
+1. **Bateria de Benchmarks Multi-Cenário (Fase 9):** Medição empírica automatizada dos Cenários A, B e C com $N$ repetições, colhendo tempos médios, desvio padrão, P95 e aferindo 0% de violações de dependências causais (DAG) e de capacidade (FTE).
+2. **Avaliação Empírica Cruzada & Linhas de Base (Fase 10):** Confronto formal contra as linhas de base publicadas no REIC 2026:
+   - **M-Manual (Humano):** 765 segundos (12m45s) no Cenário B e colapso operacional (Inviável) no Cenário C.
+   - **M-Agente n8n (Legado):** 4.2 segundos no Cenário B e 99.5% de confiabilidade no Cenário C.
+   - **LangGraph BDI (Atual):** Resolução sub-segundo e 100.0% de aprovação formal com 0% de erro causal.
+   - **Teorema do Gargalo de Backend (Seção 6.3):** Prova matemática de que a densidade de 63.33% de backend no Cenário B é absorvida pelo perfil Fullstack (`dev_C`), preservando rigorosamente o teto de 0.5 FTE de `dev_D` ($\le 10.0$ story points).
+3. **Auditoria de Segurança do Pentágono & Integridade Semântica (Fase 11):** Verificação instantânea de 100% dos 5 pilares de segurança, 23 modelos Pydantic v2 com `extra="forbid"`, algoritmo DFS iterativo anti-DoS e alinhamento dos Golden Datasets.
+
+---
+
+### 9.2. Execução Determinística em 1 Clique via CLI
+
+A CLI executiva ([`main.py`](../../main.py)) provê a flag canônica `--reproduce-paper` (aliases: `-R` e `--replicate`), permitindo a execução imediata em modo determinístico offline (Zero Tokens / Zero Custo) ou sob inferência real:
+
+```bash
+# Execução canônica recomendada para replicação do artigo (Modo Offline Determinístico)
+uv run python main.py --reproduce-paper --offline-mock
+
+# Execução com 2 repetições por cenário e exportação automática em reports/experiments/
+uv run python main.py --reproduce-paper --runs 2 --export-prefix paper_replication
+
+# Emissão canônica do bundle científico estruturado em formato JSON puro no stdout
+uv run python main.py --reproduce-paper --json
+
+# Replicação com inferência real via Groq Cloud (requer GROQ_API_KEY no .env)
+uv run python main.py --reproduce-paper --provider groq
+```
+
+---
+
+### 9.3. Artefatos de Publicação Gerados em `reports/experiments/`
+
+A execução do pacote de replicação aciona a função `export_replication_artifacts`, gravando atomicamente quatro representações canônicas protegidas contra Path Traversal no diretório `reports/experiments/`:
+
+| Formato | Arquivo Gerado | Finalidade Acadêmica & Conteúdo Técnico |
+|:---:|:---:|---|
+| **JSON** | `replication_bundle.json` | DTO canônico `ScientificReplicationBundle` serializado com indentação. Contém dados brutos de telemetria, latências, desvios padrão, status das 7 sondas do Pentágono e o veredito formal `is_fully_reproduced: true`. |
+| **Markdown** | `replication_bundle.md` | Relatório executivo completo pronto para leitura técnica, contendo badges de conformidade, tabelas de benchmark, métricas de speedup comparativo e notas de diagnóstico. |
+| **CSV** | `replication_bundle.csv` | Planilha tabular estruturada com colunas canônicas para análise em ferramentas quantitativas (R, Python Pandas, SPSS ou Jamovi), registrando cenários, tempos, violações eStory Points absorvidos. |
+| **LaTeX** | `replication_bundle.tex` | Tabela formal de publicação configurada com o padrão `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), pronta para inclusão direta via `\input{evaluation.tex}` no manuscrito de submissão do periódico ou conferência. |
+
+---
+
+### 9.4. Coleção Executiva de Request Specs (Postman & Insomnia)
+
+Para desenvolvedores e avaliadores de arquitetura backend que utilizam clientes HTTP profissionais, o projeto disponibiliza a coleção formal **Postman v2.1.0** em [`docs/collections/sprint_mas_postman_collection.json`](../collections/sprint_mas_postman_collection.json).
+
+#### A. Como Importar no Postman ou Insomnia
+1. Abra o **Postman** (ou **Insomnia**).
+2. Clique no botão **Import** (canto superior esquerdo).
+3. Selecione o arquivo [`docs/collections/sprint_mas_postman_collection.json`](../collections/sprint_mas_postman_collection.json) ou arraste-o para a interface.
+4. A coleção `Sprint Planning MAS - Scientific Execution & Benchmark Collection` será importada imediatamente com suas variáveis de coleção pré-configuradas:
+   - `baseUrl`: `http://localhost:8000` (ajustável para o host desejado)
+   - `thread_id`: `postman-session` (isolamento de sessão no `MemorySaver`)
+
+#### B. Estrutura Modular das 5 Pastas de Requisições
+
+```
+Sprint Planning MAS Collection/
+├── 1. Cenários de Planejamento (A, B, C)
+│   ├── Cenário A - Backlog Padrão (10 Tarefas, 35 pts)
+│   ├── Cenário B - Gargalo Qualitativo de Backend (30 Tarefas, 105 pts)
+│   └── Cenário C - Estresse de Escala (100 Tarefas, 350 pts)
+├── 2. Benchmarks Automatizados
+│   ├── Executar Bateria de Benchmarks (A, B, C - Multi-Run)
+│   └── Consultar Métricas de Benchmark (Cenário B Específico)
+├── 3. Avaliação Empírica & Comparativo Humano
+│   └── Avaliação Empírica Cruzada (REIC 2026 / WESAAC 2025)
+├── 4. Auditoria de Segurança do Pentágono
+│   ├── Auditoria de Segurança do Pentágono & Integridade Semântica
+│   └── Sonda Anti-Prompt Injection (Goal Sanitizer Probe - Negativo)
+└── 5. Pacote de Reprodutibilidade Científica
+    └── Reprodução Científica 1-Clique (WESAAC 2025 / REIC 2026 Bundle)
+```
+
+#### C. Asserções Automatizadas em JavaScript (`pm.test`)
+Cada requisição da coleção possui testes de contrato rigorosos embutidos na aba **Tests**:
+- **Conformidade de Governança:** `pm.expect(jsonData.status).to.eql("APPROVED")` e `pm.expect(jsonData.validation_errors).to.be.empty`.
+- **Teto da Seção 6.3:** `pm.expect(devDLoad.allocated_points).to.be.at.most(10.0)` e `pm.expect(devDLoad.capacity_ceiling).to.eql(10.0)`.
+- **Prevenção de Injeção Adversarial:** Requisições maliciosas com injeção de prompt recebem status `400` ou `422` com mensagem explícita de bloqueio.
+- **Veredito de Replicação:** `pm.expect(jsonData.is_fully_reproduced).to.be.true` e `pm.expect(jsonData.bottleneck_mitigated).to.be.true`.
+
+#### D. Execução Automatizada via CLI com Newman (CI/CD)
+A coleção pode ser executada em pipelines de integração contínua sem abrir a interface gráfica:
+
+```bash
+# Executa toda a bateria de testes de API via Newman
+npx newman run docs/collections/sprint_mas_postman_collection.json --env-var "baseUrl=http://localhost:8000"
+```
+
+---
+
+### 9.5. Programação em Python: Consumindo o Motor de Replicação
+
+Para cientistas de dados que desejam manipular o bundle programaticamente em scripts de análise ou Jupyter Notebooks:
+
+```python
+from sprint_mas.replication import (
+    ReplicationPackageConfig,
+    export_replication_artifacts,
+    format_replication_markdown,
+    run_scientific_replication,
+)
+
+# 1. Configura a replicação declarativa com 2 repetições em modo offline
+config = ReplicationPackageConfig(
+    scenarios=["scenario_a", "scenario_b", "scenario_c"],
+    runs=2,
+    offline_mock=True,
+    sprint_days=10,
+    points_per_day=2.0,
+)
+
+# 2. Executa a orquestração científica determinística dos 3 estágios
+bundle = run_scientific_replication(config=config)
+
+# 3. Inspeciona os vereditos científicos formais
+print(f"Bundle ID: {bundle.bundle_id}")
+print(f"Totalmente Reproduzido? {bundle.is_fully_reproduced}")
+print(f"Gargalo de Backend Mitigado? {bundle.bottleneck_mitigated}")
+
+# 4. Exporta simultaneamente os 4 artefatos (.json, .md, .csv, .tex) com guardrails anti-Path Traversal
+artifacts = export_replication_artifacts(
+    bundle=bundle,
+    base_filename="replication_paper_eval",
+)
+print("Artefatos científicos gerados com sucesso:")
+for fmt, path in artifacts.items():
+    print(f"  - [{fmt.upper()}]: {path}")
+
+# 5. Exibe o sumário executivo
+print(format_replication_markdown(bundle))
+```
+
 
 
 

@@ -66,7 +66,7 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 13 f
 | **9** | **Live Execution & Benchmarks (A, B, C)** | Bateria automatizada de benchmarks multi-cenário e multi-runs (`benchmarks.py` e `main.py --benchmark`), métricas estatísticas e exportação em `.json`, `.md` e `.csv`. | ✅ **Concluída (04/11/2026)** |
 | **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA), validação algébrica da mitigação do gargalo de backend (63.33%, dev_C, teto dev_D <= 10.0 pts) e exportação em LaTeX booktabs. | ✅ **Concluída (05/11/2026)** |
 | **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito, hardening 100% Pydantic (extra="forbid"), DFS iterativo anti-DoS e alinhamento dos Golden Datasets. | ✅ **Concluída (05/11/2026)** |
-| **12** | **Consolidação & Pacote Científico** | Síntese minimalista de markdowns de governança, empacotamento para replicação científica e atualização final do HTML interativo. | ⏳ *Próxima* |
+| **12** | **Consolidação & Pacote Científico** | Motor de replicação em 1 clique (`replication.py`, `--reproduce-paper`), coleção executiva Postman/Insomnia v2.1.0, bundle acadêmico (.json, .md, .csv, .tex) e ADR 0014. | ✅ **Concluída (06/11/2026)** |
 | **13** | **Recapitulação Geral, Zero Brechas & Homologação Científica** | Revisão ponta a ponta das Fases 1 a 12 (código, tipagem, segurança, testes e caos) e matriz de rastreabilidade 1:1 cláusula a cláusula contra os papers WESAAC 2025 e REIC 2026. | ⏳ *Pendente* |
 
 ---
@@ -90,6 +90,7 @@ Todas as escolhas estruturais, mitigações de riscos e substituições em rela�
 | **[0011](docs/adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)** | **Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas** | 2026-11-04 | `Aprovada` | Execução empírica automatizada dos Cenários A, B e C, isolamento estrito de `thread_id`, Server Authority em métricas de DAG/FTE/Skills, agregações estatísticas seguras e exportação tripla (.json, .md, .csv) com blindagem anti-Path Traversal. |
 | **[0012](docs/adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)** | **Avaliação Empírica, Comparativo Humano (M-Manual vs n8n) e Rastreabilidade Científica REIC 2026** | 2026-11-05 | `Aprovada` | Confronto formal dos paradigmas M-Manual vs n8n vs LangGraph, equações de speedup/redução de tempo, prova algébrica do Teorema do Gargalo de Backend (63.33%) e exportação LaTeX booktabs (.tex). |
 | **[0013](docs/adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md)** | **Hardening Transversal do Pentágono de Defesa e Verificação Semântica** | 2026-11-05 | `Aprovada` | ConfigDict(extra="forbid") em 100% dos modelos Pydantic v2 via reflexão, sanitização anti-prompt injection, DFS iterativo $O(V+E)$ imune a RecursionError, alinhamento semântico de gabaritos e motor de auditoria contínua (--security-audit). |
+| **[0014](docs/adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md)** | **Pacote de Reprodutibilidade Científica e Coleção Postman** | 2026-11-06 | `Aprovada` | Orquestração experimental em 1 clique (`main.py --reproduce-paper`), Request Specs Postman v2.1.0 e exportação quádrupla segura. |
 
 Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
 
@@ -113,13 +114,14 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
 | **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e CLI executiva. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 264 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 304 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
 | **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
+| **Coleção Postman/Insomnia** | `docs/collections/` | **Sim** | Request Specs v2.1.0 com asserções JS (`pm.test`) para validação de endpoints e replicação. |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0013). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0014). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
@@ -167,13 +169,16 @@ uv run python main.py --evaluate-human --scenarios a,b,c --runs 2 --export-prefi
 
 # Executar auditoria de segurança contínua do Pentágono de Defesa (sub-segundo, zero LLM)
 uv run python main.py --security-audit
+
+# Executar a replicação científica completa em 1 clique (WESAAC 2025 & REIC 2026) com exportação quádrupla
+uv run python main.py --reproduce-paper --offline-mock
 ```
 
 ### 5. Execução da Suíte de Testes
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 264 testes automatizados passando (100%).*
+*Status esperado: 304 testes automatizados passando (100%).*
 
 ---
 

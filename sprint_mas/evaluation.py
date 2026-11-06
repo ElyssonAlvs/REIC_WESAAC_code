@@ -484,12 +484,14 @@ def format_empirical_evaluation_markdown(report: EmpiricalEvaluationReport) -> s
 
 
 def format_empirical_evaluation_csv(report: EmpiricalEvaluationReport) -> str:
-    """Formats EmpiricalEvaluationReport into a canonical CSV table."""
+    """Formats EmpiricalEvaluationReport into a canonical CSV table with clear provider/model identification."""
     output = io.StringIO()
-    writer = csv.writer(output)
+    writer = csv.writer(output, lineterminator="\n")
 
     writer.writerow([
         "scenario",
+        "provider",
+        "model_name",
         "langgraph_time_ms",
         "manual_time_ms",
         "n8n_agent_time_ms",
@@ -508,18 +510,20 @@ def format_empirical_evaluation_csv(report: EmpiricalEvaluationReport) -> str:
     ])
 
     for c in report.comparisons:
-        dev_c_pts = c.bottleneck_analysis.dev_c_backend_points_absorbed if c.bottleneck_analysis else ""
-        dev_d_pts = c.bottleneck_analysis.dev_d_allocated_points if c.bottleneck_analysis else ""
-        dev_d_resp = c.bottleneck_analysis.dev_d_capacity_respected if c.bottleneck_analysis else ""
+        dev_c_pts = str(c.bottleneck_analysis.dev_c_backend_points_absorbed) if c.bottleneck_analysis else "N/A"
+        dev_d_pts = str(c.bottleneck_analysis.dev_d_allocated_points) if c.bottleneck_analysis else "N/A"
+        dev_d_resp = str(c.bottleneck_analysis.dev_d_capacity_respected) if c.bottleneck_analysis else "N/A"
 
         writer.writerow([
             c.scenario,
+            report.provider,
+            report.model,
             c.langgraph_time_ms,
-            c.manual_time_ms if c.manual_time_ms is not None else "",
-            c.n8n_agent_time_ms if c.n8n_agent_time_ms is not None else "",
-            c.speedup_vs_manual if c.speedup_vs_manual is not None else "",
-            c.time_reduction_vs_manual_pct if c.time_reduction_vs_manual_pct is not None else "",
-            c.speedup_vs_n8n if c.speedup_vs_n8n is not None else "",
+            c.manual_time_ms if c.manual_time_ms is not None else "N/A",
+            c.n8n_agent_time_ms if c.n8n_agent_time_ms is not None else "N/A",
+            c.speedup_vs_manual if c.speedup_vs_manual is not None else "N/A",
+            c.time_reduction_vs_manual_pct if c.time_reduction_vs_manual_pct is not None else "N/A",
+            c.speedup_vs_n8n if c.speedup_vs_n8n is not None else "N/A",
             c.langgraph_dag_violations,
             c.manual_dag_violations,
             c.n8n_dag_violations,
@@ -654,7 +658,7 @@ def export_empirical_evaluation(
 
     if export_csv:
         target_csv = _resolve_target(".csv")
-        target_csv.write_text(format_empirical_evaluation_csv(report), encoding="utf-8")
+        target_csv.write_text(format_empirical_evaluation_csv(report), encoding="utf-8", newline="")
         artifacts["csv"] = target_csv
 
     if export_tex:
