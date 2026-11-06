@@ -422,6 +422,47 @@
               }
             }
           ]
+        },
+        {
+          "name": "Sincronização de Métricas Empíricas LangSmith Multi-Modelo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"project\": \"REIC_WESAAC_code\",\n  \"limit\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/metrics/langsmith-sync",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "metrics", "langsmith-sync"]
+            },
+            "description": "Extrai via SDK LangSmith as métricas empíricas (latência, tokens prompt/completion, custos USD e taxa de sucesso) agrupadas por modelo e cenário com P95 interpolado."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"LangSmith metrics report has valid structure\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property(\"report_id\");",
+                  "    pm.expect(jsonData).to.have.property(\"metrics\");",
+                  "    pm.expect(jsonData.all_passed).to.be.a(\"boolean\");",
+                  "});"
+                ]
+              }
+            }
+          ]
         }
       ]
     }

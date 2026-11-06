@@ -65,6 +65,16 @@ from sprint_mas.graph import (
     select_feasible_sprint_tasks,
 )
 from sprint_mas.llm_factory import get_llm
+from sprint_mas.metrics_collector import (
+    LangSmithMetricsSuiteReport,
+    ModelScenarioMetric,
+    export_langsmith_metrics_artifacts,
+    export_metrics_artifacts,
+    format_metrics_csv,
+    format_metrics_latex,
+    format_metrics_markdown,
+    pull_langsmith_metrics,
+)
 from sprint_mas.prompts import (
     get_agent_prompt_template,
     load_prompt_yaml,
@@ -121,6 +131,8 @@ __all__ = [
     "DeliberationTraceReport",
     "DeveloperProfile",
     "EmpiricalEvaluationReport",
+    "LangSmithMetricsSuiteReport",
+    "ModelScenarioMetric",
     "PaperBaselineMetrics",
     "PrioritizationOutput",
     "ScenarioBenchmarkSummary",
@@ -152,6 +164,8 @@ __all__ = [
     "deterministic_topological_sort",
     "export_benchmark_artifacts",
     "export_empirical_evaluation",
+    "export_langsmith_metrics_artifacts",
+    "export_metrics_artifacts",
     "export_security_audit_artifacts",
     "extract_deliberation_trace",
     "format_benchmark_csv",
@@ -159,6 +173,9 @@ __all__ = [
     "format_empirical_evaluation_csv",
     "format_empirical_evaluation_latex",
     "format_empirical_evaluation_markdown",
+    "format_metrics_csv",
+    "format_metrics_latex",
+    "format_metrics_markdown",
     "format_security_audit_markdown",
     "get_agent_prompt_template",
     "get_data_dir",
@@ -180,6 +197,7 @@ __all__ = [
     "probe_path_traversal",
     "probe_server_authority",
     "probe_session_isolation",
+    "pull_langsmith_metrics",
     "route_after_validation",
     "run_benchmark_suite",
     "run_empirical_evaluation",

@@ -114,14 +114,14 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
 | **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e CLI executiva. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 304 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 321 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
 | **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
 | **Coleção Postman/Insomnia** | `docs/collections/` | **Sim** | Request Specs v2.1.0 com asserções JS (`pm.test`) para validação de endpoints e replicação. |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0014). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0015). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
@@ -172,13 +172,31 @@ uv run python main.py --security-audit
 
 # Executar a replicação científica completa em 1 clique (WESAAC 2025 & REIC 2026) com exportação quádrupla
 uv run python main.py --reproduce-paper --offline-mock
+
+# Sincronizar e agregar métricas empíricas multi-modelo via API do LangSmith com exportação quádrupla
+uv run python main.py --sync-metrics --project REIC_WESAAC_code --export-prefix langsmith_metrics
 ```
+
+#### 📊 Sincronização e Tabela de Métricas LangSmith Multi-Modelo
+A flag `--sync-metrics` (ou o alias `--pull-langsmith`) conecta-se à API REST/SDK do LangSmith, extrai as execuções de telemetria das sessões BDI e gera agregações estatísticas por par `(model_name, scenario)`:
+
+| Coluna | Descrição Técnica |
+|---|---|
+| `model_name` | Identificador do LLM avaliado (ex.: `openai/gpt-oss-120b`, `qwen/qwen3.8-27b`). |
+| `scenario` | Cenário experimental executado (`scenario_a`, `scenario_b`, `scenario_c`). |
+| `runs_count` | Total de repetições empíricas analisadas para o modelo no cenário. |
+| `mean_duration_ms` / `p95_duration_ms` | Média aritmética e Percentil 95 interpolado da latência de execução (ms). |
+| `prompt` / `compl` / `total_tokens` | Médias por run de tokens de entrada, saída e total consumidos. |
+| `total_cost_usd` | Custo financeiro acumulado em dólares (USD) reportado pela inferência. |
+| `success_rate_pct` | Taxa de aprovação operacional percentual (0.0% a 100.0%). |
+
+*Artefatos exportados atomicamente:* `.json` (canônico), `.md` (sumário executivo), `.csv` (com `\n` imune a CRCRLF) e `.tex` (tabela acadêmica em `booktabs` para WESAAC/REIC).
 
 ### 5. Execução da Suíte de Testes
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 304 testes automatizados passando (100%).*
+*Status esperado: 321 testes automatizados passando (100%).*
 
 ---
 

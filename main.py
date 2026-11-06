@@ -25,6 +25,15 @@ from sprint_mas.evaluation import (
     run_empirical_evaluation,
 )
 from sprint_mas.graph import run_sprint_planning
+from sprint_mas.metrics_collector import (
+    LangSmithMetricsSuiteReport,
+    ModelScenarioMetric,
+    export_metrics_artifacts,
+    format_metrics_csv,
+    format_metrics_latex,
+    format_metrics_markdown,
+    pull_langsmith_metrics,
+)
 from sprint_mas.replication import (
     ReplicationPackageConfig,
     ScientificReplicationBundle,
@@ -210,6 +219,18 @@ def build_arg_parser() -> argparse.ArgumentParser:
         dest="reproduce_paper",
         action="store_true",
         help="Executes 1-click end-to-end scientific replication suite for WESAAC 2025 and REIC 2026.",
+    )
+    parser.add_argument(
+        "--sync-metrics",
+        "--pull-langsmith",
+        dest="sync_metrics",
+        action="store_true",
+        help="Sync and extract multi-model benchmark metrics directly from LangSmith API.",
+    )
+    parser.add_argument(
+        "--project",
+        default=None,
+        help="LangSmith project name to extract metrics from (default: env LANGSMITH_PROJECT or 'REIC_WESAAC_code').",
     )
     return parser
 
@@ -483,6 +504,34 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
                 print(format_replication_markdown(bundle))
 
             return 0 if bundle.is_fully_reproduced else 2
+
+        if args.sync_metrics:
+            if args.output:
+                validate_safe_benchmark_path(args.output)
+
+            report = pull_langsmith_metrics(project_name=args.project)
+
+            if args.export_prefix:
+                export_metrics_artifacts(report, base_filename=args.export_prefix)
+
+            if args.output:
+                safe_out = validate_safe_benchmark_path(args.output)
+                safe_out.parent.mkdir(parents=True, exist_ok=True)
+                if safe_out.suffix.lower() == ".json":
+                    safe_out.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+                elif safe_out.suffix.lower() == ".csv":
+                    safe_out.write_text(format_metrics_csv(report), encoding="utf-8", newline="")
+                elif safe_out.suffix.lower() == ".tex":
+                    safe_out.write_text(format_metrics_latex(report), encoding="utf-8")
+                else:
+                    safe_out.write_text(format_metrics_markdown(report), encoding="utf-8")
+
+            if args.json:
+                print(report.model_dump_json(indent=2))
+            else:
+                print(format_metrics_markdown(report))
+
+            return 0 if report.all_passed else 2
 
         if args.security_audit:
             if args.output:

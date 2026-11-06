@@ -144,6 +144,10 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
     probe_id = "probe_pydantic_hardening"
     pilar = "Pilar 5: Segredos, Inputs & Parsers Seguros"
 
+    from sprint_mas.metrics_collector import (
+        LangSmithMetricsSuiteReport,
+        ModelScenarioMetric,
+    )
     from sprint_mas.replication import ReplicationPackageConfig, ScientificReplicationBundle
 
     models_to_check: list[tuple[str, type[BaseModel]]] = [
@@ -173,6 +177,11 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
         ),
         ("sprint_mas.replication.ReplicationPackageConfig", ReplicationPackageConfig),
         ("sprint_mas.replication.ScientificReplicationBundle", ScientificReplicationBundle),
+        ("sprint_mas.metrics_collector.ModelScenarioMetric", ModelScenarioMetric),
+        (
+            "sprint_mas.metrics_collector.LangSmithMetricsSuiteReport",
+            LangSmithMetricsSuiteReport,
+        ),
     ]
 
     failed_models: list[str] = []
