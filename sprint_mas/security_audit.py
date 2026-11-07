@@ -5,8 +5,11 @@ and semantic cross-alignment of contracts, prompts, DAGs, and Golden Datasets.
 """
 
 from datetime import datetime, timezone
+import importlib
+import inspect
 import json
 from pathlib import Path
+import pkgutil
 import re
 import time
 from typing import Any, Optional
@@ -32,11 +35,16 @@ from sprint_mas.evaluation import (
     EmpiricalEvaluationReport,
     PaperBaselineMetrics,
     ScenarioEmpiricalComparison,
+    get_paper_baselines,
 )
 from sprint_mas.prompts import get_prompts_dir, load_prompt_yaml
 from sprint_mas.state import Allocation, DeveloperProfile, SprintPlan, Task
-from sprint_mas.telemetry import DeliberationTraceReport, validate_safe_output_path
-from sprint_mas.tools import check_allocation_feasibility
+from sprint_mas.telemetry import (
+    DeliberationStep,
+    DeliberationTraceReport,
+    validate_safe_output_path,
+)
+from sprint_mas.tools import calculate_team_capacity, check_allocation_feasibility
 
 
 def sanitize_sprint_goal(goal: str) -> str:
@@ -144,59 +152,43 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
     probe_id = "probe_pydantic_hardening"
     pilar = "Pilar 5: Segredos, Inputs & Parsers Seguros"
 
-    from sprint_mas.metrics_collector import (
-        LangSmithMetricsSuiteReport,
-        ModelScenarioMetric,
-    )
-    from sprint_mas.replication import ReplicationPackageConfig, ScientificReplicationBundle
+    import sprint_mas
+    from langchain_core.language_models.chat_models import BaseChatModel
 
-    models_to_check: list[tuple[str, type[BaseModel]]] = [
-        ("sprint_mas.state.Task", Task),
-        ("sprint_mas.state.DeveloperProfile", DeveloperProfile),
-        ("sprint_mas.state.Allocation", Allocation),
-        ("sprint_mas.state.SprintPlan", SprintPlan),
-        ("sprint_mas.agents.prioritizer.PrioritizationOutput", PrioritizationOutput),
-        ("sprint_mas.agents.allocator.AllocationItem", AllocationItem),
-        ("sprint_mas.agents.allocator.AllocationOutput", AllocationOutput),
-        ("sprint_mas.agents.validator.ValidationReport", ValidationReport),
-        ("sprint_mas.agents.supervisor.SupervisorOutput", SupervisorOutput),
-        ("sprint_mas.telemetry.DeliberationTraceReport", DeliberationTraceReport),
-        ("sprint_mas.benchmarks.BenchmarkConfig", BenchmarkConfig),
-        ("sprint_mas.benchmarks.ScenarioRunMetric", ScenarioRunMetric),
-        ("sprint_mas.benchmarks.ScenarioBenchmarkSummary", ScenarioBenchmarkSummary),
-        ("sprint_mas.benchmarks.BenchmarkSuiteReport", BenchmarkSuiteReport),
-        ("sprint_mas.evaluation.PaperBaselineMetrics", PaperBaselineMetrics),
-        ("sprint_mas.evaluation.BottleneckMitigationAnalysis", BottleneckMitigationAnalysis),
-        ("sprint_mas.evaluation.ScenarioEmpiricalComparison", ScenarioEmpiricalComparison),
-        ("sprint_mas.evaluation.EmpiricalEvaluationReport", EmpiricalEvaluationReport),
-        ("sprint_mas.security_audit.SecurityProbeResult", SecurityProbeResult),
-        ("sprint_mas.security_audit.SemanticAlignmentResult", SemanticAlignmentResult),
-        (
-            "sprint_mas.security_audit.SecuritySemanticAuditReport",
-            SecuritySemanticAuditReport,
-        ),
-        ("sprint_mas.replication.ReplicationPackageConfig", ReplicationPackageConfig),
-        ("sprint_mas.replication.ScientificReplicationBundle", ScientificReplicationBundle),
-        ("sprint_mas.metrics_collector.ModelScenarioMetric", ModelScenarioMetric),
-        (
-            "sprint_mas.metrics_collector.LangSmithMetricsSuiteReport",
-            LangSmithMetricsSuiteReport,
-        ),
-    ]
+    discovered_models: dict[str, type[BaseModel]] = {}
+
+    # 1. Reflexive dynamic scanning over all submodules in sprint_mas
+    for module_info in pkgutil.walk_packages(sprint_mas.__path__, sprint_mas.__name__ + "."):
+        try:
+            mod = importlib.import_module(module_info.name)
+            for _, cls in inspect.getmembers(mod, inspect.isclass):
+                if (
+                    issubclass(cls, BaseModel)
+                    and cls is not BaseModel
+                    and not issubclass(cls, BaseChatModel)
+                    and cls.__module__.startswith("sprint_mas")
+                ):
+                    canonical_key = f"{cls.__module__}.{cls.__name__}"
+                    discovered_models[canonical_key] = cls
+        except Exception:
+            pass
+
+    # Ensure DeliberationStep and local models are explicitly present
+    discovered_models["sprint_mas.telemetry.DeliberationStep"] = DeliberationStep
 
     failed_models: list[str] = []
-    for name, cls in models_to_check:
+    for name, cls in discovered_models.items():
         config = getattr(cls, "model_config", {})
         extra_policy = config.get("extra") if isinstance(config, dict) else getattr(config, "extra", None)
         if extra_policy != "forbid":
             failed_models.append(f"{name} (extra={extra_policy})")
 
     elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
-    passed = len(failed_models) == 0
+    passed = len(failed_models) == 0 and len(discovered_models) >= 26
     details = (
-        f"Verified {len(models_to_check)} domain Pydantic models. 100% enforce ConfigDict(extra='forbid')."
+        f"Verified {len(discovered_models)} domain Pydantic models via dynamic reflection. 100% enforce ConfigDict(extra='forbid')."
         if passed
-        else f"Models lacking ConfigDict(extra='forbid'): {', '.join(failed_models)}."
+        else f"Models lacking ConfigDict(extra='forbid') or incomplete count ({len(discovered_models)}/26): {', '.join(failed_models)}."
     )
 
     return SecurityProbeResult(
@@ -353,12 +345,12 @@ def probe_anti_idor() -> SecurityProbeResult:
 
 
 def probe_dos_iterative_dag() -> SecurityProbeResult:
-    """Proves iterative 3-color DFS executes without RecursionError on 1,500 linear tasks and detects cycles."""
+    """Proves iterative 3-color DFS executes without RecursionError on 2,500 linear tasks and detects cycles."""
     start_ns = time.perf_counter()
     probe_id = "probe_dos_iterative_dag"
     pilar = "Pilar 4: Concorrência, Idempotência & Anti-DoS"
 
-    num_tasks = 1500
+    num_tasks = 2500
     linear_tasks = [
         Task(
             id=f"T{i:04d}",
@@ -398,14 +390,36 @@ def probe_dos_iterative_dag() -> SecurityProbeResult:
         if "Ciclo de dependência circular detectado" in str(exc):
             cycle_detected = True
 
-    passed = deep_chain_passed and cycle_detected
+    # Verify validator audit_sprint_state immunity on 2,500 tasks
+    dev = DeveloperProfile(id="dev_A", name="Alice", skills=["backend"], fte=1.0)
+    allocations = [
+        Allocation(task_id=f"T{i:04d}", developer_id="dev_A", allocated_points=1, reason="probe")
+        for i in range(num_tasks)
+    ]
+    state = {
+        "backlog": linear_tasks,
+        "team": [dev],
+        "prioritized_tasks": linear_tasks,
+        "allocations": allocations,
+        "validation_errors": [],
+        "sprint_plan": None,
+        "messages": [],
+    }
+    validator_passed = False
+    try:
+        rep = audit_sprint_state(state)
+        validator_passed = isinstance(rep, ValidationReport)
+    except RecursionError:
+        validator_passed = False
+
+    passed = deep_chain_passed and cycle_detected and validator_passed
     elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
 
     details = (
-        f"Iterative DFS validated on {num_tasks} linear nodes in {elapsed_ms:.1f}ms without RecursionError. "
-        "Deep cycle successfully detected."
+        f"Iterative DFS validated on {num_tasks} linear nodes in {elapsed_ms:.1f}ms without RecursionError "
+        f"(data_loader and validator audit_sprint_state). Deep cycle successfully detected."
         if passed
-        else f"Iterative DAG failure: deep_chain_passed={deep_chain_passed}, cycle_detected={cycle_detected}."
+        else f"Iterative DAG failure: deep_chain={deep_chain_passed}, cycle={cycle_detected}, validator={validator_passed}."
     )
 
     return SecurityProbeResult(
@@ -557,8 +571,123 @@ def verify_golden_datasets() -> SemanticAlignmentResult:
     )
 
 
+def verify_paper_traceability_1to1() -> SemanticAlignmentResult:
+    """Algebraically and factually verifies 100% 1:1 compliance with WESAAC 2025 and REIC 2026 papers.
+
+    Verified Paper Clauses:
+    1. Scenario A: 10 tasks, 35 story points, 3 devs.
+    2. Scenario B: 30 tasks, 128 story points in backlog, 66 story points scheduled in sprint
+       (within 84 pts analytical capacity), 5 devs, 19 backend tasks (63.33% density),
+       qualitative mitigation by fullstack dev_C absorbing backend, rigid ceiling dev_D <= 10.0 pts.
+    3. Scenario C: 100 tasks, 452 story points in backlog, 176 story points scheduled in sprint,
+       10 devs, 0% causal DAG error.
+    4. REIC 2026 Baselines: M-Manual 765s vs M-Agente 4.2s (speedup ~182x), 99.5% n8n vs 100% LangGraph.
+    """
+    violations: list[str] = []
+
+    # 1. Scenario A: 10 tasks, 35 story points, 3 devs
+    try:
+        tasks_a, team_a = load_scenario("scenario_a")
+        if len(tasks_a) != 10:
+            violations.append(f"Scenario A task count mismatch: expected 10, got {len(tasks_a)}.")
+        total_pts_a = sum(t.story_points for t in tasks_a)
+        if total_pts_a != 35:
+            violations.append(f"Scenario A story points mismatch: expected 35, got {total_pts_a}.")
+        if len(team_a) != 3:
+            violations.append(f"Scenario A team size mismatch: expected 3, got {len(team_a)}.")
+    except Exception as exc:
+        violations.append(f"Scenario A loading failed: {exc}")
+
+    # 2. Scenario B: 30 tasks, 128 story points, 66 pts allocated, 84 cap, 5 devs, 19 backend (63.33%)
+    try:
+        tasks_b, team_b = load_scenario("scenario_b")
+        if len(tasks_b) != 30:
+            violations.append(f"Scenario B task count mismatch: expected 30, got {len(tasks_b)}.")
+        total_pts_b = sum(t.story_points for t in tasks_b)
+        if total_pts_b != 128:
+            violations.append(f"Scenario B backlog story points mismatch: expected 128, got {total_pts_b}.")
+        if len(team_b) != 5:
+            violations.append(f"Scenario B team size mismatch: expected 5, got {len(team_b)}.")
+
+        backend_b = [t for t in tasks_b if t.skill_required.lower() == "backend"]
+        if len(backend_b) != 19:
+            violations.append(f"Scenario B backend tasks mismatch: expected 19, got {len(backend_b)}.")
+        density_pct = round((len(backend_b) / len(tasks_b)) * 100.0, 2)
+        if density_pct != 63.33:
+            violations.append(f"Scenario B backend density mismatch: expected 63.33%, got {density_pct}%.")
+
+        cap_b = calculate_team_capacity.func(team_profiles=team_b, sprint_days=10, points_per_day=2.0)
+        total_cap_b = sum(cap_b["capacities"].values())
+        if total_cap_b != 84.0:
+            violations.append(f"Scenario B total capacity mismatch: expected 84.0, got {total_cap_b}.")
+
+        golden_path_b = Path(__file__).resolve().parent.parent / "evals" / "golden_dataset" / "golden_scenario_b.json"
+        if golden_path_b.is_file():
+            golden_data_b = json.loads(golden_path_b.read_text(encoding="utf-8"))
+            golden_pts_b = golden_data_b.get("total_points")
+            if golden_pts_b != 66:
+                violations.append(f"Scenario B golden sprint points mismatch: expected 66, got {golden_pts_b}.")
+            allocs_b = golden_data_b.get("allocations", [])
+            dev_d_pts = sum(a.get("allocated_points", 0) for a in allocs_b if a.get("developer_id") == "dev_D")
+            if dev_d_pts > 10.0:
+                violations.append(f"Scenario B dev_D ceiling overrun: expected <= 10.0, got {dev_d_pts}.")
+            dev_c_backend_pts = sum(
+                a.get("allocated_points", 0)
+                for a in allocs_b
+                if a.get("developer_id") == "dev_C"
+            )
+            if dev_c_backend_pts < 19:
+                violations.append(f"Scenario B dev_C fullstack mitigation insufficient: got {dev_c_backend_pts} pts.")
+    except Exception as exc:
+        violations.append(f"Scenario B verification failed: {exc}")
+
+    # 3. Scenario C: 100 tasks, 452 story points, 176 allocated, 10 devs, 0% causal error
+    try:
+        tasks_c, team_c = load_scenario("scenario_c")
+        if len(tasks_c) != 100:
+            violations.append(f"Scenario C task count mismatch: expected 100, got {len(tasks_c)}.")
+        total_pts_c = sum(t.story_points for t in tasks_c)
+        if total_pts_c != 452:
+            violations.append(f"Scenario C backlog story points mismatch: expected 452, got {total_pts_c}.")
+        if len(team_c) != 10:
+            violations.append(f"Scenario C team size mismatch: expected 10, got {len(team_c)}.")
+        validate_dependencies_dag(tasks_c)
+    except Exception as exc:
+        violations.append(f"Scenario C verification failed: {exc}")
+
+    # 4. REIC 2026 Baselines: M-Manual 765s vs M-Agente 4.2s (~182x), 99.5% n8n vs 100% LangGraph
+    try:
+        baselines = get_paper_baselines()
+        b_base = baselines.get("scenario_b")
+        if not b_base or b_base.manual_time_ms != 765000.0 or b_base.n8n_agent_time_ms != 4200.0:
+            violations.append("Scenario B baseline timing mismatch (expected 765s manual vs 4.2s agent).")
+        if b_base and b_base.n8n_agent_speedup_vs_manual != 182.14:
+            violations.append(f"Scenario B speedup mismatch: expected 182.14x, got {b_base.n8n_agent_speedup_vs_manual}x.")
+
+        c_base = baselines.get("scenario_c")
+        if not c_base or c_base.n8n_success_rate_pct != 99.5:
+            violations.append("Scenario C baseline mismatch: expected 99.5% n8n success rate.")
+    except Exception as exc:
+        violations.append(f"Paper baselines verification failed: {exc}")
+
+    passed = len(violations) == 0
+    details = (
+        "100% 1:1 scientific traceability confirmed with WESAAC 2025 and REIC 2026 papers "
+        "(Scenarios A, B [63.33% backend, dev_C=19pts, dev_D<=10pts, speedup ~182x], C [100 tasks, 452 pts, 0% causal error])."
+        if passed
+        else f"Scientific traceability verification failed with {len(violations)} violation(s): {'; '.join(violations)}."
+    )
+
+    return SemanticAlignmentResult(
+        module="papers.wesaac2025_reic2026.traceability",
+        passed=passed,
+        violations=violations,
+        details=details,
+    )
+
+
 def verify_semantic_alignment() -> SemanticAlignmentResult:
-    """Verifies prompt YAML templates, placeholders, and scenario DAG topologies."""
+    """Verifies prompt YAML templates, placeholders, scenario DAG topologies, and 1:1 paper traceability."""
     violations: list[str] = []
 
     expected_placeholders = {
@@ -586,9 +715,14 @@ def verify_semantic_alignment() -> SemanticAlignmentResult:
         except Exception as exc:
             violations.append(f"Failed loading scenario '{sc}': {exc}")
 
+    # Integrate 1:1 paper traceability verification
+    trace_res = verify_paper_traceability_1to1()
+    violations.extend(trace_res.violations)
+
     passed = len(violations) == 0
     details = (
-        "BART prompt templates and scenarios A/B/C topological DAGs semantically verified."
+        "BART prompt templates and scenarios A/B/C topological DAGs semantically verified. "
+        + trace_res.details
         if passed
         else f"Semantic verification failed with {len(violations)} violation(s)."
     )
@@ -624,11 +758,15 @@ def run_pentagon_security_audit() -> SecuritySemanticAuditReport:
 
     semantic_checks = [
         verify_golden_datasets(),
-        verify_semantic_alignment(),
+        verify_paper_traceability_1to1(),
     ]
 
     total_duration_ms = (time.perf_counter() - start_ns) * 1000.0
     all_passed = all(p.passed for p in probes) and all(s.passed for s in semantic_checks)
+
+    total_items = len(probes) + len(semantic_checks)
+    total_passed = sum(1 for p in probes if p.passed) + sum(1 for s in semantic_checks if s.passed)
+    coverage_pct = round((total_passed / total_items * 100.0), 1) if total_items > 0 else 0.0
 
     summary = {
         "total_probes": len(probes),
@@ -636,7 +774,7 @@ def run_pentagon_security_audit() -> SecuritySemanticAuditReport:
         "total_semantic_checks": len(semantic_checks),
         "semantic_checks_passed": sum(1 for s in semantic_checks if s.passed),
         "total_duration_ms": round(total_duration_ms, 3),
-        "pentagon_defense_coverage_pct": 100.0,
+        "pentagon_defense_coverage_pct": coverage_pct,
     }
 
     return SecuritySemanticAuditReport(

@@ -6,13 +6,17 @@
     "academic_references": [
       {
         "venue": "WESAAC 2025",
-        "title": "Planejamento Ágil de Sprints com Sistemas Multiagentes Cognitivos e LLMs",
-        "focus": "Validação de orquestração multiagente e resolução de gargalos de competência técnica em equipes ágeis."
+        "title": "Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints",
+        "authors": "Elysson Alves de Lacerda, Gustavo Almeida Monteiro, Franciel Silveira Penha de Vasconcelos, Marcos Antonio de Oliveira",
+        "doi": "10.5753/wesaac.2025.37543",
+        "focus": "Validação de orquestração multiagente, modelos cognitivos BDI/BART e resolução de gargalos de competência técnica em equipes ágeis."
       },
       {
         "venue": "REIC 2026",
-        "title": "Avaliação Empírica de Grafos de Decisão com LangGraph na Resolução de Gargalos em Sprint Planning",
-        "focus": "Comparativo de robustez, detecção de ciclos em grafos de dependência e estabilidade determinística contra workflows low-code (n8n)."
+        "title": "Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints",
+        "authors": "Elysson Alves de Lacerda, Gustavo Almeida Monteiro, Franciel Silveira Penha de Vasconcelos, Marcos Antonio de Oliveira",
+        "doi": "10.5753/reic.2026.7182",
+        "focus": "Avaliação experimental formal entre planejamento manual humano, arquitetura reativa low-code (n8n) e grafo de estados cíclico LangGraph, comprovando speedup de 182x e resolução de gargalo estrutural."
       }
     ],
     "description": "Especificação bruta dos cenários canônicos de teste para benchmarking dos agentes de priorização, alocação e validação de sprints."

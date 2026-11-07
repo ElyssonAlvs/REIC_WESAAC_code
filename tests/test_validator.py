@@ -11,6 +11,7 @@ from sprint_mas.agents import (
     validation_node,
     validator_node,
 )
+from sprint_mas.agents.validator import _detect_cycles
 from sprint_mas.data_loader import load_scenario
 from sprint_mas.state import Allocation, DeveloperProfile, SprintState, Task
 
@@ -700,3 +701,78 @@ def test_validation_report_extra_forbid():
             summary="All clear",
             injected_malicious_key="exploit",
         )
+
+
+def test_detect_cycles_deep_graph_iterative_no_recursion_error():
+    """Garante que _detect_cycles usa algoritmo iterativo O(V+E) imune a RecursionError com 2.500 nós."""
+    n_nodes = 2500
+    chain_tasks = [
+        Task(
+            id=f"T_{i}",
+            title=f"Task {i}",
+            description="Deep chain test",
+            story_points=1,
+            skill_required="backend",
+            priority=1,
+            dependencies=[f"T_{i - 1}"] if i > 0 else [],
+        )
+        for i in range(n_nodes)
+    ]
+    cycles = _detect_cycles(chain_tasks)
+    assert cycles == []
+
+
+def test_detect_cycles_deep_graph_with_cycle_detection():
+    """Garante que _detect_cycles detecta ciclos iterativamente em grafos profundos sem estourar pilha."""
+    n_nodes = 2500
+    cyclic_tasks = [
+        Task(
+            id=f"T_{i}",
+            title=f"Task {i}",
+            description="Deep cyclic test",
+            story_points=1,
+            skill_required="backend",
+            priority=1,
+            dependencies=[f"T_{i - 1}"] if i > 0 else [f"T_{n_nodes - 1}"],
+        )
+        for i in range(n_nodes)
+    ]
+    cycles = _detect_cycles(cyclic_tasks)
+    assert len(cycles) > 0
+
+
+def test_audit_sprint_state_deep_graph_immunity():
+    """Garante que audit_sprint_state executa auditoria completa em grafo linear de 2.500 nós sem DoS/RecursionError."""
+    n_nodes = 2500
+    chain_tasks = [
+        Task(
+            id=f"T_{i}",
+            title=f"Task {i}",
+            description="Deep chain test",
+            story_points=1,
+            skill_required="backend",
+            priority=1,
+            dependencies=[f"T_{i - 1}"] if i > 0 else [],
+        )
+        for i in range(n_nodes)
+    ]
+    dev = DeveloperProfile(id="dev_A", name="Alice", skills=["backend"], fte=1.0)
+    allocations = [
+        Allocation(task_id=f"T_{i}", developer_id="dev_A", allocated_points=1, reason="test")
+        for i in range(n_nodes)
+    ]
+    state: SprintState = {
+        "backlog": chain_tasks,
+        "team": [dev],
+        "prioritized_tasks": chain_tasks,
+        "allocations": allocations,
+        "validation_errors": [],
+        "sprint_plan": None,
+        "messages": [],
+    }
+    # Executa sem RecursionError (rejeitará por capacidade, mas não por crash de recursão)
+    report = audit_sprint_state(state)
+    assert isinstance(report, ValidationReport)
+    # Não deve ter violações de ciclo
+    assert not any("circular" in v.lower() or "ciclo" in v.lower() for v in report.violations)
+
