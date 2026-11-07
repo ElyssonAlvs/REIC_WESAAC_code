@@ -36,6 +36,13 @@ from sprint_mas.benchmarks import (
     run_scenario_benchmark,
     validate_safe_benchmark_path,
 )
+from sprint_mas.cli import (
+    ExecutionManifest,
+    build_execution_manifest,
+    compute_file_sha256,
+    compute_prompts_sha256,
+    export_local_run_artifacts,
+)
 from sprint_mas.data_loader import (
     get_data_dir,
     list_available_scenarios,
@@ -141,6 +148,7 @@ __all__ = [
     "DeliberationTraceReport",
     "DeveloperProfile",
     "EmpiricalEvaluationReport",
+    "ExecutionManifest",
     "LangSmithMetricsSuiteReport",
     "ModelScenarioMetric",
     "PaperBaselineMetrics",
@@ -163,10 +171,13 @@ __all__ = [
     "analyze_resource_bottleneck_mitigation",
     "audit_sprint_plan",
     "audit_sprint_state",
+    "build_execution_manifest",
     "build_langsmith_run_config",
     "build_sprint_graph",
     "calculate_team_capacity",
     "check_allocation_feasibility",
+    "compute_file_sha256",
+    "compute_prompts_sha256",
     "compute_speedup_metrics",
     "configure_langsmith_tracing",
     "corrective_replan_node",
@@ -177,6 +188,7 @@ __all__ = [
     "export_benchmark_artifacts",
     "export_empirical_evaluation",
     "export_langsmith_metrics_artifacts",
+    "export_local_run_artifacts",
     "export_metrics_artifacts",
     "export_replication_artifacts",
     "export_security_audit_artifacts",

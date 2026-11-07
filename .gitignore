@@ -22,6 +22,11 @@ htmlcov/
 reports/experiments/*.jsonl
 reports/experiments/*.log
 
+# Artefatos Locais de Execução (Fase 14)
+artifacts/runs/*
+!artifacts/runs/.gitkeep
+!artifacts/README.md
+
 # Distribuição e Build
 dist/
 build/

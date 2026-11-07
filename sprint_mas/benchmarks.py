@@ -546,6 +546,9 @@ def validate_safe_benchmark_path(
 ) -> Path:
     """Validates that a path is safe against Path Traversal and restricted to allowed extensions (.json, .md, .csv, .tex).
 
+    Permits safe relative or absolute paths targeting repository directories such as 'reports/'
+    (e.g., 'reports/experiments/', 'reports/published/') and 'artifacts/' (e.g., 'artifacts/runs/').
+
     Args:
         path: Relative or absolute path to validate.
         base_dir: Allowed base directory (defaults to repository root).
@@ -554,12 +557,14 @@ def validate_safe_benchmark_path(
         Path: Resolved absolute path.
 
     Raises:
-        ValueError: If path is empty, escapes base directory, or has a forbidden extension.
+        ValueError: If path is empty, escapes base directory, has a forbidden extension,
+                    or targets directories outside 'reports/' and 'artifacts/'.
     """
     if path is None or not str(path).strip():
         raise ValueError("Security violation: path cannot be empty.")
 
-    base = base_dir.resolve() if base_dir is not None else Path(__file__).resolve().parent.parent.resolve()
+    repo_root = Path(__file__).resolve().parent.parent.resolve()
+    base = base_dir.resolve() if base_dir is not None else repo_root
     raw_p = Path(path)
 
     allowed_extensions = {".json", ".md", ".csv", ".tex"}
@@ -582,6 +587,21 @@ def validate_safe_benchmark_path(
         raise ValueError(
             f"Security violation: path escapes repository base directory '{base}'."
         )
+
+    # When base is repo_root, ensure path is confined to 'reports/' or 'artifacts/'
+    if base == repo_root:
+        reports_dir = repo_root / "reports"
+        artifacts_dir = repo_root / "artifacts"
+        in_allowed = False
+        try:
+            in_allowed = target.is_relative_to(reports_dir) or target.is_relative_to(artifacts_dir)
+        except AttributeError:
+            in_allowed = str(target).startswith(str(reports_dir)) or str(target).startswith(str(artifacts_dir))
+
+        if not in_allowed:
+            raise ValueError(
+                f"Security violation: path must be inside 'reports/' or 'artifacts/'. Got '{target}'."
+            )
 
     return target
 
