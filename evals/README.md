@@ -66,6 +66,8 @@ O documento [`evals/rubricas.md`](./rubricas.md) estabelece os critérios formai
 
 Os gabaritos canônicos representam a alocação ótima matematicamente provada e alinhada com as publicações acadêmicas da UFC Quixadá.
 
+> **Declaração de Equivalência Ótima:** O problema de alocação de tarefas com restrições de precedência, competências e capacidade constitui um problema de otimização combinatória NP-difícil. Desta forma, os arquivos do `golden_dataset/` são **soluções de referência ótimas canônicas**. Soluções alternativas geradas pelo sistema são plenamente aceitas e válidas desde que cumpram **100% das restrições rígidas (*Hard Constraints*)**: zero violações de precedência causal no DAG, zero sobrecarga de FTE (incluindo o teto de 10.0 pts de `dev_D`) e 100% de afinidade entre as competências requeridas e as habilidades do desenvolvedor.
+
 ### A. Cenário A — Smoke Test (`golden_scenario_a.json`)
 - **Backlog de Entrada:** 10 tarefas sintéticas (`TSK-001` a `TSK-010`), sem dependências encadeadas complexas.
 - **Equipe:** 3 desenvolvedores com dedicação total (`fte = 1.0` $\rightarrow$ teto de 20.0 pts cada; capacidade total da sprint = 60 pts).

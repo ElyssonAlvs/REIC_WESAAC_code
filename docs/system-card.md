@@ -28,6 +28,7 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 5. **Motor de Auditoria de Segurança & Verificação Semântica (`sprint_mas.security_audit`):** Sonda programática contínua em Python puro (Zero LLM) que audita os 5 pilares do Pentágono de Defesa (Pydantic `extra="forbid"` reflexivo, isolamento de sessões, autoridade de servidor, anti-IDOR, anti-DoS em grafos e anti-Path Traversal).
 6. **Motor de Reprodutibilidade Científica & Empacotamento de Publicação (`sprint_mas.replication`):** Orquestrador determinístico que executa em 1 clique (`main.py --reproduce-paper`) a cadeia experimental completa (benchmarks A/B/C, avaliação empírica contra linhas de base e auditoria do Pentágono), atestando a mitigação do gargalo da Seção 6.3 e exportando artefatos quádruplos (.json, .md, .csv, .tex).
 7. **Motor de Extração e Agregação de Métricas LangSmith (`sprint_mas.metrics_collector`):** Sincronizador programático via SDK do LangSmith (`main.py --sync-metrics`) que extrai telemetria de execuções históricas, calcula agregações estatísticas P95 interpoladas multi-modelo e exporta artefatos quádruplos seguros (.json, .md, .csv, .tex).
+8. **Camada Thin CLI e Manifesto Criptográfico (`sprint_mas.cli`):** Ponto de entrada modular desacoplado com validação de procedência criptográfica (`ExecutionManifest`), calculando hashes SHA-256 de cenários e prompts e isolando execuções de trabalho em `artifacts/runs/<run_id>/` sem poluir as evidências congeladas de `reports/published/reic-2026/`.
 
 ---
 
@@ -46,7 +47,7 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 | **Ciclo de Dependência Inválido:** Agendar tarefa filha antes da tarefa pai. | Alta | **Grafo Acíclico Dirigido (DAG):** Verificação algorítmica de precedência de nós antes da confirmação do plano. |
 | **Vazamento de Credenciais:** Envio acidental de chaves de API. | Crítica | Arquivo `.env` protegido via `.gitignore` e separação estrita de variáveis de ambiente. |
 | **Falha de Conectividade Externa:** Queda da API da Groq. | Média | **Fábrica Híbrida Desacoplada:** Fallback imediato para Ollama local sem alteração de código. |
-| **Injeção de Campos / Mass Assignment:** Injeção de flags ou dados espúrios em modelos. | Alta | **Hardening Universal Pydantic v2:** 100% dos modelos impõem `ConfigDict(extra="forbid")` auditados via reflexão. |
+| **Injeção de Campos / Mass Assignment:** Injeção de flags ou dados espúrios em modelos. | Alta | **Hardening Universal Pydantic v2:** 100% dos modelos (27 classes de domínio) impõem `ConfigDict(extra="forbid")` auditados via reflexão. |
 | **Path Traversal & Null Bytes:** Tentativa de leitura de arquivos confidenciais fora da raiz. | Crítica | **Guardrails de Caminho:** Bloqueio rigoroso de `..`, `/`, `\` e `\x00` em loaders de prompt e cenários. |
 | **DoS por Recursão em Grafos Profundos:** Grafos com mais de 1.000 nós esgotando pilha. | Alta | **DFS Iterativo Tricromático:** Travessia em $O(V+E)$ com pilha explícita em heap sem `RecursionError`. |
 | **Prompt Injection na Meta da Sprint:** Injeção de instruções maliciosas via `--sprint-goal`. | Alta | **Sanitização Prévia (`sanitize_sprint_goal`):** Scanner anti-prompt injection com limite estrito de 500 chars. |
@@ -61,5 +62,5 @@ O sistema é avaliado nas seguintes métricas objetivas (reproduzindo os cenári
 - **Latência de Planejamento:** Tempo decorrido entre o gatilho inicial e o plano final validado (meta: < 10 segundos).
 - **Rastreabilidade:** 100% das execuções telemetradas via LangSmith.
 - **Auditoria de Segurança Contínua:** 100% das sondas do Pentágono de Defesa passando em $< 150\text{ ms}$ com zero LLM (`uv run python main.py --security-audit`).
-- **Rigor da Suíte de Testes:** 330 testes automatizados 100% aprovados sem dependência de rede (`uv run pytest tests/ -v`).
+- **Rigor da Suíte de Testes:** 340 testes automatizados 100% aprovados sem dependência de rede (`uv run pytest tests/ -v`).
 - **Protocolo de Reprodutibilidade Científica em 1 Clique:** 100% dos resultados empíricos replicáveis deterministicamente via CLI (`python main.py --reproduce-paper --offline-mock`) e via Coleção Executiva Postman v2.1.0 (`docs/collections/sprint_mas_postman_collection.json`).

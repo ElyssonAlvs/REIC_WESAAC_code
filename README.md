@@ -16,7 +16,7 @@ Adotamos a organização de artefatos recomendada pelas melhores práticas de en
 
 ```
 REIC-WESAAC/
-├── sprint_mas/             # 1. CÓDIGO: Lógica dos agentes, grafo LangGraph, estado e fábrica LLM
+├── sprint_mas/             # 1. CÓDIGO: Lógica dos agentes, grafo LangGraph, estado, CLI e fábrica LLM
 ├── configs/                # 2. CONFIGURAÇÕES & PROMPTS: Prompts versionados como código (técnica BART)
 │   ├── README.md
 │   ├── models.yaml         # Hiperparâmetros, timeouts e seleção de modelos
@@ -26,75 +26,60 @@ REIC-WESAAC/
 │   ├── raw/                # Dados brutos originais do paper
 │   └── processed/          # Cenários JSON validados via Pydantic
 ├── evals/                  # 4. AVALIAÇÃO & RUBRICAS: Golden dataset e critérios de dependência/FTE
+│   ├── README.md           # Guia da camada de LLMOps e rubricas analíticas
 │   ├── rubricas.md         # Métricas de sucesso, fórmulas e severidades
-│   └── golden_dataset/     # Gabarito de referência dos cenários
-├── reports/                # RELATÓRIOS & BENCHMARKS: Logs e comparativos M-Manual vs M-Agente
-│   └── experiments/        # Saídas de benchmarks de tempo e resiliência
-├── tests/                  # QUALIDADE: Suíte de testes unitários automatizados (pytest)
+│   └── golden_dataset/     # Gabaritos de referência ótima dos cenários
+├── reports/                # RELATÓRIOS & BENCHMARKS: Evidências científicas e comparativos
+│   ├── README.md           # Guia de governança de relatórios e separação de artefatos
+│   ├── published/          # Evidências oficiais congeladas para artigos (com manifest.json)
+│   └── experiments/        # Pacotes canônicos leves de replicação experimental
+├── artifacts/              # EXECUÇÕES LOCAIS: Espaço de trabalho ad-hoc (ignorado no Git)
+│   ├── README.md           # Ciclo de vida de curadoria científica
+│   └── runs/               # Execuções locais isoladas por <run_id>
+├── tests/                  # QUALIDADE: Suíte de testes unitários e de integração (pytest)
 ├── docs/                   # CENTRAL DE DOCUMENTAÇÃO & GOVERNANÇA
 │   ├── README.md           # Hub Central de Documentação do Projeto
+│   ├── roadmap.md          # Histórico detalhado das Fases 1 a 14 de engenharia
 │   ├── index.html          # Dashboard interativo com simulador de grafo e terminal
 │   ├── system-card.md      # Ficha técnica do sistema (finalidade, limites e riscos)
-│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0016)
+│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0017)
 │   │   └── README.md       # Catálogo unificado de decisões arquiteturais
 │   ├── papers/             # Artigos científicos de referência (PDFs e transcrições)
 │   │   └── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
 │   └── guides/             # Guias didáticos e pedagógicos
 │       └── GUIA_APRENDIZADO.md # Manual completo: Teoria BDI, Blackboard e LangGraph
-├── main.py                 # CLI EXECUTIVA: Ponto de entrada com telemetria BDI e LangSmith
+├── main.py                 # THIN ENTRYPOINT: Ponto de entrada enxuto (~45 linhas)
 ├── pyproject.toml          # GERENCIAMENTO: Manifesto do projeto gerido via uv
 ├── .env.example            # AMBIENTE: Template de configuração (Groq / Ollama / LangSmith)
-└── .gitignore              # PROTEÇÃO: Bloqueio de secrets, logs pesados e caches
+└── .gitignore              # PROTEÇÃO: Bloqueio de secrets, logs pesados e artifacts/runs/*
 ```
 
 ---
 
 ## 🗺️ Roadmap de Implementação por Fases
 
-O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 13 fases incrementais, auditáveis e testadas:
+O projeto foi executado sob a estratégia **"Dividir para Conquistar"**, estruturado em **14 fases incrementais** (100% homologadas), cobrindo desde a fundação inicial com Blackboard tipado e nós cognitivos híbridos até a separação física entre execuções locais e evidências publicadas:
 
-| Fase | Título | Foco Técnico / Escopo | Status |
-| :---: | :--- | :--- | :---: |
-| **1** | **Fundação & Contrato de Estado** | Configuração com `uv`, Pydantic v2 schemas, `SprintState` (Blackboard), fábrica híbrida de LLM (`ChatGroq` / `ChatOllama`) e testes unitários. | ✅ **Concluído** |
-| **2** | **Dados & Cenários de Teste** | Estruturação reproduzível dos Cenários A, B e C do paper em `data/processed/scenario_*.json`, com parser tipado, validação de DAG e testes. | ✅ **Concluído** |
-| **3** | **Ferramentas & Prompts (BART)** | Implementação de `@tool` determinísticas (cálculo de FTE, grafo de dependências) e system prompts em `configs/prompts/` baseados na técnica BART. | ✅ **Concluída (19/10/2026)** |
-| **4** | **Agente de Priorização** | Nó cognitivo híbrido (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal. | ✅ **Concluída (31/10/2026)** |
-| **5** | **Agente de Alocação** | Nó cognitivo híbrido (BART + Tool Capacity + Match Skills) mitigando gargalos via dev_C e blindando dev_D (0.5 FTE). | ✅ **Concluída (31/10/2026)** |
-| **6** | **Agente de Validação (Determinístico)** | Nó puro em Python que audita sem LLM se restrições de FTE e dependências foram violadas, forçando loops corretivos. | ✅ **Concluída (02/11/2026)** |
-| **7** | **Supervisor & Montagem do Grafo** | Coordenação condicional, arestas cíclicas de feedback e compilação do grafo LangGraph com checkpointing (`MemorySaver`) e Circuit Breaker. | ✅ **Concluída (02/11/2026)** |
-| **8** | **CLI & Observabilidade LangSmith** | Interface de linha de comando (`main.py`) e telemetria completa de traces de raciocínio BDI no LangSmith e local (`telemetry.py`). | ✅ **Concluída (03/11/2026)** |
-| **9** | **Live Execution & Benchmarks (A, B, C)** | Bateria automatizada de benchmarks multi-cenário e multi-runs (`benchmarks.py` e `main.py --benchmark`), métricas estatísticas e exportação em `.json`, `.md` e `.csv`. | ✅ **Concluída (04/11/2026)** |
-| **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA), validação algébrica da mitigação do gargalo de backend (63.33%, dev_C, teto dev_D <= 10.0 pts) e exportação em LaTeX booktabs. | ✅ **Concluída (05/11/2026)** |
-| **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito, hardening 100% Pydantic (extra="forbid"), DFS iterativo anti-DoS e alinhamento dos Golden Datasets. | ✅ **Concluída (05/11/2026)** |
-| **12** | **Consolidação & Pacote Científico** | Motor de replicação em 1 clique (`replication.py`, `--reproduce-paper`), coleção executiva Postman/Insomnia v2.1.0, bundle acadêmico (.json, .md, .csv, .tex) e ADR 0014. | ✅ **Concluída (06/11/2026)** |
-| **13** | **Recapitulação Geral, Zero Brechas & Homologação Científica** | Revisão ponta a ponta das Fases 1 a 12 (código, tipagem, segurança, testes e caos) e matriz de rastreabilidade 1:1 cláusula a cláusula contra os papers WESAAC 2025 e REIC 2026. | ✅ **Concluída (06/11/2026)** |
+- 📊 **Status Geral:** 14 de 14 Fases Concluídas (100% Homologado).
+- 🧪 **Cobertura de Qualidade:** 340 testes automatizados cobrindo fluxos felizes, restrições e segurança estática.
+- 🏛️ **Governança:** 17 Architecture Decision Records formalizadas no padrão Design System (ADRs 0001 a 0017).
+
+> Para a linha do tempo completa, escopo detalhado de cada fase, datas de entrega e vínculos arquiteturais, consulte o [**Roadmap Detalhado de Engenharia (`docs/roadmap.md`)**](docs/roadmap.md).
 
 ---
 
 ## 🏛️ Decisões de Arquitetura (ADRs)
 
-Todas as escolhas estruturais, mitigações de riscos e substituições em relação à abordagem original no n8n estão formalizadas no padrão Design System / MADR em [`docs/adr/`](docs/adr/README.md):
+Todas as escolhas de design, garantias de integridade transacional, mitigação de riscos e substituições em relação ao fluxo legado no n8n estão formalizadas em documentos imutáveis no formato Design System / MADR em [`docs/adr/`](docs/adr/README.md):
 
-| ADR | Título | Data | Status | Decisão Técnica Resumida |
-| :---: | :--- | :---: | :---: | :--- |
-| **[0001](docs/adr/0001-migracao-n8n-para-langgraph.md)** | **Migração do n8n para a Stack LangGraph** | 2026-10-02 | `Aprovada` | Substituição da ferramenta low-code por grafos de estado tipados, cíclicos e testáveis, viabilizando observabilidade e loops corretivos. |
-| **[0002](docs/adr/0002-padrao-blackboard-com-pydantic-e-sprintstate.md)** | **Padrão Blackboard com Pydantic v2 e TypedDict** | 2026-10-02 | `Aprovada` | Centralização da memória compartilhada em `SprintState` com redutor `add_messages` e validações de borda (`story_points > 0`, `0.0 <= fte <= 1.0`). |
-| **[0003](docs/adr/0003-fabrica-hibrida-de-llms-groq-e-ollama.md)** | **Fábrica Híbrida de LLMs (Groq + Ollama)** | 2026-10-02 | `Aprovada` | Desacoplamento da infraestrutura de IA para alternar entre nuvem gratuita ultra-rápida (Groq) e execução local offline (Ollama). |
-| **[0004](docs/adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md)** | **Data Loader Tipado e Validação de DAG** | 2026-10-19 | `Aprovada` | Ingestão sintética reproduzível dos Cenários A, B e C com validação algorítmica de DAG ($O(V+E)$) contra dependências circulares. |
-| **[0005](docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md)** | **Prompts BART e Ferramentas Determinísticas** | 2026-10-19 | `Aprovada` | Prompts em YAML (`configs/prompts/*.yaml`), pureza analítica e ferramentas Python puras (`@tool`) com defesas anti-IDOR. |
-| **[0006](docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md)** | **Priorizador Híbrido Cognitivo-Determinístico** | 2026-10-20 | `Aprovada` | Arquitetura em 3 estágios (Tool DAG + LLM BART + Kahn Min-Heap) assegurando matematicamente 0% de erro causal e alinhamento estrito ao paper. |
-| **[0007](docs/adr/0007-agente-alocacao-capacidade-skills.md)** | **Alocador de Recursos e Resolução de Gargalos via Perfil Fullstack** | 2026-10-31 | `Aprovada` | Alocação com mitigação de gargalo via dev_C (Fullstack) e blindagem de dev_D (0.5 FTE) com fallback determinístico. |
-| **[0008](docs/adr/0008-agente-validador-deterministico-zero-llm.md)** | **Agente Validador Determinístico Multi-Dimensional com Zero LLM e Server Authority** | 2026-11-02 | `Aprovada` | Motor analítico em Python puro com 5 dimensões de auditoria, latência sub-milissegundo, Zero LLM e autoridade estrita em Story Points. |
-| **[0009](docs/adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md)** | **Orquestração Cíclica com Grafo LangGraph, Nó Corretivo de Escopo e Circuit Breaker Stateless** | 2026-11-02 | `Aprovada` | Topologia cíclica do StateGraph, poda analítica por capacidade (84 pts no Cenário B), Circuit Breaker stateless e Server Authority no supervisor. |
-| **[0010](docs/adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md)** | **Observabilidade Híbrida LangSmith da Deliberação BDI e CLI Executiva Segura** | 2026-11-03 | `Aprovada` | Telemetria dual (Cloud LangSmith + Local BDI Trace), sincronização `LANGSMITH_*`/`LANGCHAIN_*`, CLI `main.py` com códigos de saída padronizados e proteção anti-Path Traversal. |
-| **[0011](docs/adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)** | **Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas** | 2026-11-04 | `Aprovada` | Execução empírica automatizada dos Cenários A, B e C, isolamento estrito de `thread_id`, Server Authority em métricas de DAG/FTE/Skills, agregações estatísticas seguras e exportação tripla (.json, .md, .csv) com blindagem anti-Path Traversal. |
-| **[0012](docs/adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)** | **Avaliação Empírica, Comparativo Humano (M-Manual vs n8n) e Rastreabilidade Científica REIC 2026** | 2026-11-05 | `Aprovada` | Confronto formal dos paradigmas M-Manual vs n8n vs LangGraph, equações de speedup/redução de tempo, prova algébrica do Teorema do Gargalo de Backend (63.33%) e exportação LaTeX booktabs (.tex). |
-| **[0013](docs/adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md)** | **Hardening Transversal do Pentágono de Defesa e Verificação Semântica** | 2026-11-05 | `Aprovada` | ConfigDict(extra="forbid") em 100% dos modelos Pydantic v2 via reflexão, sanitização anti-prompt injection, DFS iterativo $O(V+E)$ imune a RecursionError, alinhamento semântico de gabaritos e motor de auditoria contínua (--security-audit). |
-| **[0014](docs/adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md)** | **Pacote de Reprodutibilidade Científica e Coleção Postman** | 2026-11-06 | `Aprovada` | Orquestração experimental em 1 clique (`main.py --reproduce-paper`), Request Specs Postman v2.1.0 e exportação quádrupla segura. |
-| **[0015](docs/adr/0015-extracao-automatizada-metricas-langsmith-multi-modelo.md)** | **Extração Automatizada de Métricas LangSmith Multi-Modelo** | 2026-11-06 | `Aprovada` | Extração programática de telemetria empírica via SDK do LangSmith (`--sync-metrics`), agregação estatística P95 interpolado e exportação quádrupla segura. |
-| **[0016](docs/adr/0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md)** | **Recapitulação Integral, Hardening do Grafo e Homologação Científica 1:1** | 2026-11-06 | `Aprovada` | DFS iterativo tricromático $O(V+E)$ anti-DoS, isolamento offline no pytest, propagação de capacidade no grafo, sanitização de mensagens, auditoria de 26 modelos Pydantic e homologação programática 1:1 dos artigos. |
+| Grupo Temático | ADRs Cobertas | Foco e Impacto de Engenharia |
+| :--- | :---: | :--- |
+| **Fundação & Modelagem** | [0001](docs/adr/0001-migracao-n8n-para-langgraph.md), [0002](docs/adr/0002-padrao-blackboard-com-pydantic-e-sprintstate.md), [0003](docs/adr/0003-fabrica-hibrida-de-llms-groq-e-ollama.md), [0004](docs/adr/0004-padronizacao-de-cenarios-de-teste-e-data-loader.md), [0005](docs/adr/0005-prompts-como-codigo-e-ferramentas-deterministicas.md) | Migração do n8n para LangGraph, Blackboard em Pydantic v2 com redutor `add_messages`, fábrica híbrida (Groq/Ollama), Data Loader tipado e Prompts BART. |
+| **Nós Especialistas & Grafo** | [0006](docs/adr/0006-agente-priorizacao-hibrido-bart-dag.md), [0007](docs/adr/0007-agente-alocacao-capacidade-skills.md), [0008](docs/adr/0008-agente-validador-deterministico-zero-llm.md), [0009](docs/adr/0009-orquestracao-ciclica-supervisor-langgraph-circuit-breaker.md) | Priorizador cognitivo-determinístico (0% de erro causal), Alocador com resolução de gargalo via `dev_C` e teto `dev_D`, Validador Zero LLM e Grafo Cíclico com Circuit Breaker. |
+| **Observabilidade & Métricas** | [0010](docs/adr/0010-observabilidade-hibrida-langsmith-e-cli-executiva.md), [0011](docs/adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md), [0012](docs/adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md), [0015](docs/adr/0015-extracao-automatizada-metricas-langsmith-multi-modelo.md) | Telemetria BDI híbrida (Cloud/Local), motor de benchmarks multi-runs, confronto formal humano (speedup > 25.000x) e sincronização paginada LangSmith. |
+| **Segurança & Reprodutibilidade** | [0013](docs/adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md), [0014](docs/adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md), [0016](docs/adr/0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md), [0017](docs/adr/0017-separacao-execucao-publicacao-manifesto-thin-cli.md) | Hardening do Pentágono (27 modelos `extra="forbid"`), replicação em 1 clique, DFS iterativo anti-DoS, isolamento offline no pytest, Thin CLI e manifesto criptográfico. |
 
-Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
+Consulte o [**Catálogo Completo de ADRs (`docs/adr/README.md`)**](docs/adr/README.md) para matrizes de estado, diagramas de sequência e diretrizes de Do's & Don'ts.
 
 ---
 
@@ -115,20 +100,22 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
-| **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e CLI executiva. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 330 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e Thin CLI. |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 340 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
-| **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
+| **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios analíticos e gabaritos ótimos de referência (*Ground Truth*). |
 | **Coleção Postman/Insomnia** | `docs/collections/` | **Sim** | Request Specs v2.1.0 com asserções JS (`pm.test`) para validação de endpoints e replicação. |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0016). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0017). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
 | **Hub Central de Documentação** | `docs/README.md` | **Sim** | Ponto de entrada unificado para todos os manuais e relatórios técnicos. |
+| **Evidências Oficiais Publicadas** | `reports/published/reic-2026/` | **Sim** | Tabelas (.csv, .md, .tex), `manifest.json` congelado e `metrics.json` do artigo. |
 | **Relatórios Canônicos Leves** | `reports/experiments/` | **Sim** | Pacotes canônicos leves (`.json`, `.md`, `.csv`, `.tex`) versionados para reprodutibilidade científica. |
+| **Execuções Locais de Trabalho** | `artifacts/runs/` | **Não** | Diretório ad-hoc ignorado pelo `.gitignore` para runs locais sem sujar o histórico. |
 | **Logs Brutos Pesados** | `reports/experiments/` | **Não** | Ignorados pelo `.gitignore` (`*.jsonl`, `*.log`) para evitar inchaço do repositório. |
 | **Chaves de API e Segredos** | `.env` | **Não** | Bloqueado pelo `.gitignore` (template de referência em `.env.example`). |
 
@@ -142,8 +129,7 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 
 ### 2. Inicialização e Sincronização do Ambiente
 ```bash
-git clone https://github.com/ElyssonAlvs/REIC_WESAAC_code.git
-cd REIC-WESAAC
+git clone https://github.com/ElyssonAlvs/REIC_WESAAC_code.git REIC-WESAAC && cd REIC-WESAAC
 uv venv --python 3.12
 uv sync
 ```
@@ -156,7 +142,11 @@ cp .env.example .env
 - Para utilizar **Groq Cloud:** configure `PROVIDER=groq` e adicione sua chave `GROQ_API_KEY=gsk_...`.
 - Para utilizar **Ollama Local (Offline):** configure `PROVIDER=ollama` (com `llama3:latest` ativo no Ollama).
 
-### 4. Execução da CLI Executiva, Observabilidade BDI & Benchmarks
+### 4. Modos de Execução da CLI e Observabilidade
+O sistema suporta dois modos operacionais formalmente declarados no manifesto de procedência (`manifest.json`):
+- **Modo Simulado / Fallback Determinístico (`--offline-mock`):** Executa o pipeline de agentes com nós analíticos gulosos de contingência que respeitam 100% das *Hard Constraints*, operando totalmente offline com zero chamadas externas e `provider=null` / `model=null`.
+- **Modo Experimental com LLM:** Realiza deliberação cognitiva via modelos na nuvem (`--provider groq`) ou locais (`--provider ollama`), registrando os tokens e latências na plataforma LangSmith.
+
 ```bash
 # Executar o Cenário B com trilha deliberativa BDI e diagrama Mermaid do grafo
 uv run python main.py --scenario b --show-trace --show-graph
@@ -199,7 +189,7 @@ A flag `--sync-metrics` (ou o alias `--pull-langsmith`) conecta-se à API REST/S
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 330 testes automatizados passando (100%).*
+*Status esperado: 340 testes automatizados passando (100%).*
 
 ---
 

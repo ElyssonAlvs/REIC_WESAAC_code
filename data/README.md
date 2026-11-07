@@ -2,10 +2,19 @@
 
 > **Diretório responsável pelo armazenamento, procedência, especificação e carregamento de dados dos cenários de teste do Sprint Planning MAS.**
 
-Seguindo as boas práticas de Engenharia de Software e MLOps/LLMOps:
-- `data/raw/`: Metadados, procedência acadêmica e especificações brutas (`scenarios_raw_spec.json`).
-- `data/processed/`: Arquivos JSON canônicos estruturados e validados contra os modelos Pydantic v2 do `sprint_mas.state` (`Task` e `DeveloperProfile`).
-- `evals/golden_dataset/`: Gabaritos ótimos de alocação da sprint (`golden_scenario_a.json` e `golden_scenario_b.json`) para benchmarking e cálculo de métricas.
+---
+
+## 🏛️ Fronteiras de Diretórios e Fluxo de Dados
+
+Para assegurar governança científica rigorosa e integridade de pipeline, o repositório delimita claramente o papel de cada pasta:
+
+| Diretório | Natureza do Conteúdo | Está no Git? | Pergunta-Chave Respondida |
+| :--- | :--- | :---: | :--- |
+| **`data/`** | Backlog bruto, cenários tipados e perfis de equipe (`scenario_*.json`). | **Sim** | *Quais são as entradas canônicas do problema de planejamento?* |
+| **`evals/`** | Rubricas matemáticas de severidade e gabaritos ótimos de referência. | **Sim** | *Como avaliamos e pontuamos a qualidade da resposta do agente?* |
+| **`tests/`** | Testes de integração, unitários e estresse com banco de teste real. | **Sim** | *Como garantimos que o código do sistema não quebrou?* |
+| **`reports/published/`** | Evidências oficiais congeladas com manifesto criptográfico. | **Sim** | *Quais são os resultados definitivos citados nos artigos publicados?* |
+| **`artifacts/runs/`** | Saídas brutas de execuções ad-hoc (`manifest.json`, `metrics.json`). | **Não** | *O que acabou de ser gerado na minha máquina nesta rodada local?* |
 
 ---
 

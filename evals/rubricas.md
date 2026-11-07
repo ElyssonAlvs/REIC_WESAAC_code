@@ -26,7 +26,11 @@
 
 ---
 
-## 📋 3. Estrutura do `golden_dataset/`
-O subdiretório `evals/golden_dataset/` armazena o "gabarito" (ground truth):
-- Arquivos `.json` com o planejamento ótimo de referência para cada cenário.
-- Utilizado por testes automatizados de avaliação de regressão de qualidade da IA.
+## 📋 3. Estrutura e Natureza do `golden_dataset/`
+O subdiretório `evals/golden_dataset/` armazena os gabaritos de referência (*ground truth*):
+- Arquivos `.json` com o planejamento ótimo canônico de referência para cada cenário (homologado contra os artigos WESAAC 2025 e REIC 2026).
+- **Declaração de Equivalência Ótima:** O planejamento de sprint e a alocação de tarefas configuram problemas de otimização combinatória (NP-difíceis). Portanto, o `golden_dataset` representa uma **solução de referência ótima canônica**, sendo consideradas plenamente válidas e conformes quaisquer soluções alternativas geradas por modelos de linguagem que satisfaçam 100% das restrições rígidas (*Hard Constraints*):
+  1. **Aciclicidade Causal:** Zero violações no DAG de precedências ($T_j$ agendada antes ou junto a $T_i$).
+  2. **Capacidade Estrita (FTE):** Zero sobrecargas em todos os perfis ($\sum \text{pts} \le \text{capacidade\_nominal}$), incluindo o teto de 10.0 pts de `dev_D`.
+  3. **Afinidade de Competências:** 100% das tarefas atribuídas a membros com competência compatível (`skill_required` $\in$ `dev.skills`).
+- Utilizado por testes automatizados de regressão analítica e verificação semântica contínua.

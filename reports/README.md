@@ -2,9 +2,28 @@
 
 > **Diretório destinado a armazenar os resultados de experimentos, relatórios de benchmark, comparativos quantitativos entre humanos e o SMA e telemetria científica reproduzível.**
 
-Seguindo as melhores práticas de Engenharia de Software e MLOps/LLMOps:
-- **Relatórios Canônicos Leves (`.json`, `.md`, `.csv`, `.tex`):** São mantidos e versionados no Git para garantir **reprodutibilidade científica auditável e imediata** sem necessidade de refazer todas as inferências de rede.
-- **Logs Brutos Pesados (`*.log`, `*.jsonl`):** São ignorados automaticamente pelo `.gitignore` para prevenir sobrecarga de versionamento do repositório.
+---
+
+## 🏛️ Separação Arquitetural: Publicação vs. Trabalho Local
+
+O projeto adota uma fronteira estrita entre evidências científicas publicadas e execuções de trabalho locais:
+
+```mermaid
+flowchart LR
+    A["Execução Local<br/>(CLI / Testes)"] --> B["artifacts/runs/&lt;run_id&gt;/<br/>(Trabalho Local / Fora do Git)"]
+    B --> C{"Curadoria &<br/>Auditoria Científica"}
+    C -->|Promover / Congelar| D["reports/published/reic-2026/<br/>(Evidências Oficiais no Git)"]
+    C -->|Reprodutibilidade Leve| E["reports/experiments/<br/>(Pacotes Canônicos no Git)"]
+```
+
+1. **Evidências Publicadas Oficiais (`reports/published/reic-2026/`):**
+   - **`manifest.json`**: Manifesto criptográfico imutável (`run_id: "reic-2026-published-canonical"`) com hashes SHA-256 do cenário e prompts, commit de referência e declaração de modo.
+   - **`metrics.json`**: Síntese das métricas publicadas nos artigos WESAAC 2025 e REIC 2026 (benchmarks, speedup vs manual > 25.000x e mitigação de gargalo no Cenário B com `dev_C` e teto `dev_D`).
+   - **`tables/`**: Tabelas oficiais compiláveis (`.csv`, `.md`, `.tex`) congeladas para citação acadêmica.
+2. **Pacotes Canônicos de Experimentos (`reports/experiments/`):**
+   - Relatórios canônicos leves (`.json`, `.md`, `.csv`, `.tex`) versionados no Git para garantir **reprodutibilidade científica imediata** e auditoria de regressão sem requisições de rede.
+3. **Execuções Locais de Trabalho (`artifacts/runs/<run_id>/`):**
+   - Diretório de desenvolvimento e execuções ad-hoc, **ignorado pelo Git** no `.gitignore`. Cada execução recebe um `run_id` isolado contendo `manifest.json`, `metrics.json`, `outputs/` e `traces/`.
 
 ---
 

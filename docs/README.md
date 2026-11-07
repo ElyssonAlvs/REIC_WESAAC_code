@@ -15,7 +15,7 @@ docs/
 ├── system-card.md            # 🛡️ Ficha Técnica: Finalidade, Limitações, Riscos e Métricas
 ├── collections/              # 📬 Coleção Executiva Postman/Insomnia (Request Specs v2.1.0)
 │   └── sprint_mas_postman_collection.json
-├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0016)
+├── adr/                      # 🏛️ Catálogo de Decisões de Arquitetura (ADRs 0001 a 0017)
 │   ├── README.md             # Índice Completo e Sumário Executivo das ADRs
 │   ├── 0001-migracao-n8n-para-langgraph.md
 │   ├── 0002-padrao-blackboard-com-pydantic-e-sprintstate.md
@@ -32,7 +32,8 @@ docs/
 │   ├── 0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md
 │   ├── 0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md
 │   ├── 0015-extracao-automatizada-metricas-langsmith-multi-modelo.md
-│   └── 0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md
+│   ├── 0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md
+│   └── 0017-separacao-execucao-publicacao-manifesto-thin-cli.md
 ├── papers/                   # 📚 Trabalhos Científicos de Referência (UFC Quixadá)
 │   ├── README.md             # Resumos, Autoria e Mapeamento Científico
 │   ├── WESAAC_2025_Agile_MultiAgent.pdf
@@ -64,6 +65,7 @@ Todas as decisões de design, migração e conformidade lógica estão registrad
   - [ADR 0014: Pacote de Reprodutibilidade Científica, Execução em 1 Clique e Consolidação Documental](./adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md)
   - [ADR 0015: Extração Automatizada de Métricas Empíricas via API do LangSmith e Agregação Multi-Modelo](./adr/0015-extracao-automatizada-metricas-langsmith-multi-modelo.md)
   - [ADR 0016: Recapitulação Integral, Hardening do Grafo e Homologação Científica 1:1 com WESAAC 2025 e REIC 2026](./adr/0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md)
+  - [ADR 0017: Separação entre Execução Local e Evidências Publicadas, Manifesto Criptográfico de Procedência e Thin CLI](./adr/0017-separacao-execucao-publicacao-manifesto-thin-cli.md)
 
 ---
 
@@ -109,9 +111,9 @@ Suíte formal de requisições padronizadas no formato Postman Collection v2.1.0
 Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do sistema:
 - 🖥️ [**Dashboard Interativo (`docs/index.html`)**](./index.html)
   - Visualizador e simulador de fluxo do Grafo LangGraph
-  - Linha do tempo e progresso do Roadmap em 13 fases (100% concluído)
+  - Linha do tempo e progresso do Roadmap em 14 fases (100% concluído)
   - Visualizador de código com comparativos estruturais
-  - Terminal interativo com filtragem por módulo dos 330 testes automatizados (100% OK)
+  - Terminal interativo com filtragem por módulo dos 340 testes automatizados (100% OK)
 
 ---
 
