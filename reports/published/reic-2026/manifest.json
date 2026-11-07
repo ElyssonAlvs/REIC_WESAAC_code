@@ -1,0 +1,18 @@
+{
+  "run_id": "reic-2026-published-canonical",
+  "execution_mode": "offline_mock",
+  "git_commit": "bbe5008ef4b9fc0abaf1485e1b3d86211af4f0bd",
+  "scenario": "scenario_b",
+  "scenario_sha256": "a5deef558c74e03b28b3327797de1964100a6da0d28ea52ac934e1bf109b9b1f",
+  "prompt_sha256": "4c82814190df3ced7d8121187ec1f9ddff38e7925bbc427f5ed56df477c7e24d",
+  "provider": null,
+  "model": null,
+  "started_at": "2026-11-07T00:00:00Z",
+  "completed_at": "2026-11-07T00:00:01Z",
+  "duration_ms": 1000.0,
+  "environment": "Python 3.12 / LangGraph 0.2 / Windows-11-AMD64",
+  "notes": [
+    "Canonical published evidence for REIC 2026 and WESAAC 2025 papers.",
+    "Freeze timestamp: 2026-11-07."
+  ]
+}

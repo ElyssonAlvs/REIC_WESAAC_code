@@ -1,0 +1,4 @@
+model_name,scenario,runs_count,mean_duration_ms,median_duration_ms,p95_duration_ms,mean_prompt_tokens,mean_completion_tokens,mean_total_tokens,total_cost_usd,success_rate_pct
+default-llm,scenario_a,15,16.71,16.75,18.67,0.0,0.0,0.0,0.00000,100.0
+default-llm,scenario_b,8,24.51,24.20,29.87,0.0,0.0,0.0,0.00000,100.0
+default-llm,scenario_c,1,48.12,48.12,48.12,0.0,0.0,0.0,0.00000,100.0

@@ -1,0 +1,4 @@
+suite_id,scenario,run_index,thread_id,execution_time_ms,approved,total_tasks,allocated_tasks,total_points,allocated_points,team_capacity,utilization_pct,validation_attempts,replan_triggered,dag_violations,fte_violations,skill_violations,llm_fallback_triggered,nodes_traversed
+bench-24f33b10,scenario_a,1,bench-scenario_a-run1-29e7061f,23.87,True,10,10,35,35,60.0,58.33,1,False,0,0,0,True,prioritizer;allocator;validator;supervisor
+bench-24f33b10,scenario_b,1,bench-scenario_b-run1-5f65ef37,23.57,True,30,15,128,66,84.0,78.57,2,True,0,0,0,True,prioritizer;allocator;validator;replan;allocator;validator;supervisor
+bench-24f33b10,scenario_c,1,bench-scenario_c-run1-965cb65b,59.2,True,100,37,452,176,184.0,95.65,2,True,0,0,0,True,prioritizer;allocator;validator;replan;allocator;validator;supervisor

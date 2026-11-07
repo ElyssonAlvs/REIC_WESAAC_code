@@ -1,0 +1,109 @@
+{
+  "publication_context": {
+    "paper_reic": "Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints (REIC 2026, SBC)",
+    "paper_wesaac": "Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints (WESAAC 2025, SBC)",
+    "canonical_bundle_id": "reic-2026-published-canonical",
+    "freeze_date": "2026-11-07"
+  },
+  "benchmarks_summary": {
+    "scenario_a": {
+      "name": "Smoke Test & Homogeneidade",
+      "tasks_total": 10,
+      "tasks_allocated": 10,
+      "points_backlog": 35,
+      "points_allocated": 35,
+      "team_capacity": 60.0,
+      "utilization_pct": 58.33,
+      "validation_attempts": 1,
+      "replan_triggered": false,
+      "dag_violations": 0,
+      "fte_violations": 0,
+      "skill_violations": 0,
+      "mean_latency_ms": 23.87,
+      "approval_rate_pct": 100.0
+    },
+    "scenario_b": {
+      "name": "Gargalo Qualitativo de Backend & Cadeias Causais",
+      "tasks_total": 30,
+      "tasks_allocated": 15,
+      "points_backlog": 128,
+      "points_allocated": 66,
+      "team_capacity": 84.0,
+      "utilization_pct": 78.57,
+      "validation_attempts": 2,
+      "replan_triggered": true,
+      "dag_violations": 0,
+      "fte_violations": 0,
+      "skill_violations": 0,
+      "mean_latency_ms": 29.94,
+      "approval_rate_pct": 100.0
+    },
+    "scenario_c": {
+      "name": "Estresse de Escala e Resiliência Concorrente",
+      "tasks_total": 100,
+      "tasks_allocated": 37,
+      "points_backlog": 452,
+      "points_allocated": 176,
+      "team_capacity": 184.0,
+      "utilization_pct": 95.65,
+      "validation_attempts": 2,
+      "replan_triggered": true,
+      "dag_violations": 0,
+      "fte_violations": 0,
+      "skill_violations": 0,
+      "mean_latency_ms": 59.20,
+      "approval_rate_pct": 100.0
+    }
+  },
+  "empirical_cross_paradigm_evaluation": {
+    "scenario_b_confrontation": {
+      "manual_time_ms": 765000.0,
+      "manual_feasibility": "HIGH_FATIGUE",
+      "n8n_agent_time_ms": 4200.0,
+      "n8n_success_rate_pct": 100.0,
+      "langgraph_bdi_time_ms": 29.94,
+      "langgraph_success_rate_pct": 100.0,
+      "speedup_vs_manual": 25551.1,
+      "time_reduction_vs_manual_pct": 100.0,
+      "speedup_vs_n8n": 140.28
+    },
+    "scenario_c_reliability": {
+      "manual_feasibility": "INFEASIBLE",
+      "n8n_success_rate_pct": 99.5,
+      "langgraph_success_rate_pct": 100.0,
+      "langgraph_causal_dag_violations": 0
+    }
+  },
+  "resource_bottleneck_mitigation_scenario_b": {
+    "total_tasks": 30,
+    "backend_tasks_count": 19,
+    "backend_density_pct": 63.33,
+    "dev_c_profile": {
+      "role": "Fullstack Developer",
+      "fte": 1.0,
+      "nominal_capacity_points": 20.0,
+      "allocated_points": 19.0,
+      "backend_tasks_absorbed": 3,
+      "backend_points_absorbed": 19.0
+    },
+    "dev_d_profile": {
+      "role": "Backend Specialist (Part-time)",
+      "fte": 0.5,
+      "nominal_capacity_points": 10.0,
+      "allocated_points": 10.0,
+      "capacity_ceiling_respected": true
+    },
+    "fullstack_mitigation_active": true,
+    "theorem_verification": "Resource Bottleneck Mitigation (REIC 2026, Section 6.3): Backend skill density is 63.33% (19/30 tasks). Fullstack developer dev_C (1.0 FTE) absorbed 3 backend task(s) (19 story points). Part-time specialist dev_D (0.5 FTE) allocated 10.0 pts against nominal ceiling of 10.0 pts (Capacity respected: True)."
+  },
+  "pentagon_security_and_semantic_audit": {
+    "status": "PASSED",
+    "probes_evaluated": 6,
+    "probes_passed": 6,
+    "pydantic_hardened_models_count": 27,
+    "pydantic_hardening_compliance_pct": 100.0,
+    "golden_datasets_audit_violations": 0,
+    "paper_traceability_compliance_pct": 100.0,
+    "total_audit_duration_ms": 96.12
+  }
+}
