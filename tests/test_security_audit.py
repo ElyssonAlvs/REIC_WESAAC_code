@@ -500,11 +500,11 @@ def test_verify_paper_traceability_1to1_conformance():
 
 
 def test_dynamic_reflection_26_pydantic_models():
-    """Validates that verify_pydantic_models_hardening inspects all 26 domain models enforcing extra='forbid'."""
+    """Validates that verify_pydantic_models_hardening inspects all 27 domain models enforcing extra='forbid'."""
     probe = verify_pydantic_models_hardening()
     assert probe.passed is True
     assert probe.status == "PASSED"
-    assert "Verified 26 domain Pydantic models via dynamic reflection" in probe.details
+    assert "Verified 27 domain Pydantic models via dynamic reflection" in probe.details
 
 
 def test_resilient_agent_fallback_without_groq_api_key(monkeypatch):

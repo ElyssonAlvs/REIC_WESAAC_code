@@ -18,7 +18,17 @@ from sprint_mas.telemetry import (
     mask_secret,
     validate_safe_output_path,
 )
+from sprint_mas.benchmarks import validate_safe_benchmark_path
+from sprint_mas.cli import (
+    ExecutionManifest,
+    build_execution_manifest,
+    compute_file_sha256,
+    compute_prompts_sha256,
+    export_local_run_artifacts,
+)
+import main
 from main import build_arg_parser, format_cli_report, normalize_scenario_name, run_cli
+import shutil
 
 
 # ============================================================================
@@ -413,3 +423,211 @@ def test_concurrent_telemetry_and_cli_executions() -> None:
             assert rep.validation_attempts == 2
             assert rep.total_points_allocated == 66
             assert len(rep.deliberation_steps) == 7
+
+
+# ============================================================================
+# 6. Phase 14: ExecutionManifest, Provenance & Isolated Local Runs
+# ============================================================================
+
+
+def test_execution_manifest_offline_mock() -> None:
+    """When build_execution_manifest is called with offline_mock, provider and model are None, and hashes are valid."""
+    manifest = build_execution_manifest(scenario="a", execution_mode="offline_mock")
+    assert manifest.execution_mode == "offline_mock"
+    assert manifest.provider is None
+    assert manifest.model is None
+    assert manifest.scenario == "scenario_a"
+    assert len(manifest.scenario_sha256) == 64
+    assert len(manifest.prompt_sha256) == 64
+    assert all(c in "0123456789abcdef" for c in manifest.scenario_sha256)
+    assert all(c in "0123456789abcdef" for c in manifest.prompt_sha256)
+    assert manifest.started_at is not None
+
+
+def test_execution_manifest_llm_experimental() -> None:
+    """When build_execution_manifest is called with llm_experimental, provider and model are set properly."""
+    manifest = build_execution_manifest(
+        scenario="scenario_b",
+        execution_mode="llm_experimental",
+        provider="groq",
+        model="llama-3.3-70b-versatile",
+        git_commit="deadbeef1234",
+    )
+    assert manifest.execution_mode == "llm_experimental"
+    assert manifest.provider == "groq"
+    assert manifest.model == "llama-3.3-70b-versatile"
+    assert manifest.git_commit == "deadbeef1234"
+    assert manifest.scenario == "scenario_b"
+    assert len(manifest.scenario_sha256) == 64
+    assert len(manifest.prompt_sha256) == 64
+
+
+def test_execution_manifest_extra_fields_forbidden() -> None:
+    """ExecutionManifest rejects extra fields with Pydantic ValidationError (extra='forbid')."""
+    with pytest.raises(ValidationError):
+        ExecutionManifest(
+            run_id="run-001",
+            execution_mode="offline_mock",
+            scenario="scenario_a",
+            scenario_sha256="a" * 64,
+            prompt_sha256="b" * 64,
+            started_at="2026-11-07T12:00:00Z",
+            injected_evil_field=True,
+        )
+
+
+def test_execution_manifest_validation_rules() -> None:
+    """ExecutionManifest strictly validates provider/model requirements depending on execution_mode."""
+    # offline_mock rejects non-null provider
+    with pytest.raises(ValidationError):
+        ExecutionManifest(
+            run_id="run-001",
+            execution_mode="offline_mock",
+            provider="groq",
+            scenario="scenario_a",
+            scenario_sha256="a" * 64,
+            prompt_sha256="b" * 64,
+            started_at="2026-11-07T12:00:00Z",
+        )
+
+    # llm_experimental requires provider and model
+    with pytest.raises(ValidationError):
+        ExecutionManifest(
+            run_id="run-001",
+            execution_mode="llm_experimental",
+            provider=None,
+            model=None,
+            scenario="scenario_a",
+            scenario_sha256="a" * 64,
+            prompt_sha256="b" * 64,
+            started_at="2026-11-07T12:00:00Z",
+        )
+
+
+def test_compute_file_sha256_and_prompts_sha256() -> None:
+    """Tests SHA-256 computation on real scenario file and compound prompt templates."""
+    hash_a = compute_file_sha256("data/processed/scenario_a.json")
+    assert len(hash_a) == 64
+
+    # File not found
+    with pytest.raises(FileNotFoundError):
+        compute_file_sha256("data/processed/nonexistent_file.json")
+
+    # Empty path
+    with pytest.raises(ValueError):
+        compute_file_sha256("")
+
+    prompts_hash = compute_prompts_sha256()
+    assert len(prompts_hash) == 64
+
+    # Invalid prompts dir
+    with pytest.raises(FileNotFoundError):
+        compute_prompts_sha256("nonexistent/prompts/dir")
+
+
+def test_cli_run_dir_exports_isolated_local_artifacts() -> None:
+    """When the CLI runs with --run-dir artifacts/runs/test-run-001, it exports manifest, metrics, outputs, and traces."""
+    target_dir = Path("artifacts/runs/test-run-001")
+    shutil.rmtree(target_dir, ignore_errors=True)
+
+    try:
+        exit_code = run_cli(
+            [
+                "--scenario",
+                "a",
+                "--run-dir",
+                "artifacts/runs/test-run-001",
+                "--thread-id",
+                "test-run-001-thread",
+            ]
+        )
+        assert exit_code == 0
+        assert target_dir.is_dir()
+        assert (target_dir / "manifest.json").is_file()
+        assert (target_dir / "metrics.json").is_file()
+        assert (target_dir / "outputs" / "sprint_plan.json").is_file()
+        assert (target_dir / "traces" / "deliberation_trace.json").is_file()
+
+        manifest_data = json.loads((target_dir / "manifest.json").read_text(encoding="utf-8"))
+        manifest = ExecutionManifest(**manifest_data)
+        assert manifest.run_id == "test-run-001"
+        assert manifest.scenario == "scenario_a"
+        assert manifest.execution_mode in ["offline_mock", "llm_experimental"]
+
+        metrics_data = json.loads((target_dir / "metrics.json").read_text(encoding="utf-8"))
+        assert metrics_data["status"] == "APPROVED"
+        assert metrics_data["allocated_points"] == 35
+    finally:
+        shutil.rmtree(target_dir, ignore_errors=True)
+
+
+def test_validate_safe_benchmark_path_confinement_reports_and_artifacts() -> None:
+    """validate_safe_benchmark_path permits destinations inside reports/ and artifacts/, blocking traversal."""
+    p1 = validate_safe_benchmark_path("reports/experiments/bench.json")
+    assert p1.suffix == ".json"
+
+    p2 = validate_safe_benchmark_path("artifacts/runs/test_run/manifest.json")
+    assert p2.suffix == ".json"
+
+    # Block path outside reports and artifacts
+    with pytest.raises(ValueError, match="Security violation"):
+        validate_safe_benchmark_path("data/spec.json")
+
+    # Block path traversal
+    with pytest.raises(ValueError, match="Security violation"):
+        validate_safe_benchmark_path("../../evil.json")
+
+
+def test_export_local_run_artifacts_path_traversal_blocked() -> None:
+    """export_local_run_artifacts rejects path traversal or paths outside artifacts/ and reports/."""
+    manifest = build_execution_manifest(scenario="a", run_id="safe-test-run")
+
+    # Traversal attempt
+    with pytest.raises(ValueError, match="Security violation"):
+        export_local_run_artifacts("../../evil_run", manifest=manifest)
+
+    # Outside allowed subtrees (e.g. data/)
+    with pytest.raises(ValueError, match="Security violation"):
+        export_local_run_artifacts("data/evil_run", manifest=manifest)
+
+
+def test_main_entrypoint_delegates_to_cli_main() -> None:
+    """main.py entrypoint function cleanly delegates to sprint_mas.cli.main and returns 0."""
+    exit_code = main.main(["--scenario", "a", "--thread-id", "test-main-delegation"])
+    assert exit_code == 0
+
+
+def test_concurrent_isolated_runs() -> None:
+    """Multiple concurrent executions with distinct run_ids write to isolated run directories without collision."""
+    run_ids = [f"conc-run-{i}" for i in range(4)]
+    base_run_dirs = [Path(f"artifacts/runs/{rid}") for rid in run_ids]
+
+    for d in base_run_dirs:
+        shutil.rmtree(d, ignore_errors=True)
+
+    def _worker(rid: str) -> int:
+        return run_cli(
+            [
+                "--scenario",
+                "a",
+                "--run-dir",
+                f"artifacts/runs/{rid}",
+                "--thread-id",
+                f"thread-{rid}",
+            ]
+        )
+
+    try:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+            futures = [executor.submit(_worker, rid) for rid in run_ids]
+            codes = [f.result() for f in futures]
+
+        assert all(code == 0 for code in codes)
+        for d in base_run_dirs:
+            assert (d / "manifest.json").is_file()
+            assert (d / "metrics.json").is_file()
+            manifest = ExecutionManifest(**json.loads((d / "manifest.json").read_text(encoding="utf-8")))
+            assert manifest.scenario == "scenario_a"
+    finally:
+        for d in base_run_dirs:
+            shutil.rmtree(d, ignore_errors=True)

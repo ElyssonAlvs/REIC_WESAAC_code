@@ -173,8 +173,10 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
         except Exception:
             pass
 
-    # Ensure DeliberationStep and local models are explicitly present
+    # Ensure DeliberationStep, ExecutionManifest and local models are explicitly present
+    from sprint_mas.cli import ExecutionManifest
     discovered_models["sprint_mas.telemetry.DeliberationStep"] = DeliberationStep
+    discovered_models["sprint_mas.cli.ExecutionManifest"] = ExecutionManifest
 
     failed_models: list[str] = []
     for name, cls in discovered_models.items():
@@ -184,11 +186,11 @@ def verify_pydantic_models_hardening() -> SecurityProbeResult:
             failed_models.append(f"{name} (extra={extra_policy})")
 
     elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
-    passed = len(failed_models) == 0 and len(discovered_models) >= 26
+    passed = len(failed_models) == 0 and len(discovered_models) >= 27
     details = (
         f"Verified {len(discovered_models)} domain Pydantic models via dynamic reflection. 100% enforce ConfigDict(extra='forbid')."
         if passed
-        else f"Models lacking ConfigDict(extra='forbid') or incomplete count ({len(discovered_models)}/26): {', '.join(failed_models)}."
+        else f"Models lacking ConfigDict(extra='forbid') or incomplete count ({len(discovered_models)}/27): {', '.join(failed_models)}."
     )
 
     return SecurityProbeResult(
