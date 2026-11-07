@@ -565,28 +565,29 @@ def export_metrics_artifacts(
     else:
         out_dir_path = (repo_root / "reports" / "experiments").resolve()
 
-    out_dir_path.mkdir(parents=True, exist_ok=True)
-
     clean_base = base_filename
     for sfx in [".json", ".md", ".csv", ".tex"]:
         if clean_base.lower().endswith(sfx):
             clean_base = clean_base[:-len(sfx)]
 
+    target_json = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.json", base_dir=base_dir)
+    target_md = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.md", base_dir=base_dir)
+    target_csv = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.csv", base_dir=base_dir)
+    target_tex = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.tex", base_dir=base_dir)
+
+    out_dir_path.mkdir(parents=True, exist_ok=True)
+
     artifacts: dict[str, Path] = {}
 
-    target_json = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.json", base_dir=base_dir)
     target_json.write_text(report.model_dump_json(indent=2), encoding="utf-8")
     artifacts["json"] = target_json
 
-    target_md = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.md", base_dir=base_dir)
     target_md.write_text(format_metrics_markdown(report), encoding="utf-8")
     artifacts["md"] = target_md
 
-    target_csv = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.csv", base_dir=base_dir)
     target_csv.write_text(format_metrics_csv(report), encoding="utf-8", newline="")
     artifacts["csv"] = target_csv
 
-    target_tex = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.tex", base_dir=base_dir)
     target_tex.write_text(format_metrics_latex(report), encoding="utf-8")
     artifacts["tex"] = target_tex
 

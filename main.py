@@ -2,6 +2,7 @@
 
 import argparse
 import json
+import os
 import sys
 import time
 from typing import Any, Optional
@@ -10,10 +11,12 @@ from dotenv import load_dotenv
 
 from sprint_mas.benchmarks import (
     BenchmarkConfig,
+    OfflineFallbackChatModel,
     export_benchmark_artifacts,
     format_benchmark_csv,
     format_benchmark_markdown,
     run_benchmark_suite,
+    temporary_offline_tracing,
     validate_safe_benchmark_path,
 )
 from sprint_mas.data_loader import list_available_scenarios, load_scenario
@@ -537,7 +540,8 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
             if args.output:
                 validate_safe_benchmark_path(args.output)
 
-            report = run_pentagon_security_audit()
+            with temporary_offline_tracing():
+                report = run_pentagon_security_audit()
 
             if args.export_prefix:
                 export_security_audit_artifacts(report, export_prefix=args.export_prefix)
@@ -624,8 +628,16 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
                 raise ValueError(f"points_per_day must be greater than 0, got {args.points_per_day}.")
             if args.max_retries < 0 or args.max_retries > 10:
                 raise ValueError(f"max_retries must be between 0 and 10, got {args.max_retries}.")
+            if args.output:
+                validate_safe_benchmark_path(args.output)
 
-            scenario_list = [s.strip() for s in args.scenarios.split(",") if s.strip()]
+            raw_argv = argv if argv is not None else sys.argv[1:]
+            has_single_scenario = any(arg in raw_argv for arg in ["-s", "--scenario"])
+            if has_single_scenario:
+                scenario_list = [args.scenario]
+            else:
+                scenario_list = [s.strip() for s in args.scenarios.split(",") if s.strip()]
+
             if not scenario_list:
                 raise ValueError("Scenarios list cannot be empty.")
 
@@ -676,23 +688,45 @@ def run_cli(argv: Optional[list[str]] = None) -> int:
             else None
         )
 
-        tracing_info = configure_langsmith_tracing()
         tasks, team = load_scenario(normalized_scenario)
 
-        start_ns = time.perf_counter()
-        final_state = run_sprint_planning(
-            backlog=tasks,
-            team=team,
-            thread_id=args.thread_id,
-            sprint_goal=args.sprint_goal,
-            strict=args.strict,
-            max_retries=args.max_retries,
-            sprint_days=args.sprint_days,
-            points_per_day=args.points_per_day,
-            enable_scope_trimming=not args.no_trim,
-            scenario_name=normalized_scenario,
-        )
-        elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
+        mock_llm = None
+        orig_tracing = os.environ.get("LANGSMITH_TRACING")
+        orig_v2 = os.environ.get("LANGCHAIN_TRACING_V2")
+
+        if args.offline_mock:
+            mock_llm = OfflineFallbackChatModel()
+            os.environ["LANGSMITH_TRACING"] = "false"
+            os.environ["LANGCHAIN_TRACING_V2"] = "false"
+
+        try:
+            tracing_info = configure_langsmith_tracing()
+
+            start_ns = time.perf_counter()
+            final_state = run_sprint_planning(
+                backlog=tasks,
+                team=team,
+                llm=mock_llm,
+                thread_id=args.thread_id,
+                sprint_goal=args.sprint_goal,
+                strict=args.strict,
+                max_retries=args.max_retries,
+                sprint_days=args.sprint_days,
+                points_per_day=args.points_per_day,
+                enable_scope_trimming=not args.no_trim,
+                scenario_name=normalized_scenario,
+            )
+            elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
+        finally:
+            if args.offline_mock:
+                if orig_tracing is not None:
+                    os.environ["LANGSMITH_TRACING"] = orig_tracing
+                else:
+                    os.environ.pop("LANGSMITH_TRACING", None)
+                if orig_v2 is not None:
+                    os.environ["LANGCHAIN_TRACING_V2"] = orig_v2
+                else:
+                    os.environ.pop("LANGCHAIN_TRACING_V2", None)
 
         trace = extract_deliberation_trace(
             state=final_state,

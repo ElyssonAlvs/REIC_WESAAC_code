@@ -8,6 +8,7 @@ Provides deterministic 1-click execution of the entire experimental pipeline:
 with anti-path traversal protections and strict Pydantic v2 validation (extra='forbid').
 """
 
+from contextlib import nullcontext
 import csv
 from datetime import datetime, timezone
 import io
@@ -22,6 +23,7 @@ from sprint_mas.benchmarks import (
     BenchmarkSuiteReport,
     normalize_scenario_name,
     run_benchmark_suite,
+    temporary_offline_tracing,
     validate_safe_benchmark_path,
 )
 from sprint_mas.evaluation import (
@@ -156,16 +158,18 @@ def run_scientific_replication(
     )
 
     # Stage 1: Benchmark Suite Execution
-    benchmark_report = run_benchmark_suite(config=bench_config)
+    tracing_ctx = temporary_offline_tracing() if cfg.offline_mock else nullcontext()
+    with tracing_ctx:
+        benchmark_report = run_benchmark_suite(config=bench_config)
 
-    # Stage 2: Empirical Evaluation & Baseline Confrontation
-    empirical_report = run_empirical_evaluation(
-        config=bench_config,
-        suite_report=benchmark_report,
-    )
+        # Stage 2: Empirical Evaluation & Baseline Confrontation
+        empirical_report = run_empirical_evaluation(
+            config=bench_config,
+            suite_report=benchmark_report,
+        )
 
-    # Stage 3: Pentagon Defense Security & Semantic Verification
-    security_report = run_pentagon_security_audit()
+        # Stage 3: Pentagon Defense Security & Semantic Verification
+        security_report = run_pentagon_security_audit()
 
     # Integrity & Scientific Reproduction Verification
     all_benchmarks_passed = benchmark_report.all_approved

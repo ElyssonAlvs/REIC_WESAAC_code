@@ -5,6 +5,7 @@ statistical metrics calculation (mean, std, median, min, max, p95), and safe art
 """
 
 import csv
+from contextlib import contextmanager, nullcontext
 from datetime import datetime, timezone
 import io
 import os
@@ -22,6 +23,26 @@ from sprint_mas.graph import OfflineFallbackChatModel, run_sprint_planning
 from sprint_mas.llm_factory import get_llm
 from sprint_mas.telemetry import extract_deliberation_trace
 from sprint_mas.tools import calculate_team_capacity
+
+
+@contextmanager
+def temporary_offline_tracing():
+    """Temporarily suppresses remote LangSmith tracing during offline executions."""
+    orig_tracing = os.environ.get("LANGSMITH_TRACING")
+    orig_v2 = os.environ.get("LANGCHAIN_TRACING_V2")
+    os.environ["LANGSMITH_TRACING"] = "false"
+    os.environ["LANGCHAIN_TRACING_V2"] = "false"
+    try:
+        yield
+    finally:
+        if orig_tracing is not None:
+            os.environ["LANGSMITH_TRACING"] = orig_tracing
+        else:
+            os.environ.pop("LANGSMITH_TRACING", None)
+        if orig_v2 is not None:
+            os.environ["LANGCHAIN_TRACING_V2"] = orig_v2
+        else:
+            os.environ.pop("LANGCHAIN_TRACING_V2", None)
 
 
 def normalize_scenario_name(raw_scenario: str) -> str:
@@ -227,96 +248,98 @@ def run_scenario_benchmark(
             temperature=cfg.temperature,
         )
 
+    tracing_ctx = temporary_offline_tracing() if cfg.offline_mock else nullcontext()
     runs_metrics: list[ScenarioRunMetric] = []
 
-    for i in range(1, cfg.runs + 1):
-        thread_id = f"bench-{canonical_scn}-run{i}-{uuid.uuid4().hex[:8]}"
-        start_ns = time.perf_counter()
-        final_state = run_sprint_planning(
-            backlog=tasks,
-            team=team,
-            llm=resolved_llm,
-            thread_id=thread_id,
-            strict=cfg.strict,
-            max_retries=cfg.max_retries,
-            sprint_days=cfg.sprint_days,
-            points_per_day=cfg.points_per_day,
-            enable_scope_trimming=cfg.enable_scope_trimming,
-            scenario_name=canonical_scn,
-        )
-        elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
-
-        audit_report = audit_sprint_state(
-            final_state,
-            sprint_days=cfg.sprint_days,
-            points_per_day=cfg.points_per_day,
-        )
-        trace = extract_deliberation_trace(
-            state=final_state,
-            scenario=canonical_scn,
-            thread_id=thread_id,
-            execution_time_ms=elapsed_ms,
-        )
-
-        sprint_plan = final_state.get("sprint_plan")
-        if sprint_plan is not None:
-            allocated_tasks = len(sprint_plan.tasks)
-            allocated_pts = sprint_plan.total_points
-        else:
-            allocated_tasks = 0
-            allocated_pts = 0
-
-        utilization_pct = round(
-            (allocated_pts / team_cap_val * 100.0) if team_cap_val > 0 else 0.0,
-            2,
-        )
-
-        dag_violations = sum(
-            1
-            for v in audit_report.violations
-            if any(k in v.lower() for k in ["dag", "dependenc", "inversion", "circular", "orphan"])
-        )
-        fte_violations = sum(
-            1
-            for v in audit_report.violations
-            if any(k in v.lower() for k in ["fte", "capacity overflow", "exceeding maximum capacity"])
-        )
-        skill_violations = sum(
-            1
-            for v in audit_report.violations
-            if any(k in v.lower() for k in ["skill", "qualifi"])
-        )
-
-        fallback_triggered = (
-            cfg.offline_mock
-            or isinstance(resolved_llm, OfflineFallbackChatModel)
-            or any(
-                "Fallback Determinístico Ativado" in str(getattr(m, "content", ""))
-                for m in final_state.get("messages", [])
+    with tracing_ctx:
+        for i in range(1, cfg.runs + 1):
+            thread_id = f"bench-{canonical_scn}-run{i}-{uuid.uuid4().hex[:8]}"
+            start_ns = time.perf_counter()
+            final_state = run_sprint_planning(
+                backlog=tasks,
+                team=team,
+                llm=resolved_llm,
+                thread_id=thread_id,
+                strict=cfg.strict,
+                max_retries=cfg.max_retries,
+                sprint_days=cfg.sprint_days,
+                points_per_day=cfg.points_per_day,
+                enable_scope_trimming=cfg.enable_scope_trimming,
+                scenario_name=canonical_scn,
             )
-        )
+            elapsed_ms = (time.perf_counter() - start_ns) * 1000.0
 
-        metric = ScenarioRunMetric(
-            run_index=i,
-            scenario=canonical_scn,
-            thread_id=thread_id,
-            execution_time_ms=round(elapsed_ms, 2),
-            approved=trace.is_approved,
-            total_tasks=total_tasks,
-            allocated_tasks=allocated_tasks,
-            total_points=total_pts,
-            allocated_points=allocated_pts,
-            team_capacity=round(team_cap_val, 1),
-            utilization_pct=utilization_pct,
-            validation_attempts=trace.validation_attempts,
-            replan_triggered=trace.replan_triggered,
-            dag_violations=dag_violations,
-            fte_violations=fte_violations,
-            skill_violations=skill_violations,
-            llm_fallback_triggered=fallback_triggered,
-            nodes_traversed=trace.nodes_traversed,
-        )
-        runs_metrics.append(metric)
+            audit_report = audit_sprint_state(
+                final_state,
+                sprint_days=cfg.sprint_days,
+                points_per_day=cfg.points_per_day,
+            )
+            trace = extract_deliberation_trace(
+                state=final_state,
+                scenario=canonical_scn,
+                thread_id=thread_id,
+                execution_time_ms=elapsed_ms,
+            )
+
+            sprint_plan = final_state.get("sprint_plan")
+            if sprint_plan is not None:
+                allocated_tasks = len(sprint_plan.tasks)
+                allocated_pts = sprint_plan.total_points
+            else:
+                allocated_tasks = 0
+                allocated_pts = 0
+
+            utilization_pct = round(
+                (allocated_pts / team_cap_val * 100.0) if team_cap_val > 0 else 0.0,
+                2,
+            )
+
+            dag_violations = sum(
+                1
+                for v in audit_report.violations
+                if any(k in v.lower() for k in ["dag", "dependenc", "inversion", "circular", "orphan"])
+            )
+            fte_violations = sum(
+                1
+                for v in audit_report.violations
+                if any(k in v.lower() for k in ["fte", "capacity overflow", "exceeding maximum capacity"])
+            )
+            skill_violations = sum(
+                1
+                for v in audit_report.violations
+                if any(k in v.lower() for k in ["skill", "qualifi"])
+            )
+
+            fallback_triggered = (
+                cfg.offline_mock
+                or isinstance(resolved_llm, OfflineFallbackChatModel)
+                or any(
+                    "Fallback Determinístico Ativado" in str(getattr(m, "content", ""))
+                    for m in final_state.get("messages", [])
+                )
+            )
+
+            metric = ScenarioRunMetric(
+                run_index=i,
+                scenario=canonical_scn,
+                thread_id=thread_id,
+                execution_time_ms=round(elapsed_ms, 2),
+                approved=trace.is_approved,
+                total_tasks=total_tasks,
+                allocated_tasks=allocated_tasks,
+                total_points=total_pts,
+                allocated_points=allocated_pts,
+                team_capacity=round(team_cap_val, 1),
+                utilization_pct=utilization_pct,
+                validation_attempts=trace.validation_attempts,
+                replan_triggered=trace.replan_triggered,
+                dag_violations=dag_violations,
+                fte_violations=fte_violations,
+                skill_violations=skill_violations,
+                llm_fallback_triggered=fallback_triggered,
+                nodes_traversed=trace.nodes_traversed,
+            )
+            runs_metrics.append(metric)
 
     times = [m.execution_time_ms for m in runs_metrics]
     total_runs = len(runs_metrics)
@@ -386,14 +409,17 @@ def run_benchmark_suite(
 
     resolved_llm = OfflineFallbackChatModel() if cfg.offline_mock else llm
 
+    tracing_ctx = temporary_offline_tracing() if cfg.offline_mock else nullcontext()
     summaries: list[ScenarioBenchmarkSummary] = []
-    for scn in cfg.scenarios:
-        summary = run_scenario_benchmark(
-            scenario_name=scn,
-            config=cfg,
-            llm=resolved_llm,
-        )
-        summaries.append(summary)
+
+    with tracing_ctx:
+        for scn in cfg.scenarios:
+            summary = run_scenario_benchmark(
+                scenario_name=scn,
+                config=cfg,
+                llm=resolved_llm,
+            )
+            summaries.append(summary)
 
     total_time_ms = round((time.perf_counter() - start_ns) * 1000.0, 2)
     all_approved = all(s.approval_rate == 1.0 for s in summaries) if summaries else False
@@ -588,27 +614,34 @@ def export_benchmark_artifacts(
     else:
         out_dir_path = out_dir_path.resolve()
 
-    out_dir_path.mkdir(parents=True, exist_ok=True)
-
     clean_base = base_filename
     for sfx in [".json", ".md", ".csv"]:
         if clean_base.lower().endswith(sfx):
             clean_base = clean_base[:-len(sfx)]
 
-    artifacts: dict[str, Path] = {}
-
+    planned_targets: dict[str, Path] = {}
     if export_json:
-        target_json = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.json", base_dir=repo_root)
+        planned_targets["json"] = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.json", base_dir=repo_root)
+    if export_md:
+        planned_targets["md"] = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.md", base_dir=repo_root)
+    if export_csv:
+        planned_targets["csv"] = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.csv", base_dir=repo_root)
+
+    out_dir_path.mkdir(parents=True, exist_ok=True)
+
+    artifacts: dict[str, Path] = {}
+    if export_json and "json" in planned_targets:
+        target_json = planned_targets["json"]
         target_json.write_text(report.model_dump_json(indent=2), encoding="utf-8")
         artifacts["json"] = target_json
 
-    if export_md:
-        target_md = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.md", base_dir=repo_root)
+    if export_md and "md" in planned_targets:
+        target_md = planned_targets["md"]
         target_md.write_text(format_benchmark_markdown(report), encoding="utf-8")
         artifacts["md"] = target_md
 
-    if export_csv:
-        target_csv = validate_safe_benchmark_path(out_dir_path / f"{clean_base}.csv", base_dir=repo_root)
+    if export_csv and "csv" in planned_targets:
+        target_csv = planned_targets["csv"]
         target_csv.write_text(format_benchmark_csv(report), encoding="utf-8", newline="")
         artifacts["csv"] = target_csv
 

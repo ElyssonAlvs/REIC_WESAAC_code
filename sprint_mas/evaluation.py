@@ -5,6 +5,7 @@ of qualitative resource bottleneck mitigation (Section 6.3), speedup calculation
 reporters (Markdown, CSV, LaTeX), and safe artifact export (.json, .md, .csv, .tex).
 """
 
+from contextlib import nullcontext
 import csv
 from datetime import datetime, timezone
 import io
@@ -21,6 +22,7 @@ from sprint_mas.benchmarks import (
     BenchmarkConfig,
     BenchmarkSuiteReport,
     run_benchmark_suite,
+    temporary_offline_tracing,
     validate_safe_benchmark_path,
 )
 from sprint_mas.data_loader import load_scenario
@@ -306,7 +308,9 @@ def run_empirical_evaluation(
         EmpiricalEvaluationReport: Consolidated empirical report.
     """
     cfg = config or (suite_report.config if suite_report else BenchmarkConfig())
-    active_report = suite_report or run_benchmark_suite(config=cfg, llm=llm)
+    tracing_ctx = temporary_offline_tracing() if cfg.offline_mock else nullcontext()
+    with tracing_ctx:
+        active_report = suite_report or run_benchmark_suite(config=cfg, llm=llm)
 
     baselines = get_paper_baselines()
     comparisons: list[ScenarioEmpiricalComparison] = []
