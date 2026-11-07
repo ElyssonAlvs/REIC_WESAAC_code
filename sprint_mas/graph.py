@@ -324,7 +324,13 @@ def build_sprint_graph(
         return prioritizer_node(state, llm=resolved_llm, strict=strict)
 
     def _allocator_step(state: SprintState) -> dict[str, Any]:
-        return allocation_node(state, llm=resolved_llm, strict=strict)
+        return allocation_node(
+            state,
+            llm=resolved_llm,
+            strict=strict,
+            sprint_days=sprint_days,
+            points_per_day=points_per_day,
+        )
 
     def _validator_step(state: SprintState) -> dict[str, Any]:
         return validation_node(

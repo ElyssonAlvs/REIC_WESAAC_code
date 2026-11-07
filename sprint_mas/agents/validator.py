@@ -42,37 +42,42 @@ class ValidationReport(BaseModel):
 
 
 def _detect_cycles(tasks: list[Task]) -> list[str]:
-    """Detects cycles in the task dependency graph using DFS with 3-color marking.
+    """Detects cycles in the task dependency graph using iterative DFS with 3-color marking.
 
-    0 = WHITE (unvisited), 1 = GRAY (currently in recursion stack), 2 = BLACK (visited).
+    0 = WHITE (unvisited), 1 = GRAY (currently in traversal path), 2 = BLACK (visited).
     Returns a list of cycle descriptions (e.g. 'TSK-1 -> TSK-2 -> TSK-1').
     """
     task_map = {t.id: t for t in tasks}
     color: dict[str, int] = {t.id: 0 for t in tasks}
-    path: list[str] = []
     cycles: list[str] = []
 
-    def dfs(node_id: str) -> None:
-        color[node_id] = 1
-        path.append(node_id)
+    for root_id in task_map:
+        if color[root_id] == 0:
+            stack: list[tuple[str, int]] = [(root_id, 0)]
+            path: list[str] = [root_id]
+            color[root_id] = 1
 
-        task = task_map.get(node_id)
-        if task:
-            for dep_id in task.dependencies:
-                if dep_id in task_map:
+            while stack:
+                curr_id, dep_idx = stack[-1]
+                task = task_map.get(curr_id)
+                deps = [d for d in task.dependencies if d in task_map] if task else []
+
+                if dep_idx < len(deps):
+                    dep_id = deps[dep_idx]
+                    stack[-1] = (curr_id, dep_idx + 1)
+
                     if color[dep_id] == 1:
                         cycle_start = path.index(dep_id)
                         cycle = path[cycle_start:] + [dep_id]
                         cycles.append(" -> ".join(cycle))
                     elif color[dep_id] == 0:
-                        dfs(dep_id)
-
-        path.pop()
-        color[node_id] = 2
-
-    for t in tasks:
-        if color[t.id] == 0:
-            dfs(t.id)
+                        color[dep_id] = 1
+                        path.append(dep_id)
+                        stack.append((dep_id, 0))
+                else:
+                    color[curr_id] = 2
+                    path.pop()
+                    stack.pop()
 
     return cycles
 

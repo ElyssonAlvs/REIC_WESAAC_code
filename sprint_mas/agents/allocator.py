@@ -338,6 +338,8 @@ def allocation_node(
     state: SprintState,
     llm: Optional[BaseChatModel] = None,
     strict: bool = False,
+    sprint_days: int = 10,
+    points_per_day: float = 2.0,
 ) -> dict[str, Any]:
     """Nó do LangGraph para o Agente de Alocação de Recursos (Allocator Node).
 
@@ -355,6 +357,8 @@ def allocation_node(
         state: Estado compartilhado da sprint (`SprintState`).
         llm: Modelo LangChain opcional para injeção de dependência / mocks.
         strict: Se True, falhas de validação disparam ValueError. Se False, ativa fallback resiliente.
+        sprint_days: Duração da sprint em dias úteis (default: 10).
+        points_per_day: Capacidade analítica padrão por dia útil (default: 2.0).
 
     Returns:
         dict[str, Any]: Atualização para o SprintState contendo allocations e messages.
@@ -375,7 +379,11 @@ def allocation_node(
     team: list[DeveloperProfile] = [d if isinstance(d, DeveloperProfile) else DeveloperProfile(**d) for d in team_raw]
 
     # 1. Capacidades determinísticas computadas pelas ferramentas Python
-    cap_result = calculate_team_capacity.func(team_profiles=team)
+    cap_result = calculate_team_capacity.func(
+        team_profiles=team,
+        sprint_days=sprint_days,
+        points_per_day=points_per_day,
+    )
     capacity_json = json.dumps(cap_result, ensure_ascii=False, indent=2)
 
     # 2. Serialização dos inputs para o prompt
@@ -410,10 +418,8 @@ def allocation_node(
         indent=2,
     )
 
-    # 3. Compilação do template a partir de configs/prompts/allocation.yaml
+    # 3. Compilação do template e formatação das mensagens
     prompt_template = get_agent_prompt_template("allocation")
-    active_llm = llm or get_llm(temperature=0.0)
-
     formatted_messages = prompt_template.format_messages(
         prioritized_tasks_json=prioritized_tasks_json,
         team_json=team_json,
@@ -424,6 +430,7 @@ def allocation_node(
     summary: str = ""
 
     try:
+        active_llm = llm or get_llm(temperature=0.0)
         response = active_llm.invoke(formatted_messages)
         response_text = _clean_json_markdown(str(response.content))
         data = json.loads(response_text)

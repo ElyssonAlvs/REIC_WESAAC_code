@@ -247,7 +247,7 @@ def supervisor_node(
         content=(
             f"### Supervisor Agent Deliberation\n\n"
             f"**Status**: {status_str}\n"
-            f"**Goal**: {sprint_goal}\n"
+            f"**Goal**: {clean_goal}\n"
             f"**Approved**: {decision.is_approved}\n\n"
             f"**Summary**:\n{decision.sprint_summary}\n\n"
             f"**Recommendations**:\n{decision.recommendations}"

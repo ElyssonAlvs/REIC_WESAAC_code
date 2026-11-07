@@ -251,13 +251,8 @@ def prioritization_node(
     ]
     backlog_json = json.dumps(clean_backlog_list, ensure_ascii=False, indent=2)
 
-    # 3. Compilação do prompt a partir de configs/prompts/prioritization.yaml
+    # 4. Compilação do prompt e formatação das mensagens
     prompt_template = get_agent_prompt_template("prioritization")
-
-    # 4. Resolução de LLM
-    active_llm = llm or get_llm(temperature=0.0)
-
-    # 5. Formatação das mensagens e invocação do LLM
     formatted_messages = prompt_template.format_messages(
         backlog_json=backlog_json,
         topological_order_json=topological_order_json,
@@ -267,6 +262,7 @@ def prioritization_node(
     reasoning: str = ""
 
     try:
+        active_llm = llm or get_llm(temperature=0.0)
         response = active_llm.invoke(formatted_messages)
         response_text = _clean_json_markdown(str(response.content))
         data = json.loads(response_text)
