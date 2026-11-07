@@ -1,6 +1,6 @@
 {
-  "bundle_id": "replication-22a5ae1b",
-  "reproduced_at": "2026-11-06T22:22:15.280999+00:00",
+  "bundle_id": "replication-b6caedac",
+  "reproduced_at": "2026-11-07T02:46:04.787046+00:00",
   "config": {
     "scenarios": [
       "scenario_a",
@@ -18,8 +18,8 @@
     "model": null
   },
   "benchmark_report": {
-    "suite_id": "bench-42c271b9",
-    "timestamp": "2026-11-06T22:22:15.220881+00:00",
+    "suite_id": "bench-b086a12b",
+    "timestamp": "2026-11-07T02:46:04.525326+00:00",
     "config": {
       "scenarios": [
         "scenario_a",
@@ -45,12 +45,12 @@
         "total_runs": 1,
         "successful_runs": 1,
         "approval_rate": 1.0,
-        "mean_time_ms": 18.49,
+        "mean_time_ms": 30.33,
         "std_time_ms": 0.0,
-        "median_time_ms": 18.49,
-        "min_time_ms": 18.49,
-        "max_time_ms": 18.49,
-        "p95_time_ms": 18.49,
+        "median_time_ms": 30.33,
+        "min_time_ms": 30.33,
+        "max_time_ms": 30.33,
+        "p95_time_ms": 30.33,
         "mean_allocated_points": 35.0,
         "mean_utilization_pct": 58.3,
         "replan_rate": 0.0,
@@ -61,8 +61,8 @@
           {
             "run_index": 1,
             "scenario": "scenario_a",
-            "thread_id": "bench-scenario_a-run1-143f62f4",
-            "execution_time_ms": 18.49,
+            "thread_id": "bench-scenario_a-run1-6d89fb36",
+            "execution_time_ms": 30.33,
             "approved": true,
             "total_tasks": 10,
             "allocated_tasks": 10,
@@ -90,12 +90,12 @@
         "total_runs": 1,
         "successful_runs": 1,
         "approval_rate": 1.0,
-        "mean_time_ms": 28.27,
+        "mean_time_ms": 57.37,
         "std_time_ms": 0.0,
-        "median_time_ms": 28.27,
-        "min_time_ms": 28.27,
-        "max_time_ms": 28.27,
-        "p95_time_ms": 28.27,
+        "median_time_ms": 57.37,
+        "min_time_ms": 57.37,
+        "max_time_ms": 57.37,
+        "p95_time_ms": 57.37,
         "mean_allocated_points": 66.0,
         "mean_utilization_pct": 78.6,
         "replan_rate": 1.0,
@@ -106,8 +106,8 @@
           {
             "run_index": 1,
             "scenario": "scenario_b",
-            "thread_id": "bench-scenario_b-run1-75a1acd8",
-            "execution_time_ms": 28.27,
+            "thread_id": "bench-scenario_b-run1-626b9fc5",
+            "execution_time_ms": 57.37,
             "approved": true,
             "total_tasks": 30,
             "allocated_tasks": 15,
@@ -138,12 +138,12 @@
         "total_runs": 1,
         "successful_runs": 1,
         "approval_rate": 1.0,
-        "mean_time_ms": 59.17,
+        "mean_time_ms": 129.49,
         "std_time_ms": 0.0,
-        "median_time_ms": 59.17,
-        "min_time_ms": 59.17,
-        "max_time_ms": 59.17,
-        "p95_time_ms": 59.17,
+        "median_time_ms": 129.49,
+        "min_time_ms": 129.49,
+        "max_time_ms": 129.49,
+        "p95_time_ms": 129.49,
         "mean_allocated_points": 176.0,
         "mean_utilization_pct": 95.7,
         "replan_rate": 1.0,
@@ -154,8 +154,8 @@
           {
             "run_index": 1,
             "scenario": "scenario_c",
-            "thread_id": "bench-scenario_c-run1-d98bb2dc",
-            "execution_time_ms": 59.17,
+            "thread_id": "bench-scenario_c-run1-9c9bf4fc",
+            "execution_time_ms": 129.49,
             "approved": true,
             "total_tasks": 100,
             "allocated_tasks": 37,
@@ -182,18 +182,18 @@
         ]
       }
     ],
-    "total_execution_time_ms": 217.76,
+    "total_execution_time_ms": 690.71,
     "all_approved": true
   },
   "empirical_report": {
-    "report_id": "empirical-eval-dcb5a945",
-    "timestamp": "2026-11-06T22:22:15.252754+00:00",
+    "report_id": "empirical-eval-5ff30449",
+    "timestamp": "2026-11-07T02:46:04.584929+00:00",
     "provider": "offline",
     "model": "deterministic-fallback",
     "comparisons": [
       {
         "scenario": "scenario_a",
-        "langgraph_time_ms": 18.49,
+        "langgraph_time_ms": 30.33,
         "manual_time_ms": null,
         "n8n_agent_time_ms": null,
         "speedup_vs_manual": null,
@@ -209,12 +209,12 @@
       },
       {
         "scenario": "scenario_b",
-        "langgraph_time_ms": 28.27,
+        "langgraph_time_ms": 57.37,
         "manual_time_ms": 765000.0,
         "n8n_agent_time_ms": 4200.0,
-        "speedup_vs_manual": 27060.49,
-        "time_reduction_vs_manual_pct": 100.0,
-        "speedup_vs_n8n": 148.57,
+        "speedup_vs_manual": 13334.5,
+        "time_reduction_vs_manual_pct": 99.99,
+        "speedup_vs_n8n": 73.21,
         "langgraph_dag_violations": 0,
         "manual_dag_violations": 0,
         "n8n_dag_violations": 0,
@@ -238,7 +238,7 @@
       },
       {
         "scenario": "scenario_c",
-        "langgraph_time_ms": 59.17,
+        "langgraph_time_ms": 129.49,
         "manual_time_ms": null,
         "n8n_agent_time_ms": null,
         "speedup_vs_manual": null,
@@ -254,12 +254,12 @@
       }
     ],
     "paper_citation": "REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)",
-    "total_speedup_scenario_b": 27060.49,
+    "total_speedup_scenario_b": 13334.5,
     "scale_stress_scenario_c_reliability": "LangGraph BDI 100.0% vs. n8n 99.5% vs. Manual Infeasibility"
   },
   "security_report": {
-    "audit_id": "audit-b2d44cf6",
-    "timestamp": "2026-11-06T22:22:15.252754+00:00",
+    "audit_id": "audit-3a8440c1",
+    "timestamp": "2026-11-07T02:46:04.584929+00:00",
     "all_passed": true,
     "probes": [
       {
@@ -267,15 +267,15 @@
         "pilar": "Pilar 5: Segredos, Inputs & Parsers Seguros",
         "status": "PASSED",
         "passed": true,
-        "latency_ms": 0.022,
-        "details": "Verified 23 domain Pydantic models. 100% enforce ConfigDict(extra='forbid')."
+        "latency_ms": 2.717,
+        "details": "Verified 26 domain Pydantic models via dynamic reflection. 100% enforce ConfigDict(extra='forbid')."
       },
       {
         "probe_id": "probe_session_isolation",
         "pilar": "Pilar 1: Isolamento de Sessão & Estado",
         "status": "PASSED",
         "passed": true,
-        "latency_ms": 6.003,
+        "latency_ms": 11.706,
         "details": "MemorySaver checkpoint state for thread_alpha and thread_beta verified. Zero cross-thread pollution."
       },
       {
@@ -283,7 +283,7 @@
         "pilar": "Pilar 2: Zero Confiança no Cliente / LLM (Server Authority)",
         "status": "PASSED",
         "passed": true,
-        "latency_ms": 1.498,
+        "latency_ms": 3.561,
         "details": "Server Authority strictly enforced: hostile approval rejected and prompt injection directive blocked."
       },
       {
@@ -291,7 +291,7 @@
         "pilar": "Pilar 3: Anti-IDOR Sistemático",
         "status": "PASSED",
         "passed": true,
-        "latency_ms": 0.818,
+        "latency_ms": 2.872,
         "details": "Anti-IDOR verified: ghost_dev and TSK-999 blocked across deterministic tools and state validator."
       },
       {
@@ -299,15 +299,15 @@
         "pilar": "Pilar 4: Concorrência, Idempotência & Anti-DoS",
         "status": "PASSED",
         "passed": true,
-        "latency_ms": 6.567,
-        "details": "Iterative DFS validated on 1500 linear nodes in 6.6ms without RecursionError. Deep cycle successfully detected."
+        "latency_ms": 157.322,
+        "details": "Iterative DFS validated on 2500 linear nodes in 157.3ms without RecursionError (data_loader and validator audit_sprint_state). Deep cycle successfully detected."
       },
       {
         "probe_id": "probe_path_traversal",
         "pilar": "Pilar 5: Segredos, Inputs & Parsers Seguros",
         "status": "PASSED",
         "passed": true,
-        "latency_ms": 0.698,
+        "latency_ms": 1.956,
         "details": "Path traversal immunity verified: 6/6 adversarial attacks blocked."
       }
     ],
@@ -319,10 +319,10 @@
         "details": "Golden datasets A (35 pts, 10 tasks) and B (66 pts, 15 tasks) validated. Zero audit violations."
       },
       {
-        "module": "configs.prompts.bart_templates",
+        "module": "papers.wesaac2025_reic2026.traceability",
         "passed": true,
         "violations": [],
-        "details": "BART prompt templates and scenarios A/B/C topological DAGs semantically verified."
+        "details": "100% 1:1 scientific traceability confirmed with WESAAC 2025 and REIC 2026 papers (Scenarios A, B [63.33% backend, dev_C=19pts, dev_D<=10pts, speedup ~182x], C [100 tasks, 452 pts, 0% causal error])."
       }
     ],
     "summary": {
@@ -330,7 +330,7 @@
       "probes_passed": 6,
       "total_semantic_checks": 2,
       "semantic_checks_passed": 2,
-      "total_duration_ms": 26.16,
+      "total_duration_ms": 199.011,
       "pentagon_defense_coverage_pct": 100.0
     }
   },
@@ -338,7 +338,7 @@
   "bottleneck_mitigated": true,
   "summary_notes": [
     "Stage 1: Multi-Scenario Benchmark Suite -> PASSED (100% approved).",
-    "Stage 2: Empirical Evaluation (REIC 2026 / WESAAC 2025) -> Speedup Scenario B: 27,060.49x vs. Manual; Bottleneck Mitigated: True.",
+    "Stage 2: Empirical Evaluation (REIC 2026 / WESAAC 2025) -> Speedup Scenario B: 13,334.50x vs. Manual; Bottleneck Mitigated: True.",
     "Stage 3: Pentagon Defense Security Audit -> PASSED (0 violations).",
     "Overall Scientific Reproduction Verdict -> FULLY REPRODUCED."
   ],

@@ -1,0 +1,51 @@
+{
+  "report_id": "ls-report-e02a022a",
+  "project_name": "REIC_WESAAC_code",
+  "extracted_at": "2026-11-07T02:46:31.581659+00:00",
+  "total_runs_analyzed": 24,
+  "metrics": [
+    {
+      "model_name": "default-llm",
+      "scenario": "scenario_a",
+      "runs_count": 15,
+      "mean_duration_ms": 16.71,
+      "median_duration_ms": 16.75,
+      "p95_duration_ms": 18.67,
+      "mean_prompt_tokens": 0.0,
+      "mean_completion_tokens": 0.0,
+      "mean_total_tokens": 0.0,
+      "total_cost_usd": 0.0,
+      "success_rate_pct": 100.0
+    },
+    {
+      "model_name": "default-llm",
+      "scenario": "scenario_b",
+      "runs_count": 8,
+      "mean_duration_ms": 24.51,
+      "median_duration_ms": 24.2,
+      "p95_duration_ms": 29.87,
+      "mean_prompt_tokens": 0.0,
+      "mean_completion_tokens": 0.0,
+      "mean_total_tokens": 0.0,
+      "total_cost_usd": 0.0,
+      "success_rate_pct": 100.0
+    },
+    {
+      "model_name": "default-llm",
+      "scenario": "scenario_c",
+      "runs_count": 1,
+      "mean_duration_ms": 48.12,
+      "median_duration_ms": 48.12,
+      "p95_duration_ms": 48.12,
+      "mean_prompt_tokens": 0.0,
+      "mean_completion_tokens": 0.0,
+      "mean_total_tokens": 0.0,
+      "total_cost_usd": 0.0,
+      "success_rate_pct": 100.0
+    }
+  ],
+  "all_passed": true,
+  "notes": [
+    "Successfully analyzed 24 runs across 3 model/scenario combinations."
+  ]
+}

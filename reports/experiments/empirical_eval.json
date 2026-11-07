@@ -1,12 +1,12 @@
 {
-  "report_id": "empirical-eval-826d9e12",
-  "timestamp": "2026-11-06T22:22:14.997147+00:00",
+  "report_id": "empirical-eval-6c0922a1",
+  "timestamp": "2026-11-07T02:46:19.449684+00:00",
   "provider": "offline",
   "model": "deterministic-fallback",
   "comparisons": [
     {
       "scenario": "scenario_a",
-      "langgraph_time_ms": 90.77,
+      "langgraph_time_ms": 26.65,
       "manual_time_ms": null,
       "n8n_agent_time_ms": null,
       "speedup_vs_manual": null,
@@ -22,12 +22,12 @@
     },
     {
       "scenario": "scenario_b",
-      "langgraph_time_ms": 27.16,
+      "langgraph_time_ms": 29.94,
       "manual_time_ms": 765000.0,
       "n8n_agent_time_ms": 4200.0,
-      "speedup_vs_manual": 28166.42,
+      "speedup_vs_manual": 25551.1,
       "time_reduction_vs_manual_pct": 100.0,
-      "speedup_vs_n8n": 154.64,
+      "speedup_vs_n8n": 140.28,
       "langgraph_dag_violations": 0,
       "manual_dag_violations": 0,
       "n8n_dag_violations": 0,
@@ -51,7 +51,7 @@
     },
     {
       "scenario": "scenario_c",
-      "langgraph_time_ms": 56.28,
+      "langgraph_time_ms": 61.39,
       "manual_time_ms": null,
       "n8n_agent_time_ms": null,
       "speedup_vs_manual": null,
@@ -67,6 +67,6 @@
     }
   ],
   "paper_citation": "REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)",
-  "total_speedup_scenario_b": 28166.42,
+  "total_speedup_scenario_b": 25551.1,
   "scale_stress_scenario_c_reliability": "LangGraph BDI 100.0% vs. n8n 99.5% vs. Manual Infeasibility"
 }
