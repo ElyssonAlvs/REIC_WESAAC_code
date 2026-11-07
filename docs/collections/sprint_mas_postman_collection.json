@@ -65,7 +65,7 @@
           ]
         },
         {
-          "name": "Cenário B - Gargalo Qualitativo de Backend (30 Tarefas, 105 pts)",
+          "name": "Cenário B - Gargalo Qualitativo de Backend (30 Tarefas, 128 pts brutos / 66 pts alocados)",
           "request": {
             "method": "POST",
             "header": [
@@ -112,7 +112,7 @@
           ]
         },
         {
-          "name": "Cenário C - Estresse de Escala (100 Tarefas, 350 pts)",
+          "name": "Cenário C - Estresse de Escala (100 Tarefas, 452 pts brutos / 176 pts alocados)",
           "request": {
             "method": "POST",
             "header": [
@@ -130,7 +130,7 @@
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "sprint-planning"]
             },
-            "description": "Executa o Cenário C (100 tarefas, 350 story points com corte de escopo determinístico). Valida estabilidade e tempo sub-segundo sem estouro de memória ou ciclos de dependência."
+            "description": "Executa o Cenário C (100 tarefas, 452 story points brutos / 176 story points alocados com corte de escopo determinístico). Valida estabilidade e tempo sub-segundo sem estouro de memória ou ciclos de dependência."
           },
           "event": [
             {

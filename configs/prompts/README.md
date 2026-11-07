@@ -37,17 +37,17 @@ Para garantir saídas reprodutíveis, sem alucinações e matematicamente consis
 
 ## 📁 Catálogo de Prompts Versionados
 
-1. [`prioritization.yaml`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/configs/prompts/prioritization.yaml):
+1. [`prioritization.yaml`](./prioritization.yaml):
    - **Agente**: `prioritization_agent` (Product Owner)
    - **Objetivo**: Ordenação do backlog respeitando dependências causais e valor de negócio.
    - **Placeholders**: `{backlog_json}`, `{topological_order_json}`.
 
-2. [`allocation.yaml`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/configs/prompts/allocation.yaml):
+2. [`allocation.yaml`](./allocation.yaml):
    - **Agente**: `allocation_agent` (Engineering Allocator)
    - **Objetivo**: Mapeamento de tarefas para desenvolvedores, mitigando o gargalo de backend através da realocação de `dev_C` (Fullstack) e respeitando o limite de 0.5 FTE de `dev_D`.
    - **Placeholders**: `{prioritized_tasks_json}`, `{team_json}`, `{capacity_json}`.
 
-3. [`supervisor.yaml`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/configs/prompts/supervisor.yaml):
+3. [`supervisor.yaml`](./supervisor.yaml):
    - **Agente**: `supervisor_agent` (Quality Lead & Agile Governance)
    - **Objetivo**: Auditoria independente de viabilidade com base nos relatórios determinísticos.
    - **Placeholders**: `{allocations_json}`, `{feasibility_json}`, `{sprint_goal}`.

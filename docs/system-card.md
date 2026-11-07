@@ -27,6 +27,7 @@ O sistema opera como uma sociedade de agentes colaborativos estruturada em torno
 4. **Agente de Validação (Determinístico):** Executa regras matemáticas e lógicas em Python puro (sem LLM) para barrar alucinações de sobrecarga de capacidade ou dependências violadas.
 5. **Motor de Auditoria de Segurança & Verificação Semântica (`sprint_mas.security_audit`):** Sonda programática contínua em Python puro (Zero LLM) que audita os 5 pilares do Pentágono de Defesa (Pydantic `extra="forbid"` reflexivo, isolamento de sessões, autoridade de servidor, anti-IDOR, anti-DoS em grafos e anti-Path Traversal).
 6. **Motor de Reprodutibilidade Científica & Empacotamento de Publicação (`sprint_mas.replication`):** Orquestrador determinístico que executa em 1 clique (`main.py --reproduce-paper`) a cadeia experimental completa (benchmarks A/B/C, avaliação empírica contra linhas de base e auditoria do Pentágono), atestando a mitigação do gargalo da Seção 6.3 e exportando artefatos quádruplos (.json, .md, .csv, .tex).
+7. **Motor de Extração e Agregação de Métricas LangSmith (`sprint_mas.metrics_collector`):** Sincronizador programático via SDK do LangSmith (`main.py --sync-metrics`) que extrai telemetria de execuções históricas, calcula agregações estatísticas P95 interpoladas multi-modelo e exporta artefatos quádruplos seguros (.json, .md, .csv, .tex).
 
 ---
 
@@ -60,5 +61,5 @@ O sistema é avaliado nas seguintes métricas objetivas (reproduzindo os cenári
 - **Latência de Planejamento:** Tempo decorrido entre o gatilho inicial e o plano final validado (meta: < 10 segundos).
 - **Rastreabilidade:** 100% das execuções telemetradas via LangSmith.
 - **Auditoria de Segurança Contínua:** 100% das sondas do Pentágono de Defesa passando em $< 150\text{ ms}$ com zero LLM (`uv run python main.py --security-audit`).
-- **Rigor da Suíte de Testes:** 304 testes automatizados 100% aprovados sem dependência de rede (`uv run pytest tests/ -v`).
+- **Rigor da Suíte de Testes:** 330 testes automatizados 100% aprovados sem dependência de rede (`uv run pytest tests/ -v`).
 - **Protocolo de Reprodutibilidade Científica em 1 Clique:** 100% dos resultados empíricos replicáveis deterministicamente via CLI (`python main.py --reproduce-paper --offline-mock`) e via Coleção Executiva Postman v2.1.0 (`docs/collections/sprint_mas_postman_collection.json`).

@@ -324,9 +324,9 @@
       <nav class="hidden lg:flex items-center gap-6 text-xs font-medium text-[var(--text-secondary)]" aria-label="Menu Principal">
         <a href="#arquitetura" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.arch">Arquitetura</a>
         <a href="#benchmark" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.benchmark">Benchmarks</a>
-        <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (92.3%)</a>
-        <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (15)</a>
-        <a href="#terminal" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.terminal">Terminal (321/321)</a>
+        <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (100%)</a>
+        <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (16)</a>
+        <a href="#terminal" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.terminal">Terminal (330/330)</a>
         <a href="#artigos" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.papers">Artigos</a>
       </nav>
 
@@ -377,9 +377,9 @@
     <div id="mobile-menu" class="hidden lg:hidden border-t border-[var(--border-subtle)] bg-[var(--bg-surface)] px-4 py-3 space-y-2 text-sm font-medium">
       <a href="#arquitetura" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.arch">Arquitetura</a>
       <a href="#benchmark" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.benchmark">Benchmarks</a>
-      <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (92.3%)</a>
-      <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (15)</a>
-      <a href="#terminal" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.terminal">Terminal (321/321)</a>
+      <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (100%)</a>
+      <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (16)</a>
+      <a href="#terminal" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.terminal">Terminal (330/330)</a>
       <a href="#artigos" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.papers">Artigos</a>
       <a href="https://github.com/ElyssonAlvs/REIC_WESAAC_code" target="_blank" class="block py-1.5 text-blue-500 font-mono">Repositório GitHub &rarr;</a>
     </div>
@@ -402,10 +402,10 @@
           <span>REIC 2026 &bull; WESAAC 2025 (UFC Quixadá)</span>
         </span>
         <span class="px-2.5 py-1 text-xs font-mono font-semibold rounded-md bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
-          <span data-i18n="hero.badge_tests">321/321 Testes Automatizados (100% OK)</span>
+          <span data-i18n="hero.badge_tests">330/330 Testes Automatizados (100% OK)</span>
         </span>
         <span class="px-2.5 py-1 text-xs font-mono font-medium rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
-          <span data-i18n="hero.badge_phase">Fase 12 Concluída &bull; 92.3% Roadmap</span>
+          <span data-i18n="hero.badge_phase">Fase 13 Concluída &bull; 100% Roadmap</span>
         </span>
       </div>
 
@@ -459,9 +459,9 @@
               <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_zero">Zero Alucinação</div>
             </div>
             <div class="surface-card p-3 rounded-xl">
-              <div class="text-2xl font-black text-emerald-500 font-mono">92.3%</div>
+              <div class="text-2xl font-black text-emerald-500 font-mono">100%</div>
               <div class="text-[11px] text-[var(--text-secondary)] font-medium" data-i18n="hero.metric_roadmap">Roadmap</div>
-              <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_phases_ok">12/13 Fases OK</div>
+              <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_phases_ok">13/13 Fases OK</div>
             </div>
           </div>
         </div>
@@ -600,7 +600,7 @@
               <h4 class="text-base font-bold text-[var(--text-primary)]" data-i18n="arch.agent2_name">Agente de Alocação</h4>
               <div class="text-xs font-mono text-blue-500 mt-0.5 mb-2">Resource Allocator Node</div>
               <p class="text-xs text-[var(--text-secondary)] leading-relaxed" data-i18n="arch.agent2_desc">
-                Casamento semântico entre requisitos de tarefas e skills da equipe. <strong>Resolve o gargalo do Cenário B (63.3% backend)</strong> instruindo o Fullstack (<code class="text-blue-500 font-bold">dev_C</code>) a absorver 10 pontos.
+                Casamento semântico entre requisitos de tarefas e skills da equipe. <strong>Resolve o gargalo do Cenário B (63.3% backend)</strong> instruindo o Fullstack (<code class="text-blue-500 font-bold">dev_C</code>) a absorver 19 pontos em tarefas backend.
               </p>
             </div>
             <div class="pt-3 border-t border-[var(--border-subtle)] mt-4 font-mono text-[11px] text-[var(--text-muted)] space-y-1">
@@ -820,7 +820,7 @@
           <div class="surface-card p-4 rounded-xl">
             <div class="text-xs text-[var(--text-muted)] uppercase font-semibold" data-i18n="bench.card_capacity">Capacidade da Equipe</div>
             <div id="sc-capacity-count" class="text-2xl font-black text-emerald-500 font-mono mt-1">84 Pontos</div>
-            <div id="sc-capacity-detail" class="text-[11px] text-[var(--text-muted)] mt-0.5">Demanda Total: 74 Story Points</div>
+            <div id="sc-capacity-detail" class="text-[11px] text-[var(--text-muted)] mt-0.5">Demanda Total: 128 Story Points (66 Story Points alocados)</div>
           </div>
           <div class="surface-card p-4 rounded-xl">
             <div class="text-xs text-[var(--text-muted)] uppercase font-semibold" data-i18n="bench.card_guarantee">Garantia Crítica</div>
@@ -855,17 +855,17 @@
               <div class="flex items-center gap-2.5">
                 <div class="w-7 h-7 rounded bg-blue-500/10 text-blue-500 font-bold flex items-center justify-center text-xs font-mono">A</div>
                 <div>
-                  <div class="text-xs font-bold text-[var(--text-primary)]">dev_A <span class="text-[10px] text-blue-500 font-mono font-normal">Backend</span></div>
+                  <div class="text-xs font-bold text-[var(--text-primary)]">dev_A <span class="text-[10px] text-blue-500 font-mono font-normal">Frontend</span></div>
                   <div class="text-[11px] text-[var(--text-muted)]">1.0 FTE &bull; 20 pts máx</div>
                 </div>
               </div>
               <div class="w-full sm:w-44 font-mono text-right">
                 <div class="flex justify-between text-[11px] mb-1">
                   <span class="text-[var(--text-muted)]">Carga:</span>
-                  <span class="text-emerald-500 font-bold">20 / 20 pts (100%)</span>
+                  <span class="text-blue-500 font-bold">10 / 20 pts (50%)</span>
                 </div>
                 <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 100%;"></div>
+                  <div class="bg-blue-500 h-1.5 rounded-full" style="width: 50%;"></div>
                 </div>
               </div>
             </div>
@@ -882,10 +882,10 @@
               <div class="w-full sm:w-44 font-mono text-right">
                 <div class="flex justify-between text-[11px] mb-1">
                   <span class="text-[var(--text-muted)]">Carga:</span>
-                  <span class="text-blue-500 font-bold">14 / 14 pts (100%)</span>
+                  <span class="text-blue-500 font-bold">13 / 14 pts (92.8%)</span>
                 </div>
                 <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-blue-500 h-1.5 rounded-full" style="width: 100%;"></div>
+                  <div class="bg-blue-500 h-1.5 rounded-full" style="width: 92.8%;"></div>
                 </div>
               </div>
             </div>
@@ -896,16 +896,16 @@
                 <div class="w-7 h-7 rounded bg-blue-500/20 text-blue-500 font-bold flex items-center justify-center text-xs font-mono">C</div>
                 <div>
                   <div class="text-xs font-bold text-[var(--text-primary)]">dev_C <span class="text-[10px] text-blue-500 font-mono font-bold">🌟 Fullstack (Pivô)</span></div>
-                  <div class="text-[11px] text-blue-500/80">1.0 FTE &bull; Absorve 10 pts de backend!</div>
+                  <div class="text-[11px] text-blue-500/80">1.0 FTE &bull; Absorve 19 pts em tarefas backend!</div>
                 </div>
               </div>
               <div class="w-full sm:w-44 font-mono text-right">
                 <div class="flex justify-between text-[11px] mb-1">
                   <span class="text-blue-500">Alocação Híbrida:</span>
-                  <span class="text-blue-500 font-bold">20 / 20 pts (100%)</span>
+                  <span class="text-blue-500 font-bold">19 / 20 pts (95%)</span>
                 </div>
                 <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-blue-500 h-1.5 rounded-full" style="width: 100%;"></div>
+                  <div class="bg-blue-500 h-1.5 rounded-full" style="width: 95%;"></div>
                 </div>
               </div>
             </div>
@@ -935,17 +935,17 @@
               <div class="flex items-center gap-2.5">
                 <div class="w-7 h-7 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] font-bold flex items-center justify-center text-xs font-mono">E</div>
                 <div>
-                  <div class="text-xs font-bold text-[var(--text-primary)]">dev_E <span class="text-[10px] text-[var(--text-muted)] font-mono font-normal">QA / Testes</span></div>
+                  <div class="text-xs font-bold text-[var(--text-primary)]">dev_E <span class="text-[10px] text-blue-500 font-mono font-normal">Frontend</span></div>
                   <div class="text-[11px] text-[var(--text-muted)]">1.0 FTE &bull; 20 pts máx</div>
                 </div>
               </div>
               <div class="w-full sm:w-44 font-mono text-right">
                 <div class="flex justify-between text-[11px] mb-1">
                   <span class="text-[var(--text-muted)]">Carga:</span>
-                  <span class="text-[var(--text-secondary)] font-bold">10 / 20 pts (50%)</span>
+                  <span class="text-emerald-500 font-bold">14 / 20 pts (70%)</span>
                 </div>
                 <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-1.5 overflow-hidden">
-                  <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 50%;"></div>
+                  <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 70%;"></div>
                 </div>
               </div>
             </div>
@@ -1062,20 +1062,20 @@
               <span class="px-2 py-0.5 text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded" data-i18n="road.progress_badge">
                 Progresso Geral
               </span>
-              <span class="text-xs font-mono text-[var(--text-muted)]" data-i18n="road.progress_count">12 de 13 Fases Concluídas</span>
+              <span class="text-xs font-mono text-[var(--text-muted)]" data-i18n="road.progress_count">13 de 13 Fases Concluídas</span>
             </div>
             <h3 class="text-xl font-bold text-[var(--text-primary)] tracking-tight" data-i18n="road.progress_title">
-              Suíte Integralmente Verde &bull; 321 Testes (100% OK)
+              Suíte Integralmente Verde &bull; 330 Testes (100% OK)
             </h3>
           </div>
           <div class="text-right font-mono">
-            <span class="text-3xl font-black text-emerald-500">92.3%</span>
-            <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 13 como Próxima</span>
+            <span class="text-3xl font-black text-emerald-500">100%</span>
+            <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 13 Concluída</span>
           </div>
         </div>
 
         <div class="w-full bg-[var(--bg-surface-elevated)] rounded-full h-2.5 overflow-hidden">
-          <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 92.3%;"></div>
+          <div class="bg-emerald-500 h-2.5 rounded-full" style="width: 100%;"></div>
         </div>
 
         <!-- Filtros de Fases -->
@@ -1085,10 +1085,10 @@
             Todas (13)
           </button>
           <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_completed">
-            ✅ Concluídas (12)
+            ✅ Concluídas (13)
           </button>
           <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_next">
-            ⏳ Próxima (1)
+            ⏳ Próxima (0)
           </button>
           <button onclick="filterPhases('planned')" id="filter-btn-planned" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_planned">
             📋 Planejadas (0)
@@ -1315,20 +1315,21 @@
           </div>
         </div>
 
-        <!-- FASE 13: Próxima -->
-        <div class="phase-card next surface-card border-amber-500/50 bg-amber-500/5 rounded-xl p-5 flex flex-col justify-between">
+        <!-- FASE 13 -->
+        <div class="phase-card completed surface-card border-emerald-500/30 rounded-xl p-5 flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-500" data-i18n="road.p13_badge">Fase 13 ⏳ Próxima a Implementar</span>
-              <span class="text-[11px] font-mono text-amber-500 font-bold" data-i18n="road.p13_subbadge">Homologação Final</span>
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500" data-i18n="road.p13_badge">Fase 13 ✅ Concluída</span>
+              <span class="text-[11px] font-mono text-emerald-500 font-bold" data-i18n="road.p13_subbadge">330 Testes (100% OK)</span>
             </div>
             <h4 class="text-base font-bold text-[var(--text-primary)]" data-i18n="road.p13_title">Recapitulação Geral &amp; Alinhamento 1:1 Papers</h4>
             <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed" data-i18n="road.p13_desc">
               Pente-fino integral das Fases 1 a 12 (zero brechas em código, segurança, tipagem e testes) e verificação cláusula a cláusula de 100% da conformidade teórica e empírica contra os artigos WESAAC 2025 e REIC 2026.
             </p>
           </div>
-          <div class="pt-2 border-t border-[var(--border-subtle)] text-[11px] font-mono text-[var(--text-muted)] mt-3" data-i18n="road.p13_footer">
-            WESAAC 2025 + REIC 2026 &bull; Zero Brechas
+          <div class="bg-[var(--code-bg)] border border-[var(--border-subtle)] rounded-lg p-2.5 mt-4 text-[11px] font-mono text-[var(--text-muted)] space-y-0.5">
+            <div><span class="text-[var(--text-secondary)]">Artefatos:</span> conftest.py, verify_paper_traceability_1to1</div>
+            <div><span class="text-[var(--text-secondary)]">ADR:</span> ADR 0016 (Homologada)</div>
           </div>
         </div>
 
@@ -1337,14 +1338,14 @@
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 4: PORTFÓLIO DE DECISÕES ARQUITETURAIS (ADRS 0001 A 0015)
+         SEÇÃO 4: PORTFÓLIO DE DECISÕES ARQUITETURAIS (ADRS 0001 A 0016)
          ==================================================================== -->
     <section id="adrs" class="space-y-6">
       
       <div class="border-b border-[var(--border-subtle)] pb-4">
         <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider" data-i18n="adrs.pretitle">Governança Técnica</span>
         <h2 class="text-2xl font-black tracking-tight text-[var(--text-primary)] mt-1" data-i18n="adrs.title">
-          Portfólio de Decisões Arquiteturais (ADRs 0001 a 0015)
+          Portfólio de Decisões Arquiteturais (ADRs 0001 a 0016)
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="adrs.desc">
           Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.
@@ -1639,7 +1640,7 @@
           <div>
             <div class="flex items-center justify-between mb-2">
               <span class="font-mono text-xs font-bold text-blue-500">ADR 0015</span>
-              <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">Nova &bull; Aprovada</span>
+              <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">Aprovada</span>
             </div>
             <h4 class="text-sm font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
               Extração Automatizada de Métricas LangSmith Multi-Modelo
@@ -1654,22 +1655,42 @@
           </div>
         </div>
 
+        <!-- ADR 0016 -->
+        <div onclick="openAdrModal('0016')" class="surface-card p-4 rounded-xl cursor-pointer hover:border-blue-500/50 flex flex-col justify-between group border-blue-500/30">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold text-blue-500">ADR 0016</span>
+              <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">Nova &bull; Aprovada</span>
+            </div>
+            <h4 class="text-sm font-bold text-[var(--text-primary)] group-hover:text-blue-500 transition-colors">
+              Recapitulação Integral, Hardening do Grafo & Homologação 1:1
+            </h4>
+            <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed">
+              DFS iterativo tricromático $O(V+E)$ anti-DoS, resiliência de fallback sem Groq key, isolamento offline no pytest (<code class="text-emerald-500">conftest.py</code>), auditoria de 26 modelos Pydantic v2 e homologação científica 1:1.
+            </p>
+          </div>
+          <div class="mt-4 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)] flex justify-between">
+            <span>Fase 13 &bull; 06/11/2026</span>
+            <span class="text-blue-500 font-bold">Ver Ficha &rarr;</span>
+          </div>
+        </div>
+
       </div>
 
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 5: TERMINAL DE TESTES INTERATIVO (321/321 PASSED)
+         SEÇÃO 5: TERMINAL DE TESTES INTERATIVO (330/330 PASSED)
          ==================================================================== -->
     <section id="terminal" class="space-y-6">
       
       <div class="border-b border-[var(--border-subtle)] pb-4">
         <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider" data-i18n="term.pretitle">Qualidade & Confiabilidade</span>
         <h2 class="text-2xl font-black tracking-tight text-[var(--text-primary)] mt-1" data-i18n="term.title">
-          Terminal Interativo de Testes (321/321 PASSED)
+          Terminal Interativo de Testes (330/330 PASSED)
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="term.desc">
-          Rastreabilidade completa com filtros em tempo real pelos 15 arquivos de teste automatizados do repositório.
+          Rastreabilidade completa com filtros em tempo real pelos 16 arquivos de teste automatizados do repositório.
         </p>
       </div>
 
@@ -1685,7 +1706,7 @@
               <span class="text-xs font-mono text-blue-500">Python 3.12</span>
             </div>
             <p class="text-xs text-[var(--text-secondary)] mb-4" data-i18n="term.uv_desc">
-              Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 321 testes.
+              Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 330 testes.
             </p>
 
             <div class="space-y-3 font-mono text-xs">
@@ -1698,7 +1719,7 @@
               </div>
 
               <div>
-                <span class="text-[var(--text-muted)] block text-[11px] mb-1"># 2. Rodar todos os 321 testes</span>
+                <span class="text-[var(--text-muted)] block text-[11px] mb-1"># 2. Rodar todos os 330 testes</span>
                 <div class="bg-[var(--code-bg)] p-2.5 rounded-lg border border-[var(--border-subtle)] flex justify-between items-center group">
                   <span class="text-blue-500 select-all">uv run pytest tests/ -v</span>
                   <button onclick="copyCommand('uv run pytest tests/ -v')" class="text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)]">Copiar</button>
@@ -1760,12 +1781,12 @@
           </div>
         </div>
 
-        <!-- Terminal Interativo dos 321 Testes -->
+        <!-- Terminal Interativo dos 330 Testes -->
         <div class="lg:col-span-7 surface-panel rounded-xl p-6 flex flex-col justify-between">
           <div>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[var(--text-primary)] tracking-tight">Suíte de 321 Testes Automatizados</h3>
+                <h3 class="text-base font-bold text-[var(--text-primary)] tracking-tight">Suíte de 330 Testes Automatizados</h3>
                 <span class="px-2 py-0.5 text-xs font-mono font-bold rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                   100% PASSED
                 </span>
@@ -1781,7 +1802,7 @@
               
               <div class="flex flex-wrap items-center gap-1 text-[11px] font-mono">
                 <button onclick="filterTests('all')" id="test-filter-all" class="test-filter-btn px-2.5 py-1 rounded bg-blue-600 text-white font-bold">
-                  Todos (321)
+                  Todos (330)
                 </button>
                 <button onclick="filterTests('metrics_collector')" id="test-filter-metrics_collector" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_metrics_collector.py (17)
@@ -1790,7 +1811,7 @@
                   test_replication.py (40)
                 </button>
                 <button onclick="filterTests('security_audit')" id="test-filter-security_audit" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_security_audit.py (46)
+                  test_security_audit.py (52)
                 </button>
                 <button onclick="filterTests('evaluation')" id="test-filter-evaluation" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_evaluation.py (34)
@@ -1808,7 +1829,7 @@
                   test_graph.py (8)
                 </button>
                 <button onclick="filterTests('validator')" id="test-filter-validator" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_validator.py (18)
+                  test_validator.py (21)
                 </button>
                 <button onclick="filterTests('allocator')" id="test-filter-allocator" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_allocator.py (13)
@@ -1817,7 +1838,7 @@
                   test_prioritizer.py (11)
                 </button>
                 <button onclick="filterTests('tools')" id="test-filter-tools" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_tools.py (22)
+                  test_tools.py (21)
                 </button>
                 <button onclick="filterTests('state')" id="test-filter-state" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_state.py (18)
@@ -1826,10 +1847,10 @@
                   test_data_loader.py (12)
                 </button>
                 <button onclick="filterTests('prompts')" id="test-filter-prompts" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_prompts.py (7)
+                  test_prompts.py (8)
                 </button>
                 <button onclick="filterTests('llm_factory')" id="test-filter-llm_factory" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_llm_factory.py (7)
+                  test_llm_factory.py (8)
                 </button>
               </div>
             </div>
@@ -1837,23 +1858,24 @@
             <!-- Saída do Terminal -->
             <div id="test-terminal-output" class="bg-[var(--code-bg)] font-mono text-[11px] text-[var(--text-secondary)] p-3.5 rounded-xl border border-[var(--border-subtle)] h-56 overflow-y-auto space-y-1">
               <div class="text-[var(--text-muted)]">=== Execução Consolidada (pytest 9.1.1 &bull; Python 3.12.13 &bull; Win32) ===</div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_metrics_collector.py (17 testes) ............. <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_replication.py (40 testes) ................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_security_audit.py (46 testes) ................ <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_security_audit.py (52 testes) ................ <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_evaluation.py (34 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_benchmarks.py (34 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_cli_telemetry.py (24 testes) ................. <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_supervisor.py (9 testes) ..................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_graph.py (8 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_validator.py (18 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_validator.py (21 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_allocator.py (13 testes) ..................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_data_loader.py (12 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_llm_factory.py (7 testes) ..................... <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_llm_factory.py (8 testes) ..................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_prioritizer.py (11 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_prompts.py (7 testes) ......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_prompts.py (8 testes) ......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_state.py (18 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_tools.py (22 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_tools.py (21 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-emerald-500 font-bold pt-2 border-t border-[var(--border-subtle)]">
-                ============================= 304 passed in 22.12s =============================
+                ============================= 330 passed in 9.50s =============================
               </div>
             </div>
           </div>
@@ -2060,12 +2082,12 @@
       pt: {
         'nav.arch': 'Arquitetura',
         'nav.benchmark': 'Benchmarks',
-        'nav.roadmap': 'Roadmap (92.3%)',
-        'nav.adrs': 'ADRs (14)',
-        'nav.terminal': 'Terminal (304/304)',
+        'nav.roadmap': 'Roadmap (100%)',
+        'nav.adrs': 'ADRs (16)',
+        'nav.terminal': 'Terminal (330/330)',
         'nav.papers': 'Artigos',
-        'hero.badge_tests': '304/304 Testes Automatizados (100% OK)',
-        'hero.badge_phase': 'Fase 12 Concluída &bull; 92.3% Roadmap',
+        'hero.badge_tests': '330/330 Testes Automatizados (100% OK)',
+        'hero.badge_phase': 'Fase 13 Concluída &bull; 100% Roadmap',
         'hero.pretitle': '// Sistema Multiagente para Planejamento Ágil',
         'hero.description': 'Orquestração deliberativa baseada em <strong>LangGraph</strong>, arquitetura <strong>Blackboard centralizada</strong> e contratos canônicos com <strong>Pydantic v2</strong>. Otimização combinatória com resolução formal de gargalos estruturais e garantia matemática de <strong>0% de erro causal</strong> em DAGs.',
         'hero.cta_arch': 'Explorar Grafo & Agentes',
@@ -2076,7 +2098,7 @@
         'hero.metric_error': 'Erro FTE & DAG',
         'hero.metric_zero': 'Zero Alucinação',
         'hero.metric_roadmap': 'Roadmap',
-        'hero.metric_phases_ok': '12/13 Fases OK',
+        'hero.metric_phases_ok': '13/13 Fases OK',
         'hero.topology_label': 'Topologia 3D Multiagente',
         'hero.topology_hint': 'Arraste para rotacionar os nós',
         'arch.pretitle': 'Módulo de Engenharia',
@@ -2093,7 +2115,7 @@
         'arch.agent1_name': 'Agente de Priorização',
         'arch.agent1_desc': 'Ordena o backlog balanceando <strong>valor de negócio (1 a 5)</strong> e a <strong>ordenação topológica de Kahn</strong>, garantindo 0% de erro causal no DAG de dependências.',
         'arch.agent2_name': 'Agente de Alocação',
-        'arch.agent2_desc': 'Casamento semântico entre requisitos de tarefas e skills da equipe. <strong>Resolve o gargalo do Cenário B (63.3% backend)</strong> instruindo o Fullstack (<code class="text-blue-500 font-bold">dev_C</code>) a absorver 10 pontos.',
+        'arch.agent2_desc': 'Casamento semântico entre requisitos de tarefas e skills da equipe. <strong>Resolve o gargalo do Cenário B (63.3% backend)</strong> instruindo o Fullstack (<code class="text-blue-500 font-bold">dev_C</code>) a absorver 19 pontos em tarefas backend.',
         'arch.agent3_name': 'Agente Validador',
         'arch.agent3_desc': '<strong>Função algorítmica pura em Python</strong> sem uso de modelo generativo. Audita limites rígidos de FTE, proteção anti-IDOR e dispara o loop corretivo se houver sobrecarga.',
         'arch.agent4_name': 'Agente Supervisor',
@@ -2121,28 +2143,28 @@
         'bench.sma_hint': '&bull; 182x aceleração &bull; 0% erro FTE &bull; DAG acíclico validado.',
         'road.pretitle': 'Planejamento Incremental',
         'road.title': 'Roadmap das 13 Fases de Engenharia',
-        'road.desc': 'Estratégia "Dividir para Conquistar": 12 fases já concluídas, testadas e auditadas com 321 testes unitários.',
+        'road.desc': 'Estratégia "Dividir para Conquistar": 13 fases já concluídas, testadas e auditadas com 330 testes unitários.',
         'road.progress_badge': 'Progresso Geral',
-        'road.progress_count': '12 de 13 Fases Concluídas',
-        'road.progress_title': 'Suíte Integralmente Verde &bull; 321 Testes (100% OK)',
-        'road.phase7_next': 'Fase 13 como Próxima',
+        'road.progress_count': '13 de 13 Fases Concluídas',
+        'road.progress_title': 'Suíte Integralmente Verde &bull; 330 Testes (100% OK)',
+        'road.phase7_next': 'Fase 13 Concluída',
         'road.filter_label': 'Filtrar:',
         'road.filter_all': 'Todas (13)',
-        'road.filter_completed': '✅ Concluídas (12)',
-        'road.filter_next': '⏳ Próxima (1)',
+        'road.filter_completed': '✅ Concluídas (13)',
+        'road.filter_next': '⏳ Próxima (0)',
         'road.filter_planned': '📋 Planejadas (0)',
-        'road.p13_badge': 'Fase 13 📋 Planejada',
-        'road.p13_subbadge': 'Homologação Final',
+        'road.p13_badge': 'Fase 13 ✅ Concluída',
+        'road.p13_subbadge': '330 Testes (100% OK)',
         'road.p13_title': 'Recapitulação Geral &amp; Alinhamento 1:1 Papers',
         'road.p13_desc': 'Pente-fino integral das Fases 1 a 12 (zero brechas em código, segurança, tipagem e testes) e verificação cláusula a cláusula de 100% da conformidade teórica e empírica contra os artigos WESAAC 2025 e REIC 2026.',
         'road.p13_footer': 'WESAAC 2025 + REIC 2026 &bull; Zero Brechas',
         'adrs.pretitle': 'Governança Técnica',
-        'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0015)',
+        'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0016)',
         'adrs.desc': 'Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.',
         'term.pretitle': 'Qualidade & Confiabilidade',
-        'term.title': 'Terminal Interativo de Testes (321/321 PASSED)',
-        'term.desc': 'Rastreabilidade completa com filtros em tempo real pelos 15 arquivos de teste automatizados do repositório.',
-        'term.uv_desc': 'Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 321 testes.',
+        'term.title': 'Terminal Interativo de Testes (330/330 PASSED)',
+        'term.desc': 'Rastreabilidade completa com filtros em tempo real pelos 16 arquivos de teste automatizados do repositório.',
+        'term.uv_desc': 'Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 330 testes.',
         'term.copy_log': 'Copiar Log Completo',
         'papers.pretitle': 'Produção Acadêmica',
         'papers.title': 'Artigos Científicos de Referência & Download',
@@ -2155,12 +2177,12 @@
       en: {
         'nav.arch': 'Architecture',
         'nav.benchmark': 'Benchmarks',
-        'nav.roadmap': 'Roadmap (92.3%)',
-        'nav.adrs': 'ADRs (15)',
-        'nav.terminal': 'Terminal (321/321)',
+        'nav.roadmap': 'Roadmap (100%)',
+        'nav.adrs': 'ADRs (16)',
+        'nav.terminal': 'Terminal (330/330)',
         'nav.papers': 'Papers',
-        'hero.badge_tests': '321/321 Automated Tests (100% OK)',
-        'hero.badge_phase': 'Phase 12 Completed &bull; 92.3% Roadmap',
+        'hero.badge_tests': '330/330 Automated Tests (100% OK)',
+        'hero.badge_phase': 'Phase 13 Completed &bull; 100% Roadmap',
         'hero.pretitle': '// Multi-Agent System for Agile Sprint Planning',
         'hero.description': 'Deliberative orchestration based on <strong>LangGraph</strong>, a <strong>centralized Blackboard architecture</strong>, and canonical contracts with <strong>Pydantic v2</strong>. Combinatorial optimization with formal resolution of structural bottlenecks and a mathematical guarantee of <strong>0% causal error</strong> in DAGs.',
         'hero.cta_arch': 'Explore Graph & Agents',
@@ -2171,7 +2193,7 @@
         'hero.metric_error': 'FTE & DAG Error',
         'hero.metric_zero': 'Zero Hallucination',
         'hero.metric_roadmap': 'Roadmap',
-        'hero.metric_phases_ok': '12/13 Phases OK',
+        'hero.metric_phases_ok': '13/13 Phases OK',
         'hero.topology_label': '3D Multi-Agent Topology',
         'hero.topology_hint': 'Drag to rotate nodes',
         'arch.pretitle': 'Engineering Module',
@@ -2188,7 +2210,7 @@
         'arch.agent1_name': 'Prioritization Agent',
         'arch.agent1_desc': 'Orders the backlog balancing <strong>business value (1 to 5)</strong> and <strong>Kahn topological sort</strong>, ensuring 0% causal error in the dependency DAG.',
         'arch.agent2_name': 'Allocation Agent',
-        'arch.agent2_desc': 'Semantic matching between task requirements and team skills. <strong>Resolves Scenario B bottleneck (63.3% backend)</strong> directing Fullstack (<code class="text-blue-500 font-bold">dev_C</code>) to absorb 10 points.',
+        'arch.agent2_desc': 'Semantic matching between task requirements and team skills. <strong>Resolves Scenario B bottleneck (63.3% backend)</strong> directing Fullstack (<code class="text-blue-500 font-bold">dev_C</code>) to absorb 19 points in backend tasks.',
         'arch.agent3_name': 'Validator Agent',
         'arch.agent3_desc': '<strong>Pure algorithmic Python function</strong> without generative models. Audits strict FTE limits, anti-IDOR guardrails, and triggers corrective loop on violation.',
         'arch.agent4_name': 'Supervisor Agent',
@@ -2216,28 +2238,37 @@
         'bench.sma_hint': '&bull; 182x speedup &bull; 0% FTE violation &bull; Acyclic DAG validated.',
         'road.pretitle': 'Incremental Planning',
         'road.title': '13-Phase Engineering Roadmap',
-        'road.desc': '"Divide and Conquer" strategy: 12 phases completed, tested, and audited with 321 unit tests.',
+        'road.desc': '"Divide and Conquer" strategy: 13 phases completed, tested, and audited with 330 unit tests.',
         'road.progress_badge': 'Overall Progress',
-        'road.progress_count': '12 of 13 Phases Completed',
-        'road.progress_title': 'Fully Green Test Suite &bull; 321 Tests (100% OK)',
-        'road.phase7_next': 'Phase 13 Next in Queue',
+        'road.progress_count': '13 of 13 Phases Completed',
+        'road.progress_title': 'Fully Green Test Suite &bull; 330 Tests (100% OK)',
+        'road.phase7_next': 'Phase 13 Completed',
         'road.filter_label': 'Filter:',
         'road.filter_all': 'All (13)',
-        'road.filter_completed': '✅ Completed (12)',
-        'road.filter_next': '⏳ Next (1)',
+        'road.filter_completed': '✅ Completed (13)',
+        'road.filter_next': '⏳ Next (0)',
         'road.filter_planned': '📋 Planned (0)',
-        'road.p13_badge': 'Phase 13 📋 Planned',
-        'road.p13_subbadge': 'Final Sign-Off',
+        'road.p13_badge': 'Phase 13 ✅ Completed',
+        'road.p13_subbadge': '330 Tests (100% OK)',
         'road.p13_title': 'Full Recap &amp; 1:1 Papers Alignment',
         'road.p13_desc': 'End-to-end review of Phases 1 to 12 (zero gaps in code, security, typing, and tests) and clause-by-clause verification of 100% theoretical and empirical compliance against the WESAAC 2025 and REIC 2026 papers.',
         'road.p13_footer': 'WESAAC 2025 + REIC 2026 &bull; Zero Gaps',
         'adrs.pretitle': 'Technical Governance',
-        'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0015)',
+        'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0016)',
         'adrs.desc': 'Backend Design System documentation: click any record to open the detailed technical specification.',
         'term.pretitle': 'Quality & Reliability',
-        'term.title': 'Interactive Test Terminal (321/321 PASSED)',
-        'term.desc': 'Full traceability with real-time filters across all 15 automated test files in the repository.',
-        'term.uv_desc': 'Strict package management with <code>uv</code>, deterministic lockfile, and 321 tests passing.',
+        'term.title': 'Interactive Test Terminal (330/330 PASSED)',
+        'term.desc': 'Full traceability with real-time filters across all 16 automated test files in the repository.',
+        'term.uv_desc': 'Strict package management with <code>uv</code>, deterministic lockfile, and 330 tests passing.',
+        'term.copy_log': 'Copy Full Log',
+        'papers.pretitle': 'Academic Production',
+        'papers.title': 'Reference Scientific Papers & Downloads',
+        'papers.desc': 'Peer-reviewed publications detailing the theory, BDI mapping, and empirical validation of this repository.',
+        'papers.reic_abstract': 'Conducts experimental comparison between manual planning (M-Manual, 765s) vs multi-agent (M-Agent, 4.2s), demonstrating 182x acceleration and identifying n8n limitations that motivated the migration to LangGraph.',
+        'papers.wesaac_abstract': 'Presents initial conceptual modeling based on the BDI (Belief–Desire–Intention) framework applied to Scrum ceremonies, structuring belief state and intention outputs in autonomous agents.',
+        'papers.download_pdf': 'Download Paper (PDF)',
+        'papers.view_bibtex': 'View BibTeX'
+      }
         'term.copy_log': 'Copy Full Log',
         'papers.pretitle': 'Academic Production',
         'papers.title': 'Reference Scientific Papers & Downloads',
@@ -2649,8 +2680,8 @@
         tasksDetail: 'TSK-001 a TSK-010 (Sem Dependências Complexas)',
         bottleneck: '0% Gargalo',
         bottleneckDetail: 'Distribuição homogênea de competências',
-        capacity: '100 Pontos',
-        capacityDetail: 'Equipe com 1.0 FTE em todos os membros',
+        capacity: '60 Pontos',
+        capacityDetail: 'Equipe com 3 desenvolvedores (1.0 FTE cada = 60 pts)',
         rule: 'Smoke Test',
         ruleDetail: 'Validação da comunicação entre nós e blackboard'
       },
@@ -2660,7 +2691,7 @@
         bottleneck: '63.3% Backend',
         bottleneckDetail: '19 de 30 tarefas exigem backend',
         capacity: '84 Pontos',
-        capacityDetail: 'Demanda Total: 74 Story Points',
+        capacityDetail: 'Demanda Total: 128 Story Points (66 Story Points alocados)',
         rule: 'dev_D &le; 0.5 FTE',
         ruleDetail: 'Teto estrito de 10 pontos inegociável'
       },
@@ -2854,6 +2885,14 @@
         decision: 'Implementação de sprint_mas/metrics_collector.py com modelos Pydantic v2 extra="forbid", list_runs paginada (limit=100), agregação P95 interpolado, tolerância a rate limits, flag --sync-metrics na CLI main.py e exportador seguro quad-format (.json, .md, .csv com \\n, .tex).',
         consequences: 'Automação analítica ponta a ponta sem intervenção humana, resiliência a cotas de API, neutralização de CRCRLF e 17 novos testes automatizados (suíte global consolidada em 321 testes 100% verdes).',
         link: 'adr/0015-extracao-automatizada-metricas-langsmith-multi-modelo.md'
+      },
+      '0016': {
+        title: 'Recapitulação Integral, Hardening do Grafo e Homologação Científica 1:1 com WESAAC 2025 e REIC 2026',
+        status: 'Aprovada (06/11/2026)',
+        context: 'Risco de DoS por recursão em grafos profundos no validador, ausência de isolamento de rede offline no pytest (HTTP 429), assimetria na propagação de sprint_days ao alocador, vazamento de goal bruto em mensagens e necessidade de homologação científica 1:1 programática.',
+        decision: 'Refatoração para DFS iterativo tricromático O(V+E) com pilha explícita em heap, propagação integral de sprint_days e points_per_day, conftest.py para isolamento estrito de testes, sanitização de clean_goal em state["messages"], reflexão dinâmica de 26/26 modelos Pydantic v2 e função verify_paper_traceability_1to1.',
+        consequences: 'Imunidade algorítmica a DoS em backlogs extremos (N >= 2.500), suíte 100% offline executando em < 10s (330 testes 100% verdes) e comprovação programática formal de 100% das métricas de WESAAC 2025 e REIC 2026.',
+        link: 'adr/0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md'
       }
     };
 
@@ -2922,23 +2961,23 @@
     // 11. TERMINAL DE TESTES & FILTROS
     // ------------------------------------------------------------------------
     const testDetails = {
-      all: `tests/test_metrics_collector.py (17 testes) ............. PASSED
-tests/test_replication.py (40 testes) ................... PASSED
-tests/test_security_audit.py (46 testes) ................ PASSED
-tests/test_evaluation.py (34 testes) .................... PASSED
+      all: `tests/test_allocator.py (13 testes) ..................... PASSED
 tests/test_benchmarks.py (34 testes) .................... PASSED
 tests/test_cli_telemetry.py (24 testes) ................. PASSED
-tests/test_supervisor.py (9 testes) ..................... PASSED
-tests/test_graph.py (8 testes) .......................... PASSED
-tests/test_validator.py (18 testes) .................... PASSED
-tests/test_allocator.py (13 testes) ..................... PASSED
 tests/test_data_loader.py (12 testes) .................... PASSED
-tests/test_llm_factory.py (7 testes) ..................... PASSED
+tests/test_evaluation.py (34 testes) .................... PASSED
+tests/test_graph.py (8 testes) .......................... PASSED
+tests/test_llm_factory.py (8 testes) ..................... PASSED
+tests/test_metrics_collector.py (17 testes) ............. PASSED
 tests/test_prioritizer.py (11 testes) .................... PASSED
-tests/test_prompts.py (7 testes) ......................... PASSED
+tests/test_prompts.py (8 testes) ......................... PASSED
+tests/test_replication.py (40 testes) ................... PASSED
+tests/test_security_audit.py (52 testes) ................ PASSED
 tests/test_state.py (18 testes) .......................... PASSED
-tests/test_tools.py (22 testes) .......................... PASSED
-============================= 321 passed in 23.45s =============================`,
+tests/test_supervisor.py (9 testes) ..................... PASSED
+tests/test_tools.py (21 testes) .......................... PASSED
+tests/test_validator.py (21 testes) .................... PASSED
+============================= 330 passed in 9.50s =============================`,
       metrics_collector: `tests/test_metrics_collector.py::test_pull_langsmith_metrics_paginated_and_reads_project PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_handles_rate_limit_and_auth_error_graciously PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_missing_api_key_without_client PASSED
@@ -2999,7 +3038,7 @@ tests/test_security_audit.py::test_cli_security_audit_flag_json_mode PASSED
 tests/test_security_audit.py::test_cli_security_audit_export_prefix PASSED
 tests/test_security_audit.py::test_cli_security_audit_output_path_traversal_returns_exit_code_1 PASSED
 tests/test_security_audit.py::test_cli_prompt_injection_returns_exit_code_1 PASSED
-============================= 46 passed in 1.77s =============================`,
+============================= 52 passed in 1.95s =============================`,
       evaluation: `tests/test_evaluation.py::test_paper_baselines_canonical_values PASSED
 tests/test_evaluation.py::test_paper_baseline_metrics_forbids_extra_fields PASSED
 tests/test_evaluation.py::test_compute_speedup_metrics_happy_path PASSED
@@ -3102,7 +3141,7 @@ tests/test_validator.py::test_anti_idor_cross_stage_phantom_task PASSED (IDOR Cr
 tests/test_validator.py::test_concurrency_thread_safety PASSED (10 Threads Concorrentes)
 tests/test_validator.py::test_validator_node_alias PASSED
 tests/test_validator.py::test_validation_report_extra_forbid PASSED
-============================= 18 passed in 0.18s =============================`,
+============================= 21 passed in 0.22s =============================`,
       allocator: `tests/test_allocator.py::test_allocation_node_scenario_a_happy_path PASSED
 tests/test_allocator.py::test_allocation_node_scenario_b_conformance PASSED
 tests/test_allocator.py::test_allocation_node_dev_d_capacity_constraint PASSED (Teto dev_D <= 10pts)
@@ -3143,7 +3182,7 @@ tests/test_tools.py::test_get_topological_order_causal_chains PASSED
 tests/test_tools.py::test_get_topological_order_orphan_dependency PASSED
 tests/test_tools.py::test_get_topological_order_cycle_detection PASSED
 tests/test_tools.py::test_match_skills (9 combinações parametrizadas) PASSED
-============================= 22 passed in 0.18s =============================`,
+============================= 21 passed in 0.18s =============================`,
       state: `tests/test_state.py::test_task_creation_valid PASSED
 tests/test_state.py::test_task_default_dependencies PASSED
 tests/test_state.py::test_task_invalid_story_points (3 testes) PASSED
@@ -3169,7 +3208,7 @@ tests/test_prompts.py::test_load_prompt_yaml_success[supervisor] PASSED
 tests/test_prompts.py::test_load_prompt_yaml_not_found PASSED
 tests/test_prompts.py::test_get_agent_prompt_template_compilation PASSED
 tests/test_prompts.py::test_prompt_template_placeholders PASSED
-============================= 7 passed in 0.08s =============================`,
+============================= 8 passed in 0.08s =============================`,
       llm_factory: `tests/test_llm_factory.py::test_get_llm_groq_success PASSED
 tests/test_llm_factory.py::test_get_llm_groq_default_model PASSED
 tests/test_llm_factory.py::test_get_llm_groq_missing_api_key PASSED
@@ -3177,7 +3216,7 @@ tests/test_llm_factory.py::test_get_llm_ollama_success PASSED
 tests/test_llm_factory.py::test_get_llm_ollama_defaults PASSED
 tests/test_llm_factory.py::test_get_llm_unsupported_provider PASSED
 tests/test_llm_factory.py::test_get_llm_provider_from_env PASSED
-============================= 7 passed in 0.08s =============================`
+============================= 8 passed in 0.08s =============================`
     };
 
     let activeTestModule = 'all';

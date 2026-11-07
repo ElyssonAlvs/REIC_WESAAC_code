@@ -35,7 +35,7 @@ REIC-WESAAC/
 │   ├── README.md           # Hub Central de Documentação do Projeto
 │   ├── index.html          # Dashboard interativo com simulador de grafo e terminal
 │   ├── system-card.md      # Ficha técnica do sistema (finalidade, limites e riscos)
-│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0013)
+│   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0016)
 │   │   └── README.md       # Catálogo unificado de decisões arquiteturais
 │   ├── papers/             # Artigos científicos de referência (PDFs e transcrições)
 │   │   └── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
@@ -67,7 +67,7 @@ O projeto adota a estratégia **"Dividir para Conquistar"**, estruturado em 13 f
 | **10** | **Avaliação Empírica & Comparativo Humano** | Confronto analítico direto das métricas do SMA contra o benchmark humano do artigo (765s vs SMA), validação algébrica da mitigação do gargalo de backend (63.33%, dev_C, teto dev_D <= 10.0 pts) e exportação em LaTeX booktabs. | ✅ **Concluída (05/11/2026)** |
 | **11** | **Auditoria de Segurança & Verificação Semântica** | Auditoria formal do Pentágono de Defesa, diff audit estrito, hardening 100% Pydantic (extra="forbid"), DFS iterativo anti-DoS e alinhamento dos Golden Datasets. | ✅ **Concluída (05/11/2026)** |
 | **12** | **Consolidação & Pacote Científico** | Motor de replicação em 1 clique (`replication.py`, `--reproduce-paper`), coleção executiva Postman/Insomnia v2.1.0, bundle acadêmico (.json, .md, .csv, .tex) e ADR 0014. | ✅ **Concluída (06/11/2026)** |
-| **13** | **Recapitulação Geral, Zero Brechas & Homologação Científica** | Revisão ponta a ponta das Fases 1 a 12 (código, tipagem, segurança, testes e caos) e matriz de rastreabilidade 1:1 cláusula a cláusula contra os papers WESAAC 2025 e REIC 2026. | ⏳ *Pendente* |
+| **13** | **Recapitulação Geral, Zero Brechas & Homologação Científica** | Revisão ponta a ponta das Fases 1 a 12 (código, tipagem, segurança, testes e caos) e matriz de rastreabilidade 1:1 cláusula a cláusula contra os papers WESAAC 2025 e REIC 2026. | ✅ **Concluída (06/11/2026)** |
 
 ---
 
@@ -91,6 +91,8 @@ Todas as escolhas estruturais, mitigações de riscos e substituições em rela�
 | **[0012](docs/adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)** | **Avaliação Empírica, Comparativo Humano (M-Manual vs n8n) e Rastreabilidade Científica REIC 2026** | 2026-11-05 | `Aprovada` | Confronto formal dos paradigmas M-Manual vs n8n vs LangGraph, equações de speedup/redução de tempo, prova algébrica do Teorema do Gargalo de Backend (63.33%) e exportação LaTeX booktabs (.tex). |
 | **[0013](docs/adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md)** | **Hardening Transversal do Pentágono de Defesa e Verificação Semântica** | 2026-11-05 | `Aprovada` | ConfigDict(extra="forbid") em 100% dos modelos Pydantic v2 via reflexão, sanitização anti-prompt injection, DFS iterativo $O(V+E)$ imune a RecursionError, alinhamento semântico de gabaritos e motor de auditoria contínua (--security-audit). |
 | **[0014](docs/adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md)** | **Pacote de Reprodutibilidade Científica e Coleção Postman** | 2026-11-06 | `Aprovada` | Orquestração experimental em 1 clique (`main.py --reproduce-paper`), Request Specs Postman v2.1.0 e exportação quádrupla segura. |
+| **[0015](docs/adr/0015-extracao-automatizada-metricas-langsmith-multi-modelo.md)** | **Extração Automatizada de Métricas LangSmith Multi-Modelo** | 2026-11-06 | `Aprovada` | Extração programática de telemetria empírica via SDK do LangSmith (`--sync-metrics`), agregação estatística P95 interpolado e exportação quádrupla segura. |
+| **[0016](docs/adr/0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md)** | **Recapitulação Integral, Hardening do Grafo e Homologação Científica 1:1** | 2026-11-06 | `Aprovada` | DFS iterativo tricromático $O(V+E)$ anti-DoS, isolamento offline no pytest, propagação de capacidade no grafo, sanitização de mensagens, auditoria de 26 modelos Pydantic e homologação programática 1:1 dos artigos. |
 
 Acesse o [**Catálogo Completo de ADRs**](docs/adr/README.md) para consultar o histórico detalhado, matrizes de estado e diagramas.
 
@@ -114,19 +116,20 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
 | **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e CLI executiva. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 321 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 330 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
 | **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios matemáticos de aceitação (dependência causal e sobrecarga FTE). |
 | **Coleção Postman/Insomnia** | `docs/collections/` | **Sim** | Request Specs v2.1.0 com asserções JS (`pm.test`) para validação de endpoints e replicação. |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
-| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0015). |
+| **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0016). |
 | **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
 | **Hub Central de Documentação** | `docs/README.md` | **Sim** | Ponto de entrada unificado para todos os manuais e relatórios técnicos. |
-| **Logs de Experimentos Pesados** | `reports/experiments/` | **Não** | Ignorados pelo `.gitignore` (rastreados e versionados via LangSmith). |
+| **Relatórios Canônicos Leves** | `reports/experiments/` | **Sim** | Pacotes canônicos leves (`.json`, `.md`, `.csv`, `.tex`) versionados para reprodutibilidade científica. |
+| **Logs Brutos Pesados** | `reports/experiments/` | **Não** | Ignorados pelo `.gitignore` (`*.jsonl`, `*.log`) para evitar inchaço do repositório. |
 | **Chaves de API e Segredos** | `.env` | **Não** | Bloqueado pelo `.gitignore` (template de referência em `.env.example`). |
 
 ---
@@ -139,7 +142,7 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 
 ### 2. Inicialização e Sincronização do Ambiente
 ```bash
-git clone https://github.com/SEU-USUARIO/REIC-WESAAC.git
+git clone https://github.com/ElyssonAlvs/REIC_WESAAC_code.git
 cd REIC-WESAAC
 uv venv --python 3.12
 uv sync
@@ -196,7 +199,7 @@ A flag `--sync-metrics` (ou o alias `--pull-langsmith`) conecta-se à API REST/S
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 321 testes automatizados passando (100%).*
+*Status esperado: 330 testes automatizados passando (100%).*
 
 ---
 

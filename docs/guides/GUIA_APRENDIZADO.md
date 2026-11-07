@@ -194,6 +194,9 @@ Todas as escolhas estruturais da migração do n8n para LangGraph estão formali
 11. **[ADR 0011: Protocolo de Benchmarking Automatizado e Coleta de Métricas Empíricas](../adr/0011-protocolo-benchmarking-automatizado-e-metricas-cientificas.md)** — Suíte científica de benchmarking multi-cenário e multi-runs (`sprint_mas/benchmarks.py`), isolamento criptográfico de `thread_id`, Server Authority na aferição de restrições de DAG/FTE/Skills, agregações estatísticas robustas e exportação tripla (.json, .md, .csv).
 12. **[ADR 0012: Avaliação Empírica, Comparativo Humano e Rastreabilidade REIC 2026](../adr/0012-avaliacao-empirica-comparativo-humano-e-reic2026.md)** — Confronto formal dos 3 paradigmas (Manual vs n8n vs LangGraph), equações de speedup, prova algébrica do gargalo (63.33%) e exportação LaTeX booktabs (.tex).
 13. **[ADR 0013: Hardening Transversal do Pentágono de Defesa, Verificação Semântica Contínua e Imunidade a DoS de Grafos](../adr/0013-hardening-transversal-pentagono-defesa-e-verificacao-semantica.md)** — ConfigDict(extra="forbid") em 100% dos modelos Pydantic v2 via reflexão, sanitização anti-prompt injection, DFS iterativo $O(V+E)$ imune a RecursionError, alinhamento semântico de gabaritos e motor de auditoria contínua (--security-audit).
+14. **[ADR 0014: Pacote de Reprodutibilidade Científica, Execução em 1 Clique e Consolidação Documental](../adr/0014-pacote-reprodutibilidade-cientifica-e-consolidacao-documental.md)** — Orquestração experimental de 1 clique (`main.py --reproduce-paper`), Request Specs Postman v2.1.0 e exportação quádrupla segura (.json, .md, .csv, .tex).
+15. **[ADR 0015: Extração Automatizada de Métricas Empíricas via API do LangSmith e Agregação Multi-Modelo](../adr/0015-extracao-automatizada-metricas-langsmith-multi-modelo.md)** — Extração programática de telemetria empírica via SDK do LangSmith (`--sync-metrics`), agregação estatística P95 interpolado e exportação quádrupla segura imune a CRCRLF.
+16. **[ADR 0016: Recapitulação Integral, Hardening do Grafo e Homologação Científica 1:1](../adr/0016-recapitulacao-auditoria-homologacao-cientifica-1para1.md)** — DFS iterativo tricromático $O(V+E)$ anti-DoS, resiliência de fallback determinístico sem chave Groq, propagação de capacidade no grafo, sanitização de mensagens, auditoria de 26/26 modelos Pydantic e homologação programática 1:1 dos artigos WESAAC 2025 e REIC 2026.
 
 ---
 
@@ -205,7 +208,7 @@ Para certificar a integridade do código em seu terminal:
 uv sync
 uv run pytest tests/ -v
 ```
-*Status esperado: 264 testes automatizados aprovados (100% OK).*
+*Status esperado: 330 testes automatizados aprovados (100% OK).*
 
 ### 8.2. Testando Validações de Borda (Edge Cases)
 Experimente instanciar um objeto `DeveloperProfile` com FTE inválido no console Python:
@@ -248,11 +251,11 @@ Experimente executar o pipeline completo com corte de escopo automático e circu
 from sprint_mas.data_loader import load_scenario
 from sprint_mas.graph import run_sprint_planning
 
-# Carrega o Cenário B (30 tarefas = 128 pts, capacidade = 84 pts)
-scenario_b = load_scenario("scenario_b.json")
+# Carrega o Cenário B (30 tarefas = 128 pts brutos, capacidade = 84 pts)
+tasks, team = load_scenario("scenario_b.json")
 result = run_sprint_planning(
-    backlog=scenario_b["tasks"],
-    team=scenario_b["team"],
+    backlog=tasks,
+    team=team,
     thread_id="lab_sprint_b",
     sprint_goal="Entregar itens prioritários com auto-ajuste de capacidade.",
 )
@@ -538,8 +541,8 @@ Para desenvolvedores e avaliadores de arquitetura backend que utilizam clientes 
 Sprint Planning MAS Collection/
 ├── 1. Cenários de Planejamento (A, B, C)
 │   ├── Cenário A - Backlog Padrão (10 Tarefas, 35 pts)
-│   ├── Cenário B - Gargalo Qualitativo de Backend (30 Tarefas, 105 pts)
-│   └── Cenário C - Estresse de Escala (100 Tarefas, 350 pts)
+│   ├── Cenário B - Gargalo Qualitativo de Backend (30 Tarefas, 128 pts brutos / 66 pts alocados)
+│   └── Cenário C - Estresse de Escala (100 Tarefas, 452 pts brutos / 176 pts alocados)
 ├── 2. Benchmarks Automatizados
 │   ├── Executar Bateria de Benchmarks (A, B, C - Multi-Run)
 │   └── Consultar Métricas de Benchmark (Cenário B Específico)

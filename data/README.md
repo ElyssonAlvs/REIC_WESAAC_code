@@ -5,7 +5,7 @@
 Seguindo as boas práticas de Engenharia de Software e MLOps/LLMOps:
 - `data/raw/`: Metadados, procedência acadêmica e especificações brutas (`scenarios_raw_spec.json`).
 - `data/processed/`: Arquivos JSON canônicos estruturados e validados contra os modelos Pydantic v2 do `sprint_mas.state` (`Task` e `DeveloperProfile`).
-- `evals/golden_dataset/`: Gabarito ótimo de alocação da sprint (`golden_scenario_b.json`) para benchmarking e cálculo de métricas.
+- `evals/golden_dataset/`: Gabaritos ótimos de alocação da sprint (`golden_scenario_a.json` e `golden_scenario_b.json`) para benchmarking e cálculo de métricas.
 
 ---
 
@@ -59,7 +59,7 @@ Seguindo as boas práticas de Engenharia de Software e MLOps/LLMOps:
 
 ## 🛠️ Como Carregar os Cenários no Código
 
-Utilize o módulo [`sprint_mas.data_loader`](file:///c:/Users/elyss/Desktop/REIC-WESAAC/sprint_mas/data_loader.py):
+Utilize o módulo [`sprint_mas.data_loader`](../sprint_mas/data_loader.py):
 
 ```python
 from sprint_mas import load_scenario, list_available_scenarios
