@@ -6,9 +6,15 @@
 \toprule
 \textbf{Model} & \textbf{Scenario} & \textbf{Runs} & \textbf{Mean (ms)} & \textbf{P95 (ms)} & \textbf{Prompt Tok.} & \textbf{Compl. Tok.} & \textbf{Total Tok.} & \textbf{Cost (\$)} & \textbf{Success (\%)} \\
 \midrule
-default-llm & scenario\_a & 15 & 16.71 & 18.67 & 0.0 & 0.0 & 0.0 & 0.00000 & 100.0\% \\
-default-llm & scenario\_b & 8 & 24.51 & 29.87 & 0.0 & 0.0 & 0.0 & 0.00000 & 100.0\% \\
-default-llm & scenario\_c & 1 & 48.12 & 48.12 & 0.0 & 0.0 & 0.0 & 0.00000 & 100.0\% \\
+llama3:latest & scenario\_a & 5 & 186500.70 & 224616.56 & 1597.0 & 560.4 & 2157.4 & 0.00000 & 100.0\% \\
+openai/gpt-oss-120b & scenario\_a & 6 & 2406.59 & 3962.39 & 1468.0 & 913.8 & 2381.8 & 0.00461 & 100.0\% \\
+openai/gpt-oss-20b & scenario\_a & 90 & 11308.16 & 29766.51 & 1493.1 & 910.9 & 2404.0 & 0.03460 & 100.0\% \\
+qwen/qwen3.8-27b & scenario\_a & 3 & 2118.15 & 2476.77 & 1655.7 & 635.3 & 2291.0 & 0.01160 & 100.0\% \\
+llama3:latest & scenario\_b & 4 & 306233.49 & 406083.84 & 2779.2 & 719.2 & 3498.5 & 0.00000 & 100.0\% \\
+openai/gpt-oss-120b & scenario\_b & 7 & 19084.51 & 41885.54 & 2837.6 & 1797.9 & 4635.4 & 0.01053 & 100.0\% \\
+openai/gpt-oss-20b & scenario\_b & 93 & 27105.19 & 46903.30 & 2688.5 & 1691.6 & 4380.1 & 0.06576 & 100.0\% \\
+qwen/qwen3.8-27b & scenario\_b & 2 & 23079.75 & 40970.57 & 3017.5 & 1623.5 & 4641.0 & 0.01782 & 100.0\% \\
+openai/gpt-oss-20b & scenario\_c & 2 & 26540.24 & 27897.95 & 3757.5 & 2232.5 & 5990.0 & 0.00190 & 100.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}

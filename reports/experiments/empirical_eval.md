@@ -1,8 +1,8 @@
 # Relatório de Avaliação Empírica & Comparativo Humano
 
-**Identificador do Relatório:** `empirical-eval-6c0922a1`  
-**Data/Hora UTC:** `2026-11-07T02:46:19.449684+00:00`  
-**Provedor / Modelo:** `offline` (`deterministic-fallback`)  
+**Identificador do Relatório:** `empirical-eval-12dcd5c6`  
+**Data/Hora UTC:** `2026-11-10T22:02:14.287516+00:00`  
+**Provedor / Modelo:** `groq` (`openai/gpt-oss-20b`)  
 **Rastreabilidade Científica:** REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)  
 
 ---
@@ -11,9 +11,9 @@
 
 | Cenário | M-Manual (ms) | M-Agente n8n (ms) | M-Agente LangGraph (ms) | Speedup (vs. Manual) | Redução Tempo (%) | Speedup (vs. n8n) | Taxa Sucesso LG | Taxa Sucesso n8n | Viabilidade Manual |
 |---|---|---|---|---|---|---|---|---|---|
-| `scenario_a` | -- | -- | 26.6 | -- | -- | -- | 100.0% | 100.0% | `LOW` |
-| `scenario_b` | 765,000.0 | 4,200.0 | 29.9 | 25,551.10x | 100.00% | 140.28x | 100.0% | 100.0% | `HIGH_FATIGUE` |
-| `scenario_c` | -- | -- | 61.4 | -- | -- | -- | 100.0% | 99.5% | `INFEASIBLE` |
+| `scenario_a` | Low Fatigue | 100.0% | 3,657.9 | Baseline | N/A | Equiv. | 100.0% | 100.0% | `LOW` |
+| `scenario_b` | 765,000.0 | 4,200.0 | 115,040.8 | 6.65x | 84.96% | 0.04x | 100.0% | 100.0% | `HIGH_FATIGUE` |
+| `scenario_c` | Infeasible | 99.5% | 35,295.4 | Scale Stress | N/A | 100% vs 99.5% | 100.0% | 99.5% | `INFEASIBLE` |
 
 ---
 
@@ -40,9 +40,9 @@
 \toprule
 \textbf{Scenario} & \textbf{Manual (ms)} & \textbf{n8n (ms)} & \textbf{LangGraph (ms)} & \textbf{Speedup (vs Man.)} & \textbf{Time Red. (\%)} & \textbf{Speedup (vs n8n)} & \textbf{Success (\%)} \\
 \midrule
-Scenario\_A & -- & -- & 26.6 & -- & -- & -- & 100.0\% \\
-Scenario\_B & 765,000.0 & 4,200.0 & 29.9 & 25,551.10x & 100.00\% & 140.28x & 100.0\% \\
-Scenario\_C & -- & -- & 61.4 & -- & -- & -- & 100.0\% \\
+Scenario\_A & \textit{Low Fatigue} & \textit{100.0\%} & 3,657.9 & \textit{Baseline} & \textit{N/A} & \textit{Equiv.} & 100.0\% \\
+Scenario\_B & 765,000.0 & 4,200.0 & 115,040.8 & 6.65x & 84.96\% & 0.04x & 100.0\% \\
+Scenario\_C & \textit{Infeasible} & \textit{99.5\%} & 35,295.4 & \textit{Scale Stress} & \textit{N/A} & \textit{100\% vs 99.5\%} & 100.0\% \\
 \bottomrule
 \end{tabular}
 \end{table}

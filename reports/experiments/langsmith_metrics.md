@@ -1,16 +1,22 @@
 # LangSmith Multi-Model Empirical Metrics Summary
 
 - **Project:** `REIC_WESAAC_code`
-- **Report ID:** `ls-report-e02a022a`
-- **Extracted At:** 2026-11-07T02:46:31.581659+00:00
-- **Total Runs Analyzed:** 24
+- **Report ID:** `ls-report-efc7fefd`
+- **Extracted At:** 2026-11-10T21:56:47.357993+00:00
+- **Total Runs Analyzed:** 212
 - **Status:** PASSED
 
 | Model | Scenario | Runs | Mean (ms) | Median (ms) | P95 (ms) | Prompt Tok. | Compl. Tok. | Total Tok. | Total Cost ($) | Success (%) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| `default-llm` | `scenario_a` | 15 | 16.71 | 16.75 | 18.67 | 0.0 | 0.0 | 0.0 | $0.00000 | 100.0% |
-| `default-llm` | `scenario_b` | 8 | 24.51 | 24.20 | 29.87 | 0.0 | 0.0 | 0.0 | $0.00000 | 100.0% |
-| `default-llm` | `scenario_c` | 1 | 48.12 | 48.12 | 48.12 | 0.0 | 0.0 | 0.0 | $0.00000 | 100.0% |
+| `llama3:latest` | `scenario_a` | 5 | 186500.70 | 187033.52 | 224616.56 | 1597.0 | 560.4 | 2157.4 | $0.00000 | 100.0% |
+| `openai/gpt-oss-120b` | `scenario_a` | 6 | 2406.59 | 2251.17 | 3962.39 | 1468.0 | 913.8 | 2381.8 | $0.00461 | 100.0% |
+| `openai/gpt-oss-20b` | `scenario_a` | 90 | 11308.16 | 3199.23 | 29766.51 | 1493.1 | 910.9 | 2404.0 | $0.03460 | 100.0% |
+| `qwen/qwen3.8-27b` | `scenario_a` | 3 | 2118.15 | 2207.65 | 2476.77 | 1655.7 | 635.3 | 2291.0 | $0.01160 | 100.0% |
+| `llama3:latest` | `scenario_b` | 4 | 306233.49 | 322023.35 | 406083.84 | 2779.2 | 719.2 | 3498.5 | $0.00000 | 100.0% |
+| `openai/gpt-oss-120b` | `scenario_b` | 7 | 19084.51 | 15750.28 | 41885.54 | 2837.6 | 1797.9 | 4635.4 | $0.01053 | 100.0% |
+| `openai/gpt-oss-20b` | `scenario_b` | 93 | 27105.19 | 27892.78 | 46903.30 | 2688.5 | 1691.6 | 4380.1 | $0.06576 | 100.0% |
+| `qwen/qwen3.8-27b` | `scenario_b` | 2 | 23079.75 | 23079.75 | 40970.57 | 3017.5 | 1623.5 | 4641.0 | $0.01782 | 100.0% |
+| `openai/gpt-oss-20b` | `scenario_c` | 2 | 26540.24 | 26540.24 | 27897.95 | 3757.5 | 2232.5 | 5990.0 | $0.00190 | 100.0% |
 
 ### Notes & Diagnostics
-- Successfully analyzed 24 runs across 3 model/scenario combinations.
+- Successfully analyzed 212 runs across 9 model/scenario combinations.

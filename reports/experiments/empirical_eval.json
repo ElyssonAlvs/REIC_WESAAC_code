@@ -1,12 +1,12 @@
 {
-  "report_id": "empirical-eval-6c0922a1",
-  "timestamp": "2026-11-07T02:46:19.449684+00:00",
-  "provider": "offline",
-  "model": "deterministic-fallback",
+  "report_id": "empirical-eval-12dcd5c6",
+  "timestamp": "2026-11-10T22:02:14.287516+00:00",
+  "provider": "groq",
+  "model": "openai/gpt-oss-20b",
   "comparisons": [
     {
       "scenario": "scenario_a",
-      "langgraph_time_ms": 26.65,
+      "langgraph_time_ms": 3657.88,
       "manual_time_ms": null,
       "n8n_agent_time_ms": null,
       "speedup_vs_manual": null,
@@ -22,12 +22,12 @@
     },
     {
       "scenario": "scenario_b",
-      "langgraph_time_ms": 29.94,
+      "langgraph_time_ms": 115040.75,
       "manual_time_ms": 765000.0,
       "n8n_agent_time_ms": 4200.0,
-      "speedup_vs_manual": 25551.1,
-      "time_reduction_vs_manual_pct": 100.0,
-      "speedup_vs_n8n": 140.28,
+      "speedup_vs_manual": 6.65,
+      "time_reduction_vs_manual_pct": 84.96,
+      "speedup_vs_n8n": 0.04,
       "langgraph_dag_violations": 0,
       "manual_dag_violations": 0,
       "n8n_dag_violations": 0,
@@ -51,7 +51,7 @@
     },
     {
       "scenario": "scenario_c",
-      "langgraph_time_ms": 61.39,
+      "langgraph_time_ms": 35295.4,
       "manual_time_ms": null,
       "n8n_agent_time_ms": null,
       "speedup_vs_manual": null,
@@ -67,6 +67,6 @@
     }
   ],
   "paper_citation": "REIC 2026 (SBC) / WESAAC 2025 (UFC Quixadá)",
-  "total_speedup_scenario_b": 25551.1,
+  "total_speedup_scenario_b": 6.65,
   "scale_stress_scenario_c_reliability": "LangGraph BDI 100.0% vs. n8n 99.5% vs. Manual Infeasibility"
 }
