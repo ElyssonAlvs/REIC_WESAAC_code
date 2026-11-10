@@ -491,11 +491,11 @@ def test_cli_security_audit_export_prefix(tmp_path: Path):
     try:
         exit_code = run_cli(["--security-audit", "--export-prefix", "cli_test_audit"])
         assert exit_code == 0
-        assert Path("reports/experiments/cli_test_audit.json").is_file()
-        assert Path("reports/experiments/cli_test_audit.md").is_file()
+        assert Path("reports/experiments/security_audit/cli_test_audit.json").is_file()
+        assert Path("reports/experiments/security_audit/cli_test_audit.md").is_file()
     finally:
-        Path("reports/experiments/cli_test_audit.json").unlink(missing_ok=True)
-        Path("reports/experiments/cli_test_audit.md").unlink(missing_ok=True)
+        Path("reports/experiments/security_audit/cli_test_audit.json").unlink(missing_ok=True)
+        Path("reports/experiments/security_audit/cli_test_audit.md").unlink(missing_ok=True)
 
 
 def test_cli_security_audit_output_path_traversal_returns_exit_code_1():

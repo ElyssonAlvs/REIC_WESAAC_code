@@ -608,7 +608,7 @@ def export_metrics_artifacts(
                 if not str(out_dir_path).startswith(str(repo_root)):
                     base_dir = out_dir_path
     else:
-        out_dir_path = (repo_root / "reports" / "experiments").resolve()
+        out_dir_path = (repo_root / "reports" / "experiments" / "telemetry").resolve()
 
     clean_base = base_filename
     for sfx in [".json", ".md", ".csv", ".tex"]:

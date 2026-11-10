@@ -864,14 +864,14 @@ def format_security_audit_markdown(report: SecuritySemanticAuditReport) -> str:
 def export_security_audit_artifacts(
     report: SecuritySemanticAuditReport,
     export_prefix: str,
-    output_dir: str = "reports/experiments",
+    output_dir: Optional[str] = None,
 ) -> dict[str, Path]:
     """Exports audit report artifacts (.json and .md) to disk with strict path containment checks.
 
     Args:
         report: SecuritySemanticAuditReport to export.
         export_prefix: Base filename prefix.
-        output_dir: Safe directory for exported artifacts (default: reports/experiments).
+        output_dir: Safe directory for exported artifacts (default: reports/experiments/security_audit).
 
     Returns:
         dict[str, Path]: Mapping of artifact extension to resolved Path.
@@ -888,8 +888,9 @@ def export_security_audit_artifacts(
     if clean_prefix.endswith(".json") or clean_prefix.endswith(".md"):
         clean_prefix = clean_prefix.rsplit(".", 1)[0]
 
-    json_rel = f"{output_dir}/{clean_prefix}.json"
-    md_rel = f"{output_dir}/{clean_prefix}.md"
+    target_dir = output_dir if output_dir is not None else "reports/experiments/security_audit"
+    json_rel = f"{target_dir}/{clean_prefix}.json"
+    md_rel = f"{target_dir}/{clean_prefix}.md"
 
     json_path = validate_safe_output_path(json_rel)
     md_path = validate_safe_output_path(md_rel)

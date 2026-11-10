@@ -491,7 +491,7 @@ def export_replication_artifacts(
             elif len(base_p.parts) > 1:
                 candidate = repo_root / f"{clean_base}{ext}"
             else:
-                candidate = repo_root / "reports" / "experiments" / f"{clean_base}{ext}"
+                candidate = repo_root / "reports" / "experiments" / "replication" / f"{clean_base}{ext}"
 
         safe_path = validate_safe_benchmark_path(candidate, base_dir=repo_root)
         safe_path.parent.mkdir(parents=True, exist_ok=True)

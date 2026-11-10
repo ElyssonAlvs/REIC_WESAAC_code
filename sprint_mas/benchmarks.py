@@ -628,7 +628,7 @@ def export_benchmark_artifacts(
         dict[str, Path]: Map of format identifier ('json', 'md', 'csv') to written Path.
     """
     repo_root = Path(__file__).resolve().parent.parent.resolve()
-    out_dir_path = Path(output_dir) if output_dir else Path("reports/experiments")
+    out_dir_path = Path(output_dir) if output_dir else Path("reports/experiments/benchmarks")
     if not out_dir_path.is_absolute():
         out_dir_path = (repo_root / out_dir_path).resolve()
     else:

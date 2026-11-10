@@ -582,7 +582,7 @@ def test_cli_sync_metrics_export_prefix(tmp_path):
 
     assert code == 0
     repo_root = Path(__file__).resolve().parent.parent
-    exp_dir = repo_root / "reports" / "experiments"
+    exp_dir = repo_root / "reports" / "experiments" / "telemetry"
     for ext in [".json", ".md", ".csv", ".tex"]:
         target = exp_dir / f"{prefix}{ext}"
         assert target.exists()

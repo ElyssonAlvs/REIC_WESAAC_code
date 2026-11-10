@@ -500,9 +500,9 @@ def test_cli_benchmark_export_prefix_saves_artifacts() -> None:
     prefix = "test_cli_bench_export_run"
     repo_root = Path(__file__).resolve().parent.parent
     expected_files = [
-        repo_root / f"reports/experiments/{prefix}.json",
-        repo_root / f"reports/experiments/{prefix}.md",
-        repo_root / f"reports/experiments/{prefix}.csv",
+        repo_root / f"reports/experiments/benchmarks/{prefix}.json",
+        repo_root / f"reports/experiments/benchmarks/{prefix}.md",
+        repo_root / f"reports/experiments/benchmarks/{prefix}.csv",
     ]
 
     try:

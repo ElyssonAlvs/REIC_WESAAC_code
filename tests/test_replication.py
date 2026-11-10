@@ -365,10 +365,10 @@ def test_cli_reproduce_paper_json_mode(capsys: pytest.CaptureFixture[str]) -> No
 
 
 def test_cli_reproduce_paper_export_prefix() -> None:
-    """When CLI runs --reproduce-paper with --export-prefix, saves all 4 artifacts under reports/experiments/."""
+    """When CLI runs --reproduce-paper with --export-prefix, saves all 4 artifacts under reports/experiments/replication/."""
     prefix = "test_cli_repl_artifacts"
     repo_root = Path(__file__).resolve().parent.parent
-    target_dir = repo_root / "reports" / "experiments"
+    target_dir = repo_root / "reports" / "experiments" / "replication"
 
     try:
         exit_code = run_cli([
