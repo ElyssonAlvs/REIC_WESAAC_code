@@ -24,7 +24,7 @@ flowchart LR
     end
 
     subgraph Reports["Camada 4: reports/"]
-        OUT["reports/experiments/empirical_eval.*<br/>(.json, .md, .csv, .tex)"]
+        OUT["reports/experiments/empirical/empirical_eval.*<br/>(.json, .md, .csv, .tex)"]
     end
 
     RAW --> EVAL_PY
@@ -137,6 +137,6 @@ for comp in report.comparisons:
 
 ### Execução via CLI:
 ```bash
-# Executa avaliação empírica formal e exporta artefatos em reports/experiments/
+# Executa avaliação empírica formal e exporta artefatos em reports/experiments/empirical/
 uv run python main.py --evaluate-human --scenarios a,b,c --runs 2 --export-prefix empirical_eval
 ```

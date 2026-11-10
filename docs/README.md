@@ -36,10 +36,12 @@ docs/
 │   └── 0017-separacao-execucao-publicacao-manifesto-thin-cli.md
 ├── papers/                   # 📚 Trabalhos Científicos de Referência (UFC Quixadá)
 │   ├── README.md             # Resumos, Autoria e Mapeamento Científico
-│   ├── WESAAC_2025_Agile_MultiAgent.pdf
-│   ├── REIC_2026_Metodologia_Agil_Multiagentes.pdf
-│   ├── wesaac_text.txt       # Transcrição Textual Completa
-│   └── reic_text.txt         # Transcrição Textual Completa
+│   ├── pdf/                  # Artigos Oficiais em PDF
+│   │   ├── WESAAC_2025_Agile_MultiAgent.pdf
+│   │   └── REIC_2026_Metodologia_Agil_Multiagentes.pdf
+│   └── text/                 # Transcrições Textuais Completas
+│       ├── wesaac_text.txt
+│       └── reic_text.txt
 └── guides/                   # 🎓 Guias Didáticos e Referência Prática
     └── GUIA_APRENDIZADO.md   # Guia Completo: Teoria BDI, Blackboard e Passo a Passo
 ```
@@ -72,8 +74,8 @@ Todas as decisões de design, migração e conformidade lógica estão registrad
 ## 📚 2. Trabalhos Científicos de Origem (Papers)
 O projeto reimplementa e expande duas publicações dos pesquisadores da **Universidade Federal do Ceará (UFC — Campus Quixadá)**:
 - 📖 [**Catálogo de Papers (`docs/papers/README.md`)**](./papers/README.md)
-  - **WESAAC 2025:** *Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints* ([PDF](./papers/WESAAC_2025_Agile_MultiAgent.pdf) | [Texto](./papers/wesaac_text.txt))
-  - **REIC 2026:** *Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints* ([PDF](./papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf) | [Texto](./papers/reic_text.txt))
+  - **WESAAC 2025:** *Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints* ([PDF](./papers/pdf/WESAAC_2025_Agile_MultiAgent.pdf) | [Texto](./papers/text/wesaac_text.txt))
+  - **REIC 2026:** *Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints* ([PDF](./papers/pdf/REIC_2026_Metodologia_Agil_Multiagentes.pdf) | [Texto](./papers/text/reic_text.txt))
 
 ---
 
@@ -113,7 +115,7 @@ Uma interface visual rica em HTML5 e TailwindCSS para exploração interativa do
   - Visualizador e simulador de fluxo do Grafo LangGraph
   - Linha do tempo e progresso do Roadmap em 14 fases (100% concluído)
   - Visualizador de código com comparativos estruturais
-  - Terminal interativo com filtragem por módulo dos 340 testes automatizados (100% OK)
+  - Terminal interativo com filtragem por módulo dos 343 testes automatizados (100% OK)
 
 ---
 

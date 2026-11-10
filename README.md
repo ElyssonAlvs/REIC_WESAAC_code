@@ -3,8 +3,8 @@
 > **Implementação rigorosa, auditável e tipada de um Sistema Multiagente (SMA) para automação e otimização do planejamento de sprints no Scrum, utilizando a stack LangGraph + LangChain + LangSmith.**
 
 Este repositório materializa a evolução prática e cientificamente auditável das propostas teóricas publicadas em:
-1. **WESAAC 2025:** [*Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints*](docs/papers/WESAAC_2025_Agile_MultiAgent.pdf) (19º Workshop-Escola de Sistemas de Agentes, seus Ambientes e Aplicações).
-2. **REIC 2026:** [*Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints*](docs/papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf) (Revista Eletrônica de Iniciação Científica em Computação, SBC).
+1. **WESAAC 2025:** [*Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints*](docs/papers/pdf/WESAAC_2025_Agile_MultiAgent.pdf) (19º Workshop-Escola de Sistemas de Agentes, seus Ambientes e Aplicações).
+2. **REIC 2026:** [*Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints*](docs/papers/pdf/REIC_2026_Metodologia_Agil_Multiagentes.pdf) (Revista Eletrônica de Iniciação Científica em Computação, SBC).
 
 Consulte o [**Catálogo de Papers Científicos**](docs/papers/README.md) para resumos, autoria (UFC Quixadá) e transcrições completas.
 
@@ -32,7 +32,12 @@ REIC-WESAAC/
 ├── reports/                # RELATÓRIOS & BENCHMARKS: Evidências científicas e comparativos
 │   ├── README.md           # Guia de governança de relatórios e separação de artefatos
 │   ├── published/          # Evidências oficiais congeladas para artigos (com manifest.json)
-│   └── experiments/        # Pacotes canônicos leves de replicação experimental
+│   └── experiments/        # Pacotes canônicos leves particionados em subpastas
+│       ├── benchmarks/     # Métricas temporais, taxa de aprovação e aciclicidade (A, B, C)
+│       ├── empirical/      # Confronto formal Humano vs n8n vs SMA e mitigação dev_C
+│       ├── telemetry/      # Telemetria empírica real agregada do LangSmith (212 runs)
+│       ├── replication/    # Orquestração experimental de 1 clique (bundle WESAAC/REIC)
+│       └── security_audit/ # Auditoria semântica e estrutural do Pentágono de Defesa
 ├── artifacts/              # EXECUÇÕES LOCAIS: Espaço de trabalho ad-hoc (ignorado no Git)
 │   ├── README.md           # Ciclo de vida de curadoria científica
 │   └── runs/               # Execuções locais isoladas por <run_id>
@@ -45,7 +50,9 @@ REIC-WESAAC/
 │   ├── adr/                # Architecture Decision Records (ADRs 0001 a 0017)
 │   │   └── README.md       # Catálogo unificado de decisões arquiteturais
 │   ├── papers/             # Artigos científicos de referência (PDFs e transcrições)
-│   │   └── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
+│   │   ├── README.md       # Resumos e mapeamento teórico (UFC Quixadá)
+│   │   ├── pdf/            # Artigos oficiais publicados (WESAAC 2025 e REIC 2026)
+│   │   └── text/           # Transcrições textuais integrais dos papers
 │   └── guides/             # Guias didáticos e pedagógicos
 │       └── GUIA_APRENDIZADO.md # Manual completo: Teoria BDI, Blackboard e LangGraph
 ├── main.py                 # THIN ENTRYPOINT: Ponto de entrada enxuto (~45 linhas)
@@ -88,9 +95,9 @@ Consulte o [**Catálogo Completo de ADRs (`docs/adr/README.md`)**](docs/adr/READ
 O projeto baseia-se diretamente nas pesquisas pioneiras desenvolvidas na **Universidade Federal do Ceará (UFC — Campus Quixadá)**:
 
 - 📕 **WESAAC 2025:** *Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints*  
-  [Visualizar PDF](docs/papers/WESAAC_2025_Agile_MultiAgent.pdf) &bull; [Transcrição Textual](docs/papers/wesaac_text.txt)
+  [Visualizar PDF](docs/papers/pdf/WESAAC_2025_Agile_MultiAgent.pdf) &bull; [Transcrição Textual](docs/papers/text/wesaac_text.txt)
 - 📕 **REIC 2026:** *Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints*  
-  [Visualizar PDF](docs/papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf) &bull; [Transcrição Textual](docs/papers/reic_text.txt)
+  [Visualizar PDF](docs/papers/pdf/REIC_2026_Metodologia_Agil_Multiagentes.pdf) &bull; [Transcrição Textual](docs/papers/text/reic_text.txt)
 
 Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub de Papers Científicos**](docs/papers/README.md).
 
@@ -109,12 +116,12 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | **Coleção Postman/Insomnia** | `docs/collections/` | **Sim** | Request Specs v2.1.0 com asserções JS (`pm.test`) para validação de endpoints e replicação. |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
 | **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0017). |
-| **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais e transcrições completas dos artigos WESAAC e REIC. |
+| **Artigos Científicos** | `docs/papers/` | **Sim** | PDFs originais em `pdf/` e transcrições textuais completas em `text/` dos artigos WESAAC e REIC. |
 | **Guia Didático de Aprendizado** | `docs/guides/GUIA_APRENDIZADO.md`| **Sim** | Referência pedagógica da transição teórica/prática (BDI e Blackboard). |
 | **Dashboard Interativo** | `docs/index.html` | **Sim** | Interface web com simulador de grafo e terminal de testes interativo. |
 | **Hub Central de Documentação** | `docs/README.md` | **Sim** | Ponto de entrada unificado para todos os manuais e relatórios técnicos. |
 | **Evidências Oficiais Publicadas** | `reports/published/reic-2026/` | **Sim** | Tabelas (.csv, .md, .tex), `manifest.json` congelado e `metrics.json` do artigo. |
-| **Relatórios Canônicos Leves** | `reports/experiments/` | **Sim** | Pacotes canônicos leves (`.json`, `.md`, `.csv`, `.tex`) versionados para reprodutibilidade científica. |
+| **Relatórios Canônicos Leves** | `reports/experiments/` | **Sim** | Pacotes canônicos leves em subpastas dedicadas (`benchmarks/`, `empirical/`, `telemetry/`, `replication/`, `security_audit/`) versionados para reprodutibilidade científica. |
 | **Execuções Locais de Trabalho** | `artifacts/runs/` | **Não** | Diretório ad-hoc ignorado pelo `.gitignore` para runs locais sem sujar o histórico. |
 | **Logs Brutos Pesados** | `reports/experiments/` | **Não** | Ignorados pelo `.gitignore` (`*.jsonl`, `*.log`) para evitar inchaço do repositório. |
 | **Chaves de API e Segredos** | `.env` | **Não** | Bloqueado pelo `.gitignore` (template de referência em `.env.example`). |

@@ -27,17 +27,47 @@ flowchart LR
 
 ---
 
-## 📁 Pacotes Canônicos Oficiais (`reports/experiments/`)
+## 📁 Organização Estruturada em Subpastas (`reports/experiments/`)
 
-O diretório `reports/experiments/` hospeda 5 suítes canônicas padronizadas geradas via CLI executiva (`main.py`):
+Para garantir modularidade, isolamento de escopo e evitar poluição na raiz de relatórios, o diretório `reports/experiments/` é particionado em 5 subpastas canônicas especializadas:
 
-| Prefixo do Pacote | Formatos Emitidos | Comando de Geração | Finalidade Científica e Escopo |
-|---|:---:|---|---|
-| **`benchmark.*`** | `.json`, `.md`, `.csv` | `uv run python main.py -b --offline-mock --export-prefix benchmark` | Métricas estatísticas de tempo (média, desvio padrão, mediana, P95), taxa de aprovação operacional (100%) e contagem de violações causais de DAG e capacidade FTE nos Cenários A, B e C. |
-| **`empirical_eval.*`** | `.json`, `.md`, `.csv`, `.tex` | `uv run python main.py -e --offline-mock --export-prefix empirical_eval` | Confronto formal entre os três paradigmas: Planejamento Manual humano (765s), n8n (4.2s) e SMA LangGraph. Calcula speedup ($\approx 182\times$), redução de tempo (99.45%) e validação da mitigação do gargalo qualitativo da Seção 6.3 do REIC 2026. |
-| **`replication_bundle.*`** | `.json`, `.md`, `.csv`, `.tex` | `uv run python main.py --reproduce-paper --offline-mock --export-prefix replication_bundle` | Orquestração experimental de 1 clique que executa em sequência: benchmarks A/B/C, avaliação empírica e auditoria do Pentágono de Defesa, atestando conformidade com WESAAC 2025 e REIC 2026. |
-| **`security_semantic_audit.*`** | `.json`, `.md` | `uv run python main.py --security-audit --export-prefix security_semantic_audit` | Auditoria estática e dinâmica de sub-segundo cobrindo os 5 pilares do Pentágono de Defesa Expandido, reflexão dinâmica de 26/26 modelos Pydantic v2 com `extra="forbid"`, teste de DFS tricromático iterativo anti-DoS e verificação científica 1:1. |
-| **`langsmith_metrics.*`** | `.json`, `.md`, `.csv`, `.tex` | `uv run python main.py --sync-metrics --export-prefix langsmith_metrics` | Extração programática de telemetria empírica via SDK do LangSmith (`Client.list_runs`), filtragem resiliente, agregações P95 interpoladas multi-modelo, custos em USD e tabela em LaTeX booktabs. |
+```
+reports/experiments/
+├── benchmarks/         # Métricas temporais, taxa de aprovação e aciclicidade (Cenários A, B e C)
+│   ├── benchmark.csv
+│   ├── benchmark.json
+│   └── benchmark.md
+├── empirical/          # Confronto experimental: M-Manual (765s) vs n8n (4.2s) vs SMA LangGraph
+│   ├── empirical_eval.csv
+│   ├── empirical_eval.json
+│   ├── empirical_eval.md
+│   └── empirical_eval.tex
+├── telemetry/          # Telemetria empírica real agregada via SDK do LangSmith (212 runs)
+│   ├── langsmith_metrics.csv
+│   ├── langsmith_metrics.json
+│   ├── langsmith_metrics.md
+│   └── langsmith_metrics.tex
+├── replication/        # Orquestração experimental de 1 clique (bundle de replicação WESAAC/REIC)
+│   ├── replication_bundle.csv
+│   ├── replication_bundle.json
+│   ├── replication_bundle.md
+│   └── replication_bundle.tex
+└── security_audit/     # Auditoria semântica e estrutural do Pentágono de Defesa Expandido
+    ├── security_semantic_audit.json
+    └── security_semantic_audit.md
+```
+
+### Tabela de Pacotes Canônicos e Comandos de Geração
+
+Os comandos da CLI executiva (`main.py`) exportam nativamente para as respectivas subpastas através de rotas contidas e protegidas contra *Path Traversal*:
+
+| Subpasta Dedicada | Pacote de Artefatos | Formatos | Comando CLI Recomendado | Finalidade Científica e Escopo |
+|---|---|:---:|---|---|
+| **`benchmarks/`** | `benchmark.*` | `.json`, `.md`, `.csv` | `uv run python main.py -b --offline-mock --export-prefix benchmark` | Estatísticas de tempo (média, desvio, P95), 100% taxa de aprovação e contagem zero de violações causais de DAG e FTE nos Cenários A, B e C. |
+| **`empirical/`** | `empirical_eval.*` | `.json`, `.md`, `.csv`, `.tex` | `uv run python main.py -e --offline-mock --export-prefix empirical_eval` | Confronto formal entre Planejamento Manual humano (765s), n8n (4.2s) e SMA LangGraph. Calcula speedup (> 25.000x em mock), redução de 99.45% no tempo e resolução do gargalo qualitativo (`dev_C` com 19 pts e teto `dev_D`). |
+| **`telemetry/`** | `langsmith_metrics.*` | `.json`, `.md`, `.csv`, `.tex` | `uv run python main.py --sync-metrics --export-prefix langsmith_metrics` | Extração programática de telemetria empírica via SDK do LangSmith (`Client.list_runs`), filtragem resiliente, agregações P95 interpoladas multi-modelo, custos em USD e tabela em LaTeX `booktabs`. |
+| **`replication/`** | `replication_bundle.*` | `.json`, `.md`, `.csv`, `.tex` | `uv run python main.py --reproduce-paper --offline-mock --export-prefix replication_bundle` | Orquestração de 1 clique executando benchmarks A/B/C, avaliação empírica e auditoria do Pentágono de Defesa, atestando conformidade integral com WESAAC 2025 e REIC 2026. |
+| **`security_audit/`** | `security_semantic_audit.*` | `.json`, `.md` | `uv run python main.py --security-audit --export-prefix security_semantic_audit` | Auditoria estática e dinâmica de sub-segundo cobrindo os 5 pilares do Pentágono de Defesa Expandido, reflexão de 27 modelos Pydantic v2 com `extra="forbid"`, teste de DFS tricromático iterativo anti-DoS e homologação 1:1. |
 
 ---
 

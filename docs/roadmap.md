@@ -17,7 +17,7 @@ flowchart LR
 ```
 
 - **Progresso Global:** 100% Concluído (14 de 14 Fases Homologadas).
-- **Suíte de Testes Automatizados:** 340 testes automatizados cobrindo 100% dos fluxos e regras de negócio.
+- **Suíte de Testes Automatizados:** 343 testes automatizados cobrindo 100% dos fluxos e regras de negócio.
 - **Portfólio de ADRs:** ADRs 0001 a 0017 formalizadas e auditadas.
 
 ---
@@ -44,5 +44,5 @@ flowchart LR
 ---
 
 ## 🏛️ Vínculo com a Literatura Científica
-- **WESAAC 2025:** *Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints* ([PDF](papers/WESAAC_2025_Agile_MultiAgent.pdf) | [Texto](papers/wesaac_text.txt))
-- **REIC 2026:** *Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints* ([PDF](papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf) | [Texto](papers/reic_text.txt))
+- **WESAAC 2025:** *Agile Methodology and AI in Multi-Agent Systems: An agent for planning and executing sprints* ([PDF](papers/pdf/WESAAC_2025_Agile_MultiAgent.pdf) | [Texto](papers/text/wesaac_text.txt))
+- **REIC 2026:** *Metodologia Ágil e IA em Sistemas Multiagentes: Avaliação Experimental de uma Arquitetura para Planejamento e Execução de Sprints* ([PDF](papers/pdf/REIC_2026_Metodologia_Agil_Multiagentes.pdf) | [Texto](papers/text/reic_text.txt))
