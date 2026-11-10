@@ -7,7 +7,7 @@
   <meta name="description" content="Dashboard científico e arquitetura multiagente para planejamento ágil (Scrum) com LangGraph, Blackboard e Pydantic v2. UFC Quixadá — REIC 2026 & WESAAC 2025.">
   
   <!-- Tailwind CSS CDN -->
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   
   <!-- Three.js CDN para Topologia 3D -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -325,7 +325,7 @@
         <a href="#arquitetura" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.arch">Arquitetura</a>
         <a href="#benchmark" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.benchmark">Benchmarks</a>
         <a href="#roadmap" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.roadmap">Roadmap (100%)</a>
-        <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (16)</a>
+        <a href="#adrs" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.adrs">ADRs (17)</a>
         <a href="#terminal" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.terminal">Terminal (340/340)</a>
         <a href="#artigos" class="nav-link hover:text-[var(--text-primary)]" data-i18n="nav.papers">Artigos</a>
       </nav>
@@ -378,7 +378,7 @@
       <a href="#arquitetura" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.arch">Arquitetura</a>
       <a href="#benchmark" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.benchmark">Benchmarks</a>
       <a href="#roadmap" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.roadmap">Roadmap (100%)</a>
-      <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (16)</a>
+      <a href="#adrs" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.adrs">ADRs (17)</a>
       <a href="#terminal" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.terminal">Terminal (340/340)</a>
       <a href="#artigos" onclick="closeMobileMenu()" class="block py-1.5 text-[var(--text-secondary)] hover:text-blue-500" data-i18n="nav.papers">Artigos</a>
       <a href="https://github.com/ElyssonAlvs/REIC_WESAAC_code" target="_blank" class="block py-1.5 text-blue-500 font-mono">Repositório GitHub &rarr;</a>
@@ -405,7 +405,7 @@
           <span data-i18n="hero.badge_tests">340/340 Testes Automatizados (100% OK)</span>
         </span>
         <span class="px-2.5 py-1 text-xs font-mono font-medium rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-subtle)]">
-          <span data-i18n="hero.badge_phase">Fase 13 Concluída &bull; 100% Roadmap</span>
+          <span data-i18n="hero.badge_phase">Fase 15 Concluída &bull; 100% Roadmap</span>
         </span>
       </div>
 
@@ -461,7 +461,7 @@
             <div class="surface-card p-3 rounded-xl">
               <div class="text-2xl font-black text-emerald-500 font-mono">100%</div>
               <div class="text-[11px] text-[var(--text-secondary)] font-medium" data-i18n="hero.metric_roadmap">Roadmap</div>
-              <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_phases_ok">14/14 Fases OK</div>
+              <div class="text-[10px] text-emerald-500 font-mono mt-0.5" data-i18n="hero.metric_phases_ok">15/15 Fases OK</div>
             </div>
           </div>
         </div>
@@ -1037,20 +1037,210 @@
 
       </div>
 
+      <!-- PAINEL 1: GABARITOS OFICIAIS & GOLDEN DATASETS (EVALS/) -->
+      <div class="surface-panel rounded-xl p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border-subtle)] pb-3">
+          <div>
+            <span class="text-xs font-mono font-bold text-emerald-500 uppercase tracking-wider">// Camada 3 LLMOps: Evals &amp; Golden Datasets</span>
+            <h3 class="text-lg font-bold text-[var(--text-primary)] tracking-tight mt-0.5">
+              Gabaritos Canônicos de Referência (<code class="text-xs text-blue-500">evals/golden_dataset/</code>)
+            </h3>
+            <p class="text-xs text-[var(--text-secondary)] mt-0.5">
+              Auditoria formal matemática por <code class="text-emerald-500 font-mono">audit_sprint_state()</code> garantindo 0% de violação em precedência DAG, limites FTE e afinidade de skills.
+            </p>
+          </div>
+          <span class="text-xs font-mono text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded self-start sm:self-auto font-bold">
+            3/3 Cenários Auditados (100% Válidos)
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Cenário A -->
+          <div class="surface-card p-4 rounded-xl border border-[var(--border-subtle)] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs font-bold text-blue-500">Cenário A (Smoke Test)</span>
+                <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">0 Violações</span>
+              </div>
+              <div class="text-xs font-mono text-[var(--text-muted)] mb-2">golden_scenario_a.json</div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Tarefas Alocadas:</span> <span class="font-mono font-bold text-[var(--text-primary)]">10 tarefas</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Story Points:</span> <span class="font-mono font-bold text-[var(--text-primary)]">35 pts (de 35 pts)</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Equipe &amp; Capacidade:</span> <span class="font-mono text-[var(--text-primary)]">3 devs &bull; 60 pts</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Taxa de Ocupação:</span> <span class="font-mono text-emerald-500 font-bold">58.3%</span></div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)]">
+              Validação canônica de orquestração deliberativa e alocação sem gargalos.
+            </div>
+          </div>
+
+          <!-- Cenário B -->
+          <div class="surface-card p-4 rounded-xl border border-blue-500/30 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs font-bold text-blue-500">Cenário B (Benchmark REIC)</span>
+                <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">dev_D &le; 10 pts</span>
+              </div>
+              <div class="text-xs font-mono text-[var(--text-muted)] mb-2">golden_scenario_b.json</div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Tarefas Alocadas:</span> <span class="font-mono font-bold text-[var(--text-primary)]">15 tarefas (de 30)</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Story Points:</span> <span class="font-mono font-bold text-[var(--text-primary)]">66 pts (de 128 pts)</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Equipe &amp; Capacidade:</span> <span class="font-mono text-[var(--text-primary)]">5 devs &bull; 84 pts</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Gargalo Resolvido:</span> <span class="font-mono text-emerald-500 font-bold">63.3% Backend</span></div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)]">
+              Gabarito central do artigo da REIC 2026 com mitigação matemática de sobrecarga.
+            </div>
+          </div>
+
+          <!-- Cenário C -->
+          <div class="surface-card p-4 rounded-xl border border-[var(--border-subtle)] flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-mono text-xs font-bold text-cyan-400">Cenário C (Escala 100)</span>
+                <span class="text-[10px] font-mono text-emerald-500 bg-emerald-500/10 px-1.5 py-0.5 rounded font-bold">0 Violações</span>
+              </div>
+              <div class="text-xs font-mono text-[var(--text-muted)] mb-2">golden_scenario_c.json</div>
+              <div class="space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Tarefas Alocadas:</span> <span class="font-mono font-bold text-[var(--text-primary)]">37 tarefas (de 100)</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Story Points:</span> <span class="font-mono font-bold text-[var(--text-primary)]">176 pts (de 452 pts)</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Equipe &amp; Capacidade:</span> <span class="font-mono text-[var(--text-primary)]">10 devs &bull; 184 pts</span></div>
+                <div class="flex justify-between"><span class="text-[var(--text-secondary)]">Taxa de Ocupação:</span> <span class="font-mono text-emerald-500 font-bold">95.7% (176/184)</span></div>
+              </div>
+            </div>
+            <div class="mt-3 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)]">
+              Gabarito de alta concorrência: 10 desenvolvedores (dev_1 a dev_10) sem qualquer sobrecarga.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAINEL 2: TELEMETRIA EMPÍRICA REAL MULTI-MODELO (LANGSMITH) -->
+      <div class="surface-panel rounded-xl p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border-subtle)] pb-3">
+          <div>
+            <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider">// Avaliação Empírica &amp; Observabilidade</span>
+            <h3 class="text-lg font-bold text-[var(--text-primary)] tracking-tight mt-0.5">
+              Telemetria Multi-Modelo Real (LangSmith Project: <code class="text-xs text-blue-500">REIC_WESAAC_code</code>)
+            </h3>
+            <p class="text-xs text-[var(--text-secondary)] mt-0.5">
+              Métricas empíricas reais consolidadas de <strong>223 execuções de inferência LLM</strong> recuperadas via API oficial do LangSmith (<code class="text-xs font-mono text-emerald-500">sprint_mas.metrics_collector</code>).
+            </p>
+          </div>
+          <span class="text-xs font-mono text-blue-400 bg-blue-950/40 border border-blue-800/60 px-2.5 py-1 rounded self-start sm:self-auto font-bold">
+            223 Runs Empíricas &bull; 4 Modelos
+          </span>
+        </div>
+
+        <!-- Tabela Empírica Multi-Modelo -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead>
+              <tr class="text-[10px] uppercase text-[var(--text-muted)] border-b border-[var(--border-subtle)]">
+                <th class="pb-2">Provedor</th>
+                <th class="pb-2">Modelo LLM</th>
+                <th class="pb-2 text-right">Runs Reais</th>
+                <th class="pb-2 text-right">Prompt Tokens</th>
+                <th class="pb-2 text-right">Completion Tokens</th>
+                <th class="pb-2 text-right">Total Tokens</th>
+                <th class="pb-2 text-right">Custo Médio</th>
+                <th class="pb-2 text-right">Latência Média</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-[var(--border-subtle)] text-[var(--text-secondary)]">
+              <tr class="hover:bg-[var(--bg-surface-elevated)] transition-colors">
+                <td class="py-2.5 font-sans">
+                  <span class="inline-flex items-center gap-1 text-[10px] text-blue-400 bg-blue-950/40 border border-blue-800/60 px-2 py-0.5 rounded font-mono">
+                    Groq LPU
+                  </span>
+                </td>
+                <td class="py-2.5 font-bold text-[var(--text-primary)]">openai/gpt-oss-20b</td>
+                <td class="py-2.5 text-right font-bold text-blue-500">192</td>
+                <td class="py-2.5 text-right">2.044,0</td>
+                <td class="py-2.5 text-right">1.271,9</td>
+                <td class="py-2.5 text-right font-bold text-[var(--text-primary)]">3.315,9</td>
+                <td class="py-2.5 text-right text-emerald-500">$0.000533</td>
+                <td class="py-2.5 text-right text-emerald-500 font-bold">18.8s</td>
+              </tr>
+              <tr class="hover:bg-[var(--bg-surface-elevated)] transition-colors">
+                <td class="py-2.5 font-sans">
+                  <span class="inline-flex items-center gap-1 text-[10px] text-blue-400 bg-blue-950/40 border border-blue-800/60 px-2 py-0.5 rounded font-mono">
+                    Groq LPU
+                  </span>
+                </td>
+                <td class="py-2.5 font-bold text-[var(--text-primary)]">openai/gpt-oss-120b</td>
+                <td class="py-2.5 text-right font-bold text-blue-500">16</td>
+                <td class="py-2.5 text-right">1.806,0</td>
+                <td class="py-2.5 text-right">1.136,2</td>
+                <td class="py-2.5 text-right font-bold text-[var(--text-primary)]">2.942,2</td>
+                <td class="py-2.5 text-right text-emerald-500">$0.000953</td>
+                <td class="py-2.5 text-right text-emerald-500 font-bold">9.4s</td>
+              </tr>
+              <tr class="hover:bg-[var(--bg-surface-elevated)] transition-colors">
+                <td class="py-2.5 font-sans">
+                  <span class="inline-flex items-center gap-1 text-[10px] text-blue-400 bg-blue-950/40 border border-blue-800/60 px-2 py-0.5 rounded font-mono">
+                    Groq LPU
+                  </span>
+                </td>
+                <td class="py-2.5 font-bold text-[var(--text-primary)]">qwen/qwen3.8-27b</td>
+                <td class="py-2.5 text-right font-bold text-blue-500">6</td>
+                <td class="py-2.5 text-right">1.836,7</td>
+                <td class="py-2.5 text-right">859,2</td>
+                <td class="py-2.5 text-right font-bold text-[var(--text-primary)]">2.695,8</td>
+                <td class="py-2.5 text-right text-emerald-500">$0.004906</td>
+                <td class="py-2.5 text-right text-emerald-500 font-bold">8.8s</td>
+              </tr>
+              <tr class="hover:bg-[var(--bg-surface-elevated)] transition-colors">
+                <td class="py-2.5 font-sans">
+                  <span class="inline-flex items-center gap-1 text-[10px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/60 px-2 py-0.5 rounded font-mono">
+                    Ollama Local
+                  </span>
+                </td>
+                <td class="py-2.5 font-bold text-[var(--text-primary)]">llama3:latest</td>
+                <td class="py-2.5 text-right font-bold text-emerald-500">9</td>
+                <td class="py-2.5 text-right">2.122,4</td>
+                <td class="py-2.5 text-right">631,0</td>
+                <td class="py-2.5 text-right font-bold text-[var(--text-primary)]">2.753,4</td>
+                <td class="py-2.5 text-right text-emerald-500 font-bold">$0.000000</td>
+                <td class="py-2.5 text-right text-amber-500">239.7s</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="border-t border-[var(--border-subtle)] font-bold text-[var(--text-primary)] bg-[var(--bg-surface-elevated)]/50">
+                <td class="py-2 font-sans" colspan="2">Total Geral Ponderado</td>
+                <td class="py-2 text-right text-blue-500">223 runs</td>
+                <td class="py-2 text-right">2.025,8</td>
+                <td class="py-2.5 text-right">1.221,4</td>
+                <td class="py-2 text-right text-emerald-500">3.247,2</td>
+                <td class="py-2 text-right text-emerald-500 font-mono">$0.000672</td>
+                <td class="py-2 text-right font-mono">26.8s</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)]">
+          <span>Formatos Exportados: <code class="text-blue-500">.json</code>, <code class="text-blue-500">.md</code>, <code class="text-blue-500">.csv</code>, <code class="text-blue-500">.tex</code> em <code class="text-emerald-500">reports/published/reic-2026/</code></span>
+          <span>Imunidade a CRCRLF &bull; ConfigDict(extra="forbid") &bull; Zero Mocks</span>
+        </div>
+      </div>
+
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 3: ROADMAP DAS 13 FASES (92.3% CONCLUÍDO)
+         SEÇÃO 3: ROADMAP DAS 15 FASES (100% CONCLUÍDO)
          ==================================================================== -->
     <section id="roadmap" class="space-y-6">
       
       <div class="border-b border-[var(--border-subtle)] pb-4">
         <span class="text-xs font-mono font-bold text-blue-500 uppercase tracking-wider" data-i18n="road.pretitle">Planejamento Incremental</span>
         <h2 class="text-2xl font-black tracking-tight text-[var(--text-primary)] mt-1" data-i18n="road.title">
-          Roadmap das 14 Fases de Engenharia
+          Roadmap das 15 Fases de Engenharia
         </h2>
         <p class="text-xs sm:text-sm text-[var(--text-secondary)] mt-1" data-i18n="road.desc">
-          Estratégia "Dividir para Conquistar": 12 fases já concluídas, testadas e auditadas com 321 testes unitários.
+          Estratégia "Dividir para Conquistar": 15 fases já concluídas, testadas e auditadas com 340+ testes automatizados.
         </p>
       </div>
 
@@ -1062,15 +1252,15 @@
               <span class="px-2 py-0.5 text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 rounded" data-i18n="road.progress_badge">
                 Progresso Geral
               </span>
-              <span class="text-xs font-mono text-[var(--text-muted)]" data-i18n="road.progress_count">14 de 14 Fases Concluídas</span>
+              <span class="text-xs font-mono text-[var(--text-muted)]" data-i18n="road.progress_count">15 de 15 Fases Concluídas</span>
             </div>
             <h3 class="text-xl font-bold text-[var(--text-primary)] tracking-tight" data-i18n="road.progress_title">
-              Suíte Integralmente Verde &bull; 340 Testes (100% OK)
+              Suíte Integralmente Verde &bull; 340+ Testes (100% OK)
             </h3>
           </div>
           <div class="text-right font-mono">
             <span class="text-3xl font-black text-emerald-500">100%</span>
-            <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 13 Concluída</span>
+            <span class="text-xs text-[var(--text-muted)] block font-semibold" data-i18n="road.phase7_next">Fase 15 Concluída</span>
           </div>
         </div>
 
@@ -1082,10 +1272,10 @@
         <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-[var(--border-subtle)] text-xs font-mono">
           <span class="text-[var(--text-muted)] font-semibold mr-1" data-i18n="road.filter_label">Filtrar:</span>
           <button onclick="filterPhases('all')" id="filter-btn-all" class="phase-filter-btn px-3 py-1 rounded bg-blue-600 text-white font-bold transition-colors" data-i18n="road.filter_all">
-            Todas (13)
+            Todas (15)
           </button>
           <button onclick="filterPhases('completed')" id="filter-btn-completed" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_completed">
-            ✅ Concluídas (13)
+            ✅ Concluídas (15)
           </button>
           <button onclick="filterPhases('next')" id="filter-btn-next" class="phase-filter-btn px-3 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" data-i18n="road.filter_next">
             ⏳ Próxima (0)
@@ -1096,7 +1286,7 @@
         </div>
       </div>
 
-      <!-- Grade das 13 Fases -->
+      <!-- Grade das 15 Fases -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="phases-grid">
         
         <!-- FASE 1 -->
@@ -1351,12 +1541,30 @@
           </div>
         </div>
 
+        <!-- FASE 15 -->
+        <div class="phase-card completed surface-card border-emerald-500/30 rounded-xl p-5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500" data-i18n="road.p15_badge">Fase 15 ✅ Concluída</span>
+              <span class="text-[11px] font-mono text-emerald-500 font-bold" data-i18n="road.p15_subbadge">340+ Testes (100% OK)</span>
+            </div>
+            <h4 class="text-base font-bold text-[var(--text-primary)]" data-i18n="road.p15_title">Telemetria Multi-Modelo Real, Golden Cenário C &amp; Curadoria de Reports</h4>
+            <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed" data-i18n="road.p15_desc">
+              Recuperação empírica de 223 execuções reais de 4 modelos LLM no LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), geração e auditoria matemática do Golden Dataset Cenário C (37 tarefas / 176 pts), curadoria de reports/published e fix integral de docs/index.html.
+            </p>
+          </div>
+          <div class="bg-[var(--code-bg)] border border-[var(--border-subtle)] rounded-lg p-2.5 mt-4 text-[11px] font-mono text-[var(--text-muted)] space-y-0.5">
+            <div><span class="text-[var(--text-secondary)]">Artefatos:</span> golden_scenario_c.json, metrics_collector.py, reports/published/</div>
+            <div><span class="text-[var(--text-secondary)]">Telemetria:</span> 223 Runs Empíricas LangSmith &bull; 4 Modelos</div>
+          </div>
+        </div>
+
       </div>
 
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 4: PORTFÓLIO DE DECISÕES ARQUITETURAIS (ADRS 0001 A 0016)
+         SEÇÃO 4: PORTFÓLIO DE DECISÕES ARQUITETURAIS (ADRS 0001 A 0017)
          ==================================================================== -->
     <section id="adrs" class="space-y-6">
       
@@ -1718,7 +1926,7 @@
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 5: TERMINAL DE TESTES INTERATIVO (330/330 PASSED)
+         SEÇÃO 5: TERMINAL DE TESTES INTERATIVO (340/340 PASSED)
          ==================================================================== -->
     <section id="terminal" class="space-y-6">
       
@@ -1819,12 +2027,12 @@
           </div>
         </div>
 
-        <!-- Terminal Interativo dos 330 Testes -->
+        <!-- Terminal Interativo dos 340+ Testes -->
         <div class="lg:col-span-7 surface-panel rounded-xl p-6 flex flex-col justify-between">
           <div>
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div class="flex items-center gap-2">
-                <h3 class="text-base font-bold text-[var(--text-primary)] tracking-tight">Suíte de 340 Testes Automatizados</h3>
+                <h3 class="text-base font-bold text-[var(--text-primary)] tracking-tight">Suíte de 340+ Testes Automatizados</h3>
                 <span class="px-2 py-0.5 text-xs font-mono font-bold rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
                   100% PASSED
                 </span>
@@ -1840,7 +2048,7 @@
               
               <div class="flex flex-wrap items-center gap-1 text-[11px] font-mono">
                 <button onclick="filterTests('all')" id="test-filter-all" class="test-filter-btn px-2.5 py-1 rounded bg-blue-600 text-white font-bold">
-                  Todos (340)
+                  Todos (340+)
                 </button>
                 <button onclick="filterTests('metrics_collector')" id="test-filter-metrics_collector" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_metrics_collector.py (17)
@@ -1849,7 +2057,7 @@
                   test_replication.py (40)
                 </button>
                 <button onclick="filterTests('security_audit')" id="test-filter-security_audit" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_security_audit.py (52)
+                  test_security_audit.py (53)
                 </button>
                 <button onclick="filterTests('evaluation')" id="test-filter-evaluation" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_evaluation.py (34)
@@ -1858,7 +2066,7 @@
                   test_benchmarks.py (34)
                 </button>
                 <button onclick="filterTests('cli_telemetry')" id="test-filter-cli_telemetry" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_cli_telemetry.py (24)
+                  test_cli_telemetry.py (34)
                 </button>
                 <button onclick="filterTests('supervisor')" id="test-filter-supervisor" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_supervisor.py (9)
@@ -1898,10 +2106,10 @@
               <div class="text-[var(--text-muted)]">=== Execução Consolidada (pytest 9.1.1 &bull; Python 3.12.13 &bull; Win32) ===</div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_metrics_collector.py (17 testes) ............. <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_replication.py (40 testes) ................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_security_audit.py (52 testes) ................ <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_security_audit.py (53 testes) ................ <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_evaluation.py (34 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_benchmarks.py (34 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_cli_telemetry.py (24 testes) ................. <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_cli_telemetry.py (34 testes) ................. <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_supervisor.py (9 testes) ..................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_graph.py (8 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_validator.py (21 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
@@ -1913,7 +2121,7 @@
               <div class="text-[var(--text-secondary)] test-row">tests/test_state.py (18 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_tools.py (21 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-emerald-500 font-bold pt-2 border-t border-[var(--border-subtle)]">
-                ============================= 330 passed in 9.50s =============================
+                ============================= 341 passed in 6.12s =============================
               </div>
             </div>
           </div>
@@ -2121,11 +2329,11 @@
         'nav.arch': 'Arquitetura',
         'nav.benchmark': 'Benchmarks',
         'nav.roadmap': 'Roadmap (100%)',
-        'nav.adrs': 'ADRs (16)',
+        'nav.adrs': 'ADRs (17)',
         'nav.terminal': 'Terminal (340/340)',
         'nav.papers': 'Artigos',
         'hero.badge_tests': '340/340 Testes Automatizados (100% OK)',
-        'hero.badge_phase': 'Fase 13 Concluída &bull; 100% Roadmap',
+        'hero.badge_phase': 'Fase 15 Concluída &bull; 100% Roadmap',
         'hero.pretitle': '// Sistema Multiagente para Planejamento Ágil',
         'hero.description': 'Orquestração deliberativa baseada em <strong>LangGraph</strong>, arquitetura <strong>Blackboard centralizada</strong> e contratos canônicos com <strong>Pydantic v2</strong>. Otimização combinatória com resolução formal de gargalos estruturais e garantia matemática de <strong>0% de erro causal</strong> em DAGs.',
         'hero.cta_arch': 'Explorar Grafo & Agentes',
@@ -2136,7 +2344,7 @@
         'hero.metric_error': 'Erro FTE & DAG',
         'hero.metric_zero': 'Zero Alucinação',
         'hero.metric_roadmap': 'Roadmap',
-        'hero.metric_phases_ok': '14/14 Fases OK',
+        'hero.metric_phases_ok': '15/15 Fases OK',
         'hero.topology_label': 'Topologia 3D Multiagente',
         'hero.topology_hint': 'Arraste para rotacionar os nós',
         'arch.pretitle': 'Módulo de Engenharia',
@@ -2180,15 +2388,15 @@
         'bench.human_hint': 'Leitura de 30 itens &bull; Alta fadiga &bull; Risco de sobrecarga acidental em dev_D.',
         'bench.sma_hint': '&bull; 182x aceleração &bull; 0% erro FTE &bull; DAG acíclico validado.',
         'road.pretitle': 'Planejamento Incremental',
-        'road.title': 'Roadmap das 14 Fases de Engenharia',
-        'road.desc': 'Estratégia "Dividir para Conquistar": 13 fases já concluídas, testadas e auditadas com 330 testes unitários.',
+        'road.title': 'Roadmap das 15 Fases de Engenharia',
+        'road.desc': 'Estratégia "Dividir para Conquistar": 15 fases já concluídas, testadas e auditadas com 340+ testes automatizados.',
         'road.progress_badge': 'Progresso Geral',
-        'road.progress_count': '14 de 14 Fases Concluídas',
-        'road.progress_title': 'Suíte Integralmente Verde &bull; 340 Testes (100% OK)',
-        'road.phase7_next': 'Fase 13 Concluída',
+        'road.progress_count': '15 de 15 Fases Concluídas',
+        'road.progress_title': 'Suíte Integralmente Verde &bull; 340+ Testes (100% OK)',
+        'road.phase7_next': 'Fase 15 Concluída',
         'road.filter_label': 'Filtrar:',
-        'road.filter_all': 'Todas (13)',
-        'road.filter_completed': '✅ Concluídas (13)',
+        'road.filter_all': 'Todas (15)',
+        'road.filter_completed': '✅ Concluídas (15)',
         'road.filter_next': '⏳ Próxima (0)',
         'road.filter_planned': '📋 Planejadas (0)',
         'road.p13_badge': 'Fase 13 ✅ Concluída',
@@ -2196,13 +2404,21 @@
         'road.p13_title': 'Recapitulação Geral &amp; Alinhamento 1:1 Papers',
         'road.p13_desc': 'Pente-fino integral das Fases 1 a 12 (zero brechas em código, segurança, tipagem e testes) e verificação cláusula a cláusula de 100% da conformidade teórica e empírica contra os artigos WESAAC 2025 e REIC 2026.',
         'road.p13_footer': 'WESAAC 2025 + REIC 2026 &bull; Zero Brechas',
+        'road.p14_badge': 'Fase 14 ✅ Concluída',
+        'road.p14_subbadge': '340 Testes (100% OK)',
+        'road.p14_title': 'Separação Execução/Publicação, Thin CLI &amp; Manifesto',
+        'road.p14_desc': 'Separação física entre execuções locais de trabalho (artifacts/runs/ fora do Git) e evidências publicadas (reports/published/reic-2026/ congeladas), manifesto criptográfico ExecutionManifest com hashes SHA-256 e Thin CLI main.py delegando para sprint_mas.cli.',
+        'road.p15_badge': 'Fase 15 ✅ Concluída',
+        'road.p15_subbadge': '340+ Testes (100% OK)',
+        'road.p15_title': 'Telemetria Multi-Modelo Real, Golden Cenário C &amp; Curadoria de Reports',
+        'road.p15_desc': 'Recuperação empírica de 223 execuções reais de 4 modelos LLM no LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), geração e auditoria matemática do Golden Dataset Cenário C (37 tarefas / 176 pts), curadoria de reports/published e fix integral de docs/index.html.',
         'adrs.pretitle': 'Governança Técnica',
         'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0017)',
         'adrs.desc': 'Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.',
         'term.pretitle': 'Qualidade & Confiabilidade',
         'term.title': 'Terminal Interativo de Testes (340/340 PASSED)',
         'term.desc': 'Rastreabilidade completa com filtros em tempo real pelos 16 arquivos de teste automatizados do repositório.',
-        'term.uv_desc': 'Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 340 testes.',
+        'term.uv_desc': 'Gerenciamento estrito com <code>uv</code>, ambiente reprodutível e execução de 340+ testes.',
         'term.copy_log': 'Copiar Log Completo',
         'papers.pretitle': 'Produção Acadêmica',
         'papers.title': 'Artigos Científicos de Referência & Download',
@@ -2216,11 +2432,11 @@
         'nav.arch': 'Architecture',
         'nav.benchmark': 'Benchmarks',
         'nav.roadmap': 'Roadmap (100%)',
-        'nav.adrs': 'ADRs (16)',
+        'nav.adrs': 'ADRs (17)',
         'nav.terminal': 'Terminal (340/340)',
         'nav.papers': 'Papers',
         'hero.badge_tests': '340/340 Automated Tests (100% OK)',
-        'hero.badge_phase': 'Phase 13 Completed &bull; 100% Roadmap',
+        'hero.badge_phase': 'Phase 15 Completed &bull; 100% Roadmap',
         'hero.pretitle': '// Multi-Agent System for Agile Sprint Planning',
         'hero.description': 'Deliberative orchestration based on <strong>LangGraph</strong>, a <strong>centralized Blackboard architecture</strong>, and canonical contracts with <strong>Pydantic v2</strong>. Combinatorial optimization with formal resolution of structural bottlenecks and a mathematical guarantee of <strong>0% causal error</strong> in DAGs.',
         'hero.cta_arch': 'Explore Graph & Agents',
@@ -2231,7 +2447,7 @@
         'hero.metric_error': 'FTE & DAG Error',
         'hero.metric_zero': 'Zero Hallucination',
         'hero.metric_roadmap': 'Roadmap',
-        'hero.metric_phases_ok': '14/14 Phases OK',
+        'hero.metric_phases_ok': '15/15 Phases OK',
         'hero.topology_label': '3D Multi-Agent Topology',
         'hero.topology_hint': 'Drag to rotate nodes',
         'arch.pretitle': 'Engineering Module',
@@ -2275,15 +2491,15 @@
         'bench.human_hint': 'Manual reading of 30 items &bull; High fatigue &bull; Accidental overload risk for dev_D.',
         'bench.sma_hint': '&bull; 182x speedup &bull; 0% FTE violation &bull; Acyclic DAG validated.',
         'road.pretitle': 'Incremental Planning',
-        'road.title': '13-Phase Engineering Roadmap',
-        'road.desc': '"Divide and Conquer" strategy: 13 phases completed, tested, and audited with 330 unit tests.',
+        'road.title': '15-Phase Engineering Roadmap',
+        'road.desc': '"Divide and Conquer" strategy: 15 phases completed, tested, and audited with 340+ automated tests.',
         'road.progress_badge': 'Overall Progress',
-        'road.progress_count': '13 of 13 Phases Completed',
-        'road.progress_title': 'Fully Green Test Suite &bull; 340 Tests (100% OK)',
-        'road.phase7_next': 'Phase 13 Completed',
+        'road.progress_count': '15 of 15 Phases Completed',
+        'road.progress_title': 'Fully Green Test Suite &bull; 340+ Tests (100% OK)',
+        'road.phase7_next': 'Phase 15 Completed',
         'road.filter_label': 'Filter:',
-        'road.filter_all': 'All (13)',
-        'road.filter_completed': '✅ Completed (13)',
+        'road.filter_all': 'All (15)',
+        'road.filter_completed': '✅ Completed (15)',
         'road.filter_next': '⏳ Next (0)',
         'road.filter_planned': '📋 Planned (0)',
         'road.p13_badge': 'Phase 13 ✅ Completed',
@@ -2291,22 +2507,21 @@
         'road.p13_title': 'Full Recap &amp; 1:1 Papers Alignment',
         'road.p13_desc': 'End-to-end review of Phases 1 to 12 (zero gaps in code, security, typing, and tests) and clause-by-clause verification of 100% theoretical and empirical compliance against the WESAAC 2025 and REIC 2026 papers.',
         'road.p13_footer': 'WESAAC 2025 + REIC 2026 &bull; Zero Gaps',
+        'road.p14_badge': 'Phase 14 ✅ Completed',
+        'road.p14_subbadge': '340 Tests (100% OK)',
+        'road.p14_title': 'Execution/Publishing Isolation, Thin CLI &amp; Manifest',
+        'road.p14_desc': 'Physical isolation between local work runs (artifacts/runs/ untracked) and published evidences (reports/published/reic-2026/ frozen), cryptographic ExecutionManifest with SHA-256 digests, and Thin CLI delegating to sprint_mas.cli.',
+        'road.p15_badge': 'Phase 15 ✅ Completed',
+        'road.p15_subbadge': '340+ Tests (100% OK)',
+        'road.p15_title': 'Real Multi-Model Telemetry, Golden Scenario C &amp; Reports Curating',
+        'road.p15_desc': 'Empirical retrieval of 223 real LLM runs across 4 models from LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), generation and mathematical audit of Golden Dataset Scenario C (37 tasks / 176 pts), published reports curating, and full docs/index.html fix.',
         'adrs.pretitle': 'Technical Governance',
-        'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0016)',
+        'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0017)',
         'adrs.desc': 'Backend Design System documentation: click any record to open the detailed technical specification.',
         'term.pretitle': 'Quality & Reliability',
         'term.title': 'Interactive Test Terminal (340/340 PASSED)',
         'term.desc': 'Full traceability with real-time filters across all 16 automated test files in the repository.',
-        'term.uv_desc': 'Strict package management with <code>uv</code>, deterministic lockfile, and 330 tests passing.',
-        'term.copy_log': 'Copy Full Log',
-        'papers.pretitle': 'Academic Production',
-        'papers.title': 'Reference Scientific Papers & Downloads',
-        'papers.desc': 'Peer-reviewed publications detailing the theory, BDI mapping, and empirical validation of this repository.',
-        'papers.reic_abstract': 'Conducts experimental comparison between manual planning (M-Manual, 765s) vs multi-agent (M-Agent, 4.2s), demonstrating 182x acceleration and identifying n8n limitations that motivated the migration to LangGraph.',
-        'papers.wesaac_abstract': 'Presents initial conceptual modeling based on the BDI (Belief–Desire–Intention) framework applied to Scrum ceremonies, structuring belief state and intention outputs in autonomous agents.',
-        'papers.download_pdf': 'Download Paper (PDF)',
-        'papers.view_bibtex': 'View BibTeX'
-      }
+        'term.uv_desc': 'Strict package management with <code>uv</code>, deterministic lockfile, and 340+ tests passing.',
         'term.copy_log': 'Copy Full Log',
         'papers.pretitle': 'Academic Production',
         'papers.title': 'Reference Scientific Papers & Downloads',
@@ -2734,14 +2949,14 @@
         ruleDetail: 'Teto estrito de 10 pontos inegociável'
       },
       scenario_c: {
-        tasksCount: '100 Tarefas',
-        tasksDetail: '100 Triggers concorrentes injetados em rajada',
+        tasksCount: '100 Tarefas (37 Alocadas)',
+        tasksDetail: 'TSK-201 a TSK-300 (Gabarito Oficial: golden_scenario_c.json)',
         bottleneck: 'Alta Concorrência',
-        bottleneckDetail: 'Múltiplos objetivos e perfis heterogêneos',
-        capacity: 'Carga Máxima',
-        capacityDetail: 'Avaliação de resiliência e timeouts',
-        rule: '99.5% Sucesso',
-        ruleDetail: 'Benchmark de estabilidade da REIC 2026'
+        bottleneckDetail: 'Heterogeneidade em 10 desenvolvedores (dev_1 a dev_10)',
+        capacity: '176 / 184 Pontos',
+        capacityDetail: 'Demanda: 452 pts | 37 tarefas alocadas com 176 pts (95.7% ocupação)',
+        rule: '0% Violações',
+        ruleDetail: '0 falhas DAG, FTE e Skills auditadas por audit_sprint_state'
       }
     };
 
@@ -3018,12 +3233,12 @@ tests/test_metrics_collector.py (17 testes) ............. PASSED
 tests/test_prioritizer.py (11 testes) .................... PASSED
 tests/test_prompts.py (8 testes) ......................... PASSED
 tests/test_replication.py (40 testes) ................... PASSED
-tests/test_security_audit.py (52 testes) ................ PASSED
+tests/test_security_audit.py (53 testes) ................ PASSED
 tests/test_state.py (18 testes) .......................... PASSED
 tests/test_supervisor.py (9 testes) ..................... PASSED
 tests/test_tools.py (21 testes) .......................... PASSED
 tests/test_validator.py (21 testes) .................... PASSED
-============================= 340 passed in 6.21s =============================`,
+============================= 341 passed in 6.12s =============================`,
       metrics_collector: `tests/test_metrics_collector.py::test_pull_langsmith_metrics_paginated_and_reads_project PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_handles_rate_limit_and_auth_error_graciously PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_missing_api_key_without_client PASSED

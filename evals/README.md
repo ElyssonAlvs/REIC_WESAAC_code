@@ -16,7 +16,7 @@ flowchart LR
 
     subgraph Evals["Camada 3: evals/ (Esta Camada)"]
         RUBRICS["rubricas.md<br/>(Regras de Aceitação & Severidade)"]
-        GOLDEN["golden_dataset/<br/>golden_scenario_a.json (35 pts)<br/>golden_scenario_b.json (66 pts)"]
+        GOLDEN["golden_dataset/<br/>golden_scenario_a.json (35 pts)<br/>golden_scenario_b.json (66 pts)<br/>golden_scenario_c.json (176 pts)"]
     end
 
     subgraph Engine["Motor de Avaliação"]
@@ -43,7 +43,8 @@ evals/
 ├── rubricas.md             # Especificação matemática das rubricas e critérios de severidade
 └── golden_dataset/         # Gabaritos de referência ótima (Ground Truth)
     ├── golden_scenario_a.json  # Gabarito Cenário A (Smoke Test: 10 tarefas, 35 pts)
-    └── golden_scenario_b.json  # Gabarito Cenário B (Gargalo Backend: 15 tarefas, 66 pts)
+    ├── golden_scenario_b.json  # Gabarito Cenário B (Gargalo Backend: 15 tarefas, 66 pts)
+    └── golden_scenario_c.json  # Gabarito Cenário C (Estresse & Escala: 37 tarefas, 176 pts)
 ```
 
 ---
@@ -96,6 +97,17 @@ Os gabaritos canônicos representam a alocação ótima matematicamente provada 
     - `dev_D` (Backend): **10.0 pts exatos** (`TSK-107`, `TSK-108`) — blindagem rigorosa do teto de 0.5 FTE.
     - `dev_E` (Frontend): 14.0 pts (`TSK-111`, `TSK-121`, `TSK-126`, `TSK-128`, `TSK-130`) — 70% de ocupação.
 
+### C. Cenário C — Estresse de Escala & Concorrência (`golden_scenario_c.json`)
+- **Backlog de Entrada:** 100 tarefas sintéticas (`TSK-201` a `TSK-300`) totalizando **452 Story Points brutos**.
+- **Equipe (10 Desenvolvedores / Capacidade Nominal: 184 pts):**
+  - Equipe multidisciplinar balanceada (`dev_01` a `dev_10`) abrangendo especialidades de `backend`, `frontend`, `fullstack` e `devops`, com disponibilidades fracionadas entre 0.7 e 1.0 FTE.
+- **Resultado Canônico Homologado (Pós Poda Determinística de Escopo):**
+  - **Tarefas Alocadas:** 37 tarefas prioritárias (respeitando cadeias causais estritas de dependências).
+  - **Story Points Totais:** **176 pontos** (utilização de 95,65% da capacidade da equipe em 184 pts).
+  - **Distribuição de Carga:** 10 desenvolvedores alocados sem sobrecarga, com cumprimento estrito das habilidades técnicas e dependências causais.
+  - **Violações Lógicas:** 0 violações de DAG de precedência, 0 violações de capacidade de FTE e 0 violações de afinidade de skills.
+  - **Resiliência Operacional:** Ausência de loops infinitos no Blackboard, estabilidade concorrente e contenção de estouro de memória em backlogs massivos.
+
 ---
 
 ## 🔬 3. Integração com `sprint_mas.evaluation`
@@ -107,7 +119,7 @@ from sprint_mas.evaluation import run_empirical_evaluation, EmpiricalEvaluationC
 
 # Execução empírica contra os gabaritos e baselines do paper
 config = EmpiricalEvaluationConfig(
-    scenarios=["scenario_a", "scenario_b"],
+    scenarios=["scenario_a", "scenario_b", "scenario_c"],
     runs=2,
     offline_mock=True,
 )
@@ -118,12 +130,13 @@ report = run_empirical_evaluation(config)
 for comp in report.comparisons:
     print(f"Cenário: {comp.scenario}")
     print(f"Acurácia contra Golden Dataset: {comp.golden_match_accuracy_pct}%")
-    print(f"Gargalo Mitigado: {comp.bottleneck_analysis.fullstack_mitigation_active}")
-    print(f"Teto dev_D Respeitado: {comp.bottleneck_analysis.dev_d_capacity_respected}")
+    if comp.bottleneck_analysis:
+        print(f"Gargalo Mitigado: {comp.bottleneck_analysis.fullstack_mitigation_active}")
+        print(f"Teto dev_D Respeitado: {comp.bottleneck_analysis.dev_d_capacity_respected}")
 ```
 
 ### Execução via CLI:
 ```bash
 # Executa avaliação empírica formal e exporta artefatos em reports/experiments/
-uv run python main.py --evaluate-human --scenarios a,b --runs 2 --export-prefix empirical_eval
+uv run python main.py --evaluate-human --scenarios a,b,c --runs 2 --export-prefix empirical_eval
 ```

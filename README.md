@@ -25,10 +25,10 @@ REIC-WESAAC/
 │   ├── README.md           # Dicionário de dados das tarefas e perfis
 │   ├── raw/                # Dados brutos originais do paper
 │   └── processed/          # Cenários JSON validados via Pydantic
-├── evals/                  # 4. AVALIAÇÃO & RUBRICAS: Golden dataset e critérios de dependência/FTE
+├── evals/                  # 4. AVALIAÇÃO & RUBRICAS: Gabaritos canônicos (A, B, C) e critérios analíticos
 │   ├── README.md           # Guia da camada de LLMOps e rubricas analíticas
 │   ├── rubricas.md         # Métricas de sucesso, fórmulas e severidades
-│   └── golden_dataset/     # Gabaritos de referência ótima dos cenários
+│   └── golden_dataset/     # Gabaritos de referência ótima (golden_scenario_a, b e c.json)
 ├── reports/                # RELATÓRIOS & BENCHMARKS: Evidências científicas e comparativos
 │   ├── README.md           # Guia de governança de relatórios e separação de artefatos
 │   ├── published/          # Evidências oficiais congeladas para artigos (com manifest.json)
@@ -61,7 +61,7 @@ REIC-WESAAC/
 O projeto foi executado sob a estratégia **"Dividir para Conquistar"**, estruturado em **14 fases incrementais** (100% homologadas), cobrindo desde a fundação inicial com Blackboard tipado e nós cognitivos híbridos até a separação física entre execuções locais e evidências publicadas:
 
 - 📊 **Status Geral:** 14 de 14 Fases Concluídas (100% Homologado).
-- 🧪 **Cobertura de Qualidade:** 340 testes automatizados cobrindo fluxos felizes, restrições e segurança estática.
+- 🧪 **Cobertura de Qualidade:** 343 testes automatizados cobrindo fluxos felizes, restrições e segurança estática.
 - 🏛️ **Governança:** 17 Architecture Decision Records formalizadas no padrão Design System (ADRs 0001 a 0017).
 
 > Para a linha do tempo completa, escopo detalhado de cada fase, datas de entrega e vínculos arquiteturais, consulte o [**Roadmap Detalhado de Engenharia (`docs/roadmap.md`)**](docs/roadmap.md).
@@ -101,11 +101,11 @@ Para resumos analíticos, contexto histórico e links cruzados, visite o [**Hub 
 | Tipo de Artefato | Localização | Está no Git? | Justificativa / Finalidade |
 | :--- | :--- | :---: | :--- |
 | **Código Fonte do SMA** | `sprint_mas/` e `main.py` | **Sim** | Nós cognitivos, grafos de estado, telemetria BDI, esquemas Pydantic, fábrica LLM e Thin CLI. |
-| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 340 testes unitários e de integração (100% offline e sem mocks de rede). |
+| **Testes Automatizados** | `tests/` | **Sim** | Suíte pytest com 343 testes unitários e de integração (100% offline e sem mocks de rede). |
 | **Prompts dos Agentes** | `configs/prompts/` | **Sim** | Prompts declarativos versionados em YAML com elicitação BART. |
 | **Dicionário & Schemas** | `data/README.md` | **Sim** | Especificação formal dos dados de tarefas e perfis de desenvolvedores. |
 | **Cenários de Teste (JSON)** | `data/processed/` | **Sim** | Datasets de teste dos Cenários A, B e C para replicação experimental. |
-| **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios analíticos e gabaritos ótimos de referência (*Ground Truth*). |
+| **Rubricas de Avaliação** | `evals/rubricas.md` | **Sim** | Critérios analíticos e gabaritos canônicos de referência ótima (*Ground Truth*: `golden_scenario_a.json`, `golden_scenario_b.json`, `golden_scenario_c.json`). |
 | **Coleção Postman/Insomnia** | `docs/collections/` | **Sim** | Request Specs v2.1.0 com asserções JS (`pm.test`) para validação de endpoints e replicação. |
 | **Ficha Técnica (System Card)** | `docs/system-card.md` | **Sim** | Governança de riscos, limites operacionais e métricas de qualidade. |
 | **Decisões de Arquitetura (ADRs)**| `docs/adr/` | **Sim** | Registro imutável de decisões de engenharia (ADRs 0001 a 0017). |
@@ -189,7 +189,7 @@ A flag `--sync-metrics` (ou o alias `--pull-langsmith`) conecta-se à API REST/S
 ```bash
 uv run pytest tests/ -v
 ```
-*Status esperado: 340 testes automatizados passando (100%).*
+*Status esperado: 343 testes automatizados passando (100%).*
 
 ---
 

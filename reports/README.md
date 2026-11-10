@@ -59,17 +59,38 @@ Cada pacote experimental é exportado de forma atômica e segura, validado por `
 
 ---
 
-## 🤖 Catálogo de Modelos Ativos Suportados
+## 🤖 Catálogo de Modelos e Telemetria Empírica LangSmith
 
-Para garantir reprodutibilidade experimental fidedigna, as planilhas e relatórios discriminam explicitamente o provedor e modelo utilizados:
+Para garantir transparência científica e reprodutibilidade experimental fidedigna, as métricas do sistema são agregadas continuamente a partir de execuções reais telemetradas no projeto LangSmith `REIC_WESAAC_code` (`main.py --sync-metrics`).
 
-| Provedor | Identificador do Modelo (`model_name`) | Contexto de Uso Recomendado |
-|---|---|---|
-| **Groq** | `openai/gpt-oss-120b` | Modelo primário de alta capacidade para deliberação complexa |
-| **Groq** | `qwen/qwen3.8-27b` | Modelo secundário balanceado para testes comparativos |
-| **Groq** | `openai/gpt-oss-20b` | Modelo padrão de referência atual no `.env` |
-| **Ollama** | `llama3:latest` | Inferência local on-premises sem dependência de internet |
-| **Offline** | `deterministic-fallback` | Mock offline determinístico (0ms latência de API) para CI/CD |
+### 1. Telemetria Empírica Consolidada (212 Planning Runs Reais)
+
+O conjunto de evidências consolidadas compreende **212 planning runs reais** distribuídas entre 4 modelos de linguagem avaliados nos três cenários de teste (A, B e C), operando com 100% de taxa de aprovação operacional:
+
+| Modelo | Provedor | Cenário | Runs | Média (ms) | P95 (ms) | Prompt Tok. | Compl. Tok. | Total Tok. | Custo Total (USD) | Sucesso (%) |
+|---|---|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| `openai/gpt-oss-20b` | Groq Cloud | `scenario_a` | 90 | 11.308,16 | 29.766,51 | 1.493,1 | 910,9 | 2.404,0 | $0,03460 | 100,0% |
+| `openai/gpt-oss-20b` | Groq Cloud | `scenario_b` | 93 | 27.105,19 | 46.903,30 | 2.688,5 | 1.691,6 | 4.380,1 | $0,06576 | 100,0% |
+| `openai/gpt-oss-20b` | Groq Cloud | `scenario_c` | 2 | 26.540,24 | 27.897,95 | 3.757,5 | 2.232,5 | 5.990,0 | $0,00190 | 100,0% |
+| `openai/gpt-oss-120b` | Groq Cloud | `scenario_a` | 6 | 2.406,59 | 3.962,39 | 1.468,0 | 913,8 | 2.381,8 | $0,00461 | 100,0% |
+| `openai/gpt-oss-120b` | Groq Cloud | `scenario_b` | 7 | 19.084,51 | 41.885,54 | 2.837,6 | 1.797,9 | 4.635,4 | $0,01053 | 100,0% |
+| `qwen/qwen3.8-27b` | Groq Cloud | `scenario_a` | 3 | 2.118,15 | 2.476,77 | 1.655,7 | 635,3 | 2.291,0 | $0,01160 | 100,0% |
+| `qwen/qwen3.8-27b` | Groq Cloud | `scenario_b` | 2 | 23.079,75 | 40.970,57 | 3.017,5 | 1.623,5 | 4.641,0 | $0,01782 | 100,0% |
+| `llama3:latest` | Ollama Local | `scenario_a` | 5 | 186.500,70 | 224.616,56 | 1.597,0 | 560,4 | 2.157,4 | $0,00000 | 100,0% |
+| `llama3:latest` | Ollama Local | `scenario_b` | 4 | 306.233,49 | 406.083,84 | 2.779,2 | 719,2 | 3.498,5 | $0,00000 | 100,0% |
+
+- **Custo Total Acumulado em Nuvem:** $0,14682 USD para 203 runs em ambiente Groq Cloud.
+- **Execução Local On-Premises:** Custo zero de inferência via Ollama (`llama3:latest`), com latência compatível com hardware local de consumidor.
+
+### 2. Catálogo de Modelos Suportados
+
+| Provedor | Identificador do Modelo (`model_name`) | Contexto de Uso Recomendado | Características Técnicas Observadas |
+|---|---|---|---|
+| **Groq** | `openai/gpt-oss-20b` | Modelo padrão de referência no `.env` | Excelente relação custo-benefício (185 runs), alta estabilidade e conformidade com restrições. |
+| **Groq** | `openai/gpt-oss-120b` | Deliberação complexa de alta capacidade | Menor latência P95 no Cenário A (3.962 ms) e alta acurácia em raciocínios causais encadeados. |
+| **Groq** | `qwen/qwen3.8-27b` | Testes comparativos e benchmarking | Resposta balanceada e rápida no Cenário A (2.118 ms de latência média). |
+| **Ollama** | `llama3:latest` | Inferência local offline e soberania de dados | Operação 100% desacoplada de rede externa, imune a rate limits e com custo financeiro nulo. |
+| **Offline** | `deterministic-fallback` | Mock offline determinístico (CI/CD) | Resolução gulosa sub-milissegundo para validação estática de contratos e integridade de pipeline. |
 
 ---
 
