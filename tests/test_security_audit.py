@@ -347,6 +347,30 @@ def test_golden_scenario_b_audit_conformance():
     assert allocated["dev_E"] == 14  # 1.0 FTE (max 20.0 pts)
 
 
+def test_golden_scenario_c_audit_conformance():
+    """Validates that golden_scenario_c.json passes audit_sprint_state with 0 violations, 37 tasks, and 176 pts."""
+    golden_path = Path("evals/golden_dataset/golden_scenario_c.json")
+    assert golden_path.is_file()
+
+    with open(golden_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    _, team = load_scenario("scenario_c")
+    state = {
+        "team": team,
+        "prioritized_tasks": data["tasks"],
+        "allocations": data["allocations"],
+    }
+
+    report = audit_sprint_state(state)
+    assert report.is_valid is True
+    assert report.is_feasible is True
+    assert len(report.violations) == 0
+    assert data["total_points"] == 176
+    assert len(data["tasks"]) == 37
+    assert len(data["allocations"]) == 37
+
+
 def test_verify_semantic_alignment_execution():
     """Validates verify_semantic_alignment across templates and topological DAGs."""
     res = verify_semantic_alignment()

@@ -504,17 +504,20 @@ def probe_path_traversal() -> SecurityProbeResult:
 
 
 def verify_golden_datasets() -> SemanticAlignmentResult:
-    """Verifies that golden_scenario_a.json and golden_scenario_b.json pass audit_sprint_state with 0 violations."""
+    """Verifies that golden_scenario_a.json, golden_scenario_b.json, and golden_scenario_c.json pass audit_sprint_state with 0 violations."""
     violations: list[str] = []
     golden_dir = Path(__file__).resolve().parent.parent / "evals" / "golden_dataset"
 
     path_a = golden_dir / "golden_scenario_a.json"
     path_b = golden_dir / "golden_scenario_b.json"
+    path_c = golden_dir / "golden_scenario_c.json"
 
     if not path_a.is_file():
         violations.append(f"Missing golden dataset file: '{path_a}'.")
     if not path_b.is_file():
         violations.append(f"Missing golden dataset file: '{path_b}'.")
+    if not path_c.is_file():
+        violations.append(f"Missing golden dataset file: '{path_c}'.")
 
     if violations:
         return SemanticAlignmentResult(
@@ -558,9 +561,26 @@ def verify_golden_datasets() -> SemanticAlignmentResult:
     except Exception as exc:
         violations.append(f"Scenario B exception: {exc}")
 
+    # Validate Scenario C
+    try:
+        _, team_c = load_scenario("scenario_c")
+        with open(path_c, "r", encoding="utf-8") as f:
+            data_c = json.load(f)
+        rep_c = audit_sprint_state(
+            state={"team": team_c, "prioritized_tasks": data_c["tasks"], "allocations": data_c["allocations"]}
+        )
+        if not rep_c.is_valid:
+            violations.extend([f"Scenario C: {v}" for v in rep_c.violations])
+        if data_c.get("total_points") != 176:
+            violations.append(f"Scenario C total_points expected 176, got {data_c.get('total_points')}")
+        if len(data_c.get("tasks", [])) != 37:
+            violations.append(f"Scenario C task count expected 37, got {len(data_c.get('tasks', []))}")
+    except Exception as exc:
+        violations.append(f"Scenario C exception: {exc}")
+
     passed = len(violations) == 0
     details = (
-        "Golden datasets A (35 pts, 10 tasks) and B (66 pts, 15 tasks) validated. Zero audit violations."
+        "Golden datasets A (35 pts, 10 tasks), B (66 pts, 15 tasks) and C (176 pts, 37 tasks) validated. Zero audit violations."
         if passed
         else f"Golden dataset semantic alignment violations detected: {len(violations)}."
     )

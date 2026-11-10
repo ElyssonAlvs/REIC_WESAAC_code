@@ -1,0 +1,637 @@
+{
+  "sprint_name": "Sprint 1 - Cenário C Golden Baseline (Stress & Scalability Test)",
+  "sprint_goal": "Deliver prioritized and feasible enterprise sprint backlog for Stress Test Scenario C respecting DAG dependencies, skill affinities and developer FTE capacities.",
+  "total_points": 176,
+  "summary": "Gabarito canônico formalmente viável para o Cenário C (Stress & Scalability Test: 100 tarefas, 10 desenvolvedores dev_01 a dev_10 com capacidade de 184 pts) conforme artigos WESAAC 2025 e REIC 2026. Aloca 37 tarefas totalizando exatamente 176 story points com 0 violações de precedência causal de DAG, capacidade FTE e afinidades técnicas.",
+  "tasks": [
+    {
+      "id": "TSK-206",
+      "title": "Pipeline de telemetria e logs 06",
+      "description": "Coleta centralizada de logs com OpenTelemetry.",
+      "story_points": 5,
+      "skill_required": "devops",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-201",
+      "title": "Setup de arquitetura base 01",
+      "description": "Estruturação de módulos e configurações essenciais.",
+      "story_points": 3,
+      "skill_required": "devops",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-202",
+      "title": "Setup de banco de dados e migrações 02",
+      "description": "Criação de esquemas para tabelas de domínio.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-201"
+      ]
+    },
+    {
+      "id": "TSK-203",
+      "title": "Implementação de serviço de autenticação 03",
+      "description": "Gestão de identidade e controle de sessão.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-202"
+      ]
+    },
+    {
+      "id": "TSK-212",
+      "title": "Gateway de pagamentos via Cartão 12",
+      "description": "Tokenização segura de cartões e split de pagamentos.",
+      "story_points": 8,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-203"
+      ]
+    },
+    {
+      "id": "TSK-207",
+      "title": "API de catálogos de produtos 07",
+      "description": "Serviço com paginação e busca indexada.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-202"
+      ]
+    },
+    {
+      "id": "TSK-211",
+      "title": "Gateway de pagamentos via PIX 11",
+      "description": "Geração dinâmica de QR code e webhooks de confirmação.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-203"
+      ]
+    },
+    {
+      "id": "TSK-204",
+      "title": "Design system e componentes UI 04",
+      "description": "Biblioteca básica de botões, inputs e modais.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 1,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-208",
+      "title": "Tela de vitrine de produtos 08",
+      "description": "Interface web de listagem de itens e cards.",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-204"
+      ]
+    },
+    {
+      "id": "TSK-209",
+      "title": "Módulo de carrinho de compras 09",
+      "description": "Persistência do estado do carrinho no Redis.",
+      "story_points": 5,
+      "skill_required": "fullstack",
+      "priority": 1,
+      "dependencies": [
+        "TSK-207",
+        "TSK-208"
+      ]
+    },
+    {
+      "id": "TSK-210",
+      "title": "Engine de cálculo de taxas e frete 10",
+      "description": "Cálculo baseado em CEP e dimensões de pacotes.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-209"
+      ]
+    },
+    {
+      "id": "TSK-205",
+      "title": "Integração tela de login 05",
+      "description": "Fluxo de login integrado com API de tokens.",
+      "story_points": 2,
+      "skill_required": "frontend",
+      "priority": 1,
+      "dependencies": [
+        "TSK-203",
+        "TSK-204"
+      ]
+    },
+    {
+      "id": "TSK-214",
+      "title": "Serviço de emissão de nota fiscal 14",
+      "description": "Comunicação com SEFAZ para autorização de NF-e.",
+      "story_points": 8,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-211"
+      ]
+    },
+    {
+      "id": "TSK-221",
+      "title": "Configuração de cluster Kubernetes 21",
+      "description": "Provisionamento de nós e ingress controller.",
+      "story_points": 8,
+      "skill_required": "devops",
+      "priority": 2,
+      "dependencies": [
+        "TSK-201"
+      ]
+    },
+    {
+      "id": "TSK-213",
+      "title": "Interface de checkout com multi-pagamento 13",
+      "description": "Seleção entre PIX, boleto e cartão de crédito.",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-211",
+        "TSK-212"
+      ]
+    },
+    {
+      "id": "TSK-215",
+      "title": "Módulo de controle de estoque 15",
+      "description": "Reserva temporária de itens durante checkout.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-207"
+      ]
+    },
+    {
+      "id": "TSK-216",
+      "title": "Painel administrativo de inventário 16",
+      "description": "Dashboard para reposição e alerta de ruptura.",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-215"
+      ]
+    },
+    {
+      "id": "TSK-219",
+      "title": "Aplicativo mobile - Tela inicial 19",
+      "description": "Home screen em React Native / Flutter.",
+      "story_points": 5,
+      "skill_required": "mobile",
+      "priority": 2,
+      "dependencies": [
+        "TSK-207"
+      ]
+    },
+    {
+      "id": "TSK-220",
+      "title": "Aplicativo mobile - Fluxo de compra 20",
+      "description": "Carrinho e finalização no aplicativo móvel.",
+      "story_points": 8,
+      "skill_required": "mobile",
+      "priority": 2,
+      "dependencies": [
+        "TSK-219",
+        "TSK-213"
+      ]
+    },
+    {
+      "id": "TSK-223",
+      "title": "Implementação de data lake em S3 23",
+      "description": "Armazenamento de eventos brutos de navegação.",
+      "story_points": 5,
+      "skill_required": "data",
+      "priority": 2,
+      "dependencies": [
+        "TSK-206"
+      ]
+    },
+    {
+      "id": "TSK-224",
+      "title": "Pipeline ETL com Apache Spark 24",
+      "description": "Consolidação de métricas de vendas horárias.",
+      "story_points": 8,
+      "skill_required": "data",
+      "priority": 2,
+      "dependencies": [
+        "TSK-223"
+      ]
+    },
+    {
+      "id": "TSK-226",
+      "title": "Refatoração de API de autenticação para OAuth2 26",
+      "description": "Suporte a login social via Google e Apple.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-203"
+      ]
+    },
+    {
+      "id": "TSK-217",
+      "title": "Serviço de processamento de filas de e-mail 17",
+      "description": "Disparo assíncrono de e-mails transacionais.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-201"
+      ]
+    },
+    {
+      "id": "TSK-225",
+      "title": "Dashboard executivo em Metabase 25",
+      "description": "Visualização de conversão e ticket médio.",
+      "story_points": 3,
+      "skill_required": "data",
+      "priority": 2,
+      "dependencies": [
+        "TSK-224"
+      ]
+    },
+    {
+      "id": "TSK-227",
+      "title": "Autenticação social no frontend 27",
+      "description": "Botões e callback handler de login social.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-226"
+      ]
+    },
+    {
+      "id": "TSK-229",
+      "title": "Otimização de tempo de carregamento no frontend 29",
+      "description": "Code splitting e lazy loading de imagens.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 2,
+      "dependencies": [
+        "TSK-208"
+      ]
+    },
+    {
+      "id": "TSK-230",
+      "title": "Setup de CDN Cloudflare 30",
+      "description": "Configuração de regras de cache e proteção DDoS.",
+      "story_points": 3,
+      "skill_required": "devops",
+      "priority": 2,
+      "dependencies": [
+        "TSK-229"
+      ]
+    },
+    {
+      "id": "TSK-241",
+      "title": "Rotinas de conciliação bancária 41",
+      "description": "Comparação de extratos OFX com lançamentos internos.",
+      "story_points": 8,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": [
+        "TSK-212"
+      ]
+    },
+    {
+      "id": "TSK-231",
+      "title": "Módulo de cupons e promoções 31",
+      "description": "Engine de validação de regras de desconto.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": [
+        "TSK-207"
+      ]
+    },
+    {
+      "id": "TSK-235",
+      "title": "Serviço de geolocalização e lojas físicas 35",
+      "description": "Busca por raio de proximidade de estoque local.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": [
+        "TSK-207"
+      ]
+    },
+    {
+      "id": "TSK-236",
+      "title": "Retirada na loja física (Click & Collect) 36",
+      "description": "Opção no checkout para retirada em ponto físico.",
+      "story_points": 5,
+      "skill_required": "fullstack",
+      "priority": 3,
+      "dependencies": [
+        "TSK-235",
+        "TSK-213"
+      ]
+    },
+    {
+      "id": "TSK-242",
+      "title": "Painel de financeiro e estornos 42",
+      "description": "Interface para operadores emitirem chargebacks e estornos.",
+      "story_points": 5,
+      "skill_required": "frontend",
+      "priority": 3,
+      "dependencies": [
+        "TSK-241"
+      ]
+    },
+    {
+      "id": "TSK-243",
+      "title": "Exportação contábil para ERP 43",
+      "description": "Geração de layout padrão para integração com SAP/Totvs.",
+      "story_points": 5,
+      "skill_required": "backend",
+      "priority": 3,
+      "dependencies": [
+        "TSK-241"
+      ]
+    },
+    {
+      "id": "TSK-237",
+      "title": "Interface de acompanhamento de entrega 37",
+      "description": "Linha do tempo de status de despacho e tracking.",
+      "story_points": 3,
+      "skill_required": "frontend",
+      "priority": 3,
+      "dependencies": []
+    },
+    {
+      "id": "TSK-232",
+      "title": "Interface para aplicação de cupons 32",
+      "description": "Input no checkout com feedback imediato de desconto.",
+      "story_points": 2,
+      "skill_required": "frontend",
+      "priority": 3,
+      "dependencies": [
+        "TSK-231",
+        "TSK-213"
+      ]
+    },
+    {
+      "id": "TSK-269",
+      "title": "Implementação de Webhook para status de pagamentos 69",
+      "description": "Disponibilização de endpoint seguro para terceiros.",
+      "story_points": 3,
+      "skill_required": "backend",
+      "priority": 4,
+      "dependencies": [
+        "TSK-212"
+      ]
+    },
+    {
+      "id": "TSK-271",
+      "title": "Implementar Dark Mode no website 71",
+      "description": "Tokens CSS para tema escuro com toggle persistido.",
+      "story_points": 2,
+      "skill_required": "frontend",
+      "priority": 5,
+      "dependencies": [
+        "TSK-204"
+      ]
+    }
+  ],
+  "allocations": [
+    {
+      "task_id": "TSK-206",
+      "developer_id": "dev_08",
+      "reason": "Desenvolvedor 'dev_08' alocado por correspondência de habilidade (devops) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-201",
+      "developer_id": "dev_08",
+      "reason": "Desenvolvedor 'dev_08' alocado por correspondência de habilidade (devops) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-202",
+      "developer_id": "dev_01",
+      "reason": "Desenvolvedor 'dev_01' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-203",
+      "developer_id": "dev_02",
+      "reason": "Desenvolvedor 'dev_02' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-212",
+      "developer_id": "dev_06",
+      "reason": "Desenvolvedor 'dev_06' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 8
+    },
+    {
+      "task_id": "TSK-207",
+      "developer_id": "dev_03",
+      "reason": "Desenvolvedor 'dev_03' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-211",
+      "developer_id": "dev_01",
+      "reason": "Desenvolvedor 'dev_01' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-204",
+      "developer_id": "dev_04",
+      "reason": "Desenvolvedor 'dev_04' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-208",
+      "developer_id": "dev_05",
+      "reason": "Desenvolvedor 'dev_05' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-209",
+      "developer_id": "dev_07",
+      "reason": "Desenvolvedor 'dev_07' alocado por correspondência de habilidade (fullstack) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-210",
+      "developer_id": "dev_02",
+      "reason": "Desenvolvedor 'dev_02' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-205",
+      "developer_id": "dev_04",
+      "reason": "Desenvolvedor 'dev_04' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 2
+    },
+    {
+      "task_id": "TSK-214",
+      "developer_id": "dev_07",
+      "reason": "Desenvolvedor 'dev_07' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 8
+    },
+    {
+      "task_id": "TSK-221",
+      "developer_id": "dev_08",
+      "reason": "Desenvolvedor 'dev_08' alocado por correspondência de habilidade (devops) e disponibilidade de capacidade.",
+      "allocated_points": 8
+    },
+    {
+      "task_id": "TSK-213",
+      "developer_id": "dev_04",
+      "reason": "Desenvolvedor 'dev_04' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-215",
+      "developer_id": "dev_03",
+      "reason": "Desenvolvedor 'dev_03' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-216",
+      "developer_id": "dev_05",
+      "reason": "Desenvolvedor 'dev_05' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-219",
+      "developer_id": "dev_10",
+      "reason": "Desenvolvedor 'dev_10' alocado por correspondência de habilidade (mobile) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-220",
+      "developer_id": "dev_10",
+      "reason": "Desenvolvedor 'dev_10' alocado por correspondência de habilidade (mobile) e disponibilidade de capacidade.",
+      "allocated_points": 8
+    },
+    {
+      "task_id": "TSK-223",
+      "developer_id": "dev_09",
+      "reason": "Desenvolvedor 'dev_09' alocado por correspondência de habilidade (data) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-224",
+      "developer_id": "dev_09",
+      "reason": "Desenvolvedor 'dev_09' alocado por correspondência de habilidade (data) e disponibilidade de capacidade.",
+      "allocated_points": 8
+    },
+    {
+      "task_id": "TSK-226",
+      "developer_id": "dev_01",
+      "reason": "Desenvolvedor 'dev_01' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-217",
+      "developer_id": "dev_02",
+      "reason": "Desenvolvedor 'dev_02' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-225",
+      "developer_id": "dev_09",
+      "reason": "Desenvolvedor 'dev_09' alocado por correspondência de habilidade (data) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-227",
+      "developer_id": "dev_04",
+      "reason": "Desenvolvedor 'dev_04' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-229",
+      "developer_id": "dev_05",
+      "reason": "Desenvolvedor 'dev_05' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-230",
+      "developer_id": "dev_08",
+      "reason": "Desenvolvedor 'dev_08' alocado por correspondência de habilidade (devops) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-241",
+      "developer_id": "dev_06",
+      "reason": "Desenvolvedor 'dev_06' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 8
+    },
+    {
+      "task_id": "TSK-231",
+      "developer_id": "dev_03",
+      "reason": "Desenvolvedor 'dev_03' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-235",
+      "developer_id": "dev_02",
+      "reason": "Desenvolvedor 'dev_02' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-236",
+      "developer_id": "dev_07",
+      "reason": "Desenvolvedor 'dev_07' alocado por correspondência de habilidade (fullstack) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-242",
+      "developer_id": "dev_04",
+      "reason": "Desenvolvedor 'dev_04' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-243",
+      "developer_id": "dev_01",
+      "reason": "Desenvolvedor 'dev_01' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 5
+    },
+    {
+      "task_id": "TSK-237",
+      "developer_id": "dev_05",
+      "reason": "Desenvolvedor 'dev_05' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-232",
+      "developer_id": "dev_05",
+      "reason": "Desenvolvedor 'dev_05' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 2
+    },
+    {
+      "task_id": "TSK-269",
+      "developer_id": "dev_06",
+      "reason": "Desenvolvedor 'dev_06' alocado por correspondência de habilidade (backend) e disponibilidade de capacidade.",
+      "allocated_points": 3
+    },
+    {
+      "task_id": "TSK-271",
+      "developer_id": "dev_04",
+      "reason": "Desenvolvedor 'dev_04' alocado por correspondência de habilidade (frontend) e disponibilidade de capacidade.",
+      "allocated_points": 2
+    }
+  ]
+}
