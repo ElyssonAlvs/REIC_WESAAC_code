@@ -14,8 +14,8 @@ Este projeto é uma reimplementação robusta, tipada e auditável baseada na pr
 - **Instituição:** Universidade Federal do Ceará (UFC), Campus Quixadá
 - **Resumo:** Apresenta a modelagem inicial de uma arquitetura baseada em agentes cognitivos para automação da cerimônia de *Sprint Planning* no framework Scrum. Mapeia as entidades ágeis para o modelo clássico **BDI (Belief–Desire–Intention)**: o estado das tarefas e equipe como *Crenças*, metas de negócio como *Desejos* e o plano de sprint final como *Intenções*.
 - **Arquivos Locais:**
-  - 📕 Artigo em PDF: [`WESAAC_2025_Agile_MultiAgent.pdf`](./WESAAC_2025_Agile_MultiAgent.pdf)
-  - 📄 Transcrição Textual Completa: [`wesaac_text.txt`](./wesaac_text.txt)
+  - 📕 Artigo em PDF: [`WESAAC_2025_Agile_MultiAgent.pdf`](./pdf/WESAAC_2025_Agile_MultiAgent.pdf)
+  - 📄 Transcrição Textual Completa: [`wesaac_text.txt`](./text/wesaac_text.txt)
 
 ---
 
@@ -25,8 +25,8 @@ Este projeto é uma reimplementação robusta, tipada e auditável baseada na pr
 - **Instituição:** Universidade Federal do Ceará (UFC), Campus Quixadá
 - **Resumo:** Conduz uma rigorosa avaliação experimental comparando o método tradicional manual (**M-Manual**) versus o método assistido por agentes cognitivos (**M-Agente**). Demonstra redução drástica do tempo de planejamento de sprints (de ~765 segundos para segundos), mantendo alta aderência de capacidade. Identifica empiricamente as limitações de plataformas visuais *low-code* (como o n8n) em garantir aciclicidade estrita em DAGs e respeitar limites fracionados de FTE, motivando a presente migração para a stack **LangGraph + LangChain + Pydantic v2**.
 - **Arquivos Locais:**
-  - 📕 Artigo em PDF: [`REIC_2026_Metodologia_Agil_Multiagentes.pdf`](./REIC_2026_Metodologia_Agil_Multiagentes.pdf)
-  - 📄 Transcrição Textual Completa: [`reic_text.txt`](./reic_text.txt)
+  - 📕 Artigo em PDF: [`REIC_2026_Metodologia_Agil_Multiagentes.pdf`](./pdf/REIC_2026_Metodologia_Agil_Multiagentes.pdf)
+  - 📄 Transcrição Textual Completa: [`reic_text.txt`](./text/reic_text.txt)
 
 ---
 
