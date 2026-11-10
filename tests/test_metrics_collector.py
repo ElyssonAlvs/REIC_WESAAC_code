@@ -70,7 +70,7 @@ def _make_mock_run(
 
 
 def test_pull_langsmith_metrics_paginated_and_reads_project():
-    """Quando pull_langsmith_metrics é invocado com API key válida, obtém UUID e pagina com limit <= 100."""
+    """Quando pull_langsmith_metrics é invocado com API key válida, obtém UUID e filtra execuções LLM reais."""
     from sprint_mas.metrics_collector import pull_langsmith_metrics
 
     mock_client = MagicMock()
@@ -88,7 +88,8 @@ def test_pull_langsmith_metrics_paginated_and_reads_project():
 
     mock_client.read_project.assert_called_once_with(project_name="REIC_WESAAC_code")
     mock_client.list_runs.assert_called_once_with(
-        project_id="proj-uuid-1234-5678", is_root=True, limit=100
+        project_id="proj-uuid-1234-5678",
+        filter='and(eq(run_type, "llm"), gt(total_tokens, 0))',
     )
     assert report.project_name == "REIC_WESAAC_code"
     assert report.total_runs_analyzed == 2
@@ -150,6 +151,82 @@ def test_pull_langsmith_metrics_filters_non_sprint_mas_runs():
     assert report.total_runs_analyzed == 1
     assert len(report.metrics) == 1
     assert report.metrics[0].scenario == "scenario_a"
+
+
+def test_pull_langsmith_metrics_filters_offline_mock_and_zero_tokens():
+    """Filtra runs originadas do OfflineFallbackChatModel ou com 0 tokens totais."""
+    from sprint_mas.metrics_collector import pull_langsmith_metrics
+
+    mock_client = MagicMock()
+    mock_project = MagicMock()
+    mock_project.id = "proj-mock-filter-uuid"
+    mock_client.read_project.return_value = mock_project
+
+    mock_llm_run = _make_mock_run(
+        run_id="mock-1",
+        name="OfflineFallbackChatModel",
+        tags=["sprint-mas", "scenario:scenario_b"],
+        metadata={"model": "OfflineFallbackChatModel", "scenario": "scenario_b"},
+        prompt_tokens=0,
+        completion_tokens=0,
+        total_tokens=0,
+    )
+    zero_token_run = _make_mock_run(
+        run_id="zero-1",
+        name="sprint-mas:scenario_b",
+        tags=["sprint-mas", "scenario:scenario_b"],
+        prompt_tokens=0,
+        completion_tokens=0,
+        total_tokens=0,
+    )
+    valid_llm_run = _make_mock_run(
+        run_id="valid-real-1",
+        name="ChatGroq",
+        tags=["sprint-mas", "scenario:scenario_b"],
+        metadata={"model": "openai/gpt-oss-20b", "scenario": "scenario_b"},
+        extra={"metadata": {"ls_model_name": "openai/gpt-oss-20b"}},
+        prompt_tokens=500,
+        completion_tokens=100,
+        total_tokens=600,
+    )
+
+    mock_client.list_runs.return_value = [mock_llm_run, zero_token_run, valid_llm_run]
+
+    report = pull_langsmith_metrics(project_name="REIC_WESAAC_code", client=mock_client)
+
+    assert report.total_runs_analyzed == 1
+    assert len(report.metrics) == 1
+    assert report.metrics[0].model_name == "openai/gpt-oss-20b"
+    assert report.metrics[0].scenario == "scenario_b"
+    assert report.metrics[0].runs_count == 1
+    assert report.metrics[0].mean_total_tokens == 600.0
+
+
+def test_extract_scenario_from_inputs_when_custom():
+    """Infere o cenário canônico (a, b ou c) a partir das mensagens quando a tag/metadata for 'custom'."""
+    from sprint_mas.metrics_collector import _extract_scenario
+
+    run_custom_a = MagicMock()
+    run_custom_a.tags = ["scenario:custom"]
+    run_custom_a.name = "ChatGroq"
+    run_custom_a.metadata = {"scenario": "custom"}
+    run_custom_a.inputs = {"messages": "Sprint backlog contains tasks: TSK-001 (5 pts), TSK-002 (3 pts)"}
+
+    run_custom_b = MagicMock()
+    run_custom_b.tags = ["scenario:custom"]
+    run_custom_b.name = "ChatGroq"
+    run_custom_b.metadata = {"scenario": "custom"}
+    run_custom_b.inputs = {"messages": "Sprint backlog contains tasks: TSK-101 (8 pts), TSK-102 (5 pts)"}
+
+    run_custom_c = MagicMock()
+    run_custom_c.tags = []
+    run_custom_c.name = "ChatGroq"
+    run_custom_c.metadata = {}
+    run_custom_c.inputs = {"messages": "Sprint backlog contains tasks: TSK-201 (13 pts), TSK-202 (8 pts)"}
+
+    assert _extract_scenario(run_custom_a) == "scenario_a"
+    assert _extract_scenario(run_custom_b) == "scenario_b"
+    assert _extract_scenario(run_custom_c) == "scenario_c"
 
 
 # ===========================================================================

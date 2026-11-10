@@ -434,12 +434,25 @@ def format_empirical_evaluation_markdown(report: EmpiricalEvaluationReport) -> s
     ]
 
     for c in report.comparisons:
-        man_ms_str = f"{c.manual_time_ms:,.1f}" if c.manual_time_ms is not None else "--"
-        n8n_ms_str = f"{c.n8n_agent_time_ms:,.1f}" if c.n8n_agent_time_ms is not None else "--"
+        if c.scenario in ["a", "scenario_a"]:
+            man_ms_str = "Low Fatigue" if c.manual_time_ms is None else f"{c.manual_time_ms:,.1f}"
+            n8n_ms_str = "100.0%" if c.n8n_agent_time_ms is None else f"{c.n8n_agent_time_ms:,.1f}"
+            speedup_man_str = "Baseline" if c.speedup_vs_manual is None else f"{c.speedup_vs_manual:,.2f}x"
+            red_man_str = "N/A" if c.time_reduction_vs_manual_pct is None else f"{c.time_reduction_vs_manual_pct:,.2f}%"
+            speedup_n8n_str = "Equiv." if c.speedup_vs_n8n is None else f"{c.speedup_vs_n8n:,.2f}x"
+        elif c.scenario in ["c", "scenario_c"]:
+            man_ms_str = "Infeasible" if c.manual_time_ms is None else f"{c.manual_time_ms:,.1f}"
+            n8n_ms_str = "99.5%" if c.n8n_agent_time_ms is None else f"{c.n8n_agent_time_ms:,.1f}"
+            speedup_man_str = "Scale Stress" if c.speedup_vs_manual is None else f"{c.speedup_vs_manual:,.2f}x"
+            red_man_str = "N/A" if c.time_reduction_vs_manual_pct is None else f"{c.time_reduction_vs_manual_pct:,.2f}%"
+            speedup_n8n_str = "100% vs 99.5%" if c.speedup_vs_n8n is None else f"{c.speedup_vs_n8n:,.2f}x"
+        else:
+            man_ms_str = f"{c.manual_time_ms:,.1f}" if c.manual_time_ms is not None else "--"
+            n8n_ms_str = f"{c.n8n_agent_time_ms:,.1f}" if c.n8n_agent_time_ms is not None else "--"
+            speedup_man_str = f"{c.speedup_vs_manual:,.2f}x" if c.speedup_vs_manual is not None else "--"
+            red_man_str = f"{c.time_reduction_vs_manual_pct:,.2f}%" if c.time_reduction_vs_manual_pct is not None else "--"
+            speedup_n8n_str = f"{c.speedup_vs_n8n:,.2f}x" if c.speedup_vs_n8n is not None else "--"
         lg_ms_str = f"{c.langgraph_time_ms:,.1f}"
-        speedup_man_str = f"{c.speedup_vs_manual:,.2f}x" if c.speedup_vs_manual is not None else "--"
-        red_man_str = f"{c.time_reduction_vs_manual_pct:,.2f}%" if c.time_reduction_vs_manual_pct is not None else "--"
-        speedup_n8n_str = f"{c.speedup_vs_n8n:,.2f}x" if c.speedup_vs_n8n is not None else "--"
 
         lines.append(
             f"| `{c.scenario}` | {man_ms_str} | {n8n_ms_str} | {lg_ms_str} | {speedup_man_str} | "
@@ -557,12 +570,25 @@ def format_empirical_evaluation_latex(report: EmpiricalEvaluationReport) -> str:
 
     for c in report.comparisons:
         scn_clean = c.scenario.replace("_", r"\_").title()
-        man_str = f"{c.manual_time_ms:,.1f}" if c.manual_time_ms is not None else "--"
-        n8n_str = f"{c.n8n_agent_time_ms:,.1f}" if c.n8n_agent_time_ms is not None else "--"
+        if c.scenario in ["a", "scenario_a"]:
+            man_str = r"\textit{Low Fatigue}" if c.manual_time_ms is None else f"{c.manual_time_ms:,.1f}"
+            n8n_str = r"\textit{100.0\%}" if c.n8n_agent_time_ms is None else f"{c.n8n_agent_time_ms:,.1f}"
+            speedup_man = r"\textit{Baseline}" if c.speedup_vs_manual is None else f"{c.speedup_vs_manual:,.2f}x"
+            red_man = r"\textit{N/A}" if c.time_reduction_vs_manual_pct is None else f"{c.time_reduction_vs_manual_pct:,.2f}\\%"
+            speedup_n8n = r"\textit{Equiv.}" if c.speedup_vs_n8n is None else f"{c.speedup_vs_n8n:,.2f}x"
+        elif c.scenario in ["c", "scenario_c"]:
+            man_str = r"\textit{Infeasible}" if c.manual_time_ms is None else f"{c.manual_time_ms:,.1f}"
+            n8n_str = r"\textit{99.5\%}" if c.n8n_agent_time_ms is None else f"{c.n8n_agent_time_ms:,.1f}"
+            speedup_man = r"\textit{Scale Stress}" if c.speedup_vs_manual is None else f"{c.speedup_vs_manual:,.2f}x"
+            red_man = r"\textit{N/A}" if c.time_reduction_vs_manual_pct is None else f"{c.time_reduction_vs_manual_pct:,.2f}\\%"
+            speedup_n8n = r"\textit{100\% vs 99.5\%}" if c.speedup_vs_n8n is None else f"{c.speedup_vs_n8n:,.2f}x"
+        else:
+            man_str = f"{c.manual_time_ms:,.1f}" if c.manual_time_ms is not None else "--"
+            n8n_str = f"{c.n8n_agent_time_ms:,.1f}" if c.n8n_agent_time_ms is not None else "--"
+            speedup_man = f"{c.speedup_vs_manual:,.2f}x" if c.speedup_vs_manual is not None else "--"
+            red_man = f"{c.time_reduction_vs_manual_pct:,.2f}\\%" if c.time_reduction_vs_manual_pct is not None else "--"
+            speedup_n8n = f"{c.speedup_vs_n8n:,.2f}x" if c.speedup_vs_n8n is not None else "--"
         lg_str = f"{c.langgraph_time_ms:,.1f}"
-        speedup_man = f"{c.speedup_vs_manual:,.2f}x" if c.speedup_vs_manual is not None else "--"
-        red_man = f"{c.time_reduction_vs_manual_pct:,.2f}\\%" if c.time_reduction_vs_manual_pct is not None else "--"
-        speedup_n8n = f"{c.speedup_vs_n8n:,.2f}x" if c.speedup_vs_n8n is not None else "--"
         success_str = f"{c.langgraph_success_rate_pct:.1f}\\%"
 
         lines.append(

@@ -83,6 +83,8 @@ def _extract_scenario(run: Any) -> Optional[str]:
         for tag in tags:
             if isinstance(tag, str) and tag.startswith("scenario:"):
                 raw = tag.split("scenario:", 1)[1].strip().lower()
+                if raw == "custom":
+                    continue
                 if raw.endswith(".json"):
                     raw = raw[:-5]
                 if not raw.startswith("scenario_") and raw in {"a", "b", "c"}:
@@ -95,11 +97,11 @@ def _extract_scenario(run: Any) -> Optional[str]:
         match = re.search(r"scenario[_-]?([abc])\b", name.lower())
         if match:
             return f"scenario_{match.group(1)}"
-        if "scenario_a" in name.lower():
+        if "scenario_a" in name.lower() or "scenario-a" in name.lower():
             return "scenario_a"
-        if "scenario_b" in name.lower():
+        if "scenario_b" in name.lower() or "scenario-b" in name.lower():
             return "scenario_b"
-        if "scenario_c" in name.lower():
+        if "scenario_c" in name.lower() or "scenario-c" in name.lower():
             return "scenario_c"
 
     # 3. From run metadata
@@ -112,11 +114,23 @@ def _extract_scenario(run: Any) -> Optional[str]:
         scn = metadata.get("scenario")
         if scn and isinstance(scn, str):
             cleaned = scn.strip().lower()
-            if cleaned.endswith(".json"):
-                cleaned = cleaned[:-5]
-            if not cleaned.startswith("scenario_") and cleaned in {"a", "b", "c"}:
-                cleaned = f"scenario_{cleaned}"
-            return cleaned
+            if cleaned != "custom":
+                if cleaned.endswith(".json"):
+                    cleaned = cleaned[:-5]
+                if not cleaned.startswith("scenario_") and cleaned in {"a", "b", "c"}:
+                    cleaned = f"scenario_{cleaned}"
+                return cleaned
+
+    # 4. From inputs (prompts/messages content inference)
+    inputs = getattr(run, "inputs", None)
+    if isinstance(inputs, dict):
+        txt = str(inputs.get("messages") or inputs.get("prompts") or inputs)
+        if "TSK-001" in txt or "TSK-002" in txt or "scenario_a" in txt.lower():
+            return "scenario_a"
+        if "TSK-101" in txt or "TSK-102" in txt or "scenario_b" in txt.lower():
+            return "scenario_b"
+        if "TSK-201" in txt or "TSK-202" in txt or "scenario_c" in txt.lower():
+            return "scenario_c"
 
     return None
 
@@ -124,19 +138,22 @@ def _extract_scenario(run: Any) -> Optional[str]:
 def _is_sprint_mas_run(run: Any) -> bool:
     """Verifies whether a LangSmith run belongs to the sprint-mas evaluation domain."""
     name = getattr(run, "name", "") or ""
-    tags = getattr(run, "tags", None) or []
-    extra = getattr(run, "extra", None) or {}
-    metadata = getattr(run, "metadata", None) or (extra.get("metadata", {}) if isinstance(extra, dict) else {})
+    if name == "OfflineFallbackChatModel":
+        return False
 
-    if "sprint-mas" in str(name).lower():
-        return True
-    if any("sprint-mas" in str(t).lower() or str(t).startswith("scenario:") for t in tags if isinstance(t, str)):
-        return True
-    if isinstance(metadata, dict) and (metadata.get("scenario") or "bdi_layers" in metadata):
-        return True
-    if _extract_scenario(run) is not None:
-        return True
-    return False
+    model_name = _extract_model_name(run)
+    if model_name == "OfflineFallbackChatModel":
+        return False
+
+    _, _, total_tokens = _extract_tokens(run)
+    if total_tokens <= 0:
+        return False
+
+    scn = _extract_scenario(run)
+    if scn is None:
+        return False
+
+    return True
 
 
 def _extract_model_name(run: Any) -> str:
@@ -144,35 +161,56 @@ def _extract_model_name(run: Any) -> str:
     extra = getattr(run, "extra", None) or {}
     metadata = getattr(run, "metadata", None) or (extra.get("metadata", {}) if isinstance(extra, dict) else {})
     tags = getattr(run, "tags", None) or []
+    run_name = str(getattr(run, "name", "") or "").strip()
 
-    if isinstance(extra, dict) and extra.get("ls_model_name"):
-        return str(extra["ls_model_name"]).strip()
-
+    # 1. extra.metadata.ls_model_name or run.metadata keys
     if isinstance(metadata, dict):
-        for key in ["model", "model_name", "ls_model_name"]:
+        for key in ["ls_model_name", "model_name", "model"]:
             if metadata.get(key):
-                return str(metadata[key]).strip()
+                val = str(metadata[key]).strip()
+                if val:
+                    return "llama3:latest" if val == "llama3" else val
 
+    # 2. extra.ls_model_name
+    if isinstance(extra, dict) and extra.get("ls_model_name"):
+        val = str(extra["ls_model_name"]).strip()
+        if val:
+            return "llama3:latest" if val == "llama3" else val
+
+    # 3. extra.invocation_params
     if isinstance(extra, dict):
         inv_params = extra.get("invocation_params")
-        if isinstance(inv_params, dict) and inv_params.get("model"):
-            return str(inv_params["model"]).strip()
+        if isinstance(inv_params, dict):
+            for k in ["model_name", "model"]:
+                if inv_params.get(k):
+                    val = str(inv_params[k]).strip()
+                    if val:
+                        return "llama3:latest" if val == "llama3" else val
 
+    # 4. Known model identifiers matching tags or run name
     known_model_substrings = [
         "openai/gpt-oss-120b",
-        "qwen/qwen3.8-27b",
         "openai/gpt-oss-20b",
+        "qwen/qwen3.8-27b",
         "llama3:latest",
         "llama3",
     ]
+    for km in known_model_substrings:
+        if km in run_name:
+            return "llama3:latest" if km == "llama3" else km
+
     if isinstance(tags, list):
         for tag in tags:
             tag_str = str(tag).strip()
             for km in known_model_substrings:
                 if km in tag_str:
-                    return km
+                    return "llama3:latest" if km == "llama3" else km
             if tag_str.startswith("model:"):
-                return tag_str.split("model:", 1)[1].strip()
+                raw_m = tag_str.split("model:", 1)[1].strip()
+                return "llama3:latest" if raw_m == "llama3" else raw_m
+
+    if run_name and run_name not in ["ChatGroq", "ChatOllama", "OfflineFallbackChatModel"]:
+        return run_name
 
     return "default-llm"
 
@@ -311,12 +349,14 @@ def _compute_group_metric(model_name: str, scenario: str, group: list[Any]) -> M
 def pull_langsmith_metrics(
     project_name: Optional[str] = None,
     client: Optional[Any] = None,
+    filter_query: Optional[str] = None,
 ) -> LangSmithMetricsSuiteReport:
     """Extracts, filters, and aggregates multi-model runs from a LangSmith project.
 
     Args:
         project_name: Optional target project name (defaults to LANGSMITH_PROJECT env or 'REIC_WESAAC_code').
         client: Optional pre-configured LangSmith Client instance (used for testing/mocking).
+        filter_query: Optional filter expression passed to LangSmith runs query.
 
     Returns:
         LangSmithMetricsSuiteReport: Immutable Pydantic v2 aggregated report.
@@ -365,8 +405,13 @@ def pull_langsmith_metrics(
         if project_id is None:
             project_id = resolved_project
 
-        runs_iterable = client.list_runs(project_id=project_id, is_root=True, limit=100)
-        raw_runs = list(runs_iterable)
+        filter_expr = filter_query or 'and(eq(run_type, "llm"), gt(total_tokens, 0))'
+        try:
+            runs_iterable = client.list_runs(project_id=project_id, filter=filter_expr)
+            raw_runs = list(runs_iterable)
+        except TypeError:
+            runs_iterable = client.list_runs(project_id=project_id, is_root=True, limit=100)
+            raw_runs = list(runs_iterable)
 
         filtered_runs: list[Any] = []
         for r in raw_runs:
