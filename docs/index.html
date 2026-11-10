@@ -1222,7 +1222,7 @@
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[var(--border-subtle)] text-[10px] font-mono text-[var(--text-muted)]">
-          <span>Formatos Exportados: <code class="text-blue-500">.json</code>, <code class="text-blue-500">.md</code>, <code class="text-blue-500">.csv</code>, <code class="text-blue-500">.tex</code> em <code class="text-emerald-500">reports/published/reic-2026/</code></span>
+          <span>Formatos Exportados: <code class="text-blue-500">.json</code>, <code class="text-blue-500">.md</code>, <code class="text-blue-500">.csv</code>, <code class="text-blue-500">.tex</code> em <code class="text-emerald-500">reports/experiments/telemetry/</code> e congelados em <code class="text-emerald-500">reports/published/reic-2026/</code></span>
           <span>Imunidade a CRCRLF &bull; ConfigDict(extra="forbid") &bull; Zero Mocks</span>
         </div>
       </div>
@@ -1550,11 +1550,11 @@
             </div>
             <h4 class="text-base font-bold text-[var(--text-primary)]" data-i18n="road.p15_title">Telemetria Multi-Modelo Real, Golden Cenário C &amp; Curadoria de Reports</h4>
             <p class="text-xs text-[var(--text-secondary)] mt-2 leading-relaxed" data-i18n="road.p15_desc">
-              Recuperação empírica de 223 execuções reais de 4 modelos LLM no LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), geração e auditoria matemática do Golden Dataset Cenário C (37 tarefas / 176 pts), curadoria de reports/published e fix integral de docs/index.html.
+              Recuperação empírica de 223 execuções reais de 4 modelos LLM no LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), geração e auditoria matemática do Golden Dataset Cenário C (37 tarefas / 176 pts), organização modular de reports/experiments/ e docs/papers/{pdf,text}/, e fix integral de docs/index.html.
             </p>
           </div>
           <div class="bg-[var(--code-bg)] border border-[var(--border-subtle)] rounded-lg p-2.5 mt-4 text-[11px] font-mono text-[var(--text-muted)] space-y-0.5">
-            <div><span class="text-[var(--text-secondary)]">Artefatos:</span> golden_scenario_c.json, metrics_collector.py, reports/published/</div>
+            <div><span class="text-[var(--text-secondary)]">Artefatos:</span> golden_scenario_c.json, reports/experiments/, docs/papers/{pdf,text}/</div>
             <div><span class="text-[var(--text-secondary)]">Telemetria:</span> 223 Runs Empíricas LangSmith &bull; 4 Modelos</div>
           </div>
         </div>
@@ -2051,7 +2051,7 @@
                   Todos (340+)
                 </button>
                 <button onclick="filterTests('metrics_collector')" id="test-filter-metrics_collector" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
-                  test_metrics_collector.py (17)
+                  test_metrics_collector.py (19)
                 </button>
                 <button onclick="filterTests('replication')" id="test-filter-replication" class="test-filter-btn px-2.5 py-1 rounded bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]">
                   test_replication.py (40)
@@ -2104,7 +2104,7 @@
             <!-- Saída do Terminal -->
             <div id="test-terminal-output" class="bg-[var(--code-bg)] font-mono text-[11px] text-[var(--text-secondary)] p-3.5 rounded-xl border border-[var(--border-subtle)] h-56 overflow-y-auto space-y-1">
               <div class="text-[var(--text-muted)]">=== Execução Consolidada (pytest 9.1.1 &bull; Python 3.12.13 &bull; Win32) ===</div>
-              <div class="text-[var(--text-secondary)] test-row">tests/test_metrics_collector.py (17 testes) ............. <span class="text-emerald-500 font-bold">PASSED</span></div>
+              <div class="text-[var(--text-secondary)] test-row">tests/test_metrics_collector.py (19 testes) ............. <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_replication.py (40 testes) ................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_security_audit.py (53 testes) ................ <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_evaluation.py (34 testes) .................... <span class="text-emerald-500 font-bold">PASSED</span></div>
@@ -2121,7 +2121,7 @@
               <div class="text-[var(--text-secondary)] test-row">tests/test_state.py (18 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-[var(--text-secondary)] test-row">tests/test_tools.py (21 testes) .......................... <span class="text-emerald-500 font-bold">PASSED</span></div>
               <div class="text-emerald-500 font-bold pt-2 border-t border-[var(--border-subtle)]">
-                ============================= 341 passed in 6.12s =============================
+                ============================= 343 passed in 6.72s =============================
               </div>
             </div>
           </div>
@@ -2175,13 +2175,13 @@
           </div>
 
           <div class="mt-6 pt-4 border-t border-[var(--border-subtle)] flex flex-wrap items-center gap-3">
-            <a href="papers/REIC_2026_Metodologia_Agil_Multiagentes.pdf" target="_blank" class="btn-electric px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5">
+            <a href="papers/pdf/REIC_2026_Metodologia_Agil_Multiagentes.pdf" target="_blank" class="btn-electric px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5">
               <span>📄</span> <span data-i18n="papers.download_pdf">Baixar Artigo (PDF)</span>
             </a>
             <button onclick="openBibtexModal('reic')" class="btn-ghost px-3.5 py-2 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5">
               <span>📚</span> <span data-i18n="papers.view_bibtex">Ver BibTeX</span>
             </button>
-            <a href="papers/reic_text.txt" target="_blank" class="text-xs font-mono text-blue-500 hover:underline">
+            <a href="papers/text/reic_text.txt" target="_blank" class="text-xs font-mono text-blue-500 hover:underline">
               Transcrição (.txt)
             </a>
           </div>
@@ -2210,13 +2210,13 @@
           </div>
 
           <div class="mt-6 pt-4 border-t border-[var(--border-subtle)] flex flex-wrap items-center gap-3">
-            <a href="papers/WESAAC_2025_Agile_MultiAgent.pdf" target="_blank" class="btn-electric px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5">
+            <a href="papers/pdf/WESAAC_2025_Agile_MultiAgent.pdf" target="_blank" class="btn-electric px-3.5 py-2 rounded-lg text-xs font-bold flex items-center gap-1.5">
               <span>📄</span> <span data-i18n="papers.download_pdf">Baixar Artigo (PDF)</span>
             </a>
             <button onclick="openBibtexModal('wesaac')" class="btn-ghost px-3.5 py-2 rounded-lg text-xs font-mono font-bold flex items-center gap-1.5">
               <span>📚</span> <span data-i18n="papers.view_bibtex">Ver BibTeX</span>
             </button>
-            <a href="papers/wesaac_text.txt" target="_blank" class="text-xs font-mono text-blue-500 hover:underline">
+            <a href="papers/text/wesaac_text.txt" target="_blank" class="text-xs font-mono text-blue-500 hover:underline">
               Transcrição (.txt)
             </a>
           </div>
@@ -2411,7 +2411,7 @@
         'road.p15_badge': 'Fase 15 ✅ Concluída',
         'road.p15_subbadge': '340+ Testes (100% OK)',
         'road.p15_title': 'Telemetria Multi-Modelo Real, Golden Cenário C &amp; Curadoria de Reports',
-        'road.p15_desc': 'Recuperação empírica de 223 execuções reais de 4 modelos LLM no LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), geração e auditoria matemática do Golden Dataset Cenário C (37 tarefas / 176 pts), curadoria de reports/published e fix integral de docs/index.html.',
+        'road.p15_desc': 'Recuperação empírica de 223 execuções reais de 4 modelos LLM no LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), geração e auditoria matemática do Golden Dataset Cenário C (37 tarefas / 176 pts), organização modular de reports/experiments/ e docs/papers/{pdf,text}/, e fix integral de docs/index.html.',
         'adrs.pretitle': 'Governança Técnica',
         'adrs.title': 'Portfólio de Decisões Arquiteturais (ADRs 0001 a 0017)',
         'adrs.desc': 'Documentação no padrão Design System Backend: clique em qualquer decisão para abrir a ficha técnica detalhada.',
@@ -2514,7 +2514,7 @@
         'road.p15_badge': 'Phase 15 ✅ Completed',
         'road.p15_subbadge': '340+ Tests (100% OK)',
         'road.p15_title': 'Real Multi-Model Telemetry, Golden Scenario C &amp; Reports Curating',
-        'road.p15_desc': 'Empirical retrieval of 223 real LLM runs across 4 models from LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), generation and mathematical audit of Golden Dataset Scenario C (37 tasks / 176 pts), published reports curating, and full docs/index.html fix.',
+        'road.p15_desc': 'Empirical retrieval of 223 real LLM runs across 4 models from LangSmith (gpt-oss-20b, gpt-oss-120b, qwen3.8-27b, llama3:latest), generation and mathematical audit of Golden Dataset Scenario C (37 tasks / 176 pts), modular organization of reports/experiments/ and docs/papers/{pdf,text}/, and full docs/index.html fix.',
         'adrs.pretitle': 'Technical Governance',
         'adrs.title': 'Architectural Decision Records Portfolio (ADRs 0001 to 0017)',
         'adrs.desc': 'Backend Design System documentation: click any record to open the detailed technical specification.',
@@ -3229,7 +3229,7 @@ tests/test_data_loader.py (12 testes) .................... PASSED
 tests/test_evaluation.py (34 testes) .................... PASSED
 tests/test_graph.py (8 testes) .......................... PASSED
 tests/test_llm_factory.py (8 testes) ..................... PASSED
-tests/test_metrics_collector.py (17 testes) ............. PASSED
+tests/test_metrics_collector.py (19 testes) ............. PASSED
 tests/test_prioritizer.py (11 testes) .................... PASSED
 tests/test_prompts.py (8 testes) ......................... PASSED
 tests/test_replication.py (40 testes) ................... PASSED
@@ -3238,11 +3238,13 @@ tests/test_state.py (18 testes) .......................... PASSED
 tests/test_supervisor.py (9 testes) ..................... PASSED
 tests/test_tools.py (21 testes) .......................... PASSED
 tests/test_validator.py (21 testes) .................... PASSED
-============================= 341 passed in 6.12s =============================`,
+============================= 343 passed in 6.72s =============================`,
       metrics_collector: `tests/test_metrics_collector.py::test_pull_langsmith_metrics_paginated_and_reads_project PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_handles_rate_limit_and_auth_error_graciously PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_missing_api_key_without_client PASSED
 tests/test_metrics_collector.py::test_pull_langsmith_metrics_filters_non_sprint_mas_runs PASSED
+tests/test_metrics_collector.py::test_pull_langsmith_metrics_filters_offline_mock_and_zero_tokens PASSED
+tests/test_metrics_collector.py::test_extract_scenario_from_inputs_when_custom PASSED
 tests/test_metrics_collector.py::test_pydantic_models_reject_extra_fields PASSED
 tests/test_metrics_collector.py::test_multi_model_scenario_aggregation_statistics PASSED
 tests/test_metrics_collector.py::test_cost_normalization_when_none_or_missing PASSED
@@ -3256,7 +3258,7 @@ tests/test_metrics_collector.py::test_cli_sync_metrics_export_prefix PASSED
 tests/test_metrics_collector.py::test_cli_sync_metrics_output_formats PASSED
 tests/test_metrics_collector.py::test_cli_sync_metrics_path_traversal_blocked PASSED
 tests/test_metrics_collector.py::test_cli_sync_metrics_failure_returns_2 PASSED
-============================= 17 passed in 0.85s =============================`,
+============================= 19 passed in 0.95s =============================`,
       replication: `tests/test_replication.py::test_replication_package_config_defaults_and_normalization PASSED
 tests/test_replication.py::test_replication_package_config_forbids_extra_fields PASSED
 tests/test_replication.py::test_replication_package_config_runs_bounds (4 casos) PASSED
